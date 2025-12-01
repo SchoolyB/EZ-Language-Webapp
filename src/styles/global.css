@@ -59,11 +59,33 @@ pre, code {
 }
 
 pre {
-  @apply bg-gray-100 dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-lg p-4 overflow-x-auto text-black dark:text-white;
+  background-color: #f5f5f5;
+  border: 1px solid #e5e5e5;
+  border-radius: 0.5rem;
+  padding: 1rem;
+  overflow-x: auto;
+  color: #000000;
+}
+
+.dark pre {
+  background-color: #1a1a1a;
+  border-color: #333333;
+  color: #FFFFFF;
 }
 
 code:not(pre code) {
-  @apply bg-gray-100 dark:bg-gray-900 px-1.5 py-0.5 rounded text-sm border border-gray-200 dark:border-gray-800 text-black dark:text-white;
+  background-color: #f5f5f5;
+  border: 1px solid #e5e5e5;
+  padding: 0.125rem 0.375rem;
+  border-radius: 0.25rem;
+  font-size: 0.875rem;
+  color: #000000;
+}
+
+.dark code:not(pre code) {
+  background-color: #1a1a1a;
+  border-color: #333333;
+  color: #FFFFFF;
 }
 
 /* Copy button */

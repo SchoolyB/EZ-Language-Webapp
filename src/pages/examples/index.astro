@@ -101,11 +101,11 @@ const slugify = (str: string) => str.toLowerCase().replace(/\s+/g, '-');
               {examples.filter(e => e.category === category).map(example => (
                 <div
                   id={slugify(example.title)}
-                  class="example-card border border-gray-200 dark:border-gray-800 rounded-lg overflow-hidden"
+                  class="example-card border border-[#e5e5e5] dark:border-[#333333] rounded-lg overflow-hidden"
                   data-title={example.title.toLowerCase()}
                   data-description={example.description.toLowerCase()}
                 >
-                  <div class="px-4 py-3 bg-gray-50 dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800 flex items-center justify-between">
+                  <div class="px-4 py-3 bg-[#f5f5f5] dark:bg-[#1a1a1a] border-b border-[#e5e5e5] dark:border-[#333333] flex items-center justify-between">
                     <div>
                       <h3 class="font-semibold">{example.title}</h3>
                       <p class="text-sm opacity-50">{example.description}</p>
