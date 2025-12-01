@@ -28,7 +28,7 @@ const exampleMeta = [
 ];
 
 // Read example files
-const examplesDir = path.join(process.cwd(), 'context', 'examples');
+const examplesDir = path.join(process.cwd(), 'src', 'examples');
 const examples = exampleMeta.map(meta => {
   const filePath = path.join(examplesDir, meta.file);
   const code = fs.readFileSync(filePath, 'utf-8');
