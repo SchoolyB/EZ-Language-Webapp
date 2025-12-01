@@ -3,105 +3,184 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import Header from '../../components/Header.astro';
 import Footer from '../../components/Footer.astro';
 import CodeBlock from '../../components/CodeBlock.astro';
+import fs from 'node:fs';
+import path from 'node:path';
 
-const examples = [
-  {
-    title: 'Hello World',
-    category: 'Basics',
-    code: `import @std
-
-do main() {
-    std.println("Hello, World!")
-}`,
-  },
-  {
-    title: 'FizzBuzz',
-    category: 'Basics',
-    code: `import @std
-
-do main() {
-    for i in 1..101 {
-        if i % 15 == 0 {
-            std.println("FizzBuzz")
-        } else if i % 3 == 0 {
-            std.println("Fizz")
-        } else if i % 5 == 0 {
-            std.println("Buzz")
-        } else {
-            std.println(string(i))
-        }
-    }
-}`,
-  },
-  {
-    title: 'Sum of Array',
-    category: 'Data Structures',
-    code: `import @std
-
-do main() {
-    var numbers []int = [1, 2, 3, 4, 5]
-    var sum int = 0
-
-    for n in numbers {
-        sum += n
-    }
-
-    std.println("Sum: " + string(sum))
-}`,
-  },
-  {
-    title: 'Factorial',
-    category: 'Algorithms',
-    code: `import @std
-
-fn factorial(n int) int {
-    if n <= 1 {
-        return 1
-    }
-    return n * factorial(n - 1)
-}
-
-do main() {
-    var result int = factorial(5)
-    std.println("5! = " + string(result))
-}`,
-  },
+// Example metadata with categories
+const exampleMeta = [
+  // Basics
+  { file: 'hello.ez', title: 'Hello World', category: 'Basics', description: 'Your first EZ program' },
+  { file: 'variables.ez', title: 'Variables', category: 'Basics', description: 'Variable declarations and types' },
+  { file: 'control_flow.ez', title: 'Control Flow', category: 'Basics', description: 'Conditionals and loops' },
+  { file: 'functions.ez', title: 'Functions', category: 'Basics', description: 'Defining and calling functions' },
+  // Data Structures
+  { file: 'arrays.ez', title: 'Arrays', category: 'Data Structures', description: 'Working with arrays' },
+  { file: 'maps.ez', title: 'Maps', category: 'Data Structures', description: 'Working with key-value pairs' },
+  { file: 'structs.ez', title: 'Structs', category: 'Data Structures', description: 'Custom data structures' },
+  { file: 'enums.ez', title: 'Enums', category: 'Data Structures', description: 'Enumerations' },
+  // Algorithms
+  { file: 'fizzbuzz.ez', title: 'FizzBuzz', category: 'Algorithms', description: 'The classic FizzBuzz problem' },
+  { file: 'fibonacci.ez', title: 'Fibonacci', category: 'Algorithms', description: 'The Fibonacci sequence' },
+  { file: 'primes.ez', title: 'Prime Numbers', category: 'Algorithms', description: 'Finding prime numbers' },
+  { file: 'calculator.ez', title: 'Calculator', category: 'Algorithms', description: 'A simple calculator' },
+  // Standard Library
+  { file: 'using_stdlib.ez', title: 'Standard Library', category: 'Standard Library', description: 'Using the built-in libraries' },
 ];
 
-const categories = [...new Set(examples.map(e => e.category))];
+// Read example files
+const examplesDir = path.join(process.cwd(), 'context', 'examples');
+const examples = exampleMeta.map(meta => {
+  const filePath = path.join(examplesDir, meta.file);
+  const code = fs.readFileSync(filePath, 'utf-8');
+  return { ...meta, code };
+});
+
+// Get unique categories in order
+const categories = [...new Set(exampleMeta.map(e => e.category))];
+
+// Create slug for IDs
+const slugify = (str: string) => str.toLowerCase().replace(/\s+/g, '-');
 ---
 
 <BaseLayout title="Examples - EZ" description="Real-world EZ code examples and recipes.">
   <Header />
 
-  <main class="flex-1 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-    <h1 class="text-3xl font-bold mb-4">Examples</h1>
-    <p class="text-text-light/70 dark:text-text-dark/70 mb-8">
-      Real, copy-paste-ready code for common tasks. Each example is self-contained and runnable.
-    </p>
+  <div class="flex-1 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <div class="lg:grid lg:grid-cols-[240px_1fr] lg:gap-8">
+      <!-- Sidebar TOC -->
+      <aside class="hidden lg:block">
+        <nav class="sticky top-24">
+          <h2 class="text-sm font-semibold mb-4 opacity-60">On This Page</h2>
+          <ul class="space-y-4">
+            {categories.map(category => (
+              <li>
+                <a href={`#${slugify(category)}`} class="text-sm font-medium opacity-70 hover:opacity-100 transition-opacity">
+                  {category}
+                </a>
+                <ul class="mt-2 ml-3 space-y-1">
+                  {examples.filter(e => e.category === category).map(example => (
+                    <li>
+                      <a
+                        href={`#${slugify(example.title)}`}
+                        class="example-toc-link text-sm opacity-50 hover:opacity-100 transition-opacity block py-0.5"
+                        data-title={example.title.toLowerCase()}
+                      >
+                        {example.title}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </li>
+            ))}
+          </ul>
+        </nav>
+      </aside>
 
-    {categories.map(category => (
-      <section class="mb-12">
-        <h2 class="text-xl font-semibold mb-6 text-text-light/60 dark:text-text-dark/60">{category}</h2>
-        <div class="grid gap-6">
-          {examples.filter(e => e.category === category).map(example => (
-            <div class="border border-code-border-light dark:border-code-border-dark rounded-lg overflow-hidden">
-              <div class="px-4 py-3 bg-code-bg-light dark:bg-code-bg-dark border-b border-code-border-light dark:border-code-border-dark flex items-center justify-between">
-                <h3 class="font-semibold">{example.title}</h3>
-                <button
-                  class="text-sm px-3 py-1 rounded border border-code-border-light dark:border-code-border-dark hover:bg-bg-light dark:hover:bg-bg-dark transition-colors"
-                  onclick={`navigator.clipboard.writeText(${JSON.stringify(example.code)})`}
-                >
-                  Copy
-                </button>
-              </div>
-              <CodeBlock code={example.code} />
-            </div>
-          ))}
+      <!-- Main Content -->
+      <main>
+        <h1 class="text-3xl font-bold mb-2">Examples</h1>
+        <p class="opacity-60 mb-6">
+          Real, copy-paste-ready code for common tasks. Each example is self-contained and runnable.
+        </p>
+
+        <!-- Filter Input -->
+        <div class="mb-8">
+          <input
+            type="text"
+            id="example-filter"
+            placeholder="Filter examples..."
+            class="w-full max-w-md px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-black text-black dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-white"
+          />
         </div>
-      </section>
-    ))}
-  </main>
+
+        <!-- Examples by Category -->
+        {categories.map(category => (
+          <section id={slugify(category)} class="mb-12 example-section" data-category={category.toLowerCase()}>
+            <h2 class="text-xl font-semibold mb-6 opacity-60">{category}</h2>
+            <div class="space-y-6">
+              {examples.filter(e => e.category === category).map(example => (
+                <div
+                  id={slugify(example.title)}
+                  class="example-card border border-gray-200 dark:border-gray-800 rounded-lg overflow-hidden"
+                  data-title={example.title.toLowerCase()}
+                  data-description={example.description.toLowerCase()}
+                >
+                  <div class="px-4 py-3 bg-gray-50 dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800 flex items-center justify-between">
+                    <div>
+                      <h3 class="font-semibold">{example.title}</h3>
+                      <p class="text-sm opacity-50">{example.description}</p>
+                    </div>
+                    <button
+                      class="copy-btn text-sm px-3 py-1 rounded border border-gray-300 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+                      data-code={example.code}
+                    >
+                      Copy
+                    </button>
+                  </div>
+                  <CodeBlock code={example.code} />
+                </div>
+              ))}
+            </div>
+          </section>
+        ))}
+      </main>
+    </div>
+  </div>
 
   <Footer />
 </BaseLayout>
+
+<script>
+  function initExamples() {
+    const filterInput = document.getElementById('example-filter') as HTMLInputElement;
+    const exampleCards = document.querySelectorAll('.example-card');
+    const exampleSections = document.querySelectorAll('.example-section');
+    const tocLinks = document.querySelectorAll('.example-toc-link');
+    const copyButtons = document.querySelectorAll('.copy-btn');
+
+    // Filter functionality
+    if (filterInput) {
+      filterInput.addEventListener('input', () => {
+        const query = filterInput.value.toLowerCase().trim();
+
+        exampleCards.forEach(card => {
+          const title = card.getAttribute('data-title') || '';
+          const description = card.getAttribute('data-description') || '';
+          const matches = query === '' || title.includes(query) || description.includes(query);
+          (card as HTMLElement).style.display = matches ? '' : 'none';
+        });
+
+        // Hide empty sections
+        exampleSections.forEach(section => {
+          const visibleCards = section.querySelectorAll('.example-card:not([style*="display: none"])');
+          (section as HTMLElement).style.display = visibleCards.length > 0 ? '' : 'none';
+        });
+
+        // Update TOC visibility
+        tocLinks.forEach(link => {
+          const title = link.getAttribute('data-title') || '';
+          const matches = query === '' || title.includes(query);
+          (link as HTMLElement).style.display = matches ? '' : 'none';
+        });
+      });
+    }
+
+    // Copy functionality
+    copyButtons.forEach(btn => {
+      btn.addEventListener('click', async () => {
+        const code = btn.getAttribute('data-code');
+        if (code) {
+          await navigator.clipboard.writeText(code);
+          const originalText = btn.textContent;
+          btn.textContent = 'Copied!';
+          setTimeout(() => {
+            btn.textContent = originalText;
+          }, 2000);
+        }
+      });
+    });
+  }
+
+  initExamples();
+  document.addEventListener('astro:after-swap', initExamples);
+</script>

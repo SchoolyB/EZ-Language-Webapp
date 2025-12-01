@@ -2,31 +2,48 @@
 interface Props {
   code: string;
   title?: string;
-  showLineNumbers?: boolean;
 }
 
-const { code, title, showLineNumbers = false } = Astro.props;
+const { code, title } = Astro.props;
 
-// Simple EZ syntax highlighter
+// Simple EZ syntax highlighter using marker-based approach to avoid regex conflicts
 function highlightEZ(code: string): string {
-  const keywords = ['var', 'const', 'do', 'if', 'else', 'for', 'while', 'return', 'import', 'in', 'break', 'continue', 'switch', 'case', 'default', 'struct', 'enum', 'fn', 'pub'];
-  const types = ['int', 'float', 'string', 'bool', 'void', 'any', 'char'];
-  const builtins = ['println', 'print', 'len', 'append', 'string', 'int', 'float'];
+  const keywords = ['temp', 'const', 'do', 'if', 'or', 'otherwise', 'for', 'for_each', 'as_long_as', 'return', 'import', 'using', 'in', 'break', 'continue', 'struct', 'enum'];
+  const types = ['int', 'float', 'string', 'bool', 'void', 'any', 'char', 'map'];
+  const builtins = ['println', 'print', 'len', 'append', 'range', 'typeof'];
 
   let result = code;
+  const markers: { marker: string; replacement: string }[] = [];
+  let markerIndex = 0;
 
-  // Escape HTML first
+  // Helper to create unique markers
+  const createMarker = (content: string, className: string): string => {
+    const marker = `__EZ_MARKER_${markerIndex++}__`;
+    const escaped = content.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    markers.push({ marker, replacement: `<span class="${className}">${escaped}</span>` });
+    return marker;
+  };
+
+  // Extract multi-line comments first
+  result = result.replace(/(\/\*[\s\S]*?\*\/)/g, (match) => createMarker(match, 'ez-comment'));
+
+  // Extract single-line comments
+  result = result.replace(/(\/\/.*$)/gm, (match) => createMarker(match, 'ez-comment'));
+
+  // Extract strings
+  result = result.replace(/("(?:[^"\\]|\\.)*")/g, (match) => createMarker(match, 'ez-string'));
+
+  // Extract single-char strings
+  result = result.replace(/('(?:[^'\\]|\\.)')/g, (match) => createMarker(match, 'ez-string'));
+
+  // Now escape remaining HTML
   result = result
     .replace(/&/g, '&amp;')
     .replace(/</g, '&lt;')
     .replace(/>/g, '&gt;');
 
-  // Comments (single line // and multi-line /* */)
-  result = result.replace(/(\/\/.*$)/gm, '<span class="ez-comment">$1</span>');
-  result = result.replace(/(\/\*[\s\S]*?\*\/)/g, '<span class="ez-comment">$1</span>');
-
-  // Strings
-  result = result.replace(/("(?:[^"\\]|\\.)*")/g, '<span class="ez-string">$1</span>');
+  // Import paths (@std, @math, etc)
+  result = result.replace(/(@\w+)/g, '<span class="ez-string">$1</span>');
 
   // Numbers
   result = result.replace(/\b(\d+\.?\d*)\b/g, '<span class="ez-number">$1</span>');
@@ -43,35 +60,28 @@ function highlightEZ(code: string): string {
     result = result.replace(regex, '<span class="ez-type">$1</span>');
   });
 
-  // Builtins/Functions (simple heuristic: word followed by open paren)
+  // Builtins/Functions
   builtins.forEach(fn => {
     const regex = new RegExp(`\\b(${fn})(?=\\()`, 'g');
     result = result.replace(regex, '<span class="ez-function">$1</span>');
   });
 
-  // Import paths (@std, @math, etc)
-  result = result.replace(/(@\w+)/g, '<span class="ez-string">$1</span>');
+  // Restore all markers
+  markers.forEach(({ marker, replacement }) => {
+    result = result.replace(marker, replacement);
+  });
 
   return result;
 }
 
 const highlightedCode = highlightEZ(code);
-const lines = highlightedCode.split('\n');
 ---
 
-<div class="code-block rounded-lg border border-gray-200 dark:border-gray-800 overflow-hidden">
+<div class="code-block overflow-hidden">
   {title && (
     <div class="px-4 py-2 bg-gray-100 dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800 text-sm font-medium opacity-60">
       {title}
     </div>
   )}
-  <pre class="!m-0 !rounded-none !border-0 bg-gray-100 dark:bg-gray-900"><code>{showLineNumbers ? (
-    lines.map((line, i) => (
-      <Fragment>
-        <span class="select-none opacity-30 inline-block w-8 text-right mr-4">{i + 1}</span><span set:html={line} />{'\n'}
-      </Fragment>
-    ))
-  ) : (
-    <Fragment set:html={highlightedCode} />
-  )}</code></pre>
+  <pre class="m-0 p-4 overflow-x-auto bg-gray-100 dark:bg-gray-900 text-sm"><code set:html={highlightedCode} /></pre>
 </div>
