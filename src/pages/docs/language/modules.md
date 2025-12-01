@@ -123,7 +123,7 @@ do main() {
     using std
 
     temp nums [int] = {1, 2, 3}
-    arr.push(nums, 4)
+    arr.append(nums, 4)
 
     println("Sum:", arr.sum(nums))
     println("Sqrt of 16:", m.sqrt(16.0))

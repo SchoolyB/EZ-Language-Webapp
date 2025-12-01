@@ -16,7 +16,7 @@ import @arrays
 
 ## Adding and Removing Elements
 
-### `append()` / `push()`
+### `append()`
 `(arr [T], value T) -> void`
 
 Adds an element to the end of an array.
@@ -25,8 +25,6 @@ Adds an element to the end of an array.
 temp arr [int] = {1, 2, 3}
 arrays.append(arr, 4)
 std.println(arr)  // {1, 2, 3, 4}
-
-arrays.push(arr, 5)  // alias for append
 ```
 
 **Parameters:** `arr` - The array, `value` - Element to add.
@@ -404,11 +402,11 @@ import @arrays
 do main() {
     // Build a list dynamically
     temp scores [int] = {}
-    arrays.push(scores, 85)
-    arrays.push(scores, 92)
-    arrays.push(scores, 78)
-    arrays.push(scores, 95)
-    arrays.push(scores, 88)
+    arrays.append(scores, 85)
+    arrays.append(scores, 92)
+    arrays.append(scores, 78)
+    arrays.append(scores, 95)
+    arrays.append(scores, 88)
 
     std.println("Scores:", scores)
     std.println("Count:", len(scores))

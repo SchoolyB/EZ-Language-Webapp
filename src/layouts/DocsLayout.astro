@@ -274,6 +274,120 @@ const description = Astro.props.description || frontmatter?.description;
     });
   }
 
+  // Fuzzy search for stdlib pages
+  function fuzzyMatch(text: string, query: string): boolean {
+    text = text.toLowerCase();
+    query = query.toLowerCase();
+
+    // Exact substring match
+    if (text.includes(query)) return true;
+
+    // Fuzzy match: all query chars appear in order
+    let textIndex = 0;
+    for (const char of query) {
+      const foundIndex = text.indexOf(char, textIndex);
+      if (foundIndex === -1) return false;
+      textIndex = foundIndex + 1;
+    }
+    return true;
+  }
+
+  function initStdlibSearch() {
+    // Only run on stdlib pages
+    if (!window.location.pathname.includes('/docs/stdlib/')) return;
+
+    const docsContent = document.querySelector('.docs-content');
+    if (!docsContent) return;
+
+    // Check if search already exists
+    if (document.querySelector('.stdlib-search')) return;
+
+    // Find h1 and insert search after it
+    const h1 = docsContent.querySelector('h1');
+    if (!h1) return;
+
+    // Create search container
+    const searchContainer = document.createElement('div');
+    searchContainer.className = 'stdlib-search';
+    searchContainer.innerHTML = `
+      <input type="text" class="stdlib-search-input" placeholder="Search functions..." />
+      <span class="stdlib-search-count"></span>
+    `;
+
+    h1.insertAdjacentElement('afterend', searchContainer);
+
+    const searchInput = searchContainer.querySelector('.stdlib-search-input') as HTMLInputElement;
+    const searchCount = searchContainer.querySelector('.stdlib-search-count') as HTMLSpanElement;
+
+    // Get all function sections (h3 headings and their content)
+    const sections: { heading: Element; elements: Element[] }[] = [];
+    let currentSection: { heading: Element; elements: Element[] } | null = null;
+
+    // Walk through all elements after h1
+    let sibling = searchContainer.nextElementSibling;
+    while (sibling) {
+      if (sibling.tagName === 'H2') {
+        // H2 marks a new category, save current section
+        if (currentSection) sections.push(currentSection);
+        currentSection = null;
+        // H2s are always visible
+        sibling = sibling.nextElementSibling;
+        continue;
+      }
+
+      if (sibling.tagName === 'H3') {
+        // Save previous section
+        if (currentSection) sections.push(currentSection);
+        // Start new section
+        currentSection = { heading: sibling, elements: [] };
+      } else if (currentSection) {
+        // Add element to current section
+        currentSection.elements.push(sibling);
+      }
+
+      sibling = sibling.nextElementSibling;
+    }
+    // Don't forget last section
+    if (currentSection) sections.push(currentSection);
+
+    // Search handler
+    searchInput.addEventListener('input', () => {
+      const query = searchInput.value.trim();
+
+      if (!query) {
+        // Show all sections
+        sections.forEach(section => {
+          (section.heading as HTMLElement).style.display = '';
+          section.elements.forEach(el => (el as HTMLElement).style.display = '');
+        });
+        searchCount.textContent = '';
+        return;
+      }
+
+      let visibleCount = 0;
+
+      sections.forEach(section => {
+        const headingText = section.heading.textContent || '';
+        const matches = fuzzyMatch(headingText, query);
+
+        if (matches) {
+          (section.heading as HTMLElement).style.display = '';
+          section.elements.forEach(el => (el as HTMLElement).style.display = '');
+          visibleCount++;
+        } else {
+          (section.heading as HTMLElement).style.display = 'none';
+          section.elements.forEach(el => (el as HTMLElement).style.display = 'none');
+        }
+      });
+
+      searchCount.textContent = `${visibleCount} of ${sections.length}`;
+    });
+  }
+
   initDocsCodeBlocks();
-  document.addEventListener('astro:after-swap', initDocsCodeBlocks);
+  initStdlibSearch();
+  document.addEventListener('astro:after-swap', () => {
+    initDocsCodeBlocks();
+    initStdlibSearch();
+  });
 </script>
