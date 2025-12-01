@@ -47,7 +47,7 @@ std.println(arr)   // {1, 2}
 
 **Returns:** The removed element.
 
-**Errors:** [E9001](/errors/E9001) if the array is empty.
+**Errors:** [E9001](/language.ez/errors/E9001) if the array is empty.
 
 ### shift
 
@@ -64,7 +64,7 @@ std.println(arr)    // {2, 3}
 
 **Returns:** The removed element.
 
-**Errors:** [E9002](/errors/E9002) if the array is empty.
+**Errors:** [E9002](/language.ez/errors/E9002) if the array is empty.
 
 ### unshift
 
@@ -94,7 +94,7 @@ std.println(arr)  // {1, 2, 3, 4}
 
 **Returns:** Nothing (mutates array in place).
 
-**Errors:** [E9003](/errors/E9003) if the index is out of bounds.
+**Errors:** [E9003](/language.ez/errors/E9003) if the index is out of bounds.
 
 ### remove_at
 
@@ -110,7 +110,7 @@ std.println(arr)  // {1, 3, 4}
 
 **Returns:** Nothing (mutates array in place).
 
-**Errors:** [E9006](/errors/E9006) if the index is out of bounds.
+**Errors:** [E9006](/language.ez/errors/E9006) if the index is out of bounds.
 
 ## Accessing Elements
 
@@ -128,7 +128,7 @@ std.println(val)  // 20
 
 **Returns:** The element at the index.
 
-**Errors:** [E9004](/errors/E9004) if the index is out of bounds.
+**Errors:** [E9004](/language.ez/errors/E9004) if the index is out of bounds.
 
 ### set
 
@@ -144,7 +144,7 @@ std.println(arr)  // {1, 20, 3}
 
 **Returns:** Nothing (mutates array in place).
 
-**Errors:** [E9005](/errors/E9005) if the index is out of bounds.
+**Errors:** [E9005](/language.ez/errors/E9005) if the index is out of bounds.
 
 ### first / last
 
@@ -220,7 +220,7 @@ std.println(sub)  // {2, 3, 4}
 
 **Returns:** A new array with the slice.
 
-**Errors:** [E9016](/errors/E9016) if indices are not integers.
+**Errors:** [E9016](/language.ez/errors/E9016) if indices are not integers.
 
 ### concat
 
@@ -237,7 +237,7 @@ std.println(c)  // {1, 2, 3, 4}
 
 **Returns:** A new concatenated array.
 
-**Errors:** [E9014](/errors/E9014) if arguments are not arrays.
+**Errors:** [E9014](/language.ez/errors/E9014) if arguments are not arrays.
 
 ### repeat
 
@@ -252,7 +252,7 @@ std.println(arr)  // {0, 0, 0, 0, 0}
 
 **Returns:** A new array.
 
-**Errors:** [E9017](/errors/E9017) if count is not an integer.
+**Errors:** [E9017](/language.ez/errors/E9017) if count is not an integer.
 
 ## Numeric Arrays
 
@@ -269,7 +269,7 @@ std.println(arrays.sum(arr))  // 15
 
 **Returns:** The sum.
 
-**Errors:** [E9010](/errors/E9010) if the array is not numeric.
+**Errors:** [E9010](/language.ez/errors/E9010) if the array is not numeric.
 
 ### product
 
@@ -284,7 +284,7 @@ std.println(arrays.product(arr))  // 120
 
 **Returns:** The product.
 
-**Errors:** [E9011](/errors/E9011) if the array is not numeric.
+**Errors:** [E9011](/language.ez/errors/E9011) if the array is not numeric.
 
 ### min / max
 
@@ -300,7 +300,7 @@ std.println(arrays.max(arr))  // 9
 
 **Returns:** The min or max value.
 
-**Errors:** [E9007](/errors/E9007) min if array is empty, [E9008](/errors/E9008) max if array is empty.
+**Errors:** [E9007](/language.ez/errors/E9007) min if array is empty, [E9008](/language.ez/errors/E9008) max if array is empty.
 
 ### avg
 
@@ -315,7 +315,7 @@ std.println(arrays.avg(arr))  // 6.0
 
 **Returns:** `float` - The average.
 
-**Errors:** [E9009](/errors/E9009) if array is empty, [E9012](/errors/E9012) if not numeric.
+**Errors:** [E9009](/language.ez/errors/E9009) if array is empty, [E9012](/language.ez/errors/E9012) if not numeric.
 
 ## Utilities
 
@@ -336,7 +336,7 @@ std.println(odds)  // {1, 3, 5, 7, 9}
 
 **Returns:** A new array of integers.
 
-**Errors:** [E9013](/errors/E9013) if step is zero.
+**Errors:** [E9013](/language.ez/errors/E9013) if step is zero.
 
 ### join
 
@@ -354,7 +354,7 @@ std.println(arrays.join(nums, ", "))  // "1, 2, 3"
 
 **Returns:** `string` - The joined string.
 
-**Errors:** [E9018](/errors/E9018) if separator is not a string.
+**Errors:** [E9018](/language.ez/errors/E9018) if separator is not a string.
 
 ### zip
 
@@ -371,7 +371,7 @@ temp pairs = arrays.zip(names, ages)
 
 **Returns:** An array of pairs.
 
-**Errors:** [E9015](/errors/E9015) if arguments are not arrays.
+**Errors:** [E9015](/language.ez/errors/E9015) if arguments are not arrays.
 
 ## Example Program
 

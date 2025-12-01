@@ -83,7 +83,7 @@ strings.contains("hello world", "foo")    // false
 
 **Returns:** `bool` - true if found.
 
-**Errors:** [E10005](/errors/E10005) if arguments are not strings.
+**Errors:** [E10005](/language.ez/errors/E10005) if arguments are not strings.
 
 ### starts_with
 
@@ -98,7 +98,7 @@ strings.starts_with("hello world", "world")  // false
 
 **Returns:** `bool` - true if starts with prefix.
 
-**Errors:** [E10006](/errors/E10006) if arguments are not strings.
+**Errors:** [E10006](/language.ez/errors/E10006) if arguments are not strings.
 
 ### ends_with
 
@@ -113,7 +113,7 @@ strings.ends_with("hello world", "hello")  // false
 
 **Returns:** `bool` - true if ends with suffix.
 
-**Errors:** [E10007](/errors/E10007) if arguments are not strings.
+**Errors:** [E10007](/language.ez/errors/E10007) if arguments are not strings.
 
 ### index
 
@@ -128,7 +128,7 @@ strings.index("hello world", "foo")    // -1
 
 **Returns:** `int` - Index or -1.
 
-**Errors:** [E10004](/errors/E10004) if arguments are not strings.
+**Errors:** [E10004](/language.ez/errors/E10004) if arguments are not strings.
 
 ## Trimming
 
@@ -176,7 +176,7 @@ std.println(words)  // {"hello", "world"}
 
 **Returns:** `[string]` - Array of substrings.
 
-**Errors:** [E10001](/errors/E10001) if arguments are not strings.
+**Errors:** [E10001](/language.ez/errors/E10001) if arguments are not strings.
 
 ### join
 
@@ -192,7 +192,7 @@ std.println(strings.join(parts, ""))   // "abc"
 
 **Returns:** `string` - Joined string.
 
-**Errors:** [E10002](/errors/E10002) if the first argument is not an array.
+**Errors:** [E10002](/language.ez/errors/E10002) if the first argument is not an array.
 
 ## Replacing
 
@@ -209,7 +209,7 @@ strings.replace("aaa", "a", "b")  // "bbb"
 
 **Returns:** `string` - Modified string.
 
-**Errors:** [E10003](/errors/E10003) if arguments are not strings.
+**Errors:** [E10003](/language.ez/errors/E10003) if arguments are not strings.
 
 ### replace_first
 

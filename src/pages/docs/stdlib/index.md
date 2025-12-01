@@ -123,7 +123,7 @@ do main() {
 
 The prefix makes it clear where each function comes from, which helps when learning. Once you're comfortable, experiment with `using` or aliases if you prefer shorter code.
 
-See the [Modules](/docs/language/modules) page for more details on the module system.
+See the [Modules](/language.ez/docs/language/modules) page for more details on the module system.
 
 ## Available Modules
 
@@ -131,12 +131,12 @@ EZ includes six built-in modules:
 
 | Module | What it's for |
 |--------|---------------|
-| [@std](/docs/stdlib/std) | Basic input/output — printing text, getting user input |
-| [@math](/docs/stdlib/math) | Math operations — square roots, powers, random numbers |
-| [@arrays](/docs/stdlib/arrays) | Working with lists — sorting, filtering, finding items |
-| [@strings](/docs/stdlib/strings) | Working with text — uppercase, splitting, trimming |
-| [@maps](/docs/stdlib/maps) | Key-value storage — like a dictionary or phonebook |
-| [@time](/docs/stdlib/time) | Dates and time — current time, formatting, delays |
+| [@std](/language.ez/docs/stdlib/std) | Basic input/output — printing text, getting user input |
+| [@math](/language.ez/docs/stdlib/math) | Math operations — square roots, powers, random numbers |
+| [@arrays](/language.ez/docs/stdlib/arrays) | Working with lists — sorting, filtering, finding items |
+| [@strings](/language.ez/docs/stdlib/strings) | Working with text — uppercase, splitting, trimming |
+| [@maps](/language.ez/docs/stdlib/maps) | Key-value storage — like a dictionary or phonebook |
+| [@time](/language.ez/docs/stdlib/time) | Dates and time — current time, formatting, delays |
 
 ## Quick Example
 
@@ -176,9 +176,9 @@ do main() {
 
 Pick a module and explore what it can do:
 
-- [@std](/docs/stdlib/std) — Start here, it's the most common
-- [@math](/docs/stdlib/math) — For calculations and random numbers
-- [@arrays](/docs/stdlib/arrays) — For working with lists of things
-- [@strings](/docs/stdlib/strings) — For manipulating text
-- [@maps](/docs/stdlib/maps) — For key-value data
-- [@time](/docs/stdlib/time) — For dates, times, and delays
+- [@std](/language.ez/docs/stdlib/std) — Start here, it's the most common
+- [@math](/language.ez/docs/stdlib/math) — For calculations and random numbers
+- [@arrays](/language.ez/docs/stdlib/arrays) — For working with lists of things
+- [@strings](/language.ez/docs/stdlib/strings) — For manipulating text
+- [@maps](/language.ez/docs/stdlib/maps) — For key-value data
+- [@time](/language.ez/docs/stdlib/time) — For dates, times, and delays

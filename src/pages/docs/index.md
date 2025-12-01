@@ -10,7 +10,7 @@ Welcome to the EZ documentation. EZ is a simple programming language designed to
 
 ## Quick Start
 
-1. [Install EZ](/docs/getting-started) for your platform
+1. [Install EZ](/language.ez/docs/getting-started) for your platform
 2. Create `hello.ez`:
 
 ```ez
@@ -29,14 +29,14 @@ ez run hello.ez
 
 ## What's Next?
 
-### [Getting Started](/docs/getting-started)
+### [Getting Started](/language.ez/docs/getting-started)
 Install EZ and write your first program.
 
-### [Language Reference](/docs/language/variables)
+### [Language Reference](/language.ez/docs/language/variables)
 Learn about variables, functions, and more.
 
-### [Standard Library](/docs/stdlib/std)
+### [Standard Library](/language.ez/docs/stdlib/std)
 Explore the built-in modules.
 
-### [Examples](/examples)
+### [Examples](/language.ez/examples)
 Real-world code examples and recipes.

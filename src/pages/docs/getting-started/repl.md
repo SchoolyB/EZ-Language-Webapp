@@ -213,6 +213,6 @@ ez> int(17.0 / 5.0)
 
 ## Next Steps
 
-- [Variables](/docs/language/variables) — Learn about `temp` and `const`
-- [Functions](/docs/language/functions) — Create reusable code
-- [Types](/docs/language/types) — Understand the type system
+- [Variables](/language.ez/docs/language/variables) — Learn about `temp` and `const`
+- [Functions](/language.ez/docs/language/functions) — Create reusable code
+- [Types](/language.ez/docs/language/types) — Understand the type system

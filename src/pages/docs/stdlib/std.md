@@ -113,7 +113,7 @@ temp rounded int = int(pi)  // 3
 
 **Returns:** `int` - The integer value.
 
-**Errors:** [E3005](/errors/E3005) if the string cannot be parsed as an integer.
+**Errors:** [E3005](/language.ez/errors/E3005) if the string cannot be parsed as an integer.
 
 ### float
 
@@ -131,7 +131,7 @@ temp decimal float = float(whole)  // 42.0
 
 **Returns:** `float` - The floating-point value.
 
-**Errors:** [E3006](/errors/E3006) if the string cannot be parsed as a float.
+**Errors:** [E3006](/language.ez/errors/E3006) if the string cannot be parsed as a float.
 
 ## Example Program
 

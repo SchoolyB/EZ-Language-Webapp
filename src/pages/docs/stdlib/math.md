@@ -66,7 +66,7 @@ math.avg(10, 20)   // 15.0
 
 **Returns:** `float` - The arithmetic mean.
 
-**Errors:** [E8012](/errors/E8012) if called with no arguments.
+**Errors:** [E8012](/language.ez/errors/E8012) if called with no arguments.
 
 ### floor / ceil / round
 
@@ -112,7 +112,7 @@ math.sqrt(2)    // 1.4142135623730951
 
 **Returns:** `float` - The square root.
 
-**Errors:** [E8001](/errors/E8001) if the argument is negative.
+**Errors:** [E8001](/language.ez/errors/E8001) if the argument is negative.
 
 ## Logarithms
 
@@ -129,7 +129,7 @@ math.log(10)       // 2.302585...
 
 **Returns:** `float` - The natural logarithm.
 
-**Errors:** [E8002](/errors/E8002) if the argument is not positive.
+**Errors:** [E8002](/language.ez/errors/E8002) if the argument is not positive.
 
 ### log2
 
@@ -144,7 +144,7 @@ math.log2(16)  // 4.0
 
 **Returns:** `float` - The base-2 logarithm.
 
-**Errors:** [E8003](/errors/E8003) if the argument is not positive.
+**Errors:** [E8003](/language.ez/errors/E8003) if the argument is not positive.
 
 ### log10
 
@@ -159,7 +159,7 @@ math.log10(1000)  // 3.0
 
 **Returns:** `float` - The base-10 logarithm.
 
-**Errors:** [E8004](/errors/E8004) if the argument is not positive.
+**Errors:** [E8004](/language.ez/errors/E8004) if the argument is not positive.
 
 ## Trigonometry
 
@@ -191,7 +191,7 @@ math.atan(1)   // 0.7853981... (PI/4)
 
 **Returns:** `float` - Angle in radians.
 
-**Errors:** [E8005](/errors/E8005) asin if value outside [-1, 1], [E8006](/errors/E8006) acos if value outside [-1, 1].
+**Errors:** [E8005](/language.ez/errors/E8005) asin if value outside [-1, 1], [E8006](/language.ez/errors/E8006) acos if value outside [-1, 1].
 
 ## Other Functions
 
@@ -209,7 +209,7 @@ math.factorial(10)  // 3628800
 
 **Returns:** `int` - n!
 
-**Errors:** [E8007](/errors/E8007) for negative numbers, [E8008](/errors/E8008) for values > 20.
+**Errors:** [E8007](/language.ez/errors/E8007) for negative numbers, [E8008](/language.ez/errors/E8008) for values > 20.
 
 ## Random Numbers
 
@@ -229,7 +229,7 @@ math.random(10, 20)   // 10-19
 
 **Returns:** `int` - A random integer.
 
-**Errors:** [E8009](/errors/E8009) if max is not positive, [E8010](/errors/E8010) if max <= min.
+**Errors:** [E8009](/language.ez/errors/E8009) if max is not positive, [E8010](/language.ez/errors/E8010) if max <= min.
 
 ### random_float
 

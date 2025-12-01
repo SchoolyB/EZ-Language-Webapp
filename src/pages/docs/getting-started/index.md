@@ -66,4 +66,4 @@ ez version
 
 ### Uninstall
 
-Need to remove EZ or start fresh? See the [uninstall guide](/docs/getting-started/uninstall).
+Need to remove EZ or start fresh? See the [uninstall guide](/language.ez/docs/getting-started/uninstall).
