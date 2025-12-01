@@ -21,6 +21,8 @@ interface Props {
     example: string;
     category: string;
     suppressible?: string;
+    howToFix?: string;
+    relatedErrors?: string[];
   };
 }
 
@@ -105,20 +107,43 @@ const nextError = currentIndex < errorsData.errors.length - 1 ? errorsData.error
           </section>
         )}
 
-        <!-- How to fix (placeholder for future content) -->
+        <!-- How to fix -->
         <section class="border-t border-gray-200 dark:border-gray-800 pt-8">
           <h2 class="text-xl font-semibold mb-3 text-black dark:text-white">How to fix</h2>
-          <p class="opacity-60 italic">
-            Detailed fix instructions will be added in a future update.
-          </p>
+          {error.howToFix ? (
+            <p class="opacity-80">{error.howToFix}</p>
+          ) : (
+            <p class="opacity-60 italic">
+              Detailed fix instructions will be added in a future update.
+            </p>
+          )}
         </section>
 
-        <!-- Related errors (placeholder for future content) -->
+        <!-- Related errors -->
         <section class="border-t border-gray-200 dark:border-gray-800 pt-8">
           <h2 class="text-xl font-semibold mb-3 text-black dark:text-white">Related errors</h2>
-          <p class="opacity-60 italic">
-            Related error codes will be linked here in a future update.
-          </p>
+          {error.relatedErrors && error.relatedErrors.length > 0 ? (
+            <div class="flex flex-wrap gap-2">
+              {error.relatedErrors.map((relatedCode) => {
+                const relatedError = errorsData.errors.find((e) => e.code === relatedCode);
+                return relatedError ? (
+                  <a
+                    href={`${base}errors/${relatedCode}`}
+                    class="inline-flex items-center gap-2 px-3 py-1.5 bg-gray-100 dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-lg hover:border-gray-400 dark:hover:border-gray-600 transition-colors"
+                  >
+                    <span class="font-mono text-sm font-medium">{relatedCode}</span>
+                    <span class="text-sm opacity-60">- {relatedError.slug}</span>
+                  </a>
+                ) : (
+                  <span class="inline-flex items-center px-3 py-1.5 bg-gray-100 dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-lg font-mono text-sm">
+                    {relatedCode}
+                  </span>
+                );
+              })}
+            </div>
+          ) : (
+            <p class="opacity-60 italic">No related errors.</p>
+          )}
         </section>
       </div>
 

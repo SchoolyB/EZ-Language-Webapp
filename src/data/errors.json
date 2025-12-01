@@ -6,13 +6,13 @@
     { "id": "reference", "name": "Reference Errors", "range": "E4xxx", "description": "Undefined variables, functions, modules" },
     { "id": "runtime", "name": "Runtime Errors", "range": "E5xxx", "description": "General runtime errors" },
     { "id": "import", "name": "Import Errors", "range": "E6xxx", "description": "Module import errors" },
-    { "id": "builtin", "name": "Builtin Errors", "range": "E7xxx", "description": "Standard library builtin function errors" },
+    { "id": "stdlib", "name": "Stdlib Validation Errors", "range": "E7xxx", "description": "Generic stdlib argument validation" },
     { "id": "math", "name": "Math Errors", "range": "E8xxx", "description": "Mathematical operation errors" },
     { "id": "array", "name": "Array Errors", "range": "E9xxx", "description": "Array-specific operation errors" },
     { "id": "string", "name": "String Errors", "range": "E10xxx", "description": "String-specific operation errors" },
     { "id": "time", "name": "Time Errors", "range": "E11xxx", "description": "Time-specific operation errors" },
     { "id": "map", "name": "Map Errors", "range": "E12xxx", "description": "Map-specific operation errors" },
-    { "id": "warnings", "name": "Warnings", "range": "W1xxx-W6xxx", "description": "Warnings (non-fatal)" }
+    { "id": "warnings", "name": "Warnings", "range": "W1xxx-W4xxx", "description": "Warnings (non-fatal)" }
   ],
   "errors": [
     {
@@ -21,7 +21,9 @@
       "message": "illegal character in source",
       "usedFor": "Single `&` or `|` without being doubled, other invalid characters",
       "example": "unexpected character '&', did you mean '&&'?",
-      "category": "lexer"
+      "category": "lexer",
+      "howToFix": "Remove or replace the illegal character from your source code. EZ only supports standard ASCII characters for code.",
+      "relatedErrors": []
     },
     {
       "code": "E1002",
@@ -29,7 +31,9 @@
       "message": "illegal OR character in source",
       "usedFor": "Single `|` without being doubled",
       "example": "unexpected character '|', did you mean '||'?",
-      "category": "lexer"
+      "category": "lexer",
+      "howToFix": "Use `||` for logical OR operations, not a single `|` character.",
+      "relatedErrors": []
     },
     {
       "code": "E1003",
@@ -37,7 +41,9 @@
       "message": "multi-line comment not closed",
       "usedFor": "`/*` without matching `*/`",
       "example": "unclosed multi-line comment",
-      "category": "lexer"
+      "category": "lexer",
+      "howToFix": "Add `*/` to close your multi-line comment.",
+      "relatedErrors": ["E1004"]
     },
     {
       "code": "E1004",
@@ -45,7 +51,9 @@
       "message": "string literal not closed",
       "usedFor": "String without closing `\"`",
       "example": "unclosed string literal",
-      "category": "lexer"
+      "category": "lexer",
+      "howToFix": "Add a closing `\"` to terminate your string literal.",
+      "relatedErrors": ["E1003", "E1005"]
     },
     {
       "code": "E1005",
@@ -53,7 +61,9 @@
       "message": "character literal not closed",
       "usedFor": "Char without closing `'`",
       "example": "unclosed character literal",
-      "category": "lexer"
+      "category": "lexer",
+      "howToFix": "Add a closing `'` to terminate your character literal.",
+      "relatedErrors": ["E1004"]
     },
     {
       "code": "E1006",
@@ -61,7 +71,9 @@
       "message": "invalid escape sequence in string",
       "usedFor": "Unknown escape like `\\x` in string",
       "example": "invalid escape sequence '\\x' in string",
-      "category": "lexer"
+      "category": "lexer",
+      "howToFix": "Use valid escape sequences: `\\n`, `\\t`, `\\\\`, `\\\"`, `\\r`. Remove or fix the invalid escape sequence.",
+      "relatedErrors": ["E1007"]
     },
     {
       "code": "E1007",
@@ -69,7 +81,9 @@
       "message": "invalid escape sequence in character",
       "usedFor": "Unknown escape like `\\x` in char literal",
       "example": "invalid escape sequence '\\x' in character literal",
-      "category": "lexer"
+      "category": "lexer",
+      "howToFix": "Use valid escape sequences in character literals: `\\n`, `\\t`, `\\\\`, `\\'`, `\\r`.",
+      "relatedErrors": ["E1006"]
     },
     {
       "code": "E1008",
@@ -77,7 +91,9 @@
       "message": "character literal is empty",
       "usedFor": "Empty char `''`",
       "example": "empty character literal",
-      "category": "lexer"
+      "category": "lexer",
+      "howToFix": "Character literals must contain exactly one character. Use `' '` for space or another valid character.",
+      "relatedErrors": ["E1009"]
     },
     {
       "code": "E1009",
@@ -85,7 +101,9 @@
       "message": "character literal contains multiple characters",
       "usedFor": "Char like `'ab'`",
       "example": "character literal must contain exactly one character",
-      "category": "lexer"
+      "category": "lexer",
+      "howToFix": "Character literals can only contain one character. Use a string (`\"...\"`) for multiple characters.",
+      "relatedErrors": ["E1008"]
     },
     {
       "code": "E1010",
@@ -93,7 +111,9 @@
       "message": "invalid numeric literal format",
       "usedFor": "General number format errors",
       "example": "invalid number format: multiple decimal points",
-      "category": "lexer"
+      "category": "lexer",
+      "howToFix": "Check your number literal for typos. Ensure it follows valid integer or float format.",
+      "relatedErrors": ["E1011", "E1012", "E1013", "E1014", "E1015", "E1016"]
     },
     {
       "code": "E1011",
@@ -101,7 +121,9 @@
       "message": "consecutive underscores in number",
       "usedFor": "Numbers like `1__000`",
       "example": "consecutive underscores not allowed in numeric literals",
-      "category": "lexer"
+      "category": "lexer",
+      "howToFix": "Use single underscores as separators in numbers: `1_000_000` not `1__000`.",
+      "relatedErrors": ["E1010", "E1012", "E1013", "E1014", "E1015", "E1016"]
     },
     {
       "code": "E1012",
@@ -109,7 +131,9 @@
       "message": "number starts with underscore",
       "usedFor": "Numbers like `_123`",
       "example": "numeric literal cannot start with underscore",
-      "category": "lexer"
+      "category": "lexer",
+      "howToFix": "Numbers cannot start with underscore. Use `1_000` not `_1000`.",
+      "relatedErrors": ["E1010", "E1011", "E1013", "E1014", "E1015", "E1016"]
     },
     {
       "code": "E1013",
@@ -117,7 +141,9 @@
       "message": "number ends with underscore",
       "usedFor": "Numbers like `123_`",
       "example": "numeric literal cannot end with underscore",
-      "category": "lexer"
+      "category": "lexer",
+      "howToFix": "Numbers cannot end with underscore. Use `1_000` not `1000_`.",
+      "relatedErrors": ["E1010", "E1011", "E1012", "E1014", "E1015", "E1016"]
     },
     {
       "code": "E1014",
@@ -125,7 +151,9 @@
       "message": "underscore before decimal point",
       "usedFor": "Numbers like `123_.45`",
       "example": "underscore cannot appear immediately before decimal point",
-      "category": "lexer"
+      "category": "lexer",
+      "howToFix": "Remove underscore before the decimal point. Use `3.14` not `3_.14`.",
+      "relatedErrors": ["E1010", "E1011", "E1012", "E1013", "E1015", "E1016"]
     },
     {
       "code": "E1015",
@@ -133,7 +161,9 @@
       "message": "underscore after decimal point",
       "usedFor": "Numbers like `123._45`",
       "example": "underscore cannot appear immediately after decimal point",
-      "category": "lexer"
+      "category": "lexer",
+      "howToFix": "Remove underscore after the decimal point. Use `3.14` not `3._14`.",
+      "relatedErrors": ["E1010", "E1011", "E1012", "E1013", "E1014", "E1016"]
     },
     {
       "code": "E1016",
@@ -141,7 +171,9 @@
       "message": "decimal point without digits",
       "usedFor": "Numbers like `123.`",
       "example": "invalid number format: decimal point must be followed by digits",
-      "category": "lexer"
+      "category": "lexer",
+      "howToFix": "Add digits after the decimal point. Use `3.0` not `3.`.",
+      "relatedErrors": ["E1010", "E1011", "E1012", "E1013", "E1014", "E1015"]
     },
     {
       "code": "E2001",
@@ -149,7 +181,9 @@
       "message": "unexpected token encountered",
       "usedFor": "Token found where another was expected",
       "example": "unexpected token 'foo'",
-      "category": "parse"
+      "category": "parse",
+      "howToFix": "Check your syntax around the reported location. You may have a typo or missing punctuation.",
+      "relatedErrors": ["E2002"]
     },
     {
       "code": "E2002",
@@ -157,7 +191,9 @@
       "message": "expected token not found",
       "usedFor": "Missing expected token",
       "example": "expected RPAREN, got IDENT instead",
-      "category": "parse"
+      "category": "parse",
+      "howToFix": "Add the expected token (semicolon, brace, parenthesis, etc.) at the indicated location.",
+      "relatedErrors": ["E2001"]
     },
     {
       "code": "E2003",
@@ -165,7 +201,9 @@
       "message": "expected expression",
       "usedFor": "Missing expression after operator or `=`",
       "example": "expected expression after '='",
-      "category": "parse"
+      "category": "parse",
+      "howToFix": "Provide an expression where expected. Check for incomplete statements or missing values.",
+      "relatedErrors": ["E2001"]
     },
     {
       "code": "E2004",
@@ -173,7 +211,9 @@
       "message": "missing closing brace",
       "usedFor": "Missing `}`",
       "example": "unclosed brace - expected '}'",
-      "category": "parse"
+      "category": "parse",
+      "howToFix": "Add a closing `}` to match your opening brace.",
+      "relatedErrors": ["E2005", "E2006"]
     },
     {
       "code": "E2005",
@@ -181,7 +221,9 @@
       "message": "missing closing parenthesis",
       "usedFor": "Missing `)`",
       "example": "unclosed parenthesis - expected ')'",
-      "category": "parse"
+      "category": "parse",
+      "howToFix": "Add a closing `)` to match your opening parenthesis.",
+      "relatedErrors": ["E2004", "E2006"]
     },
     {
       "code": "E2006",
@@ -189,7 +231,9 @@
       "message": "missing closing bracket",
       "usedFor": "Missing `]`",
       "example": "unclosed bracket - expected ']'",
-      "category": "parse"
+      "category": "parse",
+      "howToFix": "Add a closing `]` to match your opening bracket.",
+      "relatedErrors": ["E2004", "E2005"]
     },
     {
       "code": "E2007",
@@ -197,7 +241,9 @@
       "message": "string interpolation not closed",
       "usedFor": "`\"Hello ${name\"` without closing `}`",
       "example": "unclosed interpolation in string",
-      "category": "parse"
+      "category": "parse",
+      "howToFix": "Add `}` to close your string interpolation `${...}`.",
+      "relatedErrors": ["E1004"]
     },
     {
       "code": "E2008",
@@ -205,7 +251,9 @@
       "message": "cannot assign to this expression",
       "usedFor": "Assignment to non-assignable (not identifier, index, or member)",
       "example": "invalid assignment target: cannot assign to *ast.IntegerValue",
-      "category": "parse"
+      "category": "parse",
+      "howToFix": "You can only assign to variables, array elements, or struct fields. Check the left side of your assignment.",
+      "relatedErrors": ["E5006"]
     },
     {
       "code": "E2009",
@@ -213,7 +261,9 @@
       "message": "using statement must come first",
       "usedFor": "`using` after other declarations",
       "example": "file-scoped 'using' must come before all declarations",
-      "category": "parse"
+      "category": "parse",
+      "howToFix": "Move your `using` statement to the top of the file, before any variable or function declarations.",
+      "relatedErrors": ["E2010"]
     },
     {
       "code": "E2010",
@@ -221,7 +271,9 @@
       "message": "cannot use module before importing",
       "usedFor": "`using math` before `import math`",
       "example": "cannot use module 'math' before importing it",
-      "category": "parse"
+      "category": "parse",
+      "howToFix": "Import a module with `import @module` before using it with `use @module`.",
+      "relatedErrors": ["E2009", "E6002"]
     },
     {
       "code": "E2011",
@@ -229,7 +281,9 @@
       "message": "const must be initialized",
       "usedFor": "`const x int` without value",
       "example": "const 'x' must be initialized with a value",
-      "category": "parse"
+      "category": "parse",
+      "howToFix": "Constants must be initialized. Add `= value` to your const declaration.",
+      "relatedErrors": []
     },
     {
       "code": "E2012",
@@ -237,7 +291,9 @@
       "message": "parameter name already used",
       "usedFor": "`do foo(x int, x string)`",
       "example": "duplicate parameter name 'x'",
-      "category": "parse"
+      "category": "parse",
+      "howToFix": "Rename one of the duplicate parameters to have a unique name.",
+      "relatedErrors": ["E2013", "E2023"]
     },
     {
       "code": "E2013",
@@ -245,7 +301,9 @@
       "message": "field name already used",
       "usedFor": "Struct with duplicate field names",
       "example": "duplicate field name 'x' in struct",
-      "category": "parse"
+      "category": "parse",
+      "howToFix": "Rename one of the duplicate struct fields to have a unique name.",
+      "relatedErrors": ["E2012", "E2023"]
     },
     {
       "code": "E2014",
@@ -253,7 +311,9 @@
       "message": "parameter missing type annotation",
       "usedFor": "`do foo(x)` without type",
       "example": "parameter 'x' is missing a type",
-      "category": "parse"
+      "category": "parse",
+      "howToFix": "Add a type annotation to your parameter: `do foo(x int)` not `do foo(x)`.",
+      "relatedErrors": ["E2015"]
     },
     {
       "code": "E2015",
@@ -261,7 +321,9 @@
       "message": "expected return type after arrow",
       "usedFor": "`do foo() ->` without type",
       "example": "expected return type after '->'",
-      "category": "parse"
+      "category": "parse",
+      "howToFix": "Add a return type after the arrow: `do foo() -> int { ... }`.",
+      "relatedErrors": ["E2014"]
     },
     {
       "code": "E2016",
@@ -269,7 +331,9 @@
       "message": "enum must have at least one value",
       "usedFor": "`enum Status {}`",
       "example": "enum 'Status' must have at least one value",
-      "category": "parse"
+      "category": "parse",
+      "howToFix": "Add at least one value to your enum declaration.",
+      "relatedErrors": []
     },
     {
       "code": "E2017",
@@ -277,7 +341,9 @@
       "message": "trailing comma in array literal",
       "usedFor": "`{1, 2, 3,}`",
       "example": "unexpected trailing comma in array literal",
-      "category": "parse"
+      "category": "parse",
+      "howToFix": "Remove the trailing comma from your array literal: `{1, 2, 3}` not `{1, 2, 3,}`.",
+      "relatedErrors": ["E2018"]
     },
     {
       "code": "E2018",
@@ -285,7 +351,9 @@
       "message": "trailing comma in function call",
       "usedFor": "`foo(1, 2,)`",
       "example": "unexpected trailing comma in function call",
-      "category": "parse"
+      "category": "parse",
+      "howToFix": "Remove the trailing comma from your function call: `foo(1, 2)` not `foo(1, 2,)`.",
+      "relatedErrors": ["E2017"]
     },
     {
       "code": "E2019",
@@ -293,7 +361,9 @@
       "message": "function inside function not allowed",
       "usedFor": "Function declared inside another function",
       "example": "function declarations are not allowed inside functions",
-      "category": "parse"
+      "category": "parse",
+      "howToFix": "Move the inner function outside of the outer function. EZ does not allow nested function definitions.",
+      "relatedErrors": []
     },
     {
       "code": "E2020",
@@ -301,7 +371,9 @@
       "message": "variable name is reserved",
       "usedFor": "Using keyword as variable name",
       "example": "'temp' is a reserved keyword and cannot be used as a variable name",
-      "category": "parse"
+      "category": "parse",
+      "howToFix": "Choose a different name. Reserved words like `if`, `for`, `while`, etc. cannot be used as variable names.",
+      "relatedErrors": ["E2021", "E2022"]
     },
     {
       "code": "E2021",
@@ -309,7 +381,9 @@
       "message": "function name is reserved",
       "usedFor": "Using builtin as function name",
       "example": "'len' is a reserved keyword and cannot be used as a function name",
-      "category": "parse"
+      "category": "parse",
+      "howToFix": "Choose a different function name. Built-in names and reserved words cannot be used.",
+      "relatedErrors": ["E2020", "E2022"]
     },
     {
       "code": "E2022",
@@ -317,7 +391,9 @@
       "message": "type name is reserved",
       "usedFor": "Using keyword as struct/enum name",
       "example": "'int' is a reserved keyword and cannot be used as a type name",
-      "category": "parse"
+      "category": "parse",
+      "howToFix": "Choose a different type name. Built-in types and reserved words cannot be used.",
+      "relatedErrors": ["E2020", "E2021"]
     },
     {
       "code": "E2023",
@@ -325,7 +401,9 @@
       "message": "name already declared in scope",
       "usedFor": "Re-declaring same name in scope",
       "example": "'x' is already declared in this scope",
-      "category": "parse"
+      "category": "parse",
+      "howToFix": "Rename one of the duplicate declarations or remove the redundant one.",
+      "relatedErrors": ["E2012", "E2013"]
     },
     {
       "code": "E2024",
@@ -333,7 +411,9 @@
       "message": "expected valid type name",
       "usedFor": "Invalid type in declaration",
       "example": "expected type name, got RBRACE",
-      "category": "parse"
+      "category": "parse",
+      "howToFix": "Use a valid type name: `int`, `float`, `string`, `bool`, `char`, or a defined struct/enum name.",
+      "relatedErrors": ["E3008"]
     },
     {
       "code": "E2025",
@@ -341,7 +421,9 @@
       "message": "array size must be integer",
       "usedFor": "`[string, \"5\"]` instead of `[string, 5]`",
       "example": "expected integer for array size, got STRING",
-      "category": "parse"
+      "category": "parse",
+      "howToFix": "Array size must be a positive integer literal: `var arr [5]int` not `var arr [x]int`.",
+      "relatedErrors": []
     },
     {
       "code": "E2026",
@@ -349,7 +431,9 @@
       "message": "enum type must be primitive",
       "usedFor": "`enum Status : CustomType`",
       "example": "enum type attributes must be primitive types (int, float, or string), got 'Custom'",
-      "category": "parse"
+      "category": "parse",
+      "howToFix": "Enum base types must be primitive: `int`, `float`, or `string`.",
+      "relatedErrors": []
     },
     {
       "code": "E2027",
@@ -357,7 +441,9 @@
       "message": "cannot parse integer literal",
       "usedFor": "Invalid integer format",
       "example": "could not parse \"abc\" as integer",
-      "category": "parse"
+      "category": "parse",
+      "howToFix": "Check your integer literal for invalid characters or overflow.",
+      "relatedErrors": ["E2028"]
     },
     {
       "code": "E2028",
@@ -365,7 +451,9 @@
       "message": "cannot parse float literal",
       "usedFor": "Invalid float format",
       "example": "could not parse \"1.2.3\" as float",
-      "category": "parse"
+      "category": "parse",
+      "howToFix": "Check your float literal for invalid characters or formatting issues.",
+      "relatedErrors": ["E2027"]
     },
     {
       "code": "E2029",
@@ -373,7 +461,9 @@
       "message": "expected identifier",
       "usedFor": "Missing identifier where required",
       "example": "expected identifier or @ignore, got RBRACE",
-      "category": "parse"
+      "category": "parse",
+      "howToFix": "Provide a valid identifier (name) where expected. Names must start with a letter or underscore.",
+      "relatedErrors": []
     },
     {
       "code": "E2030",
@@ -381,7 +471,9 @@
       "message": "expected block statement",
       "usedFor": "Missing `{` after if/for/while",
       "example": "expected '{' after condition",
-      "category": "parse"
+      "category": "parse",
+      "howToFix": "Add a block statement `{ ... }` where expected.",
+      "relatedErrors": ["E2004"]
     },
     {
       "code": "E2031",
@@ -389,7 +481,9 @@
       "message": "string enum needs explicit values",
       "usedFor": "String enum without values",
       "example": "string enums require explicit values for all members",
-      "category": "parse"
+      "category": "parse",
+      "howToFix": "String enums need explicit values: `const Colors enum { RED = \"red\", BLUE = \"blue\" }`.",
+      "relatedErrors": ["E2016"]
     },
     {
       "code": "E2032",
@@ -397,7 +491,9 @@
       "message": "const array must have fixed size",
       "usedFor": "Declaring const array without explicit size",
       "example": "const array must have a fixed size",
-      "category": "parse"
+      "category": "parse",
+      "howToFix": "Constant arrays must have a fixed size: `const arr [3]int = {1, 2, 3}`.",
+      "relatedErrors": ["E2011"]
     },
     {
       "code": "E3001",
@@ -405,7 +501,9 @@
       "message": "types do not match",
       "usedFor": "General type mismatch",
       "example": "type mismatch: expected int, got string",
-      "category": "type"
+      "category": "type",
+      "howToFix": "Ensure the value type matches the expected type. Use explicit type conversion if needed.",
+      "relatedErrors": ["E3012", "E3014"]
     },
     {
       "code": "E3002",
@@ -413,7 +511,9 @@
       "message": "operator not valid for type",
       "usedFor": "`\"hello\" * \"world\"`",
       "example": "unknown operator: STRING * STRING",
-      "category": "type"
+      "category": "type",
+      "howToFix": "Use an operator that is valid for this type. For example, you cannot use `*` on strings.",
+      "relatedErrors": ["E3014"]
     },
     {
       "code": "E3003",
@@ -421,7 +521,9 @@
       "message": "index must be integer",
       "usedFor": "`arr[\"foo\"]` instead of `arr[0]`",
       "example": "index must be an integer, got STRING",
-      "category": "type"
+      "category": "type",
+      "howToFix": "Array/string indices must be integers. Convert your index to an integer.",
+      "relatedErrors": ["E3004"]
     },
     {
       "code": "E3004",
@@ -429,7 +531,9 @@
       "message": "invalid type for index assignment",
       "usedFor": "Assigning wrong type to string index",
       "example": "can only assign character to string index, got INTEGER",
-      "category": "type"
+      "category": "type",
+      "howToFix": "The assigned value must match the array's element type.",
+      "relatedErrors": ["E3003", "E3001"]
     },
     {
       "code": "E3005",
@@ -437,7 +541,9 @@
       "message": "cannot convert value to integer",
       "usedFor": "`int(\"abc\")`",
       "example": "cannot convert \"abc\" to int: invalid integer format",
-      "category": "type"
+      "category": "type",
+      "howToFix": "The value cannot be converted to an integer. Check the source value type.",
+      "relatedErrors": ["E3006"]
     },
     {
       "code": "E3006",
@@ -445,7 +551,9 @@
       "message": "cannot convert value to float",
       "usedFor": "`float(\"abc\")`",
       "example": "cannot convert \"abc\" to float: invalid float format",
-      "category": "type"
+      "category": "type",
+      "howToFix": "The value cannot be converted to a float. Check the source value type.",
+      "relatedErrors": ["E3005"]
     },
     {
       "code": "E3007",
@@ -453,7 +561,9 @@
       "message": "cannot convert array to scalar",
       "usedFor": "`int(myArray)`",
       "example": "cannot convert ARRAY to int",
-      "category": "type"
+      "category": "type",
+      "howToFix": "Arrays cannot be converted to scalar values. Access individual elements instead.",
+      "relatedErrors": []
     },
     {
       "code": "E3008",
@@ -461,7 +571,9 @@
       "message": "type is not defined",
       "usedFor": "Using unknown type name",
       "example": "undefined type 'Foo'",
-      "category": "type"
+      "category": "type",
+      "howToFix": "Define the type before using it, or check for typos in the type name.",
+      "relatedErrors": ["E3009", "E2024"]
     },
     {
       "code": "E3009",
@@ -469,7 +581,9 @@
       "message": "field type not defined",
       "usedFor": "Struct field with unknown type",
       "example": "undefined type 'Custom' in struct 'Person'",
-      "category": "type"
+      "category": "type",
+      "howToFix": "Ensure all field types in your struct are defined before the struct declaration.",
+      "relatedErrors": ["E3008"]
     },
     {
       "code": "E3010",
@@ -477,7 +591,9 @@
       "message": "parameter type not defined",
       "usedFor": "Function param with unknown type",
       "example": "undefined type 'Foo' for parameter 'x'",
-      "category": "type"
+      "category": "type",
+      "howToFix": "Define the parameter type or check for typos.",
+      "relatedErrors": ["E3008", "E2014"]
     },
     {
       "code": "E3011",
@@ -485,7 +601,9 @@
       "message": "return type not defined",
       "usedFor": "Function with unknown return type",
       "example": "undefined return type 'Bar' in function 'foo'",
-      "category": "type"
+      "category": "type",
+      "howToFix": "Define the return type or check for typos.",
+      "relatedErrors": ["E3008", "E2015"]
     },
     {
       "code": "E3012",
@@ -493,7 +611,9 @@
       "message": "return type does not match declaration",
       "usedFor": "Returning wrong type",
       "example": "return type mismatch: expected int, got string",
-      "category": "type"
+      "category": "type",
+      "howToFix": "Ensure your return value matches the declared return type.",
+      "relatedErrors": ["E3001", "E3013"]
     },
     {
       "code": "E3013",
@@ -501,7 +621,9 @@
       "message": "wrong number of return values",
       "usedFor": "Returning wrong count",
       "example": "wrong number of return values: expected 2, got 1",
-      "category": "type"
+      "category": "type",
+      "howToFix": "Return the correct number of values as declared in the function signature.",
+      "relatedErrors": ["E3012"]
     },
     {
       "code": "E3014",
@@ -509,7 +631,9 @@
       "message": "incompatible types for binary operator",
       "usedFor": "`1 + \"hello\"`",
       "example": "incompatible types for operator '+': INTEGER and STRING",
-      "category": "type"
+      "category": "type",
+      "howToFix": "Both operands must be compatible types. Convert one operand to match the other.",
+      "relatedErrors": ["E3001", "E3002"]
     },
     {
       "code": "E3015",
@@ -517,7 +641,9 @@
       "message": "value is not callable",
       "usedFor": "Calling non-function",
       "example": "not a function: INTEGER",
-      "category": "type"
+      "category": "type",
+      "howToFix": "Only functions can be called. Check that you're calling a function, not a variable.",
+      "relatedErrors": ["E4002"]
     },
     {
       "code": "E3016",
@@ -525,7 +651,9 @@
       "message": "value is not indexable",
       "usedFor": "Indexing non-array/string",
       "example": "index operator not supported for STRUCT",
-      "category": "type"
+      "category": "type",
+      "howToFix": "Only arrays, strings, and maps can be indexed with `[]`.",
+      "relatedErrors": ["E3017"]
     },
     {
       "code": "E3017",
@@ -533,7 +661,9 @@
       "message": "value is not iterable",
       "usedFor": "for_each on non-iterable",
       "example": "for_each requires array or string, got INTEGER",
-      "category": "type"
+      "category": "type",
+      "howToFix": "Only arrays, strings, maps, and ranges can be used in `for_each` loops.",
+      "relatedErrors": ["E3016"]
     },
     {
       "code": "E3018",
@@ -541,7 +671,9 @@
       "message": "array type requires array literal",
       "usedFor": "`const arr [int] = 10`",
       "example": "array type requires value in {} format, got scalar",
-      "category": "type"
+      "category": "type",
+      "howToFix": "Initialize arrays with array literals: `{1, 2, 3}` not a single value.",
+      "relatedErrors": []
     },
     {
       "code": "E3019",
@@ -549,7 +681,9 @@
       "message": "cannot assign signed type to unsigned",
       "usedFor": "Assigning signed int to unsigned int type",
       "example": "cannot assign signed type 'int' to unsigned type 'uint'",
-      "category": "type"
+      "category": "type",
+      "howToFix": "Cannot assign a signed type to an unsigned variable. Use explicit conversion or change the variable type.",
+      "relatedErrors": ["E3020"]
     },
     {
       "code": "E3020",
@@ -557,7 +691,9 @@
       "message": "cannot assign negative value to unsigned type",
       "usedFor": "Assigning negative literal to unsigned int type",
       "example": "cannot assign negative value -5 to unsigned type 'uint'",
-      "category": "type"
+      "category": "type",
+      "howToFix": "Unsigned types cannot hold negative values. Use a signed type or ensure the value is non-negative.",
+      "relatedErrors": ["E3019"]
     },
     {
       "code": "E4001",
@@ -565,7 +701,9 @@
       "message": "variable not found in scope",
       "usedFor": "Using undeclared variable",
       "example": "identifier not found: 'foo'",
-      "category": "reference"
+      "category": "reference",
+      "howToFix": "Declare the variable before using it, or check for typos in the variable name.",
+      "relatedErrors": ["E4002"]
     },
     {
       "code": "E4002",
@@ -573,7 +711,9 @@
       "message": "function not defined",
       "usedFor": "Calling undeclared function",
       "example": "undefined function: 'foo'",
-      "category": "reference"
+      "category": "reference",
+      "howToFix": "Define the function before calling it, import the module containing it, or check for typos.",
+      "relatedErrors": ["E4001", "E4007"]
     },
     {
       "code": "E4003",
@@ -581,7 +721,9 @@
       "message": "field does not exist on type",
       "usedFor": "Accessing non-existent struct field",
       "example": "field 'foo' not found",
-      "category": "reference"
+      "category": "reference",
+      "howToFix": "Check that the field exists on the struct. Verify the field name spelling.",
+      "relatedErrors": ["E4005"]
     },
     {
       "code": "E4004",
@@ -589,7 +731,9 @@
       "message": "enum value does not exist",
       "usedFor": "Accessing non-existent enum value",
       "example": "enum value 'BAR' not found in enum 'Status'",
-      "category": "reference"
+      "category": "reference",
+      "howToFix": "Use a value that exists in the enum definition.",
+      "relatedErrors": ["E4003"]
     },
     {
       "code": "E4005",
@@ -597,7 +741,9 @@
       "message": "member not found in module",
       "usedFor": "`math.nonexistent()`",
       "example": "'bar' not found in module 'math'",
-      "category": "reference"
+      "category": "reference",
+      "howToFix": "Check that the function or constant exists in the module. Verify the name spelling.",
+      "relatedErrors": ["E4003", "E4007"]
     },
     {
       "code": "E4006",
@@ -605,7 +751,9 @@
       "message": "type not found for new expression",
       "usedFor": "`new UnknownType{}`",
       "example": "undefined type: 'Foo'",
-      "category": "reference"
+      "category": "reference",
+      "howToFix": "Define the struct before using `new` with it.",
+      "relatedErrors": ["E3008"]
     },
     {
       "code": "E4007",
@@ -613,7 +761,9 @@
       "message": "module has not been imported",
       "usedFor": "Using module without import",
       "example": "cannot use 'math': module not imported",
-      "category": "reference"
+      "category": "reference",
+      "howToFix": "Add `import @modulename` at the top of your file.",
+      "relatedErrors": ["E4005", "E6002"]
     },
     {
       "code": "E4008",
@@ -621,7 +771,9 @@
       "message": "function exists in multiple modules",
       "usedFor": "With `using`, function in multiple modules",
       "example": "function 'len' found in multiple modules: arrays, strings",
-      "category": "reference"
+      "category": "reference",
+      "howToFix": "Use the module prefix to disambiguate: `module.function()` instead of just `function()`.",
+      "relatedErrors": []
     },
     {
       "code": "E4009",
@@ -629,7 +781,9 @@
       "message": "program has no entry point",
       "usedFor": "Missing `main()` function",
       "example": "Program must define a main() function",
-      "category": "reference"
+      "category": "reference",
+      "howToFix": "Add a `do main() { }` function as the entry point for your program.",
+      "relatedErrors": []
     },
     {
       "code": "E4010",
@@ -637,7 +791,9 @@
       "message": "cannot access member of nil",
       "usedFor": "`nilValue.field`",
       "example": "nil reference: cannot access member 'x' of nil",
-      "category": "reference"
+      "category": "reference",
+      "howToFix": "Check that the value is not nil before accessing members. Use conditional checks.",
+      "relatedErrors": ["E5005"]
     },
     {
       "code": "E4011",
@@ -645,7 +801,9 @@
       "message": "type does not support member access",
       "usedFor": "`123.field`",
       "example": "member access not supported on type INTEGER",
-      "category": "reference"
+      "category": "reference",
+      "howToFix": "Only structs and modules support member access with `.`. Check the value type.",
+      "relatedErrors": ["E4010"]
     },
     {
       "code": "E5001",
@@ -653,7 +811,9 @@
       "message": "cannot divide by zero",
       "usedFor": "`x / 0`",
       "example": "division by zero",
-      "category": "runtime"
+      "category": "runtime",
+      "howToFix": "Check that the divisor is not zero before dividing.",
+      "relatedErrors": ["E5002"]
     },
     {
       "code": "E5002",
@@ -661,7 +821,9 @@
       "message": "cannot modulo by zero",
       "usedFor": "`x % 0`",
       "example": "modulo by zero",
-      "category": "runtime"
+      "category": "runtime",
+      "howToFix": "Check that the divisor is not zero before using modulo.",
+      "relatedErrors": ["E5001"]
     },
     {
       "code": "E5003",
@@ -669,7 +831,9 @@
       "message": "index outside valid range",
       "usedFor": "`arr[100]` when array has 5 elements",
       "example": "index out of bounds: attempted to access index 100, but valid range is 0-4",
-      "category": "runtime"
+      "category": "runtime",
+      "howToFix": "Ensure your index is within valid range: `0` to `len(array) - 1`.",
+      "relatedErrors": ["E5004"]
     },
     {
       "code": "E5004",
@@ -677,7 +841,9 @@
       "message": "cannot index empty collection",
       "usedFor": "`arr[0]` when array is empty",
       "example": "index out of bounds: array is empty (length 0)",
-      "category": "runtime"
+      "category": "runtime",
+      "howToFix": "Check that the collection is not empty before indexing.",
+      "relatedErrors": ["E5003"]
     },
     {
       "code": "E5005",
@@ -685,7 +851,9 @@
       "message": "cannot perform operation on nil",
       "usedFor": "`nil + 1`",
       "example": "nil reference: cannot use nil with operator '+'",
-      "category": "runtime"
+      "category": "runtime",
+      "howToFix": "Check that the value is not nil before performing operations on it.",
+      "relatedErrors": ["E4010"]
     },
     {
       "code": "E5006",
@@ -693,7 +861,9 @@
       "message": "cannot modify const variable",
       "usedFor": "Reassigning const",
       "example": "cannot assign to immutable variable 'x' (declared as const)",
-      "category": "runtime"
+      "category": "runtime",
+      "howToFix": "Use `var` instead of `const` if you need to modify the variable, or remove the assignment.",
+      "relatedErrors": ["E5007", "E2008"]
     },
     {
       "code": "E5007",
@@ -701,7 +871,9 @@
       "message": "cannot modify const array",
       "usedFor": "Modifying const array",
       "example": "cannot modify immutable array (declared as const)",
-      "category": "runtime"
+      "category": "runtime",
+      "howToFix": "Use `var` instead of `const` for the array if you need to modify it.",
+      "relatedErrors": ["E5006"]
     },
     {
       "code": "E5008",
@@ -709,7 +881,9 @@
       "message": "incorrect number of arguments",
       "usedFor": "`foo(1, 2)` when foo takes 3",
       "example": "wrong number of arguments: expected 3, got 2",
-      "category": "runtime"
+      "category": "runtime",
+      "howToFix": "Pass the correct number of arguments as defined in the function signature.",
+      "relatedErrors": ["E7001"]
     },
     {
       "code": "E5009",
@@ -717,7 +891,9 @@
       "message": "break not inside loop",
       "usedFor": "`break` outside for/while",
       "example": "break statement outside loop",
-      "category": "runtime"
+      "category": "runtime",
+      "howToFix": "`break` can only be used inside `for`, `while`, or `for_each` loops.",
+      "relatedErrors": ["E5010"]
     },
     {
       "code": "E5010",
@@ -725,7 +901,9 @@
       "message": "continue not inside loop",
       "usedFor": "`continue` outside for/while",
       "example": "continue statement outside loop",
-      "category": "runtime"
+      "category": "runtime",
+      "howToFix": "`continue` can only be used inside `for`, `while`, or `for_each` loops.",
+      "relatedErrors": ["E5009"]
     },
     {
       "code": "E5011",
@@ -733,7 +911,9 @@
       "message": "function return value not used",
       "usedFor": "Ignoring return without `@ignore`",
       "example": "return value from function not used (use @ignore to discard)",
-      "category": "runtime"
+      "category": "runtime",
+      "howToFix": "Assign the return value to a variable or explicitly ignore it if not needed.",
+      "relatedErrors": []
     },
     {
       "code": "E5012",
@@ -741,7 +921,9 @@
       "message": "assignment value count mismatch",
       "usedFor": "`a, b = getOne()`",
       "example": "expected 2 values, got 1",
-      "category": "runtime"
+      "category": "runtime",
+      "howToFix": "Ensure the number of variables matches the number of values in multiple assignment.",
+      "relatedErrors": ["E3013"]
     },
     {
       "code": "E5013",
@@ -749,7 +931,9 @@
       "message": "range start must be integer",
       "usedFor": "`for i in \"a\"..10`",
       "example": "range start must be integer",
-      "category": "runtime"
+      "category": "runtime",
+      "howToFix": "Range start must be an integer: `0..10` not `\"a\"..10`.",
+      "relatedErrors": ["E5014"]
     },
     {
       "code": "E5014",
@@ -757,7 +941,9 @@
       "message": "range end must be integer",
       "usedFor": "`for i in 1..\"b\"`",
       "example": "range end must be integer",
-      "category": "runtime"
+      "category": "runtime",
+      "howToFix": "Range end must be an integer: `0..10` not `0..\"z\"`.",
+      "relatedErrors": ["E5013"]
     },
     {
       "code": "E5015",
@@ -765,7 +951,9 @@
       "message": "postfix operator needs variable",
       "usedFor": "`5++`",
       "example": "postfix operator requires identifier",
-      "category": "runtime"
+      "category": "runtime",
+      "howToFix": "`++` and `--` can only be used on variables: `x++` not `5++`.",
+      "relatedErrors": []
     },
     {
       "code": "E6001",
@@ -773,7 +961,9 @@
       "message": "circular import detected",
       "usedFor": "A imports B, B imports A",
       "example": "circular import detected: a.ez -> b.ez -> a.ez",
-      "category": "import"
+      "category": "import",
+      "howToFix": "Restructure your modules to remove the circular dependency. Consider creating a shared module.",
+      "relatedErrors": []
     },
     {
       "code": "E6002",
@@ -781,7 +971,9 @@
       "message": "module file not found",
       "usedFor": "`import nonexistent`",
       "example": "module 'foo' not found",
-      "category": "import"
+      "category": "import",
+      "howToFix": "Check the module path and name. Ensure the module file exists.",
+      "relatedErrors": ["E4007"]
     },
     {
       "code": "E6003",
@@ -789,7 +981,9 @@
       "message": "module has invalid format",
       "usedFor": "Module file with syntax errors",
       "example": "invalid module 'foo': parse error",
-      "category": "import"
+      "category": "import",
+      "howToFix": "Check the module file for syntax errors.",
+      "relatedErrors": ["E6004"]
     },
     {
       "code": "E6004",
@@ -797,7 +991,9 @@
       "message": "failed to load module",
       "usedFor": "Module file read error",
       "example": "failed to load module 'foo': permission denied",
-      "category": "import"
+      "category": "import",
+      "howToFix": "Check file permissions and ensure the module file is readable.",
+      "relatedErrors": ["E6002", "E6003"]
     },
     {
       "code": "E6005",
@@ -805,7 +1001,9 @@
       "message": "module name does not match directory",
       "usedFor": "Module declaration name differs from directory name",
       "example": "module name 'foo' does not match directory name 'bar'",
-      "category": "import"
+      "category": "import",
+      "howToFix": "The `module` declaration must match the directory name containing the file.",
+      "relatedErrors": ["E6006", "W4001"]
     },
     {
       "code": "E6006",
@@ -813,7 +1011,9 @@
       "message": "files in directory declare different module names",
       "usedFor": "Multiple files in same directory declare different module names",
       "example": "files in directory declare conflicting module names: 'foo' vs 'bar'",
-      "category": "import"
+      "category": "import",
+      "howToFix": "All files in a directory must declare the same module name.",
+      "relatedErrors": ["E6005"]
     },
     {
       "code": "E6007",
@@ -821,103 +1021,189 @@
       "message": "cannot import from internal/ directory outside package",
       "usedFor": "Attempting to import internal module from outside its parent package",
       "example": "cannot import internal module 'pkg/internal/util' from outside 'pkg'",
-      "category": "import"
+      "category": "import",
+      "howToFix": "Files in `internal/` directories can only be imported by files in the same package.",
+      "relatedErrors": ["E6009"]
     },
     {
-      "code": "E6010",
+      "code": "E6008",
       "slug": "module-member-readonly",
       "message": "cannot assign to module member",
       "usedFor": "Attempting to modify a module's exported member",
       "example": "cannot assign to module member 'math.PI'",
-      "category": "import"
+      "category": "import",
+      "howToFix": "Module-level constants and exports cannot be reassigned from outside the module.",
+      "relatedErrors": ["E5006"]
     },
     {
-      "code": "E6011",
+      "code": "E6009",
       "slug": "private-access-denied",
       "message": "cannot access private member from outside module",
       "usedFor": "Accessing private (unexported) member from another module",
       "example": "cannot access private member 'helper' from outside module 'utils'",
-      "category": "import"
+      "category": "import",
+      "howToFix": "Private members (lowercase names) cannot be accessed from outside the module. Use exported members instead.",
+      "relatedErrors": ["E6007"]
     },
     {
       "code": "E7001",
-      "slug": "builtin-arg-count",
-      "message": "wrong argument count for builtin",
-      "usedFor": "Wrong number of args to builtin",
+      "slug": "wrong-argument-count",
+      "message": "wrong number of arguments",
+      "usedFor": "Wrong number of args to stdlib function",
       "example": "len() takes exactly 1 argument, got 2",
-      "category": "builtin"
+      "category": "stdlib",
+      "howToFix": "Check the function signature and pass the correct number of arguments.",
+      "relatedErrors": ["E5008"]
     },
     {
       "code": "E7002",
-      "slug": "builtin-arg-type",
-      "message": "wrong argument type for builtin",
-      "usedFor": "Wrong type to builtin",
-      "example": "typeof() takes exactly 1 argument",
-      "category": "builtin"
+      "slug": "requires-array",
+      "message": "argument must be an array",
+      "usedFor": "Non-array to array function",
+      "example": "arrays.len() requires an array",
+      "category": "stdlib",
+      "howToFix": "Pass an array to this function.",
+      "relatedErrors": ["E7003", "E7004", "E7005", "E7006", "E7007", "E7008", "E7009"]
     },
     {
       "code": "E7003",
-      "slug": "builtin-requires-array",
-      "message": "builtin requires array argument",
-      "usedFor": "Non-array to array builtin",
-      "example": "arrays.len() requires an array",
-      "category": "builtin"
+      "slug": "requires-string",
+      "message": "argument must be a string",
+      "usedFor": "Non-string to string function",
+      "example": "strings.len() requires a string argument",
+      "category": "stdlib",
+      "howToFix": "Pass a string to this function.",
+      "relatedErrors": ["E7002", "E7004", "E7005", "E7006", "E7007", "E7008", "E7009"]
     },
     {
       "code": "E7004",
-      "slug": "builtin-requires-string",
-      "message": "builtin requires string argument",
-      "usedFor": "Non-string to string builtin",
-      "example": "strings.len() requires a string argument",
-      "category": "builtin"
+      "slug": "requires-integer",
+      "message": "argument must be an integer",
+      "usedFor": "Non-integer where integer needed",
+      "example": "arrays.get() requires an integer index",
+      "category": "stdlib",
+      "howToFix": "Pass an integer to this function.",
+      "relatedErrors": ["E7005"]
     },
     {
       "code": "E7005",
-      "slug": "builtin-requires-number",
-      "message": "builtin requires numeric argument",
-      "usedFor": "Non-number to math builtin",
+      "slug": "requires-number",
+      "message": "argument must be a number",
+      "usedFor": "Non-number to math function",
       "example": "expected number, got STRING",
-      "category": "builtin"
+      "category": "stdlib",
+      "howToFix": "Pass an integer or float to this function.",
+      "relatedErrors": ["E7004"]
     },
     {
       "code": "E7006",
-      "slug": "builtin-requires-integer",
-      "message": "builtin requires integer argument",
-      "usedFor": "Non-integer where integer needed",
-      "example": "arrays.get() requires an integer index",
-      "category": "builtin"
+      "slug": "requires-function",
+      "message": "argument must be a function",
+      "usedFor": "Non-function callback",
+      "example": "arrays.map() requires a function",
+      "category": "stdlib",
+      "howToFix": "Pass a function reference to this function.",
+      "relatedErrors": ["E7002", "E7003", "E7004", "E7005", "E7007", "E7008", "E7009"]
     },
     {
       "code": "E7007",
-      "slug": "builtin-requires-function",
-      "message": "builtin requires function argument",
-      "usedFor": "Non-function callback",
-      "example": "arrays.map() requires a function",
-      "category": "builtin"
+      "slug": "requires-map",
+      "message": "argument must be a map",
+      "usedFor": "Non-map to map function",
+      "example": "maps.keys() requires a map argument",
+      "category": "stdlib",
+      "howToFix": "Pass a map to this function.",
+      "relatedErrors": ["E7002", "E7003", "E7004", "E7005", "E7006", "E7008", "E7009"]
     },
     {
       "code": "E7008",
-      "slug": "len-unsupported-type",
-      "message": "len not supported for type",
-      "usedFor": "`len(123)`",
-      "example": "len() not supported for INTEGER",
-      "category": "builtin"
+      "slug": "requires-boolean",
+      "message": "argument must be a boolean",
+      "usedFor": "Non-boolean where boolean needed",
+      "example": "expected boolean, got STRING",
+      "category": "stdlib",
+      "howToFix": "Pass a boolean (`true` or `false`) to this function.",
+      "relatedErrors": ["E7002", "E7003", "E7004", "E7005", "E7006", "E7007", "E7009"]
     },
     {
       "code": "E7009",
+      "slug": "requires-char",
+      "message": "argument must be a char",
+      "usedFor": "Non-char where char needed",
+      "example": "expected char, got STRING",
+      "category": "stdlib",
+      "howToFix": "Pass a character to this function.",
+      "relatedErrors": ["E7002", "E7003", "E7004", "E7005", "E7006", "E7007", "E7008"]
+    },
+    {
+      "code": "E7010",
+      "slug": "invalid-argument-value",
+      "message": "argument value is invalid",
+      "usedFor": "Argument value out of expected range or format",
+      "example": "invalid argument value",
+      "category": "stdlib",
+      "howToFix": "Check the function documentation for valid argument values.",
+      "relatedErrors": ["E7011", "E7012", "E7013"]
+    },
+    {
+      "code": "E7011",
+      "slug": "negative-not-allowed",
+      "message": "argument cannot be negative",
+      "usedFor": "Negative value where positive required",
+      "example": "argument cannot be negative",
+      "category": "stdlib",
+      "howToFix": "Pass a non-negative value (zero or positive).",
+      "relatedErrors": ["E7012"]
+    },
+    {
+      "code": "E7012",
+      "slug": "zero-not-allowed",
+      "message": "argument cannot be zero",
+      "usedFor": "Zero value where non-zero required",
+      "example": "argument cannot be zero",
+      "category": "stdlib",
+      "howToFix": "Pass a non-zero value.",
+      "relatedErrors": ["E7011"]
+    },
+    {
+      "code": "E7013",
+      "slug": "empty-not-allowed",
+      "message": "argument cannot be empty",
+      "usedFor": "Empty array/string where non-empty required",
+      "example": "argument cannot be empty",
+      "category": "stdlib",
+      "howToFix": "Pass a non-empty collection or string.",
+      "relatedErrors": ["E9001"]
+    },
+    {
+      "code": "E7014",
       "slug": "type-conversion-failed",
       "message": "type conversion failed",
       "usedFor": "Failed int/float/string conversion",
       "example": "cannot convert STRING to int",
-      "category": "builtin"
+      "category": "stdlib",
+      "howToFix": "Ensure the value can be converted to the target type.",
+      "relatedErrors": ["E3005", "E3006"]
+    },
+    {
+      "code": "E7015",
+      "slug": "len-unsupported-type",
+      "message": "len not supported for type",
+      "usedFor": "`len(123)`",
+      "example": "len() not supported for INTEGER",
+      "category": "stdlib",
+      "howToFix": "`len()` only works on arrays, strings, and maps.",
+      "relatedErrors": []
     },
     {
       "code": "E8001",
       "slug": "sqrt-negative",
-      "message": "cannot take square root of negative",
+      "message": "cannot take square root of negative number",
       "usedFor": "`math.sqrt(-1)`",
       "example": "math.sqrt() cannot take negative number",
-      "category": "math"
+      "category": "math",
+      "howToFix": "Pass a non-negative number to `math.sqrt()`. Use `math.abs()` first if needed.",
+      "relatedErrors": ["E8002"]
     },
     {
       "code": "E8002",
@@ -925,455 +1211,139 @@
       "message": "logarithm requires positive number",
       "usedFor": "`math.log(0)` or `math.log(-1)`",
       "example": "math.log() requires positive number",
-      "category": "math"
+      "category": "math",
+      "howToFix": "Pass a positive number (greater than zero) to logarithm functions.",
+      "relatedErrors": ["E8001"]
     },
     {
       "code": "E8003",
-      "slug": "log2-non-positive",
-      "message": "log2 requires positive number",
-      "usedFor": "`math.log2(0)`",
-      "example": "math.log2() requires positive number",
-      "category": "math"
+      "slug": "trig-out-of-range",
+      "message": "trigonometric function input out of valid range",
+      "usedFor": "`math.asin(2)` or `math.acos(2)`",
+      "example": "math.asin() requires value between -1 and 1",
+      "category": "math",
+      "howToFix": "Ensure the input is within the valid range for the trigonometric function.",
+      "relatedErrors": []
     },
     {
       "code": "E8004",
-      "slug": "log10-non-positive",
-      "message": "log10 requires positive number",
-      "usedFor": "`math.log10(0)`",
-      "example": "math.log10() requires positive number",
-      "category": "math"
+      "slug": "factorial-negative",
+      "message": "factorial requires non-negative integer",
+      "usedFor": "`math.factorial(-1)`",
+      "example": "math.factorial() requires non-negative integer",
+      "category": "math",
+      "howToFix": "Pass a non-negative integer to `math.factorial()`.",
+      "relatedErrors": ["E8005"]
     },
     {
       "code": "E8005",
-      "slug": "asin-out-of-range",
-      "message": "asin requires value in [-1, 1]",
-      "usedFor": "`math.asin(2)`",
-      "example": "math.asin() requires value between -1 and 1",
-      "category": "math"
+      "slug": "factorial-overflow",
+      "message": "factorial result exceeds maximum value",
+      "usedFor": "`math.factorial(21)`",
+      "example": "math.factorial() overflow for n > 20",
+      "category": "math",
+      "howToFix": "Use a smaller input value. Factorial of 20 is the maximum for 64-bit integers.",
+      "relatedErrors": ["E8004"]
     },
     {
       "code": "E8006",
-      "slug": "acos-out-of-range",
-      "message": "acos requires value in [-1, 1]",
-      "usedFor": "`math.acos(2)`",
-      "example": "math.acos() requires value between -1 and 1",
-      "category": "math"
-    },
-    {
-      "code": "E8007",
-      "slug": "factorial-negative",
-      "message": "factorial requires non-negative",
-      "usedFor": "`math.factorial(-1)`",
-      "example": "math.factorial() requires non-negative integer",
-      "category": "math"
-    },
-    {
-      "code": "E8008",
-      "slug": "factorial-overflow",
-      "message": "factorial result too large",
-      "usedFor": "`math.factorial(21)`",
-      "example": "math.factorial() overflow for n > 20",
-      "category": "math"
-    },
-    {
-      "code": "E8009",
-      "slug": "random-max-not-positive",
-      "message": "random max must be positive",
-      "usedFor": "`math.random(0)` or `math.random(-5)`",
-      "example": "math.random() max must be positive",
-      "category": "math"
-    },
-    {
-      "code": "E8010",
-      "slug": "random-max-less-than-min",
-      "message": "random max must exceed min",
-      "usedFor": "`math.random(10, 5)`",
-      "example": "math.random() max must be greater than min",
-      "category": "math"
-    },
-    {
-      "code": "E8011",
-      "slug": "random-float-arg-count",
-      "message": "random_float wrong argument count",
-      "usedFor": "`math.random_float(1)`",
-      "example": "math.random_float() takes 0 or 2 arguments",
-      "category": "math"
-    },
-    {
-      "code": "E8012",
-      "slug": "avg-no-arguments",
-      "message": "avg requires at least one value",
-      "usedFor": "`math.avg()`",
-      "example": "math.avg() requires at least 1 argument",
-      "category": "math"
+      "slug": "random-invalid-range",
+      "message": "random range is invalid",
+      "usedFor": "`math.random(0)` or `math.random(10, 5)`",
+      "example": "math.random() range is invalid",
+      "category": "math",
+      "howToFix": "Ensure the minimum is less than the maximum in random range functions.",
+      "relatedErrors": []
     },
     {
       "code": "E9001",
-      "slug": "array-pop-empty",
-      "message": "cannot pop from empty array",
-      "usedFor": "`arrays.pop(emptyArray)`",
-      "example": "arrays.pop() cannot pop from empty array",
-      "category": "array"
+      "slug": "array-is-empty",
+      "message": "operation requires non-empty array",
+      "usedFor": "Operations on empty array like pop, shift, min, max, avg",
+      "example": "operation requires non-empty array",
+      "category": "array",
+      "howToFix": "Check that the array is not empty before performing the operation using `len(arr) > 0`.",
+      "relatedErrors": ["E5004", "E7013"]
     },
     {
       "code": "E9002",
-      "slug": "array-shift-empty",
-      "message": "cannot shift from empty array",
-      "usedFor": "`arrays.shift(emptyArray)`",
-      "example": "arrays.shift() cannot shift from empty array",
-      "category": "array"
+      "slug": "array-non-numeric",
+      "message": "operation requires numeric array",
+      "usedFor": "Numeric operations on non-numeric array",
+      "example": "operation requires numeric array",
+      "category": "array",
+      "howToFix": "This operation requires an array of numbers (integers or floats).",
+      "relatedErrors": []
     },
     {
       "code": "E9003",
-      "slug": "array-insert-out-of-bounds",
-      "message": "insert index out of bounds",
-      "usedFor": "`arrays.insert(arr, 100, val)`",
-      "example": "arrays.insert() index out of bounds",
-      "category": "array"
-    },
-    {
-      "code": "E9004",
-      "slug": "array-get-out-of-bounds",
-      "message": "get index out of bounds",
-      "usedFor": "`arrays.get(arr, 100)`",
-      "example": "arrays.get() index out of bounds",
-      "category": "array"
-    },
-    {
-      "code": "E9005",
-      "slug": "array-set-out-of-bounds",
-      "message": "set index out of bounds",
-      "usedFor": "`arrays.set(arr, 100, val)`",
-      "example": "arrays.set() index out of bounds",
-      "category": "array"
-    },
-    {
-      "code": "E9006",
-      "slug": "array-remove-at-out-of-bounds",
-      "message": "remove_at index out of bounds",
-      "usedFor": "`arrays.remove_at(arr, 100)`",
-      "example": "arrays.remove_at() index out of bounds",
-      "category": "array"
-    },
-    {
-      "code": "E9007",
-      "slug": "array-min-empty",
-      "message": "cannot get min of empty array",
-      "usedFor": "`arrays.min(emptyArray)`",
-      "example": "arrays.min() requires non-empty array",
-      "category": "array"
-    },
-    {
-      "code": "E9008",
-      "slug": "array-max-empty",
-      "message": "cannot get max of empty array",
-      "usedFor": "`arrays.max(emptyArray)`",
-      "example": "arrays.max() requires non-empty array",
-      "category": "array"
-    },
-    {
-      "code": "E9009",
-      "slug": "array-avg-empty",
-      "message": "cannot get avg of empty array",
-      "usedFor": "`arrays.avg(emptyArray)`",
-      "example": "arrays.avg() requires non-empty array",
-      "category": "array"
-    },
-    {
-      "code": "E9010",
-      "slug": "array-sum-non-numeric",
-      "message": "sum requires numeric array",
-      "usedFor": "`arrays.sum([\"a\", \"b\"])`",
-      "example": "arrays.sum() requires numeric array",
-      "category": "array"
-    },
-    {
-      "code": "E9011",
-      "slug": "array-product-non-numeric",
-      "message": "product requires numeric array",
-      "usedFor": "`arrays.product([\"a\", \"b\"])`",
-      "example": "arrays.product() requires numeric array",
-      "category": "array"
-    },
-    {
-      "code": "E9012",
-      "slug": "array-avg-non-numeric",
-      "message": "avg requires numeric array",
-      "usedFor": "`arrays.avg([\"a\", \"b\"])`",
-      "example": "arrays.avg() requires numeric array",
-      "category": "array"
-    },
-    {
-      "code": "E9013",
-      "slug": "array-range-step-zero",
+      "slug": "range-step-zero",
       "message": "range step cannot be zero",
       "usedFor": "`arrays.range(0, 10, 0)`",
       "example": "arrays.range() step cannot be zero",
-      "category": "array"
+      "category": "array",
+      "howToFix": "Range step must be non-zero. Use a positive or negative integer.",
+      "relatedErrors": ["E7012"]
     },
     {
-      "code": "E9014",
-      "slug": "array-concat-requires-arrays",
-      "message": "concat requires array arguments",
-      "usedFor": "`arrays.concat(arr, \"string\")`",
-      "example": "arrays.concat() requires arrays",
-      "category": "array"
-    },
-    {
-      "code": "E9015",
-      "slug": "array-zip-requires-arrays",
-      "message": "zip requires array arguments",
-      "usedFor": "`arrays.zip(arr, \"string\")`",
-      "example": "arrays.zip() requires arrays",
-      "category": "array"
-    },
-    {
-      "code": "E9016",
-      "slug": "array-slice-invalid-indices",
-      "message": "slice requires integer indices",
-      "usedFor": "`arrays.slice(arr, \"a\", \"b\")`",
-      "example": "arrays.slice() requires integer indices",
-      "category": "array"
-    },
-    {
-      "code": "E9017",
-      "slug": "array-repeat-invalid-count",
-      "message": "repeat requires integer count",
-      "usedFor": "`arrays.repeat(val, \"5\")`",
-      "example": "arrays.repeat() requires integer count",
-      "category": "array"
-    },
-    {
-      "code": "E9018",
-      "slug": "array-join-invalid-separator",
-      "message": "join requires string separator",
-      "usedFor": "`arrays.join(arr, 123)`",
-      "example": "arrays.join() requires a string separator",
-      "category": "array"
-    },
-    {
-      "code": "E9020",
-      "slug": "unusable-as-map-key",
-      "message": "unusable as map key",
-      "usedFor": "Using non-hashable type as map key",
-      "example": "type ARRAY is not usable as a map key",
-      "category": "array"
+      "code": "E9004",
+      "slug": "chunk-size-invalid",
+      "message": "chunk size must be greater than zero",
+      "usedFor": "`arrays.chunk(arr, 0)`",
+      "example": "arrays.chunk() size must be greater than zero",
+      "category": "array",
+      "howToFix": "Chunk size must be greater than zero.",
+      "relatedErrors": ["E7012"]
     },
     {
       "code": "E10001",
-      "slug": "string-split-invalid-separator",
-      "message": "split requires string separator",
-      "usedFor": "`strings.split(str, 123)`",
-      "example": "strings.split() requires string arguments",
-      "category": "string"
-    },
-    {
-      "code": "E10002",
-      "slug": "string-join-invalid-array",
-      "message": "join requires array first argument",
-      "usedFor": "`strings.join(\"str\", \",\")`",
-      "example": "strings.join() requires an array as first argument",
-      "category": "string"
-    },
-    {
-      "code": "E10003",
-      "slug": "string-replace-invalid-args",
-      "message": "replace requires string arguments",
-      "usedFor": "`strings.replace(str, 1, 2)`",
-      "example": "strings.replace() requires string arguments",
-      "category": "string"
-    },
-    {
-      "code": "E10004",
-      "slug": "string-index-invalid-args",
-      "message": "index requires string arguments",
-      "usedFor": "`strings.index(str, 123)`",
-      "example": "strings.index() requires string arguments",
-      "category": "string"
-    },
-    {
-      "code": "E10005",
-      "slug": "string-contains-invalid-args",
-      "message": "contains requires string arguments",
-      "usedFor": "`strings.contains(str, 123)`",
-      "example": "strings.contains() requires string arguments",
-      "category": "string"
-    },
-    {
-      "code": "E10006",
-      "slug": "string-starts-with-invalid-args",
-      "message": "starts_with requires string arguments",
-      "usedFor": "`strings.starts_with(str, 123)`",
-      "example": "strings.starts_with() requires string arguments",
-      "category": "string"
-    },
-    {
-      "code": "E10007",
-      "slug": "string-ends-with-invalid-args",
-      "message": "ends_with requires string arguments",
-      "usedFor": "`strings.ends_with(str, 123)`",
-      "example": "strings.ends_with() requires string arguments",
-      "category": "string"
+      "slug": "repeat-count-negative",
+      "message": "repeat count cannot be negative",
+      "usedFor": "`strings.repeat(str, -1)`",
+      "example": "strings.repeat() count cannot be negative",
+      "category": "string",
+      "howToFix": "Pass a non-negative integer as the repeat count.",
+      "relatedErrors": ["E7011"]
     },
     {
       "code": "E11001",
-      "slug": "time-sleep-invalid-arg",
-      "message": "sleep requires numeric argument",
-      "usedFor": "`time.sleep(\"5\")`",
-      "example": "time.sleep() requires a number",
-      "category": "time"
-    },
-    {
-      "code": "E11002",
-      "slug": "time-sleep-ms-invalid-arg",
-      "message": "sleep_ms requires integer argument",
-      "usedFor": "`time.sleep_ms(\"100\")`",
-      "example": "time.sleep_ms() requires an integer",
-      "category": "time"
-    },
-    {
-      "code": "E11003",
-      "slug": "time-format-invalid-format",
-      "message": "format requires string format",
-      "usedFor": "`time.format(123)`",
-      "example": "time.format() requires a string format",
-      "category": "time"
-    },
-    {
-      "code": "E11004",
-      "slug": "time-format-invalid-timestamp",
-      "message": "format requires integer timestamp",
-      "usedFor": "`time.format(\"abc\", \"YYYY\")`",
-      "example": "time.format() requires an integer timestamp",
-      "category": "time"
-    },
-    {
-      "code": "E11005",
       "slug": "time-parse-failed",
       "message": "failed to parse time string",
-      "usedFor": "Invalid time string",
-      "example": "time.parse() failed: parsing time \"abc\"",
-      "category": "time"
-    },
-    {
-      "code": "E11006",
-      "slug": "time-parse-invalid-args",
-      "message": "parse requires string arguments",
-      "usedFor": "`time.parse(123, 456)`",
-      "example": "time.parse() requires a string",
-      "category": "time"
-    },
-    {
-      "code": "E11007",
-      "slug": "time-make-invalid-args",
-      "message": "make requires integer arguments",
-      "usedFor": "`time.make(\"2024\", 1, 1)`",
-      "example": "time.make() requires integer arguments",
-      "category": "time"
-    },
-    {
-      "code": "E11008",
-      "slug": "time-add-invalid-timestamp",
-      "message": "time add requires integer timestamp",
-      "usedFor": "`time.add_days(\"abc\", 5)`",
-      "example": "time.add_days() requires integer timestamp",
-      "category": "time"
-    },
-    {
-      "code": "E11009",
-      "slug": "time-add-invalid-amount",
-      "message": "time add requires integer amount",
-      "usedFor": "`time.add_days(ts, \"5\")`",
-      "example": "time.add_days() requires integer days",
-      "category": "time"
-    },
-    {
-      "code": "E11010",
-      "slug": "time-diff-invalid-args",
-      "message": "diff requires integer timestamps",
-      "usedFor": "`time.diff(\"a\", \"b\")`",
-      "example": "time.diff() requires integer timestamps",
-      "category": "time"
-    },
-    {
-      "code": "E11011",
-      "slug": "time-is-leap-year-invalid-arg",
-      "message": "is_leap_year requires integer year",
-      "usedFor": "`time.is_leap_year(\"2024\")`",
-      "example": "time.is_leap_year() requires an integer year",
-      "category": "time"
-    },
-    {
-      "code": "E11012",
-      "slug": "time-days-in-month-invalid-args",
-      "message": "days_in_month requires integer arguments",
-      "usedFor": "`time.days_in_month(\"2024\", \"1\")`",
-      "example": "time.days_in_month() requires integer arguments",
-      "category": "time"
-    },
-    {
-      "code": "E11013",
-      "slug": "time-elapsed-invalid-arg",
-      "message": "elapsed_ms requires integer tick",
-      "usedFor": "`time.elapsed_ms(\"abc\")`",
-      "example": "time.elapsed_ms() requires integer tick",
-      "category": "time"
+      "usedFor": "Invalid time string format",
+      "example": "time.parse() failed: invalid format",
+      "category": "time",
+      "howToFix": "Ensure the time string matches the expected format. Check for typos in the date/time string.",
+      "relatedErrors": []
     },
     {
       "code": "E12001",
-      "slug": "map-requires-map",
-      "message": "function requires a map argument",
-      "usedFor": "Passing non-map to map function",
-      "example": "maps.keys() requires a map argument",
-      "category": "map"
-    },
-    {
-      "code": "E12002",
       "slug": "map-key-not-hashable",
       "message": "map key must be a hashable type",
       "usedFor": "Using non-hashable type (array, map, struct) as map key",
       "example": "map key must be a hashable type, got ARRAY",
-      "category": "map"
+      "category": "map",
+      "howToFix": "Map keys must be hashable types: `string`, `int`, `float`, `bool`, or `char`. Arrays and maps cannot be keys.",
+      "relatedErrors": []
     },
     {
-      "code": "E12003",
+      "code": "E12002",
       "slug": "map-immutable",
       "message": "cannot modify immutable map",
       "usedFor": "Attempting to modify a const map",
       "example": "cannot modify immutable map (declared as const)",
-      "category": "map"
+      "category": "map",
+      "howToFix": "Use `var` instead of `const` for the map if you need to modify it.",
+      "relatedErrors": ["E5006", "E5007"]
     },
     {
-      "code": "E12004",
-      "slug": "map-invalid-pair",
-      "message": "map element must be a [key, value] pair",
-      "usedFor": "Invalid map literal element",
-      "example": "map element must be a [key, value] pair",
-      "category": "map"
-    },
-    {
-      "code": "E12005",
-      "slug": "map-value-not-hashable",
-      "message": "map value is not hashable and cannot become a key",
-      "usedFor": "Using map value that can't be converted to key",
-      "example": "map value is not hashable and cannot be used as a key",
-      "category": "map"
-    },
-    {
-      "code": "E12006",
+      "code": "E12003",
       "slug": "map-key-not-found",
       "message": "key not found in map",
       "usedFor": "Accessing non-existent key in map",
       "example": "key 'foo' not found in map",
-      "category": "map"
-    },
-    {
-      "code": "E12007",
-      "slug": "map-key-not-found-compound",
-      "message": "key not found in map for compound assignment",
-      "usedFor": "Compound assignment (+=, -=, etc.) on non-existent key",
-      "example": "key 'count' not found in map for compound assignment",
-      "category": "map"
+      "category": "map",
+      "howToFix": "Check if the key exists using `maps.has(m, key)` before accessing.",
+      "relatedErrors": ["E5003"]
     },
     {
       "code": "W1001",
@@ -1381,7 +1351,10 @@
       "message": "variable declared but not used",
       "usedFor": "Variable declared but never referenced",
       "example": "variable 'x' is declared but never used",
-      "category": "warnings"
+      "category": "warnings",
+      "status": "Reserved",
+      "howToFix": "Use the variable, remove it, or suppress with `@Suppress(W1001)`.",
+      "relatedErrors": ["W1002", "W1003", "W1004"]
     },
     {
       "code": "W1002",
@@ -1389,7 +1362,10 @@
       "message": "module imported but not used",
       "usedFor": "Import statement for unused module",
       "example": "module 'math' is imported but never used",
-      "category": "warnings"
+      "category": "warnings",
+      "status": "Reserved",
+      "howToFix": "Use the imported module, remove the import, or suppress with `@Suppress(W1002)`.",
+      "relatedErrors": ["W1001", "W1003", "W1004"]
     },
     {
       "code": "W1003",
@@ -1397,7 +1373,10 @@
       "message": "function declared but not called",
       "usedFor": "Function defined but never invoked",
       "example": "function 'helper' is declared but never called",
-      "category": "warnings"
+      "category": "warnings",
+      "status": "Reserved",
+      "howToFix": "Call the function, remove it, or suppress with `@Suppress(W1003)`.",
+      "relatedErrors": ["W1001", "W1002", "W1004"]
     },
     {
       "code": "W1004",
@@ -1405,7 +1384,10 @@
       "message": "parameter declared but not used",
       "usedFor": "Function parameter never referenced in body",
       "example": "parameter 'x' is declared but never used",
-      "category": "warnings"
+      "category": "warnings",
+      "status": "Reserved",
+      "howToFix": "Use the parameter, prefix with `_` to indicate intentionally unused, or suppress with `@Suppress(W1004)`.",
+      "relatedErrors": ["W1001", "W1002", "W1003"]
     },
     {
       "code": "W2001",
@@ -1414,7 +1396,10 @@
       "usedFor": "Code after return/break/continue",
       "example": "unreachable code after return/break/continue",
       "category": "warnings",
-      "suppressible": "@suppress(W2001) or @suppress(unreachable_code)"
+      "status": "Implemented",
+      "suppressible": "@suppress(W2001) or @suppress(unreachable_code)",
+      "howToFix": "Remove the unreachable code or restructure your control flow. Suppress with `@Suppress(W2001)`.",
+      "relatedErrors": ["W2003"]
     },
     {
       "code": "W2002",
@@ -1422,7 +1407,10 @@
       "message": "variable shadows outer scope",
       "usedFor": "Inner scope variable with same name as outer",
       "example": "variable 'x' shadows variable in outer scope",
-      "category": "warnings"
+      "category": "warnings",
+      "status": "Reserved",
+      "howToFix": "Rename the inner variable to avoid confusion, or suppress with `@Suppress(W2002)`.",
+      "relatedErrors": ["W1001"]
     },
     {
       "code": "W2003",
@@ -1431,7 +1419,10 @@
       "usedFor": "Function with return type but no return",
       "example": "Function 'foo' declares return type(s) but has no return statement",
       "category": "warnings",
-      "suppressible": "@suppress(W2003) or @suppress(missing_return)"
+      "status": "Implemented",
+      "suppressible": "@suppress(W2003) or @suppress(missing_return)",
+      "howToFix": "Ensure all code paths return a value, or suppress with `@Suppress(W2003)`.",
+      "relatedErrors": ["E3012", "W2001"]
     },
     {
       "code": "W2004",
@@ -1439,7 +1430,10 @@
       "message": "implicit type conversion occurring",
       "usedFor": "Automatic type coercion",
       "example": "implicit conversion from int to float",
-      "category": "warnings"
+      "category": "warnings",
+      "status": "Reserved",
+      "howToFix": "Use explicit type conversion to make the intent clear, or suppress with `@Suppress(W2004)`.",
+      "relatedErrors": ["E3001"]
     },
     {
       "code": "W2005",
@@ -1447,7 +1441,10 @@
       "message": "using deprecated feature",
       "usedFor": "Use of deprecated syntax or function",
       "example": "feature 'xyz' is deprecated, use 'abc' instead",
-      "category": "warnings"
+      "category": "warnings",
+      "status": "Reserved",
+      "howToFix": "Update to use the recommended alternative, or suppress with `@Suppress(W2005)`.",
+      "relatedErrors": []
     },
     {
       "code": "W3001",
@@ -1455,7 +1452,10 @@
       "message": "block statement is empty",
       "usedFor": "Empty body in if/for/while/function",
       "example": "if statement has empty body",
-      "category": "warnings"
+      "category": "warnings",
+      "status": "Reserved",
+      "howToFix": "Add code to the block, add a comment explaining why it's empty, or suppress with `@Suppress(W3001)`.",
+      "relatedErrors": []
     },
     {
       "code": "W3002",
@@ -1463,7 +1463,10 @@
       "message": "condition is always true/false",
       "usedFor": "Constant condition in if/while",
       "example": "condition 'true' is always true",
-      "category": "warnings"
+      "category": "warnings",
+      "status": "Reserved",
+      "howToFix": "Simplify your condition or remove the check entirely. Suppress with `@Suppress(W3002)`.",
+      "relatedErrors": ["W2001"]
     },
     {
       "code": "W3003",
@@ -1472,15 +1475,21 @@
       "usedFor": "Declaring a fixed-size array but providing fewer elements than the declared size",
       "example": "array declared with size 10 but only 3 elements provided",
       "category": "warnings",
-      "suppressible": "@suppress(W3003) or @suppress(array_size_mismatch)"
+      "status": "Implemented",
+      "suppressible": "@suppress(W3003) or @suppress(array_size_mismatch)",
+      "howToFix": "Initialize all elements of a fixed-size array, or suppress with `@Suppress(W3003)`.",
+      "relatedErrors": ["E2032"]
     },
     {
-      "code": "W6001",
+      "code": "W4001",
       "slug": "module-name-mismatch",
       "message": "module name does not match directory name",
       "usedFor": "Warning when module declaration name differs from directory name",
       "example": "module name 'foo' does not match directory name 'bar'",
-      "category": "warnings"
+      "category": "warnings",
+      "status": "Implemented",
+      "howToFix": "Rename the module to match the directory name, or rename the directory. Suppress with `@Suppress(W4001)`.",
+      "relatedErrors": ["E6005", "E6006"]
     }
   ]
 }
