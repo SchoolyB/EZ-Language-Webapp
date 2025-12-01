@@ -34,7 +34,7 @@ temp ages map = {
 ## Basic Operations
 
 ### `get()`
-`(m map, key K) -> V`
+`(m map, key any) -> any`
 
 Retrieves a value by key.
 
@@ -51,7 +51,7 @@ std.println(age)  // 25
 **Errors:** [E12006](/language.ez/errors/E12006) if the key is not found.
 
 ### `set()`
-`(m map, key K, value V) -> void`
+`(m map, key any, value any) -> void`
 
 Sets a value for a key (adds or updates).
 
@@ -68,7 +68,7 @@ maps.set(ages, "Alice", 26)  // update existing
 **Errors:** [E12003](/language.ez/errors/E12003) if the map is immutable (const).
 
 ### `has()`
-`(m map, key K) -> bool`
+`(m map, key any) -> bool`
 
 Checks if a key exists in the map.
 
@@ -83,7 +83,7 @@ std.println(maps.has(ages, "Eve"))    // false
 **Returns:** `bool` - true if key exists.
 
 ### `delete()`
-`(m map, key K) -> void`
+`(m map, key any) -> void`
 
 Removes a key-value pair from the map.
 
@@ -197,7 +197,7 @@ std.println(maps.size(ages))  // 0
 ## Safe Access
 
 ### `get_or()`
-`(m map, key K, default V) -> V`
+`(m map, key any, default any) -> any`
 
 Gets a value by key, returning a default if the key doesn't exist.
 
@@ -212,7 +212,7 @@ temp age2 int = maps.get_or(ages, "Bob", 0)    // 0 (default)
 **Returns:** The value or the default.
 
 ### `try_get()`
-`(m map, key K) -> (V, bool)`
+`(m map, key any) -> (any, bool)`
 
 Attempts to get a value, returning both the value and a success boolean.
 

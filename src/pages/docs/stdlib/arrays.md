@@ -17,7 +17,7 @@ import @arrays
 ## Adding and Removing Elements
 
 ### `append()`
-`(arr [T], value T) -> void`
+`(arr [any], value any) -> void`
 
 Adds an element to the end of an array.
 
@@ -32,7 +32,7 @@ std.println(arr)  // {1, 2, 3, 4}
 **Returns:** Nothing (mutates array in place).
 
 ### `pop()`
-`(arr [T]) -> T`
+`(arr [any]) -> any`
 
 Removes and returns the last element of an array.
 
@@ -50,7 +50,7 @@ std.println(arr)   // {1, 2}
 **Errors:** [E9001](/language.ez/errors/E9001) if the array is empty.
 
 ### `shift()`
-`(arr [T]) -> T`
+`(arr [any]) -> any`
 
 Removes and returns the first element of an array.
 
@@ -68,7 +68,7 @@ std.println(arr)    // {2, 3}
 **Errors:** [E9002](/language.ez/errors/E9002) if the array is empty.
 
 ### `unshift()`
-`(arr [T], value T) -> void`
+`(arr [any], value any) -> void`
 
 Adds an element to the beginning of an array.
 
@@ -83,7 +83,7 @@ std.println(arr)  // {1, 2, 3, 4}
 **Returns:** Nothing (mutates array in place).
 
 ### `insert()`
-`(arr [T], index int, value T) -> void`
+`(arr [any], index int, value any) -> void`
 
 Inserts an element at a specific index.
 
@@ -100,7 +100,7 @@ std.println(arr)  // {1, 2, 3, 4}
 **Errors:** [E9003](/language.ez/errors/E9003) if the index is out of bounds.
 
 ### `remove_at()`
-`(arr [T], index int) -> void`
+`(arr [any], index int) -> void`
 
 Removes the element at a specific index.
 
@@ -119,7 +119,7 @@ std.println(arr)  // {1, 3, 4}
 ## Accessing Elements
 
 ### `get()`
-`(arr [T], index int) -> T`
+`(arr [any], index int) -> any`
 
 Returns the element at a specific index.
 
@@ -136,7 +136,7 @@ std.println(val)  // 20
 **Errors:** [E9004](/language.ez/errors/E9004) if the index is out of bounds.
 
 ### `set()`
-`(arr [T], index int, value T) -> void`
+`(arr [any], index int, value any) -> void`
 
 Sets the element at a specific index.
 
@@ -153,7 +153,7 @@ std.println(arr)  // {1, 20, 3}
 **Errors:** [E9005](/language.ez/errors/E9005) if the index is out of bounds.
 
 ### `first()` / `last()`
-`(arr [T]) -> T`
+`(arr [any]) -> any`
 
 Returns the first or last element of an array.
 
@@ -170,7 +170,7 @@ std.println(arrays.last(arr))   // 30
 ## Searching
 
 ### `contains()`
-`(arr [T], value T) -> bool`
+`(arr [any], value any) -> bool`
 
 Checks if an array contains a value.
 
@@ -185,7 +185,7 @@ std.println(arrays.contains(arr, 9))  // false
 **Returns:** `bool` - true if found.
 
 ### `index_of()`
-`(arr [T], value T) -> int`
+`(arr [any], value any) -> int`
 
 Returns the index of the first occurrence of a value, or -1 if not found.
 
@@ -202,7 +202,7 @@ std.println(arrays.index_of(arr, 99))  // -1
 ## Transforming
 
 ### `reverse()`
-`(arr [T]) -> void`
+`(arr [any]) -> void`
 
 Reverses an array in place.
 
@@ -217,7 +217,7 @@ std.println(arr)  // {5, 4, 3, 2, 1}
 **Returns:** Nothing (mutates array in place).
 
 ### `slice()`
-`(arr [T], start int, end int) -> [T]`
+`(arr [any], start int, end int) -> [any]`
 
 Returns a portion of an array.
 
@@ -234,7 +234,7 @@ std.println(sub)  // {2, 3, 4}
 **Errors:** [E9016](/language.ez/errors/E9016) if indices are not integers.
 
 ### `concat()`
-`(arrays ...[T]) -> [T]`
+`(arr1 [any], arr2 [any]) -> [any]`
 
 Concatenates two or more arrays.
 
@@ -252,7 +252,7 @@ std.println(c)  // {1, 2, 3, 4}
 **Errors:** [E9014](/language.ez/errors/E9014) if arguments are not arrays.
 
 ### `repeat()`
-`(value T, count int) -> [T]`
+`(value any, count int) -> [any]`
 
 Creates an array with a value repeated n times.
 
@@ -357,7 +357,7 @@ std.println(odds)  // {1, 3, 5, 7, 9}
 **Errors:** [E9013](/language.ez/errors/E9013) if step is zero.
 
 ### `join()`
-`(arr [T], separator string) -> string`
+`(arr [any], separator string) -> string`
 
 Joins array elements into a string with a separator.
 
@@ -376,7 +376,7 @@ std.println(arrays.join(nums, ", "))  // "1, 2, 3"
 **Errors:** [E9018](/language.ez/errors/E9018) if separator is not a string.
 
 ### `zip()`
-`(arr1 [T], arr2 [U]) -> [[T, U]]`
+`(arr1 [any], arr2 [any]) -> [[any, any]]`
 
 Combines two arrays into an array of pairs.
 
