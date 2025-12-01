@@ -1,0 +1,1486 @@
+{
+  "categories": [
+    { "id": "lexer", "name": "Lexer Errors", "range": "E1xxx", "description": "Tokenization and lexical analysis errors" },
+    { "id": "parse", "name": "Parse Errors", "range": "E2xxx", "description": "Syntax and parsing errors" },
+    { "id": "type", "name": "Type Errors", "range": "E3xxx", "description": "Type system errors" },
+    { "id": "reference", "name": "Reference Errors", "range": "E4xxx", "description": "Undefined variables, functions, modules" },
+    { "id": "runtime", "name": "Runtime Errors", "range": "E5xxx", "description": "General runtime errors" },
+    { "id": "import", "name": "Import Errors", "range": "E6xxx", "description": "Module import errors" },
+    { "id": "builtin", "name": "Builtin Errors", "range": "E7xxx", "description": "Standard library builtin function errors" },
+    { "id": "math", "name": "Math Errors", "range": "E8xxx", "description": "Mathematical operation errors" },
+    { "id": "array", "name": "Array Errors", "range": "E9xxx", "description": "Array-specific operation errors" },
+    { "id": "string", "name": "String Errors", "range": "E10xxx", "description": "String-specific operation errors" },
+    { "id": "time", "name": "Time Errors", "range": "E11xxx", "description": "Time-specific operation errors" },
+    { "id": "map", "name": "Map Errors", "range": "E12xxx", "description": "Map-specific operation errors" },
+    { "id": "warnings", "name": "Warnings", "range": "W1xxx-W6xxx", "description": "Warnings (non-fatal)" }
+  ],
+  "errors": [
+    {
+      "code": "E1001",
+      "slug": "illegal-character",
+      "message": "illegal character in source",
+      "usedFor": "Single `&` or `|` without being doubled, other invalid characters",
+      "example": "unexpected character '&', did you mean '&&'?",
+      "category": "lexer"
+    },
+    {
+      "code": "E1002",
+      "slug": "illegal-or-character",
+      "message": "illegal OR character in source",
+      "usedFor": "Single `|` without being doubled",
+      "example": "unexpected character '|', did you mean '||'?",
+      "category": "lexer"
+    },
+    {
+      "code": "E1003",
+      "slug": "unclosed-comment",
+      "message": "multi-line comment not closed",
+      "usedFor": "`/*` without matching `*/`",
+      "example": "unclosed multi-line comment",
+      "category": "lexer"
+    },
+    {
+      "code": "E1004",
+      "slug": "unclosed-string",
+      "message": "string literal not closed",
+      "usedFor": "String without closing `\"`",
+      "example": "unclosed string literal",
+      "category": "lexer"
+    },
+    {
+      "code": "E1005",
+      "slug": "unclosed-char",
+      "message": "character literal not closed",
+      "usedFor": "Char without closing `'`",
+      "example": "unclosed character literal",
+      "category": "lexer"
+    },
+    {
+      "code": "E1006",
+      "slug": "invalid-escape-string",
+      "message": "invalid escape sequence in string",
+      "usedFor": "Unknown escape like `\\x` in string",
+      "example": "invalid escape sequence '\\x' in string",
+      "category": "lexer"
+    },
+    {
+      "code": "E1007",
+      "slug": "invalid-escape-char",
+      "message": "invalid escape sequence in character",
+      "usedFor": "Unknown escape like `\\x` in char literal",
+      "example": "invalid escape sequence '\\x' in character literal",
+      "category": "lexer"
+    },
+    {
+      "code": "E1008",
+      "slug": "empty-char-literal",
+      "message": "character literal is empty",
+      "usedFor": "Empty char `''`",
+      "example": "empty character literal",
+      "category": "lexer"
+    },
+    {
+      "code": "E1009",
+      "slug": "multi-char-literal",
+      "message": "character literal contains multiple characters",
+      "usedFor": "Char like `'ab'`",
+      "example": "character literal must contain exactly one character",
+      "category": "lexer"
+    },
+    {
+      "code": "E1010",
+      "slug": "invalid-number-format",
+      "message": "invalid numeric literal format",
+      "usedFor": "General number format errors",
+      "example": "invalid number format: multiple decimal points",
+      "category": "lexer"
+    },
+    {
+      "code": "E1011",
+      "slug": "number-consecutive-underscores",
+      "message": "consecutive underscores in number",
+      "usedFor": "Numbers like `1__000`",
+      "example": "consecutive underscores not allowed in numeric literals",
+      "category": "lexer"
+    },
+    {
+      "code": "E1012",
+      "slug": "number-leading-underscore",
+      "message": "number starts with underscore",
+      "usedFor": "Numbers like `_123`",
+      "example": "numeric literal cannot start with underscore",
+      "category": "lexer"
+    },
+    {
+      "code": "E1013",
+      "slug": "number-trailing-underscore",
+      "message": "number ends with underscore",
+      "usedFor": "Numbers like `123_`",
+      "example": "numeric literal cannot end with underscore",
+      "category": "lexer"
+    },
+    {
+      "code": "E1014",
+      "slug": "number-underscore-before-decimal",
+      "message": "underscore before decimal point",
+      "usedFor": "Numbers like `123_.45`",
+      "example": "underscore cannot appear immediately before decimal point",
+      "category": "lexer"
+    },
+    {
+      "code": "E1015",
+      "slug": "number-underscore-after-decimal",
+      "message": "underscore after decimal point",
+      "usedFor": "Numbers like `123._45`",
+      "example": "underscore cannot appear immediately after decimal point",
+      "category": "lexer"
+    },
+    {
+      "code": "E1016",
+      "slug": "number-trailing-decimal",
+      "message": "decimal point without digits",
+      "usedFor": "Numbers like `123.`",
+      "example": "invalid number format: decimal point must be followed by digits",
+      "category": "lexer"
+    },
+    {
+      "code": "E2001",
+      "slug": "unexpected-token",
+      "message": "unexpected token encountered",
+      "usedFor": "Token found where another was expected",
+      "example": "unexpected token 'foo'",
+      "category": "parse"
+    },
+    {
+      "code": "E2002",
+      "slug": "missing-token",
+      "message": "expected token not found",
+      "usedFor": "Missing expected token",
+      "example": "expected RPAREN, got IDENT instead",
+      "category": "parse"
+    },
+    {
+      "code": "E2003",
+      "slug": "missing-expression",
+      "message": "expected expression",
+      "usedFor": "Missing expression after operator or `=`",
+      "example": "expected expression after '='",
+      "category": "parse"
+    },
+    {
+      "code": "E2004",
+      "slug": "unclosed-brace",
+      "message": "missing closing brace",
+      "usedFor": "Missing `}`",
+      "example": "unclosed brace - expected '}'",
+      "category": "parse"
+    },
+    {
+      "code": "E2005",
+      "slug": "unclosed-paren",
+      "message": "missing closing parenthesis",
+      "usedFor": "Missing `)`",
+      "example": "unclosed parenthesis - expected ')'",
+      "category": "parse"
+    },
+    {
+      "code": "E2006",
+      "slug": "unclosed-bracket",
+      "message": "missing closing bracket",
+      "usedFor": "Missing `]`",
+      "example": "unclosed bracket - expected ']'",
+      "category": "parse"
+    },
+    {
+      "code": "E2007",
+      "slug": "unclosed-interpolation",
+      "message": "string interpolation not closed",
+      "usedFor": "`\"Hello ${name\"` without closing `}`",
+      "example": "unclosed interpolation in string",
+      "category": "parse"
+    },
+    {
+      "code": "E2008",
+      "slug": "invalid-assignment-target",
+      "message": "cannot assign to this expression",
+      "usedFor": "Assignment to non-assignable (not identifier, index, or member)",
+      "example": "invalid assignment target: cannot assign to *ast.IntegerValue",
+      "category": "parse"
+    },
+    {
+      "code": "E2009",
+      "slug": "using-after-declarations",
+      "message": "using statement must come first",
+      "usedFor": "`using` after other declarations",
+      "example": "file-scoped 'using' must come before all declarations",
+      "category": "parse"
+    },
+    {
+      "code": "E2010",
+      "slug": "using-before-import",
+      "message": "cannot use module before importing",
+      "usedFor": "`using math` before `import math`",
+      "example": "cannot use module 'math' before importing it",
+      "category": "parse"
+    },
+    {
+      "code": "E2011",
+      "slug": "const-requires-value",
+      "message": "const must be initialized",
+      "usedFor": "`const x int` without value",
+      "example": "const 'x' must be initialized with a value",
+      "category": "parse"
+    },
+    {
+      "code": "E2012",
+      "slug": "duplicate-parameter",
+      "message": "parameter name already used",
+      "usedFor": "`do foo(x int, x string)`",
+      "example": "duplicate parameter name 'x'",
+      "category": "parse"
+    },
+    {
+      "code": "E2013",
+      "slug": "duplicate-field",
+      "message": "field name already used",
+      "usedFor": "Struct with duplicate field names",
+      "example": "duplicate field name 'x' in struct",
+      "category": "parse"
+    },
+    {
+      "code": "E2014",
+      "slug": "missing-parameter-type",
+      "message": "parameter missing type annotation",
+      "usedFor": "`do foo(x)` without type",
+      "example": "parameter 'x' is missing a type",
+      "category": "parse"
+    },
+    {
+      "code": "E2015",
+      "slug": "missing-return-type",
+      "message": "expected return type after arrow",
+      "usedFor": "`do foo() ->` without type",
+      "example": "expected return type after '->'",
+      "category": "parse"
+    },
+    {
+      "code": "E2016",
+      "slug": "empty-enum",
+      "message": "enum must have at least one value",
+      "usedFor": "`enum Status {}`",
+      "example": "enum 'Status' must have at least one value",
+      "category": "parse"
+    },
+    {
+      "code": "E2017",
+      "slug": "trailing-comma-array",
+      "message": "trailing comma in array literal",
+      "usedFor": "`{1, 2, 3,}`",
+      "example": "unexpected trailing comma in array literal",
+      "category": "parse"
+    },
+    {
+      "code": "E2018",
+      "slug": "trailing-comma-call",
+      "message": "trailing comma in function call",
+      "usedFor": "`foo(1, 2,)`",
+      "example": "unexpected trailing comma in function call",
+      "category": "parse"
+    },
+    {
+      "code": "E2019",
+      "slug": "nested-function",
+      "message": "function inside function not allowed",
+      "usedFor": "Function declared inside another function",
+      "example": "function declarations are not allowed inside functions",
+      "category": "parse"
+    },
+    {
+      "code": "E2020",
+      "slug": "reserved-variable-name",
+      "message": "variable name is reserved",
+      "usedFor": "Using keyword as variable name",
+      "example": "'temp' is a reserved keyword and cannot be used as a variable name",
+      "category": "parse"
+    },
+    {
+      "code": "E2021",
+      "slug": "reserved-function-name",
+      "message": "function name is reserved",
+      "usedFor": "Using builtin as function name",
+      "example": "'len' is a reserved keyword and cannot be used as a function name",
+      "category": "parse"
+    },
+    {
+      "code": "E2022",
+      "slug": "reserved-type-name",
+      "message": "type name is reserved",
+      "usedFor": "Using keyword as struct/enum name",
+      "example": "'int' is a reserved keyword and cannot be used as a type name",
+      "category": "parse"
+    },
+    {
+      "code": "E2023",
+      "slug": "duplicate-declaration",
+      "message": "name already declared in scope",
+      "usedFor": "Re-declaring same name in scope",
+      "example": "'x' is already declared in this scope",
+      "category": "parse"
+    },
+    {
+      "code": "E2024",
+      "slug": "invalid-type-name",
+      "message": "expected valid type name",
+      "usedFor": "Invalid type in declaration",
+      "example": "expected type name, got RBRACE",
+      "category": "parse"
+    },
+    {
+      "code": "E2025",
+      "slug": "invalid-array-size",
+      "message": "array size must be integer",
+      "usedFor": "`[string, \"5\"]` instead of `[string, 5]`",
+      "example": "expected integer for array size, got STRING",
+      "category": "parse"
+    },
+    {
+      "code": "E2026",
+      "slug": "invalid-enum-type",
+      "message": "enum type must be primitive",
+      "usedFor": "`enum Status : CustomType`",
+      "example": "enum type attributes must be primitive types (int, float, or string), got 'Custom'",
+      "category": "parse"
+    },
+    {
+      "code": "E2027",
+      "slug": "integer-parse-error",
+      "message": "cannot parse integer literal",
+      "usedFor": "Invalid integer format",
+      "example": "could not parse \"abc\" as integer",
+      "category": "parse"
+    },
+    {
+      "code": "E2028",
+      "slug": "float-parse-error",
+      "message": "cannot parse float literal",
+      "usedFor": "Invalid float format",
+      "example": "could not parse \"1.2.3\" as float",
+      "category": "parse"
+    },
+    {
+      "code": "E2029",
+      "slug": "expected-identifier",
+      "message": "expected identifier",
+      "usedFor": "Missing identifier where required",
+      "example": "expected identifier or @ignore, got RBRACE",
+      "category": "parse"
+    },
+    {
+      "code": "E2030",
+      "slug": "expected-block",
+      "message": "expected block statement",
+      "usedFor": "Missing `{` after if/for/while",
+      "example": "expected '{' after condition",
+      "category": "parse"
+    },
+    {
+      "code": "E2031",
+      "slug": "string-enum-requires-values",
+      "message": "string enum needs explicit values",
+      "usedFor": "String enum without values",
+      "example": "string enums require explicit values for all members",
+      "category": "parse"
+    },
+    {
+      "code": "E2032",
+      "slug": "const-array-requires-size",
+      "message": "const array must have fixed size",
+      "usedFor": "Declaring const array without explicit size",
+      "example": "const array must have a fixed size",
+      "category": "parse"
+    },
+    {
+      "code": "E3001",
+      "slug": "type-mismatch",
+      "message": "types do not match",
+      "usedFor": "General type mismatch",
+      "example": "type mismatch: expected int, got string",
+      "category": "type"
+    },
+    {
+      "code": "E3002",
+      "slug": "invalid-operator-for-type",
+      "message": "operator not valid for type",
+      "usedFor": "`\"hello\" * \"world\"`",
+      "example": "unknown operator: STRING * STRING",
+      "category": "type"
+    },
+    {
+      "code": "E3003",
+      "slug": "invalid-index-type",
+      "message": "index must be integer",
+      "usedFor": "`arr[\"foo\"]` instead of `arr[0]`",
+      "example": "index must be an integer, got STRING",
+      "category": "type"
+    },
+    {
+      "code": "E3004",
+      "slug": "invalid-index-assignment-type",
+      "message": "invalid type for index assignment",
+      "usedFor": "Assigning wrong type to string index",
+      "example": "can only assign character to string index, got INTEGER",
+      "category": "type"
+    },
+    {
+      "code": "E3005",
+      "slug": "cannot-convert-to-int",
+      "message": "cannot convert value to integer",
+      "usedFor": "`int(\"abc\")`",
+      "example": "cannot convert \"abc\" to int: invalid integer format",
+      "category": "type"
+    },
+    {
+      "code": "E3006",
+      "slug": "cannot-convert-to-float",
+      "message": "cannot convert value to float",
+      "usedFor": "`float(\"abc\")`",
+      "example": "cannot convert \"abc\" to float: invalid float format",
+      "category": "type"
+    },
+    {
+      "code": "E3007",
+      "slug": "cannot-convert-array",
+      "message": "cannot convert array to scalar",
+      "usedFor": "`int(myArray)`",
+      "example": "cannot convert ARRAY to int",
+      "category": "type"
+    },
+    {
+      "code": "E3008",
+      "slug": "undefined-type",
+      "message": "type is not defined",
+      "usedFor": "Using unknown type name",
+      "example": "undefined type 'Foo'",
+      "category": "type"
+    },
+    {
+      "code": "E3009",
+      "slug": "undefined-type-in-struct",
+      "message": "field type not defined",
+      "usedFor": "Struct field with unknown type",
+      "example": "undefined type 'Custom' in struct 'Person'",
+      "category": "type"
+    },
+    {
+      "code": "E3010",
+      "slug": "undefined-param-type",
+      "message": "parameter type not defined",
+      "usedFor": "Function param with unknown type",
+      "example": "undefined type 'Foo' for parameter 'x'",
+      "category": "type"
+    },
+    {
+      "code": "E3011",
+      "slug": "undefined-return-type",
+      "message": "return type not defined",
+      "usedFor": "Function with unknown return type",
+      "example": "undefined return type 'Bar' in function 'foo'",
+      "category": "type"
+    },
+    {
+      "code": "E3012",
+      "slug": "return-type-mismatch",
+      "message": "return type does not match declaration",
+      "usedFor": "Returning wrong type",
+      "example": "return type mismatch: expected int, got string",
+      "category": "type"
+    },
+    {
+      "code": "E3013",
+      "slug": "return-count-mismatch",
+      "message": "wrong number of return values",
+      "usedFor": "Returning wrong count",
+      "example": "wrong number of return values: expected 2, got 1",
+      "category": "type"
+    },
+    {
+      "code": "E3014",
+      "slug": "incompatible-binary-types",
+      "message": "incompatible types for binary operator",
+      "usedFor": "`1 + \"hello\"`",
+      "example": "incompatible types for operator '+': INTEGER and STRING",
+      "category": "type"
+    },
+    {
+      "code": "E3015",
+      "slug": "not-callable",
+      "message": "value is not callable",
+      "usedFor": "Calling non-function",
+      "example": "not a function: INTEGER",
+      "category": "type"
+    },
+    {
+      "code": "E3016",
+      "slug": "not-indexable",
+      "message": "value is not indexable",
+      "usedFor": "Indexing non-array/string",
+      "example": "index operator not supported for STRUCT",
+      "category": "type"
+    },
+    {
+      "code": "E3017",
+      "slug": "not-iterable",
+      "message": "value is not iterable",
+      "usedFor": "for_each on non-iterable",
+      "example": "for_each requires array or string, got INTEGER",
+      "category": "type"
+    },
+    {
+      "code": "E3018",
+      "slug": "array-literal-required",
+      "message": "array type requires array literal",
+      "usedFor": "`const arr [int] = 10`",
+      "example": "array type requires value in {} format, got scalar",
+      "category": "type"
+    },
+    {
+      "code": "E3019",
+      "slug": "signed-to-unsigned",
+      "message": "cannot assign signed type to unsigned",
+      "usedFor": "Assigning signed int to unsigned int type",
+      "example": "cannot assign signed type 'int' to unsigned type 'uint'",
+      "category": "type"
+    },
+    {
+      "code": "E3020",
+      "slug": "negative-to-unsigned",
+      "message": "cannot assign negative value to unsigned type",
+      "usedFor": "Assigning negative literal to unsigned int type",
+      "example": "cannot assign negative value -5 to unsigned type 'uint'",
+      "category": "type"
+    },
+    {
+      "code": "E4001",
+      "slug": "undefined-variable",
+      "message": "variable not found in scope",
+      "usedFor": "Using undeclared variable",
+      "example": "identifier not found: 'foo'",
+      "category": "reference"
+    },
+    {
+      "code": "E4002",
+      "slug": "undefined-function",
+      "message": "function not defined",
+      "usedFor": "Calling undeclared function",
+      "example": "undefined function: 'foo'",
+      "category": "reference"
+    },
+    {
+      "code": "E4003",
+      "slug": "undefined-field",
+      "message": "field does not exist on type",
+      "usedFor": "Accessing non-existent struct field",
+      "example": "field 'foo' not found",
+      "category": "reference"
+    },
+    {
+      "code": "E4004",
+      "slug": "undefined-enum-value",
+      "message": "enum value does not exist",
+      "usedFor": "Accessing non-existent enum value",
+      "example": "enum value 'BAR' not found in enum 'Status'",
+      "category": "reference"
+    },
+    {
+      "code": "E4005",
+      "slug": "undefined-module-member",
+      "message": "member not found in module",
+      "usedFor": "`math.nonexistent()`",
+      "example": "'bar' not found in module 'math'",
+      "category": "reference"
+    },
+    {
+      "code": "E4006",
+      "slug": "undefined-type-new",
+      "message": "type not found for new expression",
+      "usedFor": "`new UnknownType{}`",
+      "example": "undefined type: 'Foo'",
+      "category": "reference"
+    },
+    {
+      "code": "E4007",
+      "slug": "module-not-imported",
+      "message": "module has not been imported",
+      "usedFor": "Using module without import",
+      "example": "cannot use 'math': module not imported",
+      "category": "reference"
+    },
+    {
+      "code": "E4008",
+      "slug": "ambiguous-function",
+      "message": "function exists in multiple modules",
+      "usedFor": "With `using`, function in multiple modules",
+      "example": "function 'len' found in multiple modules: arrays, strings",
+      "category": "reference"
+    },
+    {
+      "code": "E4009",
+      "slug": "no-main-function",
+      "message": "program has no entry point",
+      "usedFor": "Missing `main()` function",
+      "example": "Program must define a main() function",
+      "category": "reference"
+    },
+    {
+      "code": "E4010",
+      "slug": "nil-member-access",
+      "message": "cannot access member of nil",
+      "usedFor": "`nilValue.field`",
+      "example": "nil reference: cannot access member 'x' of nil",
+      "category": "reference"
+    },
+    {
+      "code": "E4011",
+      "slug": "member-access-invalid-type",
+      "message": "type does not support member access",
+      "usedFor": "`123.field`",
+      "example": "member access not supported on type INTEGER",
+      "category": "reference"
+    },
+    {
+      "code": "E5001",
+      "slug": "division-by-zero",
+      "message": "cannot divide by zero",
+      "usedFor": "`x / 0`",
+      "example": "division by zero",
+      "category": "runtime"
+    },
+    {
+      "code": "E5002",
+      "slug": "modulo-by-zero",
+      "message": "cannot modulo by zero",
+      "usedFor": "`x % 0`",
+      "example": "modulo by zero",
+      "category": "runtime"
+    },
+    {
+      "code": "E5003",
+      "slug": "index-out-of-bounds",
+      "message": "index outside valid range",
+      "usedFor": "`arr[100]` when array has 5 elements",
+      "example": "index out of bounds: attempted to access index 100, but valid range is 0-4",
+      "category": "runtime"
+    },
+    {
+      "code": "E5004",
+      "slug": "index-empty-collection",
+      "message": "cannot index empty collection",
+      "usedFor": "`arr[0]` when array is empty",
+      "example": "index out of bounds: array is empty (length 0)",
+      "category": "runtime"
+    },
+    {
+      "code": "E5005",
+      "slug": "nil-operation",
+      "message": "cannot perform operation on nil",
+      "usedFor": "`nil + 1`",
+      "example": "nil reference: cannot use nil with operator '+'",
+      "category": "runtime"
+    },
+    {
+      "code": "E5006",
+      "slug": "immutable-variable",
+      "message": "cannot modify const variable",
+      "usedFor": "Reassigning const",
+      "example": "cannot assign to immutable variable 'x' (declared as const)",
+      "category": "runtime"
+    },
+    {
+      "code": "E5007",
+      "slug": "immutable-array",
+      "message": "cannot modify const array",
+      "usedFor": "Modifying const array",
+      "example": "cannot modify immutable array (declared as const)",
+      "category": "runtime"
+    },
+    {
+      "code": "E5008",
+      "slug": "wrong-argument-count",
+      "message": "incorrect number of arguments",
+      "usedFor": "`foo(1, 2)` when foo takes 3",
+      "example": "wrong number of arguments: expected 3, got 2",
+      "category": "runtime"
+    },
+    {
+      "code": "E5009",
+      "slug": "break-outside-loop",
+      "message": "break not inside loop",
+      "usedFor": "`break` outside for/while",
+      "example": "break statement outside loop",
+      "category": "runtime"
+    },
+    {
+      "code": "E5010",
+      "slug": "continue-outside-loop",
+      "message": "continue not inside loop",
+      "usedFor": "`continue` outside for/while",
+      "example": "continue statement outside loop",
+      "category": "runtime"
+    },
+    {
+      "code": "E5011",
+      "slug": "return-value-unused",
+      "message": "function return value not used",
+      "usedFor": "Ignoring return without `@ignore`",
+      "example": "return value from function not used (use @ignore to discard)",
+      "category": "runtime"
+    },
+    {
+      "code": "E5012",
+      "slug": "multi-assign-count-mismatch",
+      "message": "assignment value count mismatch",
+      "usedFor": "`a, b = getOne()`",
+      "example": "expected 2 values, got 1",
+      "category": "runtime"
+    },
+    {
+      "code": "E5013",
+      "slug": "range-start-not-integer",
+      "message": "range start must be integer",
+      "usedFor": "`for i in \"a\"..10`",
+      "example": "range start must be integer",
+      "category": "runtime"
+    },
+    {
+      "code": "E5014",
+      "slug": "range-end-not-integer",
+      "message": "range end must be integer",
+      "usedFor": "`for i in 1..\"b\"`",
+      "example": "range end must be integer",
+      "category": "runtime"
+    },
+    {
+      "code": "E5015",
+      "slug": "postfix-requires-identifier",
+      "message": "postfix operator needs variable",
+      "usedFor": "`5++`",
+      "example": "postfix operator requires identifier",
+      "category": "runtime"
+    },
+    {
+      "code": "E6001",
+      "slug": "circular-import",
+      "message": "circular import detected",
+      "usedFor": "A imports B, B imports A",
+      "example": "circular import detected: a.ez -> b.ez -> a.ez",
+      "category": "import"
+    },
+    {
+      "code": "E6002",
+      "slug": "module-not-found",
+      "message": "module file not found",
+      "usedFor": "`import nonexistent`",
+      "example": "module 'foo' not found",
+      "category": "import"
+    },
+    {
+      "code": "E6003",
+      "slug": "invalid-module-format",
+      "message": "module has invalid format",
+      "usedFor": "Module file with syntax errors",
+      "example": "invalid module 'foo': parse error",
+      "category": "import"
+    },
+    {
+      "code": "E6004",
+      "slug": "module-load-error",
+      "message": "failed to load module",
+      "usedFor": "Module file read error",
+      "example": "failed to load module 'foo': permission denied",
+      "category": "import"
+    },
+    {
+      "code": "E6005",
+      "slug": "module-name-mismatch",
+      "message": "module name does not match directory",
+      "usedFor": "Module declaration name differs from directory name",
+      "example": "module name 'foo' does not match directory name 'bar'",
+      "category": "import"
+    },
+    {
+      "code": "E6006",
+      "slug": "module-name-conflict",
+      "message": "files in directory declare different module names",
+      "usedFor": "Multiple files in same directory declare different module names",
+      "example": "files in directory declare conflicting module names: 'foo' vs 'bar'",
+      "category": "import"
+    },
+    {
+      "code": "E6007",
+      "slug": "internal-import-denied",
+      "message": "cannot import from internal/ directory outside package",
+      "usedFor": "Attempting to import internal module from outside its parent package",
+      "example": "cannot import internal module 'pkg/internal/util' from outside 'pkg'",
+      "category": "import"
+    },
+    {
+      "code": "E6010",
+      "slug": "module-member-readonly",
+      "message": "cannot assign to module member",
+      "usedFor": "Attempting to modify a module's exported member",
+      "example": "cannot assign to module member 'math.PI'",
+      "category": "import"
+    },
+    {
+      "code": "E6011",
+      "slug": "private-access-denied",
+      "message": "cannot access private member from outside module",
+      "usedFor": "Accessing private (unexported) member from another module",
+      "example": "cannot access private member 'helper' from outside module 'utils'",
+      "category": "import"
+    },
+    {
+      "code": "E7001",
+      "slug": "builtin-arg-count",
+      "message": "wrong argument count for builtin",
+      "usedFor": "Wrong number of args to builtin",
+      "example": "len() takes exactly 1 argument, got 2",
+      "category": "builtin"
+    },
+    {
+      "code": "E7002",
+      "slug": "builtin-arg-type",
+      "message": "wrong argument type for builtin",
+      "usedFor": "Wrong type to builtin",
+      "example": "typeof() takes exactly 1 argument",
+      "category": "builtin"
+    },
+    {
+      "code": "E7003",
+      "slug": "builtin-requires-array",
+      "message": "builtin requires array argument",
+      "usedFor": "Non-array to array builtin",
+      "example": "arrays.len() requires an array",
+      "category": "builtin"
+    },
+    {
+      "code": "E7004",
+      "slug": "builtin-requires-string",
+      "message": "builtin requires string argument",
+      "usedFor": "Non-string to string builtin",
+      "example": "strings.len() requires a string argument",
+      "category": "builtin"
+    },
+    {
+      "code": "E7005",
+      "slug": "builtin-requires-number",
+      "message": "builtin requires numeric argument",
+      "usedFor": "Non-number to math builtin",
+      "example": "expected number, got STRING",
+      "category": "builtin"
+    },
+    {
+      "code": "E7006",
+      "slug": "builtin-requires-integer",
+      "message": "builtin requires integer argument",
+      "usedFor": "Non-integer where integer needed",
+      "example": "arrays.get() requires an integer index",
+      "category": "builtin"
+    },
+    {
+      "code": "E7007",
+      "slug": "builtin-requires-function",
+      "message": "builtin requires function argument",
+      "usedFor": "Non-function callback",
+      "example": "arrays.map() requires a function",
+      "category": "builtin"
+    },
+    {
+      "code": "E7008",
+      "slug": "len-unsupported-type",
+      "message": "len not supported for type",
+      "usedFor": "`len(123)`",
+      "example": "len() not supported for INTEGER",
+      "category": "builtin"
+    },
+    {
+      "code": "E7009",
+      "slug": "type-conversion-failed",
+      "message": "type conversion failed",
+      "usedFor": "Failed int/float/string conversion",
+      "example": "cannot convert STRING to int",
+      "category": "builtin"
+    },
+    {
+      "code": "E8001",
+      "slug": "sqrt-negative",
+      "message": "cannot take square root of negative",
+      "usedFor": "`math.sqrt(-1)`",
+      "example": "math.sqrt() cannot take negative number",
+      "category": "math"
+    },
+    {
+      "code": "E8002",
+      "slug": "log-non-positive",
+      "message": "logarithm requires positive number",
+      "usedFor": "`math.log(0)` or `math.log(-1)`",
+      "example": "math.log() requires positive number",
+      "category": "math"
+    },
+    {
+      "code": "E8003",
+      "slug": "log2-non-positive",
+      "message": "log2 requires positive number",
+      "usedFor": "`math.log2(0)`",
+      "example": "math.log2() requires positive number",
+      "category": "math"
+    },
+    {
+      "code": "E8004",
+      "slug": "log10-non-positive",
+      "message": "log10 requires positive number",
+      "usedFor": "`math.log10(0)`",
+      "example": "math.log10() requires positive number",
+      "category": "math"
+    },
+    {
+      "code": "E8005",
+      "slug": "asin-out-of-range",
+      "message": "asin requires value in [-1, 1]",
+      "usedFor": "`math.asin(2)`",
+      "example": "math.asin() requires value between -1 and 1",
+      "category": "math"
+    },
+    {
+      "code": "E8006",
+      "slug": "acos-out-of-range",
+      "message": "acos requires value in [-1, 1]",
+      "usedFor": "`math.acos(2)`",
+      "example": "math.acos() requires value between -1 and 1",
+      "category": "math"
+    },
+    {
+      "code": "E8007",
+      "slug": "factorial-negative",
+      "message": "factorial requires non-negative",
+      "usedFor": "`math.factorial(-1)`",
+      "example": "math.factorial() requires non-negative integer",
+      "category": "math"
+    },
+    {
+      "code": "E8008",
+      "slug": "factorial-overflow",
+      "message": "factorial result too large",
+      "usedFor": "`math.factorial(21)`",
+      "example": "math.factorial() overflow for n > 20",
+      "category": "math"
+    },
+    {
+      "code": "E8009",
+      "slug": "random-max-not-positive",
+      "message": "random max must be positive",
+      "usedFor": "`math.random(0)` or `math.random(-5)`",
+      "example": "math.random() max must be positive",
+      "category": "math"
+    },
+    {
+      "code": "E8010",
+      "slug": "random-max-less-than-min",
+      "message": "random max must exceed min",
+      "usedFor": "`math.random(10, 5)`",
+      "example": "math.random() max must be greater than min",
+      "category": "math"
+    },
+    {
+      "code": "E8011",
+      "slug": "random-float-arg-count",
+      "message": "random_float wrong argument count",
+      "usedFor": "`math.random_float(1)`",
+      "example": "math.random_float() takes 0 or 2 arguments",
+      "category": "math"
+    },
+    {
+      "code": "E8012",
+      "slug": "avg-no-arguments",
+      "message": "avg requires at least one value",
+      "usedFor": "`math.avg()`",
+      "example": "math.avg() requires at least 1 argument",
+      "category": "math"
+    },
+    {
+      "code": "E9001",
+      "slug": "array-pop-empty",
+      "message": "cannot pop from empty array",
+      "usedFor": "`arrays.pop(emptyArray)`",
+      "example": "arrays.pop() cannot pop from empty array",
+      "category": "array"
+    },
+    {
+      "code": "E9002",
+      "slug": "array-shift-empty",
+      "message": "cannot shift from empty array",
+      "usedFor": "`arrays.shift(emptyArray)`",
+      "example": "arrays.shift() cannot shift from empty array",
+      "category": "array"
+    },
+    {
+      "code": "E9003",
+      "slug": "array-insert-out-of-bounds",
+      "message": "insert index out of bounds",
+      "usedFor": "`arrays.insert(arr, 100, val)`",
+      "example": "arrays.insert() index out of bounds",
+      "category": "array"
+    },
+    {
+      "code": "E9004",
+      "slug": "array-get-out-of-bounds",
+      "message": "get index out of bounds",
+      "usedFor": "`arrays.get(arr, 100)`",
+      "example": "arrays.get() index out of bounds",
+      "category": "array"
+    },
+    {
+      "code": "E9005",
+      "slug": "array-set-out-of-bounds",
+      "message": "set index out of bounds",
+      "usedFor": "`arrays.set(arr, 100, val)`",
+      "example": "arrays.set() index out of bounds",
+      "category": "array"
+    },
+    {
+      "code": "E9006",
+      "slug": "array-remove-at-out-of-bounds",
+      "message": "remove_at index out of bounds",
+      "usedFor": "`arrays.remove_at(arr, 100)`",
+      "example": "arrays.remove_at() index out of bounds",
+      "category": "array"
+    },
+    {
+      "code": "E9007",
+      "slug": "array-min-empty",
+      "message": "cannot get min of empty array",
+      "usedFor": "`arrays.min(emptyArray)`",
+      "example": "arrays.min() requires non-empty array",
+      "category": "array"
+    },
+    {
+      "code": "E9008",
+      "slug": "array-max-empty",
+      "message": "cannot get max of empty array",
+      "usedFor": "`arrays.max(emptyArray)`",
+      "example": "arrays.max() requires non-empty array",
+      "category": "array"
+    },
+    {
+      "code": "E9009",
+      "slug": "array-avg-empty",
+      "message": "cannot get avg of empty array",
+      "usedFor": "`arrays.avg(emptyArray)`",
+      "example": "arrays.avg() requires non-empty array",
+      "category": "array"
+    },
+    {
+      "code": "E9010",
+      "slug": "array-sum-non-numeric",
+      "message": "sum requires numeric array",
+      "usedFor": "`arrays.sum([\"a\", \"b\"])`",
+      "example": "arrays.sum() requires numeric array",
+      "category": "array"
+    },
+    {
+      "code": "E9011",
+      "slug": "array-product-non-numeric",
+      "message": "product requires numeric array",
+      "usedFor": "`arrays.product([\"a\", \"b\"])`",
+      "example": "arrays.product() requires numeric array",
+      "category": "array"
+    },
+    {
+      "code": "E9012",
+      "slug": "array-avg-non-numeric",
+      "message": "avg requires numeric array",
+      "usedFor": "`arrays.avg([\"a\", \"b\"])`",
+      "example": "arrays.avg() requires numeric array",
+      "category": "array"
+    },
+    {
+      "code": "E9013",
+      "slug": "array-range-step-zero",
+      "message": "range step cannot be zero",
+      "usedFor": "`arrays.range(0, 10, 0)`",
+      "example": "arrays.range() step cannot be zero",
+      "category": "array"
+    },
+    {
+      "code": "E9014",
+      "slug": "array-concat-requires-arrays",
+      "message": "concat requires array arguments",
+      "usedFor": "`arrays.concat(arr, \"string\")`",
+      "example": "arrays.concat() requires arrays",
+      "category": "array"
+    },
+    {
+      "code": "E9015",
+      "slug": "array-zip-requires-arrays",
+      "message": "zip requires array arguments",
+      "usedFor": "`arrays.zip(arr, \"string\")`",
+      "example": "arrays.zip() requires arrays",
+      "category": "array"
+    },
+    {
+      "code": "E9016",
+      "slug": "array-slice-invalid-indices",
+      "message": "slice requires integer indices",
+      "usedFor": "`arrays.slice(arr, \"a\", \"b\")`",
+      "example": "arrays.slice() requires integer indices",
+      "category": "array"
+    },
+    {
+      "code": "E9017",
+      "slug": "array-repeat-invalid-count",
+      "message": "repeat requires integer count",
+      "usedFor": "`arrays.repeat(val, \"5\")`",
+      "example": "arrays.repeat() requires integer count",
+      "category": "array"
+    },
+    {
+      "code": "E9018",
+      "slug": "array-join-invalid-separator",
+      "message": "join requires string separator",
+      "usedFor": "`arrays.join(arr, 123)`",
+      "example": "arrays.join() requires a string separator",
+      "category": "array"
+    },
+    {
+      "code": "E9020",
+      "slug": "unusable-as-map-key",
+      "message": "unusable as map key",
+      "usedFor": "Using non-hashable type as map key",
+      "example": "type ARRAY is not usable as a map key",
+      "category": "array"
+    },
+    {
+      "code": "E10001",
+      "slug": "string-split-invalid-separator",
+      "message": "split requires string separator",
+      "usedFor": "`strings.split(str, 123)`",
+      "example": "strings.split() requires string arguments",
+      "category": "string"
+    },
+    {
+      "code": "E10002",
+      "slug": "string-join-invalid-array",
+      "message": "join requires array first argument",
+      "usedFor": "`strings.join(\"str\", \",\")`",
+      "example": "strings.join() requires an array as first argument",
+      "category": "string"
+    },
+    {
+      "code": "E10003",
+      "slug": "string-replace-invalid-args",
+      "message": "replace requires string arguments",
+      "usedFor": "`strings.replace(str, 1, 2)`",
+      "example": "strings.replace() requires string arguments",
+      "category": "string"
+    },
+    {
+      "code": "E10004",
+      "slug": "string-index-invalid-args",
+      "message": "index requires string arguments",
+      "usedFor": "`strings.index(str, 123)`",
+      "example": "strings.index() requires string arguments",
+      "category": "string"
+    },
+    {
+      "code": "E10005",
+      "slug": "string-contains-invalid-args",
+      "message": "contains requires string arguments",
+      "usedFor": "`strings.contains(str, 123)`",
+      "example": "strings.contains() requires string arguments",
+      "category": "string"
+    },
+    {
+      "code": "E10006",
+      "slug": "string-starts-with-invalid-args",
+      "message": "starts_with requires string arguments",
+      "usedFor": "`strings.starts_with(str, 123)`",
+      "example": "strings.starts_with() requires string arguments",
+      "category": "string"
+    },
+    {
+      "code": "E10007",
+      "slug": "string-ends-with-invalid-args",
+      "message": "ends_with requires string arguments",
+      "usedFor": "`strings.ends_with(str, 123)`",
+      "example": "strings.ends_with() requires string arguments",
+      "category": "string"
+    },
+    {
+      "code": "E11001",
+      "slug": "time-sleep-invalid-arg",
+      "message": "sleep requires numeric argument",
+      "usedFor": "`time.sleep(\"5\")`",
+      "example": "time.sleep() requires a number",
+      "category": "time"
+    },
+    {
+      "code": "E11002",
+      "slug": "time-sleep-ms-invalid-arg",
+      "message": "sleep_ms requires integer argument",
+      "usedFor": "`time.sleep_ms(\"100\")`",
+      "example": "time.sleep_ms() requires an integer",
+      "category": "time"
+    },
+    {
+      "code": "E11003",
+      "slug": "time-format-invalid-format",
+      "message": "format requires string format",
+      "usedFor": "`time.format(123)`",
+      "example": "time.format() requires a string format",
+      "category": "time"
+    },
+    {
+      "code": "E11004",
+      "slug": "time-format-invalid-timestamp",
+      "message": "format requires integer timestamp",
+      "usedFor": "`time.format(\"abc\", \"YYYY\")`",
+      "example": "time.format() requires an integer timestamp",
+      "category": "time"
+    },
+    {
+      "code": "E11005",
+      "slug": "time-parse-failed",
+      "message": "failed to parse time string",
+      "usedFor": "Invalid time string",
+      "example": "time.parse() failed: parsing time \"abc\"",
+      "category": "time"
+    },
+    {
+      "code": "E11006",
+      "slug": "time-parse-invalid-args",
+      "message": "parse requires string arguments",
+      "usedFor": "`time.parse(123, 456)`",
+      "example": "time.parse() requires a string",
+      "category": "time"
+    },
+    {
+      "code": "E11007",
+      "slug": "time-make-invalid-args",
+      "message": "make requires integer arguments",
+      "usedFor": "`time.make(\"2024\", 1, 1)`",
+      "example": "time.make() requires integer arguments",
+      "category": "time"
+    },
+    {
+      "code": "E11008",
+      "slug": "time-add-invalid-timestamp",
+      "message": "time add requires integer timestamp",
+      "usedFor": "`time.add_days(\"abc\", 5)`",
+      "example": "time.add_days() requires integer timestamp",
+      "category": "time"
+    },
+    {
+      "code": "E11009",
+      "slug": "time-add-invalid-amount",
+      "message": "time add requires integer amount",
+      "usedFor": "`time.add_days(ts, \"5\")`",
+      "example": "time.add_days() requires integer days",
+      "category": "time"
+    },
+    {
+      "code": "E11010",
+      "slug": "time-diff-invalid-args",
+      "message": "diff requires integer timestamps",
+      "usedFor": "`time.diff(\"a\", \"b\")`",
+      "example": "time.diff() requires integer timestamps",
+      "category": "time"
+    },
+    {
+      "code": "E11011",
+      "slug": "time-is-leap-year-invalid-arg",
+      "message": "is_leap_year requires integer year",
+      "usedFor": "`time.is_leap_year(\"2024\")`",
+      "example": "time.is_leap_year() requires an integer year",
+      "category": "time"
+    },
+    {
+      "code": "E11012",
+      "slug": "time-days-in-month-invalid-args",
+      "message": "days_in_month requires integer arguments",
+      "usedFor": "`time.days_in_month(\"2024\", \"1\")`",
+      "example": "time.days_in_month() requires integer arguments",
+      "category": "time"
+    },
+    {
+      "code": "E11013",
+      "slug": "time-elapsed-invalid-arg",
+      "message": "elapsed_ms requires integer tick",
+      "usedFor": "`time.elapsed_ms(\"abc\")`",
+      "example": "time.elapsed_ms() requires integer tick",
+      "category": "time"
+    },
+    {
+      "code": "E12001",
+      "slug": "map-requires-map",
+      "message": "function requires a map argument",
+      "usedFor": "Passing non-map to map function",
+      "example": "maps.keys() requires a map argument",
+      "category": "map"
+    },
+    {
+      "code": "E12002",
+      "slug": "map-key-not-hashable",
+      "message": "map key must be a hashable type",
+      "usedFor": "Using non-hashable type (array, map, struct) as map key",
+      "example": "map key must be a hashable type, got ARRAY",
+      "category": "map"
+    },
+    {
+      "code": "E12003",
+      "slug": "map-immutable",
+      "message": "cannot modify immutable map",
+      "usedFor": "Attempting to modify a const map",
+      "example": "cannot modify immutable map (declared as const)",
+      "category": "map"
+    },
+    {
+      "code": "E12004",
+      "slug": "map-invalid-pair",
+      "message": "map element must be a [key, value] pair",
+      "usedFor": "Invalid map literal element",
+      "example": "map element must be a [key, value] pair",
+      "category": "map"
+    },
+    {
+      "code": "E12005",
+      "slug": "map-value-not-hashable",
+      "message": "map value is not hashable and cannot become a key",
+      "usedFor": "Using map value that can't be converted to key",
+      "example": "map value is not hashable and cannot be used as a key",
+      "category": "map"
+    },
+    {
+      "code": "E12006",
+      "slug": "map-key-not-found",
+      "message": "key not found in map",
+      "usedFor": "Accessing non-existent key in map",
+      "example": "key 'foo' not found in map",
+      "category": "map"
+    },
+    {
+      "code": "E12007",
+      "slug": "map-key-not-found-compound",
+      "message": "key not found in map for compound assignment",
+      "usedFor": "Compound assignment (+=, -=, etc.) on non-existent key",
+      "example": "key 'count' not found in map for compound assignment",
+      "category": "map"
+    },
+    {
+      "code": "W1001",
+      "slug": "unused-variable",
+      "message": "variable declared but not used",
+      "usedFor": "Variable declared but never referenced",
+      "example": "variable 'x' is declared but never used",
+      "category": "warnings"
+    },
+    {
+      "code": "W1002",
+      "slug": "unused-import",
+      "message": "module imported but not used",
+      "usedFor": "Import statement for unused module",
+      "example": "module 'math' is imported but never used",
+      "category": "warnings"
+    },
+    {
+      "code": "W1003",
+      "slug": "unused-function",
+      "message": "function declared but not called",
+      "usedFor": "Function defined but never invoked",
+      "example": "function 'helper' is declared but never called",
+      "category": "warnings"
+    },
+    {
+      "code": "W1004",
+      "slug": "unused-parameter",
+      "message": "parameter declared but not used",
+      "usedFor": "Function parameter never referenced in body",
+      "example": "parameter 'x' is declared but never used",
+      "category": "warnings"
+    },
+    {
+      "code": "W2001",
+      "slug": "unreachable-code",
+      "message": "code will never execute",
+      "usedFor": "Code after return/break/continue",
+      "example": "unreachable code after return/break/continue",
+      "category": "warnings",
+      "suppressible": "@suppress(W2001) or @suppress(unreachable_code)"
+    },
+    {
+      "code": "W2002",
+      "slug": "shadowed-variable",
+      "message": "variable shadows outer scope",
+      "usedFor": "Inner scope variable with same name as outer",
+      "example": "variable 'x' shadows variable in outer scope",
+      "category": "warnings"
+    },
+    {
+      "code": "W2003",
+      "slug": "missing-return",
+      "message": "function may not return value",
+      "usedFor": "Function with return type but no return",
+      "example": "Function 'foo' declares return type(s) but has no return statement",
+      "category": "warnings",
+      "suppressible": "@suppress(W2003) or @suppress(missing_return)"
+    },
+    {
+      "code": "W2004",
+      "slug": "implicit-type-conversion",
+      "message": "implicit type conversion occurring",
+      "usedFor": "Automatic type coercion",
+      "example": "implicit conversion from int to float",
+      "category": "warnings"
+    },
+    {
+      "code": "W2005",
+      "slug": "deprecated-feature",
+      "message": "using deprecated feature",
+      "usedFor": "Use of deprecated syntax or function",
+      "example": "feature 'xyz' is deprecated, use 'abc' instead",
+      "category": "warnings"
+    },
+    {
+      "code": "W3001",
+      "slug": "empty-block",
+      "message": "block statement is empty",
+      "usedFor": "Empty body in if/for/while/function",
+      "example": "if statement has empty body",
+      "category": "warnings"
+    },
+    {
+      "code": "W3002",
+      "slug": "redundant-condition",
+      "message": "condition is always true/false",
+      "usedFor": "Constant condition in if/while",
+      "example": "condition 'true' is always true",
+      "category": "warnings"
+    },
+    {
+      "code": "W3003",
+      "slug": "array-size-mismatch",
+      "message": "fixed-size array not fully initialized",
+      "usedFor": "Declaring a fixed-size array but providing fewer elements than the declared size",
+      "example": "array declared with size 10 but only 3 elements provided",
+      "category": "warnings",
+      "suppressible": "@suppress(W3003) or @suppress(array_size_mismatch)"
+    },
+    {
+      "code": "W6001",
+      "slug": "module-name-mismatch",
+      "message": "module name does not match directory name",
+      "usedFor": "Warning when module declaration name differs from directory name",
+      "example": "module name 'foo' does not match directory name 'bar'",
+      "category": "warnings"
+    }
+  ]
+}

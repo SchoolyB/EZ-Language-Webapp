@@ -1,0 +1,79 @@
+---
+interface NavItem {
+  href: string;
+  label: string;
+  children?: NavItem[];
+}
+
+interface NavSection {
+  title: string;
+  items: NavItem[];
+}
+
+const navigation: NavSection[] = [
+  {
+    title: 'Getting Started',
+    items: [
+      { href: '/docs/getting-started', label: 'Installation' },
+      { href: '/docs/getting-started/hello-world', label: 'Hello World' },
+      { href: '/docs/getting-started/repl', label: 'Using the REPL' },
+    ],
+  },
+  {
+    title: 'Language',
+    items: [
+      { href: '/docs/language/keywords', label: 'Keywords' },
+      { href: '/docs/language/variables', label: 'Variables' },
+      { href: '/docs/language/functions', label: 'Functions' },
+      { href: '/docs/language/control-flow', label: 'Control Flow' },
+      { href: '/docs/language/types', label: 'Types' },
+      { href: '/docs/language/structs', label: 'Structs' },
+      { href: '/docs/language/enums', label: 'Enums' },
+      { href: '/docs/language/modules', label: 'Modules' },
+    ],
+  },
+  {
+    title: 'Standard Library',
+    items: [
+      { href: '/docs/stdlib', label: 'Overview' },
+      { href: '/docs/stdlib/std', label: '@std' },
+      { href: '/docs/stdlib/math', label: '@math' },
+      { href: '/docs/stdlib/arrays', label: '@arrays' },
+      { href: '/docs/stdlib/strings', label: '@strings' },
+      { href: '/docs/stdlib/maps', label: '@maps' },
+      { href: '/docs/stdlib/time', label: '@time' },
+    ],
+  },
+];
+
+const currentPath = Astro.url.pathname;
+---
+
+<aside class="w-64 shrink-0 hidden lg:block">
+  <nav class="sticky top-20 space-y-8 pr-4 pb-8 max-h-[calc(100vh-5rem)] overflow-y-auto">
+    {navigation.map((section) => (
+      <div>
+        <h3 class="font-semibold text-sm opacity-50 uppercase tracking-wider mb-3 text-black dark:text-white">
+          {section.title}
+        </h3>
+        <ul class="space-y-1">
+          {section.items.map((item) => (
+            <li>
+              <a
+                href={item.href}
+                class:list={[
+                  'block px-3 py-1.5 rounded-lg text-sm transition-all',
+                  currentPath === item.href
+                    ? 'bg-black dark:bg-white text-white dark:text-black font-medium'
+                    : 'opacity-60 hover:opacity-100 hover:bg-gray-100 dark:hover:bg-gray-900 text-black dark:text-white',
+                ]}
+              >
+                {item.label}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    ))}
+  </nav>
+</aside>

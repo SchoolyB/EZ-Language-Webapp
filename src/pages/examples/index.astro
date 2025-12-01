@@ -1,0 +1,107 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import CodeBlock from '../../components/CodeBlock.astro';
+
+const examples = [
+  {
+    title: 'Hello World',
+    category: 'Basics',
+    code: `import @std
+
+do main() {
+    std.println("Hello, World!")
+}`,
+  },
+  {
+    title: 'FizzBuzz',
+    category: 'Basics',
+    code: `import @std
+
+do main() {
+    for i in 1..101 {
+        if i % 15 == 0 {
+            std.println("FizzBuzz")
+        } else if i % 3 == 0 {
+            std.println("Fizz")
+        } else if i % 5 == 0 {
+            std.println("Buzz")
+        } else {
+            std.println(string(i))
+        }
+    }
+}`,
+  },
+  {
+    title: 'Sum of Array',
+    category: 'Data Structures',
+    code: `import @std
+
+do main() {
+    var numbers []int = [1, 2, 3, 4, 5]
+    var sum int = 0
+
+    for n in numbers {
+        sum += n
+    }
+
+    std.println("Sum: " + string(sum))
+}`,
+  },
+  {
+    title: 'Factorial',
+    category: 'Algorithms',
+    code: `import @std
+
+fn factorial(n int) int {
+    if n <= 1 {
+        return 1
+    }
+    return n * factorial(n - 1)
+}
+
+do main() {
+    var result int = factorial(5)
+    std.println("5! = " + string(result))
+}`,
+  },
+];
+
+const categories = [...new Set(examples.map(e => e.category))];
+---
+
+<BaseLayout title="Examples - EZ" description="Real-world EZ code examples and recipes.">
+  <Header />
+
+  <main class="flex-1 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <h1 class="text-3xl font-bold mb-4">Examples</h1>
+    <p class="text-text-light/70 dark:text-text-dark/70 mb-8">
+      Real, copy-paste-ready code for common tasks. Each example is self-contained and runnable.
+    </p>
+
+    {categories.map(category => (
+      <section class="mb-12">
+        <h2 class="text-xl font-semibold mb-6 text-text-light/60 dark:text-text-dark/60">{category}</h2>
+        <div class="grid gap-6">
+          {examples.filter(e => e.category === category).map(example => (
+            <div class="border border-code-border-light dark:border-code-border-dark rounded-lg overflow-hidden">
+              <div class="px-4 py-3 bg-code-bg-light dark:bg-code-bg-dark border-b border-code-border-light dark:border-code-border-dark flex items-center justify-between">
+                <h3 class="font-semibold">{example.title}</h3>
+                <button
+                  class="text-sm px-3 py-1 rounded border border-code-border-light dark:border-code-border-dark hover:bg-bg-light dark:hover:bg-bg-dark transition-colors"
+                  onclick={`navigator.clipboard.writeText(${JSON.stringify(example.code)})`}
+                >
+                  Copy
+                </button>
+              </div>
+              <CodeBlock code={example.code} />
+            </div>
+          ))}
+        </div>
+      </section>
+    ))}
+  </main>
+
+  <Footer />
+</BaseLayout>

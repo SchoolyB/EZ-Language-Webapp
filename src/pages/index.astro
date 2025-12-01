@@ -1,0 +1,210 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+---
+
+<BaseLayout title="EZ - Programming Made EZ">
+  <Header />
+
+  <main class="flex-1">
+    <!-- Hero Section -->
+    <section class="py-20 sm:py-32">
+      <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <h1 class="text-5xl sm:text-6xl font-bold tracking-tight mb-6 text-black dark:text-white">
+          Programming Made <span class="border-b-4 border-black dark:border-white">EZ</span>
+        </h1>
+        <p class="text-xl sm:text-2xl opacity-60 max-w-2xl mx-auto mb-10 text-black dark:text-white">
+          A simple programming language that teaches real fundamentals without the complexity.
+        </p>
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+          <a
+            href="/docs/getting-started"
+            class="w-full sm:w-auto px-8 py-3 bg-black dark:bg-white text-white dark:text-black font-semibold rounded-lg hover:opacity-80 transition-opacity"
+          >
+            Get Started
+          </a>
+          <div class="relative w-full sm:w-auto">
+            <button
+              id="download-btn"
+              type="button"
+              class="w-full sm:w-auto px-8 py-3 border-2 border-black dark:border-white text-black dark:text-white font-semibold rounded-lg hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition-colors flex items-center justify-center gap-2"
+            >
+              Download
+              <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+              </svg>
+            </button>
+            <div
+              id="download-dropdown"
+              class="hidden absolute top-full left-1/2 -translate-x-1/2 mt-2 bg-white dark:bg-black border-2 border-black dark:border-white rounded-lg shadow-lg overflow-hidden z-50"
+            >
+              <div class="flex items-stretch divide-x divide-gray-200 dark:divide-gray-800">
+                <a href="https://github.com/SchoolyB/EZ/releases/latest/download/ez-darwin-arm64.tar.gz" class="flex flex-col items-center gap-2 px-4 py-4 text-black dark:text-white hover:bg-gray-100 dark:hover:bg-gray-900 transition-colors">
+                  <svg class="w-6 h-6" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/>
+                  </svg>
+                  <span class="text-xs font-medium whitespace-nowrap">Apple (ARM)</span>
+                </a>
+                <a href="https://github.com/SchoolyB/EZ/releases/latest/download/ez-darwin-amd64.tar.gz" class="flex flex-col items-center gap-2 px-4 py-4 text-black dark:text-white hover:bg-gray-100 dark:hover:bg-gray-900 transition-colors">
+                  <svg class="w-6 h-6" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/>
+                  </svg>
+                  <span class="text-xs font-medium whitespace-nowrap">Apple (AMD)</span>
+                </a>
+                <a href="https://github.com/SchoolyB/EZ/releases/latest/download/ez-windows-amd64.zip" class="flex flex-col items-center gap-2 px-4 py-4 text-black dark:text-white hover:bg-gray-100 dark:hover:bg-gray-900 transition-colors">
+                  <svg class="w-6 h-6" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M3 12V6.75l6-1.32v6.48L3 12zm17-9v8.75l-10 .15V5.21L20 3zM3 13l6 .09v6.81l-6-1.15V13zm17 .25V22l-10-1.91V13.1l10 .15z"/>
+                  </svg>
+                  <span class="text-xs font-medium">Windows</span>
+                </a>
+                <a href="https://github.com/SchoolyB/EZ/releases/latest/download/ez-linux-arm64.tar.gz" class="flex flex-col items-center gap-2 px-4 py-4 text-black dark:text-white hover:bg-gray-100 dark:hover:bg-gray-900 transition-colors">
+                  <svg class="w-6 h-6" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12.504 0c-.155 0-.315.008-.48.021-4.226.333-3.105 4.807-3.17 6.298-.076 1.092-.3 1.953-1.05 3.02-.885 1.051-2.127 2.75-2.716 4.521-.278.832-.41 1.684-.287 2.489a.424.424 0 00-.11.135c-.26.268-.45.6-.663.839-.199.199-.485.267-.797.4-.313.136-.658.269-.864.68-.09.189-.136.394-.132.602 0 .199.027.4.055.536.058.399.116.728.04.97-.249.68-.28 1.145-.106 1.484.174.334.535.47.94.601.81.2 1.91.135 2.774.6.926.466 1.866.67 2.616.47.526-.116.97-.464 1.208-.946.587-.003 1.23-.269 2.26-.334.699-.058 1.574.267 2.577.2.025.134.063.198.114.333l.003.003c.391.778 1.113 1.132 1.884 1.071.771-.06 1.592-.536 2.257-1.306.631-.765 1.683-1.084 2.378-1.503.348-.199.629-.469.649-.853.023-.4-.2-.811-.714-1.376v-.097l-.003-.003c-.17-.2-.25-.535-.338-.926-.085-.401-.182-.786-.492-1.046h-.003c-.059-.054-.123-.067-.188-.135a.357.357 0 00-.19-.064c.431-1.278.264-2.55-.173-3.694-.533-1.41-1.465-2.638-2.175-3.483-.796-1.005-1.576-1.957-1.56-3.368.026-2.152.236-6.133-3.544-6.139zm.529 3.405h.013c.213 0 .396.062.584.198.19.135.33.332.438.533.105.259.158.459.166.724 0-.02.006-.04.006-.06v.105a.086.086 0 01-.004-.021l-.004-.024a1.807 1.807 0 01-.15.706.953.953 0 01-.213.335.71.71 0 00-.088-.042c-.104-.045-.198-.064-.284-.133a1.312 1.312 0 00-.22-.066c.05-.06.146-.133.183-.198.053-.128.082-.264.088-.402v-.02a1.21 1.21 0 00-.061-.4c-.045-.134-.101-.2-.183-.333-.084-.066-.167-.132-.267-.132h-.016c-.093 0-.176.03-.262.132a.8.8 0 00-.205.334 1.18 1.18 0 00-.09.4v.019c.002.089.008.179.02.267-.193-.067-.438-.135-.607-.202a1.635 1.635 0 01-.018-.2v-.02a1.772 1.772 0 01.15-.768c.082-.22.232-.406.43-.533a.985.985 0 01.594-.2zm-2.962.059h.036c.142 0 .27.048.399.135.146.129.264.288.344.465.09.199.14.4.153.667v.004c.007.134.006.2-.002.266v.08c-.03.007-.056.018-.083.024-.152.055-.274.135-.393.2.012-.09.013-.18.003-.267v-.015c-.012-.133-.04-.2-.082-.333a.613.613 0 00-.166-.267.248.248 0 00-.183-.064h-.021c-.071.006-.13.04-.186.132a.552.552 0 00-.12.27.944.944 0 00-.023.33v.015c.012.135.037.2.08.334.046.134.098.2.166.268.01.009.02.018.034.024-.07.057-.117.07-.176.136a.304.304 0 01-.131.068 2.62 2.62 0 01-.275-.402 1.772 1.772 0 01-.155-.667 1.759 1.759 0 01.08-.668 1.43 1.43 0 01.283-.535c.128-.133.26-.2.418-.2zm1.37 1.706c.332 0 .733.065 1.216.399.293.2.523.269 1.052.468h.003c.255.136.405.266.478.399v-.131a.571.571 0 01.016.47c-.123.31-.516.643-1.063.842v.002c-.268.135-.501.333-.775.465-.276.135-.588.292-1.012.267a1.139 1.139 0 01-.448-.067 3.566 3.566 0 01-.322-.198c-.195-.135-.363-.332-.612-.465v-.005h-.005c-.4-.246-.616-.512-.686-.71-.07-.268-.005-.47.193-.6.224-.135.38-.271.483-.336.104-.074.143-.102.176-.131h.002v-.003c.169-.202.436-.47.839-.601.139-.036.294-.065.466-.065zm2.8 2.142c.358 1.417 1.196 3.475 1.735 4.473.286.534.855 1.659 1.102 3.024.156-.005.33.018.513.064.646-1.671-.546-3.467-1.089-3.966-.22-.2-.232-.335-.123-.335.59.534 1.365 1.572 1.646 2.757.13.535.16 1.104.021 1.67.067.028.135.06.205.067 1.032.534 1.413.938 1.23 1.537v-.002c-.06-.135-.12-.2-.283-.334-.381-.266-.747-.532-1.164-.532-.139 0-.291.032-.454.134-.323.2-.528.465-.749.665l-.455.4c-.2.135-.455.267-.69.398l.015.134c.035.331.015.664-.055.997-.06.199-.14.4-.28.535a.96.96 0 01-.655.269c-.387 0-.759-.199-1.03-.399-.134-.067-.267-.2-.4-.266a9.352 9.352 0 01-1.104-.934c-.257-.199-.454-.532-.65-.732-.067-.067-.127-.2-.194-.268-.09-.135-.2-.266-.32-.399-.266-.332-.6-.6-.869-.6l-.401-.064a.443.443 0 01-.348-.2.53.53 0 01-.063-.4c.039-.198.177-.333.452-.333l.003.003c.2 0 .454.067.659.135.13.035.259.068.387.068h.012c.267 0 .508-.133.695-.266.123-.067.23-.199.334-.268.267-.2.455-.532.597-.799.167-.4.299-.934.342-1.534.133-1.467-.388-2.932-.388-4.298v-.4c-.088-1.333.334-2.465 1.178-3.532l.149-.134z"/>
+                  </svg>
+                  <span class="text-xs font-medium whitespace-nowrap">Linux (ARM)</span>
+                </a>
+                <a href="https://github.com/SchoolyB/EZ/releases/latest/download/ez-linux-amd64.tar.gz" class="flex flex-col items-center gap-2 px-4 py-4 text-black dark:text-white hover:bg-gray-100 dark:hover:bg-gray-900 transition-colors">
+                  <svg class="w-6 h-6" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12.504 0c-.155 0-.315.008-.48.021-4.226.333-3.105 4.807-3.17 6.298-.076 1.092-.3 1.953-1.05 3.02-.885 1.051-2.127 2.75-2.716 4.521-.278.832-.41 1.684-.287 2.489a.424.424 0 00-.11.135c-.26.268-.45.6-.663.839-.199.199-.485.267-.797.4-.313.136-.658.269-.864.68-.09.189-.136.394-.132.602 0 .199.027.4.055.536.058.399.116.728.04.97-.249.68-.28 1.145-.106 1.484.174.334.535.47.94.601.81.2 1.91.135 2.774.6.926.466 1.866.67 2.616.47.526-.116.97-.464 1.208-.946.587-.003 1.23-.269 2.26-.334.699-.058 1.574.267 2.577.2.025.134.063.198.114.333l.003.003c.391.778 1.113 1.132 1.884 1.071.771-.06 1.592-.536 2.257-1.306.631-.765 1.683-1.084 2.378-1.503.348-.199.629-.469.649-.853.023-.4-.2-.811-.714-1.376v-.097l-.003-.003c-.17-.2-.25-.535-.338-.926-.085-.401-.182-.786-.492-1.046h-.003c-.059-.054-.123-.067-.188-.135a.357.357 0 00-.19-.064c.431-1.278.264-2.55-.173-3.694-.533-1.41-1.465-2.638-2.175-3.483-.796-1.005-1.576-1.957-1.56-3.368.026-2.152.236-6.133-3.544-6.139zm.529 3.405h.013c.213 0 .396.062.584.198.19.135.33.332.438.533.105.259.158.459.166.724 0-.02.006-.04.006-.06v.105a.086.086 0 01-.004-.021l-.004-.024a1.807 1.807 0 01-.15.706.953.953 0 01-.213.335.71.71 0 00-.088-.042c-.104-.045-.198-.064-.284-.133a1.312 1.312 0 00-.22-.066c.05-.06.146-.133.183-.198.053-.128.082-.264.088-.402v-.02a1.21 1.21 0 00-.061-.4c-.045-.134-.101-.2-.183-.333-.084-.066-.167-.132-.267-.132h-.016c-.093 0-.176.03-.262.132a.8.8 0 00-.205.334 1.18 1.18 0 00-.09.4v.019c.002.089.008.179.02.267-.193-.067-.438-.135-.607-.202a1.635 1.635 0 01-.018-.2v-.02a1.772 1.772 0 01.15-.768c.082-.22.232-.406.43-.533a.985.985 0 01.594-.2zm-2.962.059h.036c.142 0 .27.048.399.135.146.129.264.288.344.465.09.199.14.4.153.667v.004c.007.134.006.2-.002.266v.08c-.03.007-.056.018-.083.024-.152.055-.274.135-.393.2.012-.09.013-.18.003-.267v-.015c-.012-.133-.04-.2-.082-.333a.613.613 0 00-.166-.267.248.248 0 00-.183-.064h-.021c-.071.006-.13.04-.186.132a.552.552 0 00-.12.27.944.944 0 00-.023.33v.015c.012.135.037.2.08.334.046.134.098.2.166.268.01.009.02.018.034.024-.07.057-.117.07-.176.136a.304.304 0 01-.131.068 2.62 2.62 0 01-.275-.402 1.772 1.772 0 01-.155-.667 1.759 1.759 0 01.08-.668 1.43 1.43 0 01.283-.535c.128-.133.26-.2.418-.2zm1.37 1.706c.332 0 .733.065 1.216.399.293.2.523.269 1.052.468h.003c.255.136.405.266.478.399v-.131a.571.571 0 01.016.47c-.123.31-.516.643-1.063.842v.002c-.268.135-.501.333-.775.465-.276.135-.588.292-1.012.267a1.139 1.139 0 01-.448-.067 3.566 3.566 0 01-.322-.198c-.195-.135-.363-.332-.612-.465v-.005h-.005c-.4-.246-.616-.512-.686-.71-.07-.268-.005-.47.193-.6.224-.135.38-.271.483-.336.104-.074.143-.102.176-.131h.002v-.003c.169-.202.436-.47.839-.601.139-.036.294-.065.466-.065zm2.8 2.142c.358 1.417 1.196 3.475 1.735 4.473.286.534.855 1.659 1.102 3.024.156-.005.33.018.513.064.646-1.671-.546-3.467-1.089-3.966-.22-.2-.232-.335-.123-.335.59.534 1.365 1.572 1.646 2.757.13.535.16 1.104.021 1.67.067.028.135.06.205.067 1.032.534 1.413.938 1.23 1.537v-.002c-.06-.135-.12-.2-.283-.334-.381-.266-.747-.532-1.164-.532-.139 0-.291.032-.454.134-.323.2-.528.465-.749.665l-.455.4c-.2.135-.455.267-.69.398l.015.134c.035.331.015.664-.055.997-.06.199-.14.4-.28.535a.96.96 0 01-.655.269c-.387 0-.759-.199-1.03-.399-.134-.067-.267-.2-.4-.266a9.352 9.352 0 01-1.104-.934c-.257-.199-.454-.532-.65-.732-.067-.067-.127-.2-.194-.268-.09-.135-.2-.266-.32-.399-.266-.332-.6-.6-.869-.6l-.401-.064a.443.443 0 01-.348-.2.53.53 0 01-.063-.4c.039-.198.177-.333.452-.333l.003.003c.2 0 .454.067.659.135.13.035.259.068.387.068h.012c.267 0 .508-.133.695-.266.123-.067.23-.199.334-.268.267-.2.455-.532.597-.799.167-.4.299-.934.342-1.534.133-1.467-.388-2.932-.388-4.298v-.4c-.088-1.333.334-2.465 1.178-3.532l.149-.134z"/>
+                  </svg>
+                  <span class="text-xs font-medium whitespace-nowrap">Linux (AMD)</span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- What EZ Is / Is Not Section -->
+    <section class="py-24 sm:py-32">
+      <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <!-- Toggle Labels -->
+        <div class="flex justify-center gap-12 mb-16">
+          <button
+            id="tab-is"
+            class="ez-tab text-3xl sm:text-4xl font-bold pb-3 border-b-4 border-black dark:border-white text-black dark:text-white transition-all"
+            data-tab="is"
+          >
+            What EZ is
+          </button>
+          <button
+            id="tab-is-not"
+            class="ez-tab text-3xl sm:text-4xl font-bold pb-3 border-b-4 border-transparent text-black dark:text-white opacity-40 hover:opacity-70 transition-all"
+            data-tab="is-not"
+          >
+            What EZ is not
+          </button>
+        </div>
+
+        <!-- Content Container -->
+        <div class="relative overflow-hidden">
+          <div id="slider" class="flex transition-transform duration-300 ease-in-out">
+            <!-- What EZ Is Content -->
+            <div class="min-w-full px-4">
+              <ul class="space-y-6 max-w-2xl mx-auto text-lg sm:text-xl leading-relaxed text-black dark:text-white">
+                <li>
+                  <strong>A teaching language</strong> &mdash; designed to teach real programming fundamentals without unnecessary complexity.
+                </li>
+                <li>
+                  <strong>Statically typed</strong> &mdash; catch errors before your code runs, not after.
+                </li>
+                <li>
+                  <strong>Readable</strong> &mdash; plain English keywords like <code class="text-base px-2 py-1 bg-gray-100 dark:bg-gray-900 text-black dark:text-white">otherwise</code>, <code class="text-base px-2 py-1 bg-gray-100 dark:bg-gray-900 text-black dark:text-white">as_long_as</code>, and <code class="text-base px-2 py-1 bg-gray-100 dark:bg-gray-900 text-black dark:text-white">for_each</code>.
+                </li>
+                <li>
+                  <strong>Batteries included</strong> &mdash; standard library for strings, arrays, math, time, and more.
+                </li>
+                <li>
+                  <strong>Honest</strong> &mdash; explicit behavior, no hidden magic, high quality error messages.
+                </li>
+              </ul>
+            </div>
+
+            <!-- What EZ Is Not Content -->
+            <div class="min-w-full px-4">
+              <ul class="space-y-6 max-w-2xl mx-auto text-lg sm:text-xl leading-relaxed text-black dark:text-white">
+                <li>
+                  <strong>Not a replacement for Python, Go, or Rust</strong> &mdash; EZ is for learning and scripting, not production systems.
+                </li>
+                <li>
+                  <strong>Not object-oriented</strong> &mdash; no classes, ever. Composition over inheritance.
+                </li>
+                <li>
+                  <strong>Not a toy</strong> &mdash; it's a real tool for writing real scripts and learning real fundamentals.
+                </li>
+                <li>
+                  <strong>Not trying to be everything</strong> &mdash; intentionally limited scope, intentionally simple.
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <script>
+      function initEzTabs() {
+        const tabIs = document.getElementById('tab-is');
+        const tabIsNot = document.getElementById('tab-is-not');
+        const slider = document.getElementById('slider');
+
+        if (!tabIs || !tabIsNot || !slider) return;
+
+        function setActiveTab(tab) {
+          if (tab === 'is') {
+            tabIs.classList.add('border-black', 'dark:border-white');
+            tabIs.classList.remove('border-transparent', 'opacity-40');
+            tabIsNot.classList.remove('border-black', 'dark:border-white');
+            tabIsNot.classList.add('border-transparent', 'opacity-40');
+            slider.style.transform = 'translateX(0)';
+          } else {
+            tabIsNot.classList.add('border-black', 'dark:border-white');
+            tabIsNot.classList.remove('border-transparent', 'opacity-40');
+            tabIs.classList.remove('border-black', 'dark:border-white');
+            tabIs.classList.add('border-transparent', 'opacity-40');
+            slider.style.transform = 'translateX(-100%)';
+          }
+        }
+
+        tabIs.addEventListener('click', () => setActiveTab('is'));
+        tabIsNot.addEventListener('click', () => setActiveTab('is-not'));
+      }
+
+      function initDownloadDropdown() {
+        const btn = document.getElementById('download-btn');
+        const dropdown = document.getElementById('download-dropdown');
+
+        if (!btn || !dropdown) return;
+
+        btn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          dropdown.classList.toggle('hidden');
+        });
+
+        document.addEventListener('click', (e) => {
+          if (!dropdown.contains(e.target) && e.target !== btn) {
+            dropdown.classList.add('hidden');
+          }
+        });
+
+        document.addEventListener('keydown', (e) => {
+          if (e.key === 'Escape') {
+            dropdown.classList.add('hidden');
+          }
+        });
+      }
+
+      initEzTabs();
+      initDownloadDropdown();
+      document.addEventListener('astro:after-swap', () => {
+        initEzTabs();
+        initDownloadDropdown();
+      });
+    </script>
+
+  </main>
+
+  <Footer />
+</BaseLayout>

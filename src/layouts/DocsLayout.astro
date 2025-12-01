@@ -1,0 +1,94 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import Sidebar from '../components/Sidebar.astro';
+import TableOfContents from '../components/TableOfContents.astro';
+
+interface Props {
+  title?: string;
+  description?: string;
+  frontmatter?: {
+    title: string;
+    description?: string;
+  };
+}
+
+// Support both direct props (Astro) and frontmatter (MDX)
+const { frontmatter } = Astro.props;
+const title = Astro.props.title || frontmatter?.title || 'Documentation';
+const description = Astro.props.description || frontmatter?.description;
+---
+
+<BaseLayout title={`${title} - EZ Docs`} description={description}>
+  <Header />
+
+  <div class="flex-1 max-w-[90rem] mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div class="flex gap-8">
+      <Sidebar />
+
+      <main class="flex-1 min-w-0">
+        <article class="docs-content max-w-3xl">
+          <slot />
+        </article>
+      </main>
+
+      <TableOfContents />
+    </div>
+  </div>
+
+  <Footer />
+</BaseLayout>
+
+<script>
+  function initCopyButtons() {
+    const codeBlocks = document.querySelectorAll('.docs-content pre');
+
+    codeBlocks.forEach((pre) => {
+      // Skip if already wrapped
+      if (pre.parentElement?.classList.contains('code-block-wrapper')) return;
+
+      // Create wrapper
+      const wrapper = document.createElement('div');
+      wrapper.className = 'code-block-wrapper';
+
+      // Wrap the pre element
+      pre.parentNode?.insertBefore(wrapper, pre);
+      wrapper.appendChild(pre);
+
+      // Create copy button
+      const button = document.createElement('button');
+      button.className = 'copy-button';
+      button.textContent = 'Copy';
+      button.type = 'button';
+
+      button.addEventListener('click', async () => {
+        const code = pre.querySelector('code')?.textContent || pre.textContent || '';
+
+        try {
+          await navigator.clipboard.writeText(code);
+          button.textContent = 'Copied!';
+          button.classList.add('copied');
+
+          setTimeout(() => {
+            button.textContent = 'Copy';
+            button.classList.remove('copied');
+          }, 2000);
+        } catch (err) {
+          button.textContent = 'Failed';
+          setTimeout(() => {
+            button.textContent = 'Copy';
+          }, 2000);
+        }
+      });
+
+      wrapper.appendChild(button);
+    });
+  }
+
+  // Run on initial load
+  initCopyButtons();
+
+  // Re-run after Astro page transitions
+  document.addEventListener('astro:after-swap', initCopyButtons);
+</script>

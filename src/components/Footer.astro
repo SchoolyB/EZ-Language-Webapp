@@ -1,0 +1,71 @@
+---
+---
+
+<!-- Scroll to Top Button -->
+<button
+  id="scroll-to-top"
+  type="button"
+  class="fixed bottom-6 right-6 p-3 rounded-full bg-black dark:bg-white text-white dark:text-black shadow-lg opacity-0 pointer-events-none transition-opacity duration-300 hover:opacity-80 z-50"
+  aria-label="Scroll to top"
+>
+  <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+    <path stroke-linecap="round" stroke-linejoin="round" d="M5 15l7-7 7 7" />
+  </svg>
+</button>
+
+<footer id="site-footer" class="mt-auto border-t border-gray-200 dark:border-gray-800">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div class="flex items-center gap-2 text-sm opacity-50">
+        <span>&copy; 2025-Present <a href="https://marshallburns.me" target="_blank" rel="noopener noreferrer" class="hover:opacity-100 transition-opacity underline">Marshall Burns</a></span>
+        <span>&middot;</span>
+        <a href="https://github.com/SchoolyB/EZ/blob/main/LICENSE" class="hover:opacity-100 transition-opacity underline">
+          MIT License
+        </a>
+      </div>
+      <div class="flex items-center gap-6 text-sm opacity-50">
+        <a href="/docs" class="hover:opacity-100 transition-opacity">
+          Docs
+        </a>
+        <a href="https://github.com/SchoolyB/EZ" target="_blank" rel="noopener noreferrer" class="hover:opacity-100 transition-opacity">
+          GitHub
+        </a>
+        <a href="/contribute" class="hover:opacity-100 transition-opacity">
+          Contribute
+        </a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  function initScrollToTop() {
+    const btn = document.getElementById('scroll-to-top');
+    const footer = document.getElementById('site-footer');
+    if (!btn || !footer) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            btn.classList.remove('opacity-0', 'pointer-events-none');
+            btn.classList.add('opacity-100', 'pointer-events-auto');
+          } else {
+            btn.classList.add('opacity-0', 'pointer-events-none');
+            btn.classList.remove('opacity-100', 'pointer-events-auto');
+          }
+        });
+      },
+      { threshold: 0 }
+    );
+
+    observer.observe(footer);
+
+    btn.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  }
+
+  initScrollToTop();
+  document.addEventListener('astro:after-swap', initScrollToTop);
+</script>
