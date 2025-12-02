@@ -77,7 +77,7 @@ const slugify = (str: string) => str.toLowerCase().replace(/\s+/g, '-');
       </aside>
 
       <!-- Main Content -->
-      <main>
+      <main class="min-w-0">
         <h1 class="text-3xl font-bold mb-2">Examples</h1>
         <p class="opacity-60 mb-6">
           Real, copy-paste-ready code for common tasks. Each example is self-contained and runnable.
@@ -105,13 +105,13 @@ const slugify = (str: string) => str.toLowerCase().replace(/\s+/g, '-');
                   data-title={example.title.toLowerCase()}
                   data-description={example.description.toLowerCase()}
                 >
-                  <div class="px-4 py-3 bg-[#f5f5f5] dark:bg-[#1a1a1a] border-b border-[#e5e5e5] dark:border-[#333333] flex items-center justify-between">
-                    <div>
-                      <h3 class="font-semibold">{example.title}</h3>
-                      <p class="text-sm opacity-50">{example.description}</p>
+                  <div class="px-4 py-3 bg-[#f5f5f5] dark:bg-[#1a1a1a] border-b border-[#e5e5e5] dark:border-[#333333] flex items-center justify-between gap-2">
+                    <div class="min-w-0 flex-1">
+                      <h3 class="font-semibold truncate">{example.title}</h3>
+                      <p class="text-sm opacity-50 truncate">{example.description}</p>
                     </div>
                     <button
-                      class="copy-btn text-sm px-3 py-1 rounded border border-gray-300 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+                      class="copy-btn text-sm px-3 py-1 rounded border border-gray-300 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors flex-shrink-0"
                       data-code={example.code}
                     >
                       Copy

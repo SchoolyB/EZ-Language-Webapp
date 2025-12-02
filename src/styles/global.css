@@ -67,6 +67,15 @@ pre {
   color: #000000;
   font-size: 0.875rem;
   line-height: 1.6;
+  /* Constrain to never exceed viewport minus padding */
+  max-width: calc(100vw - 2rem);
+  box-sizing: border-box;
+}
+
+@media (min-width: 640px) {
+  pre {
+    max-width: 100%;
+  }
 }
 
 .dark pre {
@@ -82,6 +91,8 @@ code:not(pre code) {
   border-radius: 0.25rem;
   font-size: 0.875rem;
   color: #000000;
+  word-break: break-all;
+  overflow-wrap: anywhere;
 }
 
 .dark code:not(pre code) {
@@ -315,9 +326,19 @@ code:not(pre code) {
 }
 
 .docs-content table {
-  width: 100%;
   margin: 1.5rem 0;
   border-collapse: collapse;
+  max-width: calc(100vw - 2rem);
+  display: block;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+@media (min-width: 640px) {
+  .docs-content table {
+    max-width: 100%;
+    width: 100%;
+  }
 }
 
 .docs-content th,
@@ -465,4 +486,15 @@ code:not(pre code) {
   font-size: 0.75rem;
   color: #6b7280;
   white-space: nowrap;
+}
+
+/* Example cards */
+.example-card {
+  max-width: calc(100vw - 2rem);
+}
+
+@media (min-width: 640px) {
+  .example-card {
+    max-width: 100%;
+  }
 }
