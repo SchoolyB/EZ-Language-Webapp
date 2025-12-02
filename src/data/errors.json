@@ -1196,6 +1196,196 @@
       "relatedErrors": []
     },
     {
+      "code": "E7016",
+      "slug": "file-not-found",
+      "message": "file or directory not found",
+      "usedFor": "I/O operation attempts to access a non-existent file or directory",
+      "example": "file or directory not found: open /path/to/missing.txt: no such file or directory",
+      "category": "stdlib",
+      "howToFix": "Verify the file path is correct and the file exists. Use `io.exists()` to check if a path exists before attempting operations.",
+      "relatedErrors": ["E7017", "E7040"]
+    },
+    {
+      "code": "E7017",
+      "slug": "permission-denied",
+      "message": "permission denied",
+      "usedFor": "Program lacks sufficient permissions for file operation",
+      "example": "permission denied: open /etc/shadow: permission denied",
+      "category": "stdlib",
+      "howToFix": "Check file and directory permissions. Ensure the program has appropriate read/write/execute permissions.",
+      "relatedErrors": ["E7016", "E7020"]
+    },
+    {
+      "code": "E7018",
+      "slug": "cannot-remove-directory",
+      "message": "io.remove() cannot remove directories",
+      "usedFor": "`io.remove()` called on a directory path",
+      "example": "io.remove() cannot remove directories, use io.remove_dir() instead",
+      "category": "stdlib",
+      "howToFix": "Use `io.remove_dir()` to remove empty directories or `io.remove_all()` for recursive deletion.",
+      "relatedErrors": ["E7019", "E7023"]
+    },
+    {
+      "code": "E7019",
+      "slug": "cannot-remove-file",
+      "message": "io.remove_dir() can only remove directories",
+      "usedFor": "`io.remove_dir()` called on a file path",
+      "example": "io.remove_dir() can only remove directories, use io.remove() for files",
+      "category": "stdlib",
+      "howToFix": "Use `io.remove()` to remove files. Use `io.is_file()` to check if a path is a file.",
+      "relatedErrors": ["E7018"]
+    },
+    {
+      "code": "E7020",
+      "slug": "safety-check-failed",
+      "message": "cannot remove root or home directory",
+      "usedFor": "`io.remove_all()` called on root or home directory",
+      "example": "io.remove_all() cannot remove root or home directory for safety",
+      "category": "stdlib",
+      "howToFix": "Never attempt to recursively delete root or home directories. Use more specific paths for deletion operations.",
+      "relatedErrors": ["E7018", "E7023"]
+    },
+    {
+      "code": "E7021",
+      "slug": "cannot-copy-directory",
+      "message": "io.copy() cannot copy directories",
+      "usedFor": "`io.copy()` called with a directory as the source path",
+      "example": "io.copy() cannot copy directories, only files",
+      "category": "stdlib",
+      "howToFix": "Use `io.copy()` only for individual files. For directory copying, iterate through contents and copy files individually.",
+      "relatedErrors": ["E7016", "E7022"]
+    },
+    {
+      "code": "E7022",
+      "slug": "file-already-exists",
+      "message": "file or directory already exists",
+      "usedFor": "Attempting to create a file or directory that already exists",
+      "example": "file or directory already exists: mkdir /existing/dir: file exists",
+      "category": "stdlib",
+      "howToFix": "Check if the file/directory exists with `io.exists()` before creation. Choose a different name or remove the existing one first.",
+      "relatedErrors": ["E7016", "E7023"]
+    },
+    {
+      "code": "E7023",
+      "slug": "directory-not-empty",
+      "message": "directory not empty",
+      "usedFor": "`io.remove_dir()` called on a non-empty directory",
+      "example": "directory not empty: remove /path/to/dir: directory not empty",
+      "category": "stdlib",
+      "howToFix": "Remove all files and subdirectories first, or use `io.remove_all()` for recursive deletion (use with caution).",
+      "relatedErrors": ["E7018", "E7020"]
+    },
+    {
+      "code": "E7024",
+      "slug": "env-var-operation-failed",
+      "message": "environment variable operation failed",
+      "usedFor": "Setting, getting, or unsetting an environment variable fails",
+      "example": "environment variable operation failed: invalid variable name",
+      "category": "stdlib",
+      "howToFix": "Ensure environment variable names are valid (no `=` or null characters) and not empty.",
+      "relatedErrors": ["E7025"]
+    },
+    {
+      "code": "E7025",
+      "slug": "get-cwd-failed",
+      "message": "failed to get current directory",
+      "usedFor": "System cannot determine the current working directory",
+      "example": "failed to get current directory: getwd: no such file or directory",
+      "category": "stdlib",
+      "howToFix": "Ensure the current working directory exists and you have permission to access it.",
+      "relatedErrors": ["E7026", "E7016"]
+    },
+    {
+      "code": "E7026",
+      "slug": "chdir-failed",
+      "message": "failed to change directory",
+      "usedFor": "Program cannot change to the specified directory",
+      "example": "failed to change directory: chdir /nonexistent: no such file or directory",
+      "category": "stdlib",
+      "howToFix": "Verify the target directory exists with `io.exists()` and `io.is_dir()`. Check that you have execute permission on the directory.",
+      "relatedErrors": ["E7025", "E7016"]
+    },
+    {
+      "code": "E7027",
+      "slug": "get-hostname-failed",
+      "message": "failed to get hostname",
+      "usedFor": "System cannot determine the hostname",
+      "example": "failed to get hostname",
+      "category": "stdlib",
+      "howToFix": "Verify your system's hostname configuration. Check `/etc/hostname` on Linux systems.",
+      "relatedErrors": ["E7028"]
+    },
+    {
+      "code": "E7028",
+      "slug": "get-username-failed",
+      "message": "failed to get username",
+      "usedFor": "System cannot determine the current user's username",
+      "example": "failed to get username",
+      "category": "stdlib",
+      "howToFix": "Verify the current user exists in the system's user database. Check `/etc/passwd` on Linux systems.",
+      "relatedErrors": ["E7027", "E7029"]
+    },
+    {
+      "code": "E7029",
+      "slug": "get-homedir-failed",
+      "message": "failed to get home directory",
+      "usedFor": "System cannot determine the user's home directory",
+      "example": "io.expand_path(): failed to get home directory",
+      "category": "stdlib",
+      "howToFix": "Ensure the HOME environment variable is set and the user's home directory exists.",
+      "relatedErrors": ["E7028", "E7016"]
+    },
+    {
+      "code": "E7040",
+      "slug": "empty-path",
+      "message": "path cannot be empty",
+      "usedFor": "Empty string passed as a file path to an I/O function",
+      "example": "io.read_file(): path cannot be empty",
+      "category": "stdlib",
+      "howToFix": "Ensure path variables are initialized before use. Add validation to check for empty paths before I/O operations.",
+      "relatedErrors": ["E7041", "E7016"]
+    },
+    {
+      "code": "E7041",
+      "slug": "path-null-byte",
+      "message": "path contains null byte",
+      "usedFor": "File path contains a null byte character (security risk)",
+      "example": "io.read_file(): path contains null byte",
+      "category": "stdlib",
+      "howToFix": "Remove null bytes from the path string. Sanitize user input before using it in file paths.",
+      "relatedErrors": ["E7040"]
+    },
+    {
+      "code": "E7042",
+      "slug": "read-directory-as-file",
+      "message": "cannot read directory as file",
+      "usedFor": "`io.read_file()` or similar called with a directory path",
+      "example": "io.read_file(): cannot read directory as file",
+      "category": "stdlib",
+      "howToFix": "Use `io.read_dir()` to list directory contents. Verify the path points to a file with `io.is_file()`.",
+      "relatedErrors": ["E7016", "E7018"]
+    },
+    {
+      "code": "E7050",
+      "slug": "file-handle-closed",
+      "message": "file handle is closed",
+      "usedFor": "Attempting to perform an operation on an already-closed file handle",
+      "example": "io.read(): file handle is closed",
+      "category": "stdlib",
+      "howToFix": "Track file handle state and avoid operations after closing. Re-open the file if you need to perform more operations.",
+      "relatedErrors": ["E7016", "E7099"]
+    },
+    {
+      "code": "E7099",
+      "slug": "io-error",
+      "message": "general I/O error",
+      "usedFor": "Catch-all for I/O failures not covered by more specific error codes",
+      "example": "io error during write: disk full",
+      "category": "stdlib",
+      "howToFix": "Read the detailed error message for the specific cause. Check available disk space and verify file system is not read-only.",
+      "relatedErrors": ["E7016", "E7017", "E7050"]
+    },
+    {
       "code": "E8001",
       "slug": "sqrt-negative",
       "message": "cannot take square root of negative number",

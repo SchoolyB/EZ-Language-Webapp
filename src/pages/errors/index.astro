@@ -25,7 +25,7 @@ const totalErrors = errorsData.errors.length;
   <main class="flex-1 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
     <h1 class="text-3xl font-bold mb-4 text-black dark:text-white">Error Reference</h1>
     <p class="opacity-70 mb-8 text-black dark:text-white">
-      EZ has {totalErrors} error and warning codes to help you understand exactly what went wrong and how to fix it.
+      EZ has <span class="text-xl font-bold opacity-100">{totalErrors}</span> error and warning codes to help you understand exactly what went wrong and how to fix it.
     </p>
 
     <!-- Search -->
@@ -53,8 +53,8 @@ const totalErrors = errorsData.errors.length;
     <!-- Error Categories -->
     <div id="categories" class="space-y-6">
       {errorsByCategory.map(category => (
-        <div class="border border-gray-200 dark:border-gray-800 rounded-lg overflow-hidden">
-          <div class="px-4 py-4 bg-gray-50 dark:bg-gray-900">
+        <div class="border border-[#e5e5e5] dark:border-[#333333] rounded-lg overflow-hidden">
+          <div class="px-4 py-4 bg-[#f5f5f5] dark:bg-[#1a1a1a]">
             <div class="flex items-center justify-between mb-2">
               <h2 class="text-lg font-semibold text-black dark:text-white">
                 {category.name}
@@ -82,7 +82,7 @@ const totalErrors = errorsData.errors.length;
               )}
             </div>
             <!-- Hidden expanded list -->
-            <div id={`expanded-${category.id}`} class="hidden mt-3 pt-3 border-t border-gray-200 dark:border-gray-800">
+            <div id={`expanded-${category.id}`} class="hidden mt-3 pt-3 border-t border-[#e5e5e5] dark:border-[#333333]">
               <div class="flex flex-wrap gap-2">
                 {category.errors.slice(8).map(error => (
                   <a
@@ -100,21 +100,35 @@ const totalErrors = errorsData.errors.length;
     </div>
 
     <!-- All Errors Table -->
-    <div class="mt-12">
-      <h2 class="text-2xl font-bold mb-6 text-black dark:text-white">All Error Codes</h2>
-      <div class="border border-gray-200 dark:border-gray-800 rounded-lg overflow-hidden">
+    <div class="mt-12" id="all-errors-section">
+      <div class="flex items-center justify-between mb-6">
+        <h2 class="text-2xl font-bold text-black dark:text-white">All Error Codes ({totalErrors})</h2>
+        <button
+          id="show-all-errors-btn"
+          class="flex items-center gap-2 px-4 py-2 text-sm font-medium text-black dark:text-white bg-white dark:bg-black border border-gray-300 dark:border-gray-700 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-900 transition-colors"
+        >
+          <span id="expand-icon">▶</span>
+          <span id="expand-text">Show all</span>
+        </button>
+      </div>
+      <div id="errors-table-container" class="hidden border border-[#e5e5e5] dark:border-[#333333] rounded-lg overflow-hidden">
         <div class="overflow-x-auto">
           <table class="w-full text-sm">
             <thead>
-              <tr class="bg-gray-50 dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800">
+              <tr class="bg-[#f5f5f5] dark:bg-[#1a1a1a] border-b border-[#e5e5e5] dark:border-[#333333]">
                 <th class="px-4 py-3 text-left font-semibold text-black dark:text-white">Code</th>
                 <th class="px-4 py-3 text-left font-semibold text-black dark:text-white">Name</th>
                 <th class="px-4 py-3 text-left font-semibold text-black dark:text-white hidden sm:table-cell">Message</th>
               </tr>
             </thead>
-            <tbody class="divide-y divide-gray-200 dark:divide-gray-800">
-              {errorsData.errors.map(error => (
-                <tr class="hover:bg-gray-50 dark:hover:bg-gray-900 transition-colors error-row" data-code={error.code.toLowerCase()} data-slug={error.slug} data-message={error.message.toLowerCase()}>
+            <tbody class="divide-y divide-[#e5e5e5] dark:divide-[#333333]">
+              {errorsData.errors.map((error) => (
+                <tr
+                  class="hover:bg-[#f5f5f5] dark:hover:bg-[#1a1a1a] transition-colors error-row"
+                  data-code={error.code.toLowerCase()}
+                  data-slug={error.slug}
+                  data-message={error.message.toLowerCase()}
+                >
                   <td class="px-4 py-3">
                     <a href={`${base}errors/${error.code}`} class="font-mono text-black dark:text-white hover:underline">
                       {error.code}
@@ -131,6 +145,15 @@ const totalErrors = errorsData.errors.length;
             </tbody>
           </table>
         </div>
+        <div class="px-4 py-3 bg-[#f5f5f5] dark:bg-[#1a1a1a] border-t border-[#e5e5e5] dark:border-[#333333] text-center">
+          <button
+            id="hide-errors-btn"
+            class="flex items-center gap-2 mx-auto px-4 py-2 text-sm font-medium text-black dark:text-white bg-white dark:bg-black border border-gray-300 dark:border-gray-700 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-900 transition-colors"
+          >
+            <span>▲</span>
+            <span>Hide all</span>
+          </button>
+        </div>
       </div>
     </div>
   </main>
@@ -139,15 +162,51 @@ const totalErrors = errorsData.errors.length;
 </BaseLayout>
 
 <script>
-  // Search functionality
+  // Elements
   const searchInput = document.getElementById('error-search') as HTMLInputElement;
   const searchResults = document.getElementById('search-results');
   const noResults = document.getElementById('no-results');
   const categories = document.getElementById('categories');
-  const allErrorsSection = document.querySelector('.mt-12') as HTMLElement;
   const errorRows = document.querySelectorAll('.error-row');
+  const showAllBtn = document.getElementById('show-all-errors-btn');
+  const hideErrorsBtn = document.getElementById('hide-errors-btn');
+  const tableContainer = document.getElementById('errors-table-container');
+  const allErrorsSection = document.getElementById('all-errors-section');
+  const expandIcon = document.getElementById('expand-icon');
+  const expandText = document.getElementById('expand-text');
 
-  // Expand buttons
+  let isExpanded = false;
+
+  function collapseTable() {
+    isExpanded = false;
+    tableContainer?.classList.add('hidden');
+    if (expandIcon) expandIcon.textContent = '▶';
+    if (expandText) expandText.textContent = 'Show all';
+  }
+
+  function expandTable() {
+    isExpanded = true;
+    tableContainer?.classList.remove('hidden');
+    if (expandIcon) expandIcon.textContent = '▼';
+    if (expandText) expandText.textContent = 'Hide all';
+  }
+
+  // Toggle table visibility (top button)
+  showAllBtn?.addEventListener('click', () => {
+    if (isExpanded) {
+      collapseTable();
+    } else {
+      expandTable();
+    }
+  });
+
+  // Hide button at bottom - collapse and scroll to section
+  hideErrorsBtn?.addEventListener('click', () => {
+    collapseTable();
+    allErrorsSection?.scrollIntoView({ behavior: 'smooth' });
+  });
+
+  // Category expand buttons
   document.querySelectorAll('.show-all-btn').forEach(btn => {
     btn.addEventListener('click', () => {
       const category = (btn as HTMLButtonElement).dataset.category;
@@ -166,23 +225,25 @@ const totalErrors = errorsData.errors.length;
     const query = (e.target as HTMLInputElement).value.toLowerCase().trim();
 
     if (!query) {
-      // No search query - show categories, reset table
+      // No search query - show categories, reset table to collapsed/expanded state
       searchResults?.classList.add('hidden');
       categories?.classList.remove('hidden');
-      if (allErrorsSection) {
-        allErrorsSection.querySelector('h2')!.textContent = 'All Error Codes';
+      errorRows.forEach(row => {
+        (row as HTMLElement).style.display = '';
+      });
+      // Restore table visibility based on expanded state
+      if (isExpanded) {
+        tableContainer?.classList.remove('hidden');
+      } else {
+        tableContainer?.classList.add('hidden');
       }
-      errorRows.forEach(row => (row as HTMLElement).style.display = '');
       return;
     }
 
-    // Has search query - hide categories, filter table
+    // Has search query - hide categories, show table, filter rows
     categories?.classList.add('hidden');
     searchResults?.classList.remove('hidden');
-
-    if (allErrorsSection) {
-      allErrorsSection.querySelector('h2')!.textContent = 'Search Results';
-    }
+    tableContainer?.classList.remove('hidden');
 
     // Filter table rows
     let matchCount = 0;
