@@ -62,7 +62,7 @@ do main() {
     using std
 
     println("No prefix needed!")
-    print("This works too")
+    printf("This works too")
 }
 ```
 
@@ -144,7 +144,7 @@ Core I/O and utilities:
 import @std
 
 std.println("Hello")      // Print with newline
-std.print("No newline")   // Print without newline
+std.printf("No newline")  // Print without newline
 std.typeof(value)         // Get type as string
 ```
 
