@@ -32,13 +32,13 @@ std.println("x =", x, "y =", y)
 
 **Returns:** Nothing.
 
-### `print()`
+### `printf()`
 `(values ...any) -> void`
 
 Prints one or more values to stdout without a trailing newline.
 
 ```ez
-std.print("Enter your name: ")
+std.printf("Enter your name: ")
 temp name string = input()
 std.println("Hello, " + name)
 ```
