@@ -108,8 +108,23 @@ const currentPath = Astro.url.pathname;
     const menu = document.getElementById('mobile-menu');
     if (!btn || !menu) return;
 
-    btn.addEventListener('click', () => {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
       menu.classList.toggle('hidden');
+    });
+
+    // Close menu when clicking outside
+    document.addEventListener('click', (e) => {
+      if (!menu.classList.contains('hidden') && !menu.contains(e.target as Node) && e.target !== btn) {
+        menu.classList.add('hidden');
+      }
+    });
+
+    // Close menu when pressing Escape
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && !menu.classList.contains('hidden')) {
+        menu.classList.add('hidden');
+      }
     });
   }
 
