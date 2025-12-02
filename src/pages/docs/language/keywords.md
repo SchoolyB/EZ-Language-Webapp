@@ -54,6 +54,8 @@ const Person struct {
 Declares a function.
 
 ```ez
+import @std
+
 do greet(name string) {
     std.println("Hello, ${name}!")
 }

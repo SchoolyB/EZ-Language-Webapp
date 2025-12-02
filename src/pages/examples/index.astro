@@ -45,53 +45,14 @@ const slugify = (str: string) => str.toLowerCase().replace(/\s+/g, '-');
 <BaseLayout title="Examples - EZ" description="Real-world EZ code examples and recipes.">
   <Header />
 
-  <div class="flex-1 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-    <div class="lg:grid lg:grid-cols-[240px_1fr] lg:gap-8">
-      <!-- Sidebar TOC -->
-      <aside class="hidden lg:block">
-        <nav class="sticky top-24">
-          <h2 class="text-sm font-semibold mb-4 opacity-60">On This Page</h2>
-          <ul class="space-y-4">
-            {categories.map(category => (
-              <li>
-                <a href={`#${slugify(category)}`} class="text-sm font-medium opacity-70 hover:opacity-100 transition-opacity">
-                  {category}
-                </a>
-                <ul class="mt-2 ml-3 space-y-1">
-                  {examples.filter(e => e.category === category).map(example => (
-                    <li>
-                      <a
-                        href={`#${slugify(example.title)}`}
-                        class="example-toc-link text-sm opacity-50 hover:opacity-100 transition-opacity block py-0.5"
-                        data-title={example.title.toLowerCase()}
-                      >
-                        {example.title}
-                      </a>
-                    </li>
-                  ))}
-                </ul>
-              </li>
-            ))}
-          </ul>
-        </nav>
-      </aside>
-
+  <div class="flex-1 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <div class="lg:grid lg:grid-cols-[1fr_200px] lg:gap-8">
       <!-- Main Content -->
       <main class="min-w-0">
         <h1 class="text-3xl font-bold mb-2">Examples</h1>
         <p class="opacity-60 mb-6">
           Real, copy-paste-ready code for common tasks. Each example is self-contained and runnable.
         </p>
-
-        <!-- Filter Input -->
-        <div class="mb-8">
-          <input
-            type="text"
-            id="example-filter"
-            placeholder="Filter examples..."
-            class="w-full max-w-md px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-black text-black dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-white"
-          />
-        </div>
 
         <!-- Examples by Category -->
         {categories.map(category => (
@@ -124,6 +85,35 @@ const slugify = (str: string) => str.toLowerCase().replace(/\s+/g, '-');
           </section>
         ))}
       </main>
+
+      <!-- Right Sidebar TOC -->
+      <aside class="hidden lg:block">
+        <nav class="sticky top-24 max-h-[calc(100vh-6rem)] overflow-y-auto">
+          <h2 class="text-sm font-semibold mb-4 opacity-50 uppercase tracking-wider">On This Page</h2>
+          <ul class="space-y-3">
+            {categories.map(category => (
+              <li>
+                <a href={`#${slugify(category)}`} class="text-sm font-medium opacity-70 hover:opacity-100 transition-opacity">
+                  {category}
+                </a>
+                <ul class="mt-1 ml-3 space-y-1">
+                  {examples.filter(e => e.category === category).map(example => (
+                    <li>
+                      <a
+                        href={`#${slugify(example.title)}`}
+                        class="example-toc-link text-sm opacity-50 hover:opacity-100 transition-opacity block py-0.5"
+                        data-title={example.title.toLowerCase()}
+                      >
+                        {example.title}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </li>
+            ))}
+          </ul>
+        </nav>
+      </aside>
     </div>
   </div>
 
@@ -132,38 +122,7 @@ const slugify = (str: string) => str.toLowerCase().replace(/\s+/g, '-');
 
 <script>
   function initExamples() {
-    const filterInput = document.getElementById('example-filter') as HTMLInputElement;
-    const exampleCards = document.querySelectorAll('.example-card');
-    const exampleSections = document.querySelectorAll('.example-section');
-    const tocLinks = document.querySelectorAll('.example-toc-link');
     const copyButtons = document.querySelectorAll('.copy-btn');
-
-    // Filter functionality
-    if (filterInput) {
-      filterInput.addEventListener('input', () => {
-        const query = filterInput.value.toLowerCase().trim();
-
-        exampleCards.forEach(card => {
-          const title = card.getAttribute('data-title') || '';
-          const description = card.getAttribute('data-description') || '';
-          const matches = query === '' || title.includes(query) || description.includes(query);
-          (card as HTMLElement).style.display = matches ? '' : 'none';
-        });
-
-        // Hide empty sections
-        exampleSections.forEach(section => {
-          const visibleCards = section.querySelectorAll('.example-card:not([style*="display: none"])');
-          (section as HTMLElement).style.display = visibleCards.length > 0 ? '' : 'none';
-        });
-
-        // Update TOC visibility
-        tocLinks.forEach(link => {
-          const title = link.getAttribute('data-title') || '';
-          const matches = query === '' || title.includes(query);
-          (link as HTMLElement).style.display = matches ? '' : 'none';
-        });
-      });
-    }
 
     // Copy functionality
     copyButtons.forEach(btn => {

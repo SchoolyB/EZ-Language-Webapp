@@ -52,11 +52,21 @@ temp newline char = '\n'
 
 ### bool
 
-Boolean values:
+Boolean values (can only be true or false):
 
 ```ez
 temp isActive bool = true
 temp hasError bool = false
+```
+
+### byte
+
+A single unsigned 8-bit value representing raw binary data (0-255):
+
+```ez
+temp myByte byte = 255
+temp zeroByte byte = 0
+temp asciiA byte = 65  // ASCII value for 'A'
 ```
 
 ## Sized Integers
@@ -123,6 +133,38 @@ const DAYS [string, 7] = {"Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"}
 const MATRIX [int, 9] = {1, 2, 3, 4, 5, 6, 7, 8, 9}
 ```
 
+See [@arrays](/language.ez/docs/stdlib/arrays) for array manipulation functions.
+
+## Byte Arrays
+
+Byte arrays are specialized arrays for binary data, buffers, or raw file contents.
+
+### Dynamic Byte Arrays
+
+```ez
+temp buffer [byte] = {0, 128, 255}
+temp empty [byte] = {}
+temp fileData [byte] = io.read_bytes("image.png")
+```
+
+### Fixed-Size Byte Arrays
+
+```ez
+temp header [byte, 4] = {137, 80, 78, 71}  // PNG magic bytes
+temp smallBuffer [byte, 16] = {0, 16}      // 16 zero-initialized bytes
+```
+
+> **Note:** Byte values can be written as decimal (0-255) or hexadecimal (0x00-0xFF). Negative values are never valid for bytes.
+
+> **Note:** Fixed-size byte arrays require careful memory management and bounds awareness. For most use cases, the dynamic `[byte]` type is recommended as it handles resizing automatically and reduces the risk of buffer-related errors.
+
+| Type | Size | Range |
+|------|------|-------|
+| `byte` | 8 bits | 0-255 |
+| `[byte]` | dynamic | N/A |
+
+See [@bytes](/language.ez/docs/stdlib/bytes) for byte manipulation functions.
+
 ## Maps
 
 Key-value pairs:
@@ -136,6 +178,8 @@ temp ages map = {
 // With explicit types
 temp scores map[string:int] = {"math": 95, "english": 88}
 ```
+
+See [@maps](/language.ez/docs/stdlib/maps) for map manipulation functions.
 
 ## Structs
 
@@ -217,6 +261,24 @@ temp b bool = true
 temp s3 string = string(b)  // "true"
 ```
 
+### byte()
+
+Explicit conversion to the byte type (unsigned 8-bit integer, range 0-255).
+
+```ez
+temp n int = 65
+temp b byte = byte(n)  // 65
+
+temp f float = 97.8
+temp b2 byte = byte(f)  // 97 (truncates)
+
+temp s string = "200"
+temp b3 byte = byte(s)  // 200
+
+temp c char = 'A'
+temp b4 byte = byte(c)  // 65 (ASCII value)
+```
+
 ## typeof()
 
 Get the type of a value at runtime:
@@ -243,7 +305,9 @@ Uninitialized `temp` variables get default values:
 | `string` | `""` |
 | `char` | `'\0'` |
 | `bool` | `false` |
+| `byte` | `0` |
 | `[T]` | `{}` |
+| `[byte]` | `{}` |
 
 ```ez
 temp count int      // 0

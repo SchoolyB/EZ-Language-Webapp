@@ -383,7 +383,7 @@ Combines two arrays into an array of pairs.
 ```ez
 temp names [string] = {"Alice", "Bob"}
 temp ages [int] = {25, 30}
-temp pairs = arrays.zip(names, ages)
+temp pairs [[any]] = arrays.zip(names, ages)
 // {{"Alice", 25}, {"Bob", 30}}
 ```
 

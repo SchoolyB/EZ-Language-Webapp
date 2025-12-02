@@ -19,7 +19,13 @@ import @math
 ```ez
 math.PI      // 3.141592653589793
 math.E       // 2.718281828459045
+math.PHI     // 1.618033988749895
+math.SQRT2   // 1.4142135623730951
+math.LN2     // 0.6931471805599453
+math.LN10    // 2.302585092994046
 math.TAU     // 6.283185307179586
+math.INF     // +Inf
+math.NEG_INF // -Inf
 ```
 
 ## Basic Math Functions

@@ -37,234 +37,240 @@ const ways = [
     icon: 'book',
   },
 ];
+
 ---
 
 <BaseLayout title="Contribute - EZ" description="Help build EZ. Report bugs, request features, write examples, and contribute code.">
   <Header />
 
-  <main class="flex-1 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-    <h1 class="text-3xl font-bold mb-4">Contribute to EZ</h1>
-    <p class="opacity-70 mb-12 text-lg">
-      EZ is open source and welcomes contributions of all kinds. Whether you're fixing a typo or implementing a new stdlib module, every contribution helps.
-    </p>
+  <div class="flex-1 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <main>
+        <h1 class="text-3xl font-bold mb-4">Contribute to EZ</h1>
+        <p class="opacity-70 mb-12 text-lg">
+          EZ is open source and welcomes contributions of all kinds. Whether you're fixing a typo or implementing a new stdlib module, every contribution helps.
+        </p>
 
-    <!-- Ways to Contribute -->
-    <section class="mb-16">
-      <h2 class="text-2xl font-bold mb-6">Ways to Contribute</h2>
-      <div class="grid sm:grid-cols-2 gap-4">
-        {ways.map(way => (
-          <div class="p-5 border border-gray-200 dark:border-gray-800 rounded-lg">
-            <h3 class="font-semibold mb-2">{way.title}</h3>
-            <p class="text-sm opacity-70">{way.description}</p>
+        <!-- Ways to Contribute -->
+        <section id="ways-to-contribute" class="mb-16">
+          <h2 class="text-2xl font-bold mb-6">Ways to Contribute</h2>
+          <div class="grid sm:grid-cols-2 gap-4">
+            {ways.map(way => (
+              <div class="p-5 border border-gray-200 dark:border-gray-800 rounded-lg">
+                <h3 class="font-semibold mb-2">{way.title}</h3>
+                <p class="text-sm opacity-70">{way.description}</p>
+              </div>
+            ))}
           </div>
-        ))}
-      </div>
-    </section>
+        </section>
 
-    <!-- Creating Issues -->
-    <section class="mb-16">
-      <h2 class="text-2xl font-bold mb-6">Creating Issues</h2>
-      <p class="opacity-70 mb-6">
-        Good issues help maintainers understand and fix problems quickly. Follow these guidelines when creating an issue.
-      </p>
-
-      <div class="space-y-6">
-        <div>
-          <h3 class="font-semibold mb-3">Issue Title Format</h3>
-          <p class="text-sm opacity-70 mb-3">All issue titles must use one of these prefixes:</p>
-          <div class="overflow-x-auto">
-            <table class="w-full text-sm border border-gray-200 dark:border-gray-800 rounded-lg">
-              <thead class="bg-gray-50 dark:bg-gray-900">
-                <tr>
-                  <th class="px-4 py-2 text-left font-medium">Prefix</th>
-                  <th class="px-4 py-2 text-left font-medium">When to Use</th>
-                </tr>
-              </thead>
-              <tbody class="divide-y divide-gray-200 dark:divide-gray-800">
-                <tr><td class="px-4 py-2"><code>Bug:</code></td><td class="px-4 py-2 opacity-70">Something is broken or produces incorrect results</td></tr>
-                <tr><td class="px-4 py-2"><code>Feature:</code></td><td class="px-4 py-2 opacity-70">New functionality or enhancement</td></tr>
-                <tr><td class="px-4 py-2"><code>Documentation:</code></td><td class="px-4 py-2 opacity-70">Docs improvements or additions</td></tr>
-                <tr><td class="px-4 py-2"><code>Tests:</code></td><td class="px-4 py-2 opacity-70">Unit tests or test infrastructure</td></tr>
-                <tr><td class="px-4 py-2"><code>Cleanup:</code></td><td class="px-4 py-2 opacity-70">Removing dead code or organizing</td></tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-
-        <div>
-          <h3 class="font-semibold mb-3">Bug Reports</h3>
-          <p class="text-sm opacity-70 mb-3">Include these sections in every bug report:</p>
-          <ul class="text-sm space-y-2 opacity-70">
-            <li><strong>Description</strong> &mdash; 1-3 sentences describing the bug</li>
-            <li><strong>Severity</strong> &mdash; High, Medium, or Low with justification</li>
-            <li><strong>Reproduction</strong> &mdash; Minimal EZ code that reproduces the bug</li>
-            <li><strong>Expected Behavior</strong> &mdash; What should happen</li>
-            <li><strong>Actual Behavior</strong> &mdash; What actually happens</li>
-          </ul>
-        </div>
-
-        <div>
-          <h3 class="font-semibold mb-3">Feature Requests</h3>
-          <p class="text-sm opacity-70 mb-3">Include these sections in feature requests:</p>
-          <ul class="text-sm space-y-2 opacity-70">
-            <li><strong>Description</strong> &mdash; What the feature does and why it's useful</li>
-            <li><strong>Tasks</strong> &mdash; Actionable items with checkboxes</li>
-            <li><strong>Proposed Syntax</strong> &mdash; Example EZ code showing usage</li>
-            <li><strong>Expected Behavior</strong> &mdash; How it should work</li>
-          </ul>
-        </div>
-
-        <div class="pt-4">
-          <a
-            href={`${base}ISSUE_TEMPLATE.md`}
-            class="inline-flex items-center gap-2 text-sm font-medium underline underline-offset-4 hover:opacity-70 transition-opacity"
-          >
-            View full issue template &rarr;
-          </a>
-        </div>
-      </div>
-    </section>
-
-    <!-- Pull Requests -->
-    <section class="mb-16">
-      <h2 class="text-2xl font-bold mb-6">Pull Requests</h2>
-      <p class="opacity-70 mb-6">
-        Ready to contribute code? Here's how to submit a pull request.
-      </p>
-
-      <div class="space-y-4">
-        <div class="flex gap-4">
-          <div class="flex-shrink-0 w-8 h-8 rounded-full bg-black dark:bg-white text-white dark:text-black flex items-center justify-center text-sm font-bold">1</div>
-          <div>
-            <h3 class="font-semibold">Fork & Clone</h3>
-            <p class="text-sm opacity-70">Fork the repository and clone it locally.</p>
-          </div>
-        </div>
-
-        <div class="flex gap-4">
-          <div class="flex-shrink-0 w-8 h-8 rounded-full bg-black dark:bg-white text-white dark:text-black flex items-center justify-center text-sm font-bold">2</div>
-          <div>
-            <h3 class="font-semibold">Create a Branch</h3>
-            <p class="text-sm opacity-70">Create a branch with a descriptive name: <code class="text-xs px-1.5 py-0.5 bg-gray-100 dark:bg-gray-900 rounded">fix/parser-struct-literal</code> or <code class="text-xs px-1.5 py-0.5 bg-gray-100 dark:bg-gray-900 rounded">feature/sets-module</code></p>
-          </div>
-        </div>
-
-        <div class="flex gap-4">
-          <div class="flex-shrink-0 w-8 h-8 rounded-full bg-black dark:bg-white text-white dark:text-black flex items-center justify-center text-sm font-bold">3</div>
-          <div>
-            <h3 class="font-semibold">Make Changes</h3>
-            <p class="text-sm opacity-70">Write your code. Follow existing patterns and style.</p>
-          </div>
-        </div>
-
-        <div class="flex gap-4">
-          <div class="flex-shrink-0 w-8 h-8 rounded-full bg-black dark:bg-white text-white dark:text-black flex items-center justify-center text-sm font-bold">4</div>
-          <div>
-            <h3 class="font-semibold">Test</h3>
-            <p class="text-sm opacity-70">Run existing tests and add new ones for your changes.</p>
-          </div>
-        </div>
-
-        <div class="flex gap-4">
-          <div class="flex-shrink-0 w-8 h-8 rounded-full bg-black dark:bg-white text-white dark:text-black flex items-center justify-center text-sm font-bold">5</div>
-          <div>
-            <h3 class="font-semibold">Submit PR</h3>
-            <p class="text-sm opacity-70">Push your branch and open a pull request with a clear description of changes.</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Contributing Examples -->
-    <section class="mb-16">
-      <h2 class="text-2xl font-bold mb-6">Contributing Examples</h2>
-      <p class="opacity-70 mb-6">
-        Good examples help people learn EZ faster. When writing examples:
-      </p>
-      <ul class="space-y-3 text-sm opacity-70">
-        <li><strong>Keep it focused</strong> &mdash; One concept per example</li>
-        <li><strong>Make it runnable</strong> &mdash; Examples should work as-is when copied</li>
-        <li><strong>Add comments</strong> &mdash; Explain non-obvious parts</li>
-        <li><strong>Show real use cases</strong> &mdash; Practical &gt; contrived</li>
-        <li><strong>Test edge cases</strong> &mdash; Show how to handle errors or unusual inputs</li>
-      </ul>
-    </section>
-
-    <!-- Contributing to Stdlib -->
-    <section class="mb-16">
-      <h2 class="text-2xl font-bold mb-6">Contributing to Stdlib</h2>
-      <p class="opacity-70 mb-6">
-        The standard library is where EZ gets its "batteries included" feel. Here's how to contribute:
-      </p>
-
-      <div class="space-y-4">
-        <div>
-          <h3 class="font-semibold mb-2">Available Modules</h3>
-          <div class="flex flex-wrap gap-2">
-            <code class="text-sm px-2 py-1 bg-gray-100 dark:bg-gray-900 rounded">@std</code>
-            <code class="text-sm px-2 py-1 bg-gray-100 dark:bg-gray-900 rounded">@math</code>
-            <code class="text-sm px-2 py-1 bg-gray-100 dark:bg-gray-900 rounded">@strings</code>
-            <code class="text-sm px-2 py-1 bg-gray-100 dark:bg-gray-900 rounded">@arrays</code>
-            <code class="text-sm px-2 py-1 bg-gray-100 dark:bg-gray-900 rounded">@maps</code>
-            <code class="text-sm px-2 py-1 bg-gray-100 dark:bg-gray-900 rounded">@time</code>
-          </div>
-        </div>
-
-        <div>
-          <h3 class="font-semibold mb-2">Guidelines</h3>
-          <ul class="text-sm space-y-2 opacity-70">
-            <li><strong>Check for duplicates</strong> &mdash; Make sure the function doesn't already exist</li>
-            <li><strong>Follow naming conventions</strong> &mdash; Use snake_case, be descriptive</li>
-            <li><strong>Write tests</strong> &mdash; Every stdlib function needs test coverage</li>
-            <li><strong>Document it</strong> &mdash; Add to the docs with examples</li>
-            <li><strong>Keep it simple</strong> &mdash; EZ values simplicity over cleverness</li>
-          </ul>
-        </div>
-
-        <div>
-          <h3 class="font-semibold mb-2">Proposing New Modules</h3>
-          <p class="text-sm opacity-70 mb-3">
-            Have an idea for an entirely new stdlib module? You can propose one. Open a feature issue with:
+        <!-- Creating Issues -->
+        <section id="creating-issues" class="mb-16">
+          <h2 class="text-2xl font-bold mb-6">Creating Issues</h2>
+          <p class="opacity-70 mb-6">
+            Good issues help maintainers understand and fix problems quickly. Follow these guidelines when creating an issue.
           </p>
-          <ul class="text-sm space-y-2 opacity-70">
-            <li><strong>Module name</strong> &mdash; What would it be called? (e.g., <code class="text-xs px-1.5 py-0.5 bg-gray-100 dark:bg-gray-900 rounded">@sets</code>, <code class="text-xs px-1.5 py-0.5 bg-gray-100 dark:bg-gray-900 rounded">@json</code>, <code class="text-xs px-1.5 py-0.5 bg-gray-100 dark:bg-gray-900 rounded">@fs</code>)</li>
-            <li><strong>Purpose</strong> &mdash; What problem does it solve?</li>
-            <li><strong>Proposed functions</strong> &mdash; List the functions it would include</li>
-            <li><strong>Example usage</strong> &mdash; Show how it would be used in EZ code</li>
-          </ul>
-          <p class="text-sm opacity-70 mt-3">
-            Not every proposal will be accepted &mdash; EZ intentionally keeps a limited scope &mdash; but good ideas that fit the language's goals are welcome.
-          </p>
-        </div>
-      </div>
-    </section>
 
-    <!-- Get Started -->
-    <section class="border-t border-gray-200 dark:border-gray-800 pt-12">
-      <div class="text-center">
-        <h2 class="text-2xl font-bold mb-4">Ready to Contribute?</h2>
-        <p class="opacity-70 mb-6">Check out open issues or start a discussion.</p>
-        <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
-          <a
-            href="https://github.com/SchoolyB/EZ/issues"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="w-full sm:w-auto px-6 py-3 bg-black dark:bg-white text-white dark:text-black font-semibold rounded-lg hover:opacity-80 transition-opacity text-center"
-          >
-            View Open Issues
-          </a>
-          <a
-            href="https://github.com/SchoolyB/EZ"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="w-full sm:w-auto px-6 py-3 border-2 border-black dark:border-white font-semibold rounded-lg hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition-colors text-center"
-          >
-            GitHub Repository
-          </a>
-        </div>
-      </div>
-    </section>
-  </main>
+          <div class="space-y-6">
+            <div>
+              <h3 class="font-semibold mb-3">Issue Title Format</h3>
+              <p class="text-sm opacity-70 mb-3">All issue titles must use one of these prefixes:</p>
+              <div class="overflow-x-auto">
+                <table class="w-full text-sm border border-gray-200 dark:border-gray-800 rounded-lg">
+                  <thead class="bg-[#f5f5f5] dark:bg-[#1a1a1a]">
+                    <tr>
+                      <th class="px-4 py-2 text-left font-medium">Prefix</th>
+                      <th class="px-4 py-2 text-left font-medium">When to Use</th>
+                    </tr>
+                  </thead>
+                  <tbody class="divide-y divide-gray-200 dark:divide-gray-800">
+                    <tr><td class="px-4 py-2"><code>Bug:</code></td><td class="px-4 py-2 opacity-70">Something is broken or produces incorrect results</td></tr>
+                    <tr><td class="px-4 py-2"><code>Feature:</code></td><td class="px-4 py-2 opacity-70">New functionality or enhancement</td></tr>
+                    <tr><td class="px-4 py-2"><code>Documentation:</code></td><td class="px-4 py-2 opacity-70">Docs improvements or additions</td></tr>
+                    <tr><td class="px-4 py-2"><code>Tests:</code></td><td class="px-4 py-2 opacity-70">Unit tests or test infrastructure</td></tr>
+                    <tr><td class="px-4 py-2"><code>Cleanup:</code></td><td class="px-4 py-2 opacity-70">Removing dead code or organizing</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <div>
+              <h3 class="font-semibold mb-3">Bug Reports</h3>
+              <p class="text-sm opacity-70 mb-3">Include these sections in every bug report:</p>
+              <ul class="text-sm space-y-2 opacity-70">
+                <li><strong>Description</strong> &mdash; 1-3 sentences describing the bug</li>
+                <li><strong>Severity</strong> &mdash; High, Medium, or Low with justification</li>
+                <li><strong>Reproduction</strong> &mdash; Minimal EZ code that reproduces the bug</li>
+                <li><strong>Expected Behavior</strong> &mdash; What should happen</li>
+                <li><strong>Actual Behavior</strong> &mdash; What actually happens</li>
+              </ul>
+            </div>
+
+            <div>
+              <h3 class="font-semibold mb-3">Feature Requests</h3>
+              <p class="text-sm opacity-70 mb-3">Include these sections in feature requests:</p>
+              <ul class="text-sm space-y-2 opacity-70">
+                <li><strong>Description</strong> &mdash; What the feature does and why it's useful</li>
+                <li><strong>Tasks</strong> &mdash; Actionable items with checkboxes</li>
+                <li><strong>Proposed Syntax</strong> &mdash; Example EZ code showing usage</li>
+                <li><strong>Expected Behavior</strong> &mdash; How it should work</li>
+              </ul>
+            </div>
+
+            <div class="pt-4">
+              <a
+                href={`${base}ISSUE_TEMPLATE.md`}
+                class="inline-flex items-center gap-2 text-sm font-medium underline underline-offset-4 hover:opacity-70 transition-opacity"
+              >
+                View full issue template &rarr;
+              </a>
+            </div>
+          </div>
+        </section>
+
+        <!-- Pull Requests -->
+        <section id="pull-requests" class="mb-16">
+          <h2 class="text-2xl font-bold mb-6">Pull Requests</h2>
+          <p class="opacity-70 mb-6">
+            Ready to contribute code? Here's how to submit a pull request.
+          </p>
+
+          <div class="space-y-4">
+            <div class="flex gap-4">
+              <div class="flex-shrink-0 w-8 h-8 rounded-full bg-black dark:bg-white text-white dark:text-black flex items-center justify-center text-sm font-bold">1</div>
+              <div>
+                <h3 class="font-semibold">Fork & Clone</h3>
+                <p class="text-sm opacity-70">Fork the repository and clone it locally.</p>
+              </div>
+            </div>
+
+            <div class="flex gap-4">
+              <div class="flex-shrink-0 w-8 h-8 rounded-full bg-black dark:bg-white text-white dark:text-black flex items-center justify-center text-sm font-bold">2</div>
+              <div>
+                <h3 class="font-semibold">Create a Branch</h3>
+                <p class="text-sm opacity-70">Create a branch with a descriptive name: <code class="text-xs px-1.5 py-0.5 bg-gray-100 dark:bg-gray-900 rounded">fix/parser-struct-literal</code> or <code class="text-xs px-1.5 py-0.5 bg-gray-100 dark:bg-gray-900 rounded">feature/sets-module</code></p>
+              </div>
+            </div>
+
+            <div class="flex gap-4">
+              <div class="flex-shrink-0 w-8 h-8 rounded-full bg-black dark:bg-white text-white dark:text-black flex items-center justify-center text-sm font-bold">3</div>
+              <div>
+                <h3 class="font-semibold">Make Changes</h3>
+                <p class="text-sm opacity-70">Write your code. Follow existing patterns and style.</p>
+              </div>
+            </div>
+
+            <div class="flex gap-4">
+              <div class="flex-shrink-0 w-8 h-8 rounded-full bg-black dark:bg-white text-white dark:text-black flex items-center justify-center text-sm font-bold">4</div>
+              <div>
+                <h3 class="font-semibold">Test</h3>
+                <p class="text-sm opacity-70">Run existing tests and add new ones for your changes.</p>
+              </div>
+            </div>
+
+            <div class="flex gap-4">
+              <div class="flex-shrink-0 w-8 h-8 rounded-full bg-black dark:bg-white text-white dark:text-black flex items-center justify-center text-sm font-bold">5</div>
+              <div>
+                <h3 class="font-semibold">Submit PR</h3>
+                <p class="text-sm opacity-70">Push your branch and open a pull request with a clear description of changes.</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Contributing Examples -->
+        <section id="contributing-examples" class="mb-16">
+          <h2 class="text-2xl font-bold mb-6">Contributing Examples</h2>
+          <p class="opacity-70 mb-6">
+            Good examples help people learn EZ faster. When writing examples:
+          </p>
+          <ul class="space-y-3 text-sm opacity-70">
+            <li><strong>Keep it focused</strong> &mdash; One concept per example</li>
+            <li><strong>Make it runnable</strong> &mdash; Examples should work as-is when copied</li>
+            <li><strong>Add comments</strong> &mdash; Explain non-obvious parts</li>
+            <li><strong>Show real use cases</strong> &mdash; Practical &gt; contrived</li>
+            <li><strong>Test edge cases</strong> &mdash; Show how to handle errors or unusual inputs</li>
+          </ul>
+        </section>
+
+        <!-- Contributing to Stdlib -->
+        <section id="contributing-to-stdlib" class="mb-16">
+          <h2 class="text-2xl font-bold mb-6">Contributing to Stdlib</h2>
+          <p class="opacity-70 mb-6">
+            The standard library is where EZ gets its "batteries included" feel. Here's how to contribute:
+          </p>
+
+          <div class="space-y-4">
+            <div class="mb-8">
+              <h3 class="font-semibold mb-3">Available Modules</h3>
+              <div class="flex flex-wrap gap-3">
+                <a href={`${base}docs/stdlib/std`} class="text-base font-semibold px-3 py-1.5 border border-gray-300 dark:border-gray-700 rounded-lg hover:bg-[#f5f5f5] dark:hover:bg-[#1a1a1a] transition-colors">@std</a>
+                <a href={`${base}docs/stdlib/math`} class="text-base font-semibold px-3 py-1.5 border border-gray-300 dark:border-gray-700 rounded-lg hover:bg-[#f5f5f5] dark:hover:bg-[#1a1a1a] transition-colors">@math</a>
+                <a href={`${base}docs/stdlib/strings`} class="text-base font-semibold px-3 py-1.5 border border-gray-300 dark:border-gray-700 rounded-lg hover:bg-[#f5f5f5] dark:hover:bg-[#1a1a1a] transition-colors">@strings</a>
+                <a href={`${base}docs/stdlib/arrays`} class="text-base font-semibold px-3 py-1.5 border border-gray-300 dark:border-gray-700 rounded-lg hover:bg-[#f5f5f5] dark:hover:bg-[#1a1a1a] transition-colors">@arrays</a>
+                <a href={`${base}docs/stdlib/maps`} class="text-base font-semibold px-3 py-1.5 border border-gray-300 dark:border-gray-700 rounded-lg hover:bg-[#f5f5f5] dark:hover:bg-[#1a1a1a] transition-colors">@maps</a>
+                <a href={`${base}docs/stdlib/time`} class="text-base font-semibold px-3 py-1.5 border border-gray-300 dark:border-gray-700 rounded-lg hover:bg-[#f5f5f5] dark:hover:bg-[#1a1a1a] transition-colors">@time</a>
+                <a href={`${base}docs/stdlib/bytes`} class="text-base font-semibold px-3 py-1.5 border border-gray-300 dark:border-gray-700 rounded-lg hover:bg-[#f5f5f5] dark:hover:bg-[#1a1a1a] transition-colors">@bytes</a>
+                <a href={`${base}docs/stdlib/io`} class="text-base font-semibold px-3 py-1.5 border border-gray-300 dark:border-gray-700 rounded-lg hover:bg-[#f5f5f5] dark:hover:bg-[#1a1a1a] transition-colors">@io</a>
+                <a href={`${base}docs/stdlib/os`} class="text-base font-semibold px-3 py-1.5 border border-gray-300 dark:border-gray-700 rounded-lg hover:bg-[#f5f5f5] dark:hover:bg-[#1a1a1a] transition-colors">@os</a>
+              </div>
+            </div>
+
+            <div>
+              <h3 class="font-semibold mb-2">Guidelines</h3>
+              <ul class="text-sm space-y-2 opacity-70">
+                <li><strong>Check for duplicates</strong> &mdash; Make sure the function doesn't already exist</li>
+                <li><strong>Follow naming conventions</strong> &mdash; snake_case for functions, SCREAMING_SNAKE_CASE for constants, PascalCase for types</li>
+                <li><strong>Write tests</strong> &mdash; Every stdlib function needs test coverage</li>
+                <li><strong>Document it</strong> &mdash; Add to the docs with examples</li>
+                <li><strong>Keep it simple</strong> &mdash; EZ values simplicity over cleverness</li>
+              </ul>
+            </div>
+
+            <div>
+              <h3 class="font-semibold mb-2">Proposing New Modules</h3>
+              <p class="text-sm opacity-70 mb-3">
+                Have an idea for an entirely new stdlib module? You can propose one. Open a feature issue with:
+              </p>
+              <ul class="text-sm space-y-2 opacity-70">
+                <li><strong>Module name</strong> &mdash; What would it be called? (e.g., <code class="text-xs px-1.5 py-0.5 bg-gray-100 dark:bg-gray-900 rounded">@sets</code>, <code class="text-xs px-1.5 py-0.5 bg-gray-100 dark:bg-gray-900 rounded">@json</code>, <code class="text-xs px-1.5 py-0.5 bg-gray-100 dark:bg-gray-900 rounded">@fs</code>)</li>
+                <li><strong>Purpose</strong> &mdash; What problem does it solve?</li>
+                <li><strong>Proposed API</strong> &mdash; List the functions, constants, and types it would include</li>
+                <li><strong>Example usage</strong> &mdash; Show how it would be used in EZ code</li>
+              </ul>
+              <p class="text-sm opacity-70 mt-3">
+                Not every proposal will be accepted &mdash; EZ intentionally keeps a limited scope &mdash; but good ideas that fit the language's goals are welcome.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <!-- Get Started -->
+        <section id="get-started" class="border-t border-gray-200 dark:border-gray-800 pt-12">
+          <div class="text-center">
+            <h2 class="text-2xl font-bold mb-4">Ready to Contribute?</h2>
+            <p class="opacity-70 mb-6">Check out open issues or start a discussion.</p>
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+              <a
+                href="https://github.com/SchoolyB/EZ/issues"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="w-full sm:w-auto px-6 py-3 bg-black dark:bg-white text-white dark:text-black font-semibold rounded-lg hover:opacity-80 transition-opacity text-center"
+              >
+                View Open Issues
+              </a>
+              <a
+                href="https://github.com/SchoolyB/EZ"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="w-full sm:w-auto px-6 py-3 border-2 border-black dark:border-white font-semibold rounded-lg hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition-colors text-center"
+              >
+                GitHub Repository
+              </a>
+            </div>
+          </div>
+        </section>
+    </main>
+  </div>
 
   <Footer />
 </BaseLayout>

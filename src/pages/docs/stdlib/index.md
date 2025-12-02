@@ -40,7 +40,7 @@ math.sqrt(16.0)      // 4.0
 std.println("Hi")    // prints "Hi"
 ```
 
-The `math.` and `std.` prefixes tell EZ which module each function comes from. This prevents confusion when two modules have functions with the same name.
+The `math.` and `std.` prefixes tell EZ which module each function, variable, or type comes from. This prevents confusion when two modules have functions with the same name.
 
 ## Import Options
 
@@ -56,12 +56,14 @@ import @math
 import @arrays
 ```
 
+For beginners, stick with the basic `import @std` + `std.println()` style. The prefix makes it clear where each function comes from.
+
 <details>
-<summary><strong>Advanced Import Styles</strong></summary>
+<summary><strong>Click Here For Advanced Import Styles</strong></summary>
 
 ### Aliasing (Shorter Names)
 
-Give a module a nickname:
+Give a module a shorter name:
 
 ```ez
 import s@strings
@@ -75,42 +77,80 @@ do main() {
 
 ### Using (Drop the Prefix)
 
-Skip the module prefix inside a block:
+The `using` keyword brings a module's contents into scope, so you can call functions without the prefix:
 
 ```ez
 import @std
-import @math
 
 do main() {
     using std
-    using math
-
     println("No prefix needed!")
-    temp x float = sqrt(16.0)
 }
 ```
 
-### Import & Use Combined
+**Important:** `using` only applies to the scope where it's declared:
 
-Shorthand for importing and using everywhere:
+```ez
+import @std
+
+do main() {
+    using std
+    println("Works here!")    // No prefix needed
+}
+
+do helper() {
+    std.println("Need prefix here")  // Different function, no 'using'
+}
+```
+
+To use without prefix in multiple functions, add `using` to each one, or use the file-level approach below.
+
+### Import & Use (File-Level Scope)
+
+Combines import and using in one line, making the module available **everywhere** in the file:
 
 ```ez
 import & use @std
 
 do main() {
-    println("Direct access!")
+    println("No prefix!")
+}
+
+do helper() {
+    println("Works here too!")  // No prefix needed anywhere
 }
 ```
 
+You can also combine with aliasing:
+
+```ez
+import & use S@std
+
+do main() {
+    S.println("Short prefix everywhere!")
+}
+
+do helper() {
+    S.println("Same alias works here!")
+}
+```
+
+### When to Use What
+
+| Style | Syntax | Best For |
+|-------|--------|----------|
+| Basic | `import @std` | Most code — prefix makes origin clear |
+| Alias | `import m@math` | Long module names you use frequently |
+| Function-scoped using | `using std` inside function | One function that heavily uses a module |
+| File-scoped | `import & use @std` | Small scripts, less typing |
+| File-scoped + alias | `import & use S@std` | Short prefix everywhere |
+
 </details>
 
-For beginners, stick with the basic `import @std` + `std.println()` style. The prefix makes it clear where each function comes from.
-
-See the [Modules](/language.ez/docs/language/modules) page for more details on the module system.
 
 ## Available Modules
 
-EZ includes six built-in modules:
+EZ includes nine built-in modules:
 
 | Module | What it's for |
 |--------|---------------|
@@ -120,6 +160,9 @@ EZ includes six built-in modules:
 | [@strings](/language.ez/docs/stdlib/strings) | Working with text — uppercase, splitting, trimming |
 | [@maps](/language.ez/docs/stdlib/maps) | Key-value storage — like a dictionary or phonebook |
 | [@time](/language.ez/docs/stdlib/time) | Dates and time — current time, formatting, delays |
+| [@bytes](/language.ez/docs/stdlib/bytes) | Binary data — encoding, decoding, byte manipulation |
+| [@io](/language.ez/docs/stdlib/io) | File system — reading, writing, paths, directories |
+| [@os](/language.ez/docs/stdlib/os) | Operating system — environment, platform detection |
 
 ## Quick Example
 
@@ -165,3 +208,6 @@ Pick a module and explore what it can do:
 - [@strings](/language.ez/docs/stdlib/strings) — For manipulating text
 - [@maps](/language.ez/docs/stdlib/maps) — For key-value data
 - [@time](/language.ez/docs/stdlib/time) — For dates, times, and delays
+- [@bytes](/language.ez/docs/stdlib/bytes) — For binary data and encoding
+- [@io](/language.ez/docs/stdlib/io) — For file and directory operations
+- [@os](/language.ez/docs/stdlib/os) — For system info and environment
