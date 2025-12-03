@@ -2,49 +2,6 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Header from '../../components/Header.astro';
 import Footer from '../../components/Footer.astro';
-import { marked } from 'marked';
-
-// Fetch releases from GitHub at build time
-const response = await fetch('https://api.github.com/repos/SchoolyB/EZ/releases', {
-  headers: {
-    'Accept': 'application/vnd.github.v3+json',
-    'User-Agent': 'EZ-Docs-Site'
-  }
-});
-
-interface GitHubRelease {
-  id: number;
-  tag_name: string;
-  name: string;
-  body: string;
-  published_at: string;
-  html_url: string;
-  prerelease: boolean;
-  draft: boolean;
-}
-
-let releases: GitHubRelease[] = [];
-
-if (response.ok) {
-  const data = await response.json();
-  releases = data.filter((r: GitHubRelease) => !r.draft);
-}
-
-// Format date helper
-function formatDate(dateString: string): string {
-  const date = new Date(dateString);
-  return date.toLocaleDateString('en-US', {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric'
-  });
-}
-
-// Parse markdown to HTML
-function parseMarkdown(content: string): string {
-  if (!content) return '<p>No release notes available.</p>';
-  return marked.parse(content) as string;
-}
 ---
 
 <BaseLayout title="Changelog - EZ" description="Release history and changelog for the EZ programming language.">
@@ -59,79 +16,25 @@ function parseMarkdown(content: string): string {
           Release history for the EZ programming language. See what's new in each version.
         </p>
 
-        {releases.length === 0 ? (
-          <div class="text-center py-12 opacity-60">
-            <p>Unable to load releases. Please check the <a href="https://github.com/SchoolyB/EZ/releases" class="underline hover:opacity-80">GitHub releases page</a>.</p>
-          </div>
-        ) : (
-          <div class="space-y-8">
-            {releases.map((release, index) => (
-              <article
-                id={release.tag_name}
-                class="release-entry scroll-mt-24 rounded-lg overflow-hidden"
-                style="border: 1px solid var(--ez-gray-border);"
-                data-version={release.tag_name}
-              >
-                <header class="px-6 py-4" style="background-color: var(--ez-gray-bg); border-bottom: 1px solid var(--ez-gray-border);">
-                  <div class="flex items-center gap-3 flex-wrap">
-                    <a
-                      href={release.html_url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      class="text-3xl font-bold hover:opacity-70 transition-opacity"
-                    >
-                      {release.tag_name}
-                    </a>
-                    {release.prerelease && (
-                      <span class="px-2 py-0.5 text-xs font-medium bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-200 rounded">
-                        Pre-release
-                      </span>
-                    )}
-                    {index === 0 && !release.prerelease && (
-                      <span class="px-2 py-0.5 text-xs font-medium bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 rounded">
-                        Latest
-                      </span>
-                    )}
-                  </div>
-                  <time datetime={release.published_at} class="mt-2 block text-sm opacity-60">
-                    {formatDate(release.published_at)}
-                  </time>
-                </header>
-                <div
-                  class="release-content prose prose-sm dark:prose-invert max-w-none px-6 py-5
-                         prose-headings:font-semibold prose-headings:text-black dark:prose-headings:text-white
-                         prose-a:text-black dark:prose-a:text-white prose-a:underline"
-                  set:html={parseMarkdown(release.body)}
-                />
-              </article>
-            ))}
-          </div>
-        )}
+        <!-- Loading State -->
+        <div id="loading-state" class="text-center py-12 opacity-60">
+          <p>Loading releases...</p>
+        </div>
+
+        <!-- Error State -->
+        <div id="error-state" class="hidden text-center py-12 opacity-60">
+          <p>Unable to load releases. Please check the <a href="https://github.com/SchoolyB/EZ/releases" class="underline hover:opacity-80">GitHub releases page</a>.</p>
+        </div>
+
+        <!-- Releases Container -->
+        <div id="releases-container" class="hidden space-y-8"></div>
       </main>
 
       <!-- Right Sidebar TOC -->
       <aside class="hidden lg:block">
         <nav class="sticky top-24 max-h-[calc(100vh-6rem)] overflow-y-auto">
           <h2 class="text-sm font-semibold mb-4 opacity-50 uppercase tracking-wider">Versions</h2>
-          <ul class="space-y-1">
-            {releases.map((release, index) => (
-              <li>
-                <a
-                  href={`#${release.tag_name}`}
-                  class="version-link text-sm opacity-60 hover:opacity-100 transition-opacity block py-1 flex items-center gap-2"
-                  data-version={release.tag_name}
-                >
-                  <span>{release.tag_name}</span>
-                  {index === 0 && !release.prerelease && (
-                    <span class="px-1.5 py-0.5 text-[10px] font-medium bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 rounded">Latest</span>
-                  )}
-                  {release.prerelease && (
-                    <span class="px-1.5 py-0.5 text-[10px] font-medium bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-200 rounded">Pre-release</span>
-                  )}
-                </a>
-              </li>
-            ))}
-          </ul>
+          <ul id="versions-list" class="space-y-1"></ul>
         </nav>
       </aside>
     </div>
@@ -146,7 +49,6 @@ function parseMarkdown(content: string): string {
     font-weight: 500;
   }
 
-  /* Use theme colors for release content */
   .release-content code {
     background-color: var(--ez-gray-bg);
     border: 1px solid var(--ez-gray-border);
@@ -165,23 +67,151 @@ function parseMarkdown(content: string): string {
 </style>
 
 <script>
-  function initChangelog() {
+  import { marked } from 'marked';
+
+  interface GitHubRelease {
+    id: number;
+    tag_name: string;
+    name: string;
+    body: string;
+    published_at: string;
+    html_url: string;
+    prerelease: boolean;
+    draft: boolean;
+  }
+
+  const CACHE_KEY = 'ez-releases-cache';
+  const CACHE_DURATION = 5 * 60 * 1000; // 5 minutes
+
+  function formatDate(dateString: string): string {
+    const date = new Date(dateString);
+    return date.toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric'
+    });
+  }
+
+  function parseMarkdown(content: string): string {
+    if (!content) return '<p>No release notes available.</p>';
+    return marked.parse(content) as string;
+  }
+
+  function getCachedReleases(): { releases: GitHubRelease[]; timestamp: number } | null {
+    try {
+      const cached = localStorage.getItem(CACHE_KEY);
+      if (!cached) return null;
+      return JSON.parse(cached);
+    } catch {
+      return null;
+    }
+  }
+
+  function setCachedReleases(releases: GitHubRelease[]): void {
+    try {
+      localStorage.setItem(CACHE_KEY, JSON.stringify({
+        releases,
+        timestamp: Date.now()
+      }));
+    } catch {
+      // localStorage might be full or disabled
+    }
+  }
+
+  function renderReleases(releases: GitHubRelease[]): void {
+    const container = document.getElementById('releases-container');
+    const versionsList = document.getElementById('versions-list');
+    const loadingState = document.getElementById('loading-state');
+    const errorState = document.getElementById('error-state');
+
+    if (!container || !versionsList || !loadingState || !errorState) return;
+
+    if (releases.length === 0) {
+      loadingState.classList.add('hidden');
+      errorState.classList.remove('hidden');
+      return;
+    }
+
+    // Render releases
+    container.innerHTML = releases.map((release, index) => `
+      <article
+        id="${release.tag_name}"
+        class="release-entry scroll-mt-24 rounded-lg overflow-hidden"
+        style="border: 1px solid var(--ez-gray-border);"
+        data-version="${release.tag_name}"
+      >
+        <header class="px-6 py-4" style="background-color: var(--ez-gray-bg); border-bottom: 1px solid var(--ez-gray-border);">
+          <div class="flex items-center gap-3 flex-wrap">
+            <a
+              href="${release.html_url}"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="text-3xl font-bold hover:opacity-70 transition-opacity"
+            >
+              ${release.tag_name}
+            </a>
+            ${release.prerelease ? `
+              <span class="px-2 py-0.5 text-xs font-medium bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-200 rounded">
+                Pre-release
+              </span>
+            ` : ''}
+            ${index === 0 && !release.prerelease ? `
+              <span class="px-2 py-0.5 text-xs font-medium bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 rounded">
+                Latest
+              </span>
+            ` : ''}
+          </div>
+          <time datetime="${release.published_at}" class="mt-2 block text-sm opacity-60">
+            ${formatDate(release.published_at)}
+          </time>
+        </header>
+        <div class="release-content prose prose-sm dark:prose-invert max-w-none px-6 py-5
+                    prose-headings:font-semibold prose-headings:text-black dark:prose-headings:text-white
+                    prose-a:text-black dark:prose-a:text-white prose-a:underline">
+          ${parseMarkdown(release.body)}
+        </div>
+      </article>
+    `).join('');
+
+    // Render versions sidebar
+    versionsList.innerHTML = releases.map((release, index) => `
+      <li>
+        <a
+          href="#${release.tag_name}"
+          class="version-link text-sm opacity-60 hover:opacity-100 transition-opacity block py-1 flex items-center gap-2"
+          data-version="${release.tag_name}"
+        >
+          <span>${release.tag_name}</span>
+          ${index === 0 && !release.prerelease ? `
+            <span class="px-1.5 py-0.5 text-[10px] font-medium bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 rounded">Latest</span>
+          ` : ''}
+          ${release.prerelease ? `
+            <span class="px-1.5 py-0.5 text-[10px] font-medium bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-200 rounded">Pre-release</span>
+          ` : ''}
+        </a>
+      </li>
+    `).join('');
+
+    // Show container, hide loading
+    loadingState.classList.add('hidden');
+    container.classList.remove('hidden');
+
+    // Initialize scroll observer
+    initScrollObserver();
+  }
+
+  function initScrollObserver(): void {
     const versionLinks = document.querySelectorAll('.version-link');
     const releaseEntries = document.querySelectorAll('.release-entry');
 
     if (releaseEntries.length === 0 || versionLinks.length === 0) return;
 
-    // Set up intersection observer for active state
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
             const version = (entry.target as HTMLElement).dataset.version;
-
-            // Remove active class from all links
             versionLinks.forEach((link) => link.classList.remove('active'));
-
-            // Add active class to corresponding link
             const activeLink = document.querySelector(`.version-link[data-version="${version}"]`);
             if (activeLink) {
               activeLink.classList.add('active');
@@ -197,9 +227,45 @@ function parseMarkdown(content: string): string {
 
     releaseEntries.forEach((entry) => observer.observe(entry));
 
-    // Set first item as active initially
     if (versionLinks.length > 0) {
       versionLinks[0].classList.add('active');
+    }
+  }
+
+  async function fetchReleases(): Promise<GitHubRelease[]> {
+    const response = await fetch('https://api.github.com/repos/SchoolyB/EZ/releases', {
+      headers: {
+        'Accept': 'application/vnd.github.v3+json',
+        'User-Agent': 'EZ-Docs-Site'
+      }
+    });
+
+    if (!response.ok) {
+      throw new Error('Failed to fetch releases');
+    }
+
+    const data = await response.json();
+    return data.filter((r: GitHubRelease) => !r.draft);
+  }
+
+  async function initChangelog(): Promise<void> {
+    const loadingState = document.getElementById('loading-state');
+    const errorState = document.getElementById('error-state');
+
+    // Check cache first
+    const cached = getCachedReleases();
+    if (cached && Date.now() - cached.timestamp < CACHE_DURATION) {
+      renderReleases(cached.releases);
+      return;
+    }
+
+    try {
+      const releases = await fetchReleases();
+      setCachedReleases(releases);
+      renderReleases(releases);
+    } catch {
+      if (loadingState) loadingState.classList.add('hidden');
+      if (errorState) errorState.classList.remove('hidden');
     }
   }
 
