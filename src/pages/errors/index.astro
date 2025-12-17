@@ -2,21 +2,8 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Header from '../../components/Header.astro';
 import Footer from '../../components/Footer.astro';
-import errorsData from '../../data/errors.json';
 
 const base = import.meta.env.BASE_URL;
-
-// Group errors by category
-const errorsByCategory = errorsData.categories.map(category => {
-  const categoryErrors = errorsData.errors.filter(e => e.category === category.id);
-  return {
-    ...category,
-    count: categoryErrors.length,
-    errors: categoryErrors,
-  };
-});
-
-const totalErrors = errorsData.errors.length;
 ---
 
 <BaseLayout title="Error Reference - EZ" description="Complete reference of all EZ error and warning codes.">
@@ -36,7 +23,7 @@ const totalErrors = errorsData.errors.length;
       </button>
     </div>
     <p class="opacity-70 mb-8 text-black dark:text-white">
-      EZ has <span class="text-xl font-bold opacity-100">{totalErrors}</span> error and warning codes to help you understand exactly what went wrong and how to fix it.
+      EZ has <span id="total-count" class="text-xl font-bold opacity-100">...</span> error and warning codes to help you understand exactly what went wrong and how to fix it.
     </p>
 
     <!-- Search -->
@@ -54,6 +41,20 @@ const totalErrors = errorsData.errors.length;
       </div>
     </div>
 
+    <!-- Loading State -->
+    <div id="loading-state" class="text-center py-12">
+      <div class="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-black dark:border-white"></div>
+      <p class="mt-4 opacity-60">Loading error codes...</p>
+    </div>
+
+    <!-- Error State -->
+    <div id="error-state" class="hidden text-center py-12">
+      <p class="text-red-600 dark:text-red-400 mb-4">Failed to load error codes</p>
+      <button id="retry-btn" class="px-4 py-2 border border-[#e5e5e5] dark:border-[#333333] rounded-lg hover:bg-[#f5f5f5] dark:hover:bg-[#1a1a1a]">
+        Retry
+      </button>
+    </div>
+
     <!-- Search Results (hidden by default) -->
     <div id="search-results" class="hidden mb-8">
       <h2 class="text-lg font-semibold mb-4 text-black dark:text-white">Search Results</h2>
@@ -61,59 +62,13 @@ const totalErrors = errorsData.errors.length;
       <p id="no-results" class="hidden text-center opacity-60 py-8">No errors found matching your search.</p>
     </div>
 
-    <!-- Error Categories -->
-    <div id="categories" class="space-y-6">
-      {errorsByCategory.map(category => (
-        <div id={`category-${category.id}`} class="scroll-mt-24 border border-[#e5e5e5] dark:border-[#333333] rounded-lg overflow-hidden"  data-category-section={category.id}>
-          <div class="px-4 py-4 bg-[#f5f5f5] dark:bg-[#1a1a1a]">
-            <div class="flex items-center justify-between mb-2">
-              <h2 class="text-xl font-semibold text-black dark:text-white">
-                {category.name}
-                <span class="font-mono text-base opacity-60 ml-2">({category.range})</span>
-              </h2>
-              <span class="text-base opacity-60 text-black dark:text-white">{category.count} codes</span>
-            </div>
-            <p class="text-base opacity-70 mb-4 text-black dark:text-white">{category.description}</p>
-            <div class="flex flex-wrap gap-2">
-              {category.errors.slice(0, 8).map(error => (
-                <a
-                  href={`${base}errors/${error.code}`}
-                  class="text-sm px-3 py-2 bg-white dark:bg-black rounded border border-[#e5e5e5] dark:border-[#333333] hover:border-black dark:hover:border-white transition-colors font-mono text-black dark:text-white"
-                >
-                  {error.code}
-                </a>
-              ))}
-              {category.errors.length > 8 && (
-                <button
-                  class="show-all-btn text-sm px-3 py-2 opacity-50 hover:opacity-100 transition-opacity text-black dark:text-white"
-                  data-category={category.id}
-                >
-                  +{category.errors.length - 8} more
-                </button>
-              )}
-            </div>
-            <!-- Hidden expanded list -->
-            <div id={`expanded-${category.id}`} class="hidden mt-3 pt-3 border-t border-[#e5e5e5] dark:border-[#333333]">
-              <div class="flex flex-wrap gap-2">
-                {category.errors.slice(8).map(error => (
-                  <a
-                    href={`${base}errors/${error.code}`}
-                    class="text-sm px-3 py-2 bg-white dark:bg-black rounded border border-[#e5e5e5] dark:border-[#333333] hover:border-black dark:hover:border-white transition-colors font-mono text-black dark:text-white"
-                  >
-                    {error.code}
-                  </a>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
-      ))}
-    </div>
+    <!-- Error Categories (populated dynamically) -->
+    <div id="categories" class="space-y-6 hidden"></div>
 
     <!-- All Errors Table -->
-    <div class="mt-12" id="all-errors-section">
+    <div class="mt-12 hidden" id="all-errors-section">
       <div class="flex items-center justify-between mb-6">
-        <h2 class="text-2xl font-bold text-black dark:text-white">All Error Codes ({totalErrors})</h2>
+        <h2 class="text-2xl font-bold text-black dark:text-white">All Error Codes (<span id="table-total">0</span>)</h2>
         <button
           id="show-all-errors-btn"
           class="flex items-center gap-2 px-4 py-2 text-sm font-medium text-black dark:text-white bg-white dark:bg-black border border-[#e5e5e5] dark:border-[#333333] rounded-lg hover:bg-[#f5f5f5] dark:hover:bg-[#1a1a1a] transition-colors"
@@ -132,27 +87,7 @@ const totalErrors = errorsData.errors.length;
                 <th class="px-4 py-3 text-left font-semibold text-black dark:text-white hidden sm:table-cell">Message</th>
               </tr>
             </thead>
-            <tbody class="divide-y divide-[#e5e5e5] dark:divide-[#333333]">
-              {errorsData.errors.map((error) => (
-                <tr
-                  class="hover:bg-[#f5f5f5] dark:hover:bg-[#1a1a1a] transition-colors error-row"
-                  data-code={error.code.toLowerCase()}
-                  data-slug={error.slug}
-                  data-message={error.message.toLowerCase()}
-                >
-                  <td class="px-4 py-3">
-                    <a href={`${base}errors/${error.code}`} class="font-mono text-black dark:text-white hover:underline">
-                      {error.code}
-                    </a>
-                  </td>
-                  <td class="px-4 py-3">
-                    <a href={`${base}errors/${error.code}`} class="hover:underline opacity-80 text-black dark:text-white">
-                      {error.slug}
-                    </a>
-                  </td>
-                  <td class="px-4 py-3 opacity-60 hidden sm:table-cell text-black dark:text-white">{error.message}</td>
-                </tr>
-              ))}
+            <tbody id="errors-table-body" class="divide-y divide-[#e5e5e5] dark:divide-[#333333]">
             </tbody>
           </table>
         </div>
@@ -173,18 +108,8 @@ const totalErrors = errorsData.errors.length;
       <aside class="hidden lg:block">
         <nav class="sticky top-24 max-h-[calc(100vh-6rem)] overflow-y-auto">
           <h2 class="text-sm font-semibold mb-3 opacity-50 uppercase tracking-wider text-black dark:text-white">Categories</h2>
-          <ul class="space-y-1.5">
-            {errorsByCategory.map(category => (
-              <li>
-                <a
-                  href={`#category-${category.id}`}
-                  class="error-toc-link text-base opacity-60 hover:opacity-100 transition-opacity block py-1 text-black dark:text-white"
-                  data-category={category.id}
-                >
-                  {category.name}
-                </a>
-              </li>
-            ))}
+          <ul id="toc-list" class="space-y-1.5">
+            <!-- Populated dynamically -->
           </ul>
         </nav>
       </aside>
@@ -201,206 +126,338 @@ const totalErrors = errorsData.errors.length;
   }
 </style>
 
-<script>
-  // Elements
-  const searchInput = document.getElementById('error-search') as HTMLInputElement;
-  const searchResults = document.getElementById('search-results');
-  const noResults = document.getElementById('no-results');
-  const categories = document.getElementById('categories');
-  const errorRows = document.querySelectorAll('.error-row');
-  const showAllBtn = document.getElementById('show-all-errors-btn');
-  const hideErrorsBtn = document.getElementById('hide-errors-btn');
-  const tableContainer = document.getElementById('errors-table-container');
-  const allErrorsSection = document.getElementById('all-errors-section');
-  const expandIcon = document.getElementById('expand-icon');
-  const expandText = document.getElementById('expand-text');
+<script define:vars={{ base }}>
+  const ERRORS_URL = 'https://raw.githubusercontent.com/SchoolyB/EZ/main/ERRORS.md';
 
-  let isExpanded = false;
+  // Parse ERRORS.md markdown
+  function parseErrorsMd(markdown) {
+    const lines = markdown.split('\n');
+    const categories = [];
+    const errors = [];
 
-  function collapseTable() {
-    isExpanded = false;
-    tableContainer?.classList.add('hidden');
-    if (expandIcon) expandIcon.textContent = '▶';
-    if (expandText) expandText.textContent = 'Show all';
-  }
+    let currentCategory = null;
+    let inTable = false;
 
-  function expandTable() {
-    isExpanded = true;
-    tableContainer?.classList.remove('hidden');
-    if (expandIcon) expandIcon.textContent = '▼';
-    if (expandText) expandText.textContent = 'Hide all';
-  }
-
-  // Toggle table visibility (top button)
-  showAllBtn?.addEventListener('click', () => {
-    if (isExpanded) {
-      collapseTable();
-    } else {
-      expandTable();
-    }
-  });
-
-  // Hide button at bottom - collapse and scroll to section
-  hideErrorsBtn?.addEventListener('click', () => {
-    collapseTable();
-    allErrorsSection?.scrollIntoView({ behavior: 'smooth' });
-  });
-
-  // Toggle all categories button
-  const toggleAllCategoriesBtn = document.getElementById('toggle-all-categories');
-  let allCategoriesExpanded = false;
-
-  function updateToggleAllButton() {
-    const expandedSections = document.querySelectorAll('[id^="expanded-"]:not(.hidden)');
-    const totalExpandable = document.querySelectorAll('[id^="expanded-"]').length;
-
-    if (toggleAllCategoriesBtn) {
-      if (expandedSections.length === totalExpandable && totalExpandable > 0) {
-        toggleAllCategoriesBtn.textContent = 'Collapse All';
-        allCategoriesExpanded = true;
-      } else if (expandedSections.length === 0) {
-        toggleAllCategoriesBtn.textContent = 'Expand All';
-        allCategoriesExpanded = false;
-      } else {
-        toggleAllCategoriesBtn.textContent = 'Collapse All';
-        allCategoriesExpanded = true;
-      }
-    }
-  }
-
-  toggleAllCategoriesBtn?.addEventListener('click', () => {
-    allCategoriesExpanded = !allCategoriesExpanded;
-
-    document.querySelectorAll('[id^="expanded-"]').forEach(section => {
-      if (allCategoriesExpanded) {
-        section.classList.remove('hidden');
-      } else {
-        section.classList.add('hidden');
-      }
-    });
-
-    document.querySelectorAll('.show-all-btn').forEach(btn => {
-      const category = (btn as HTMLButtonElement).dataset.category;
-      const expanded = document.getElementById(`expanded-${category}`);
-      if (expanded) {
-        const originalCount = btn.getAttribute('data-original-text');
-        btn.textContent = expanded.classList.contains('hidden')
-          ? originalCount || btn.textContent
-          : 'Show less';
-      }
-    });
-
-    updateToggleAllButton();
-  });
-
-  // Category expand buttons
-  document.querySelectorAll('.show-all-btn').forEach(btn => {
-    // Store original text
-    if (!btn.getAttribute('data-original-text')) {
-      btn.setAttribute('data-original-text', btn.textContent || '');
+    function getCategoryId(header) {
+      const h = header.toLowerCase();
+      if (h.includes('lexer')) return 'lexer';
+      if (h.includes('parse')) return 'parse';
+      if (h.includes('type error')) return 'type';
+      if (h.includes('reference')) return 'reference';
+      if (h.includes('runtime')) return 'runtime';
+      if (h.includes('import')) return 'import';
+      if (h.includes('stdlib')) return 'stdlib';
+      if (h.includes('math')) return 'math';
+      if (h.includes('array')) return 'array';
+      if (h.includes('string error')) return 'string';
+      if (h.includes('time')) return 'time';
+      if (h.includes('map')) return 'map';
+      if (h.includes('json')) return 'json';
+      if (h.includes('code style')) return 'warnings-style';
+      if (h.includes('potential bug')) return 'warnings-bugs';
+      if (h.includes('code quality')) return 'warnings-quality';
+      if (h.includes('module warning')) return 'warnings-module';
+      return 'unknown';
     }
 
-    btn.addEventListener('click', () => {
-      const category = (btn as HTMLButtonElement).dataset.category;
-      const expanded = document.getElementById(`expanded-${category}`);
-      if (expanded) {
-        expanded.classList.toggle('hidden');
-        const originalText = btn.getAttribute('data-original-text') || btn.textContent;
-        btn.textContent = expanded.classList.contains('hidden')
-          ? originalText
-          : 'Show less';
-        updateToggleAllButton();
+    for (let i = 0; i < lines.length; i++) {
+      const line = lines[i].trim();
+
+      // Category header: ## Category Name (Exxx)
+      const headerMatch = line.match(/^## (.+?) \(([EW]\d+x+(?:-[EW]\d+x+)?)\)$/);
+      if (headerMatch) {
+        const name = headerMatch[1];
+        const range = headerMatch[2];
+        const description = lines[i + 1]?.trim() || '';
+
+        currentCategory = {
+          id: getCategoryId(name),
+          name,
+          range,
+          description
+        };
+        categories.push(currentCategory);
+        inTable = false;
+        continue;
       }
-    });
-  });
 
-  // Search
-  searchInput?.addEventListener('input', (e) => {
-    const query = (e.target as HTMLInputElement).value.toLowerCase().trim();
+      // Table header
+      if (line.startsWith('| Code |')) {
+        inTable = true;
+        continue;
+      }
 
-    if (!query) {
-      // No search query - show categories, reset table to collapsed/expanded state
-      searchResults?.classList.add('hidden');
-      categories?.classList.remove('hidden');
-      errorRows.forEach(row => {
-        (row as HTMLElement).style.display = '';
+      // Skip separator
+      if (line.startsWith('|---')) continue;
+
+      // Parse table row
+      if (inTable && line.startsWith('|') && currentCategory) {
+        const cells = line.split('|').map(c => c.trim()).filter(c => c);
+        if (cells.length >= 3) {
+          const [code, slug, message] = cells;
+          if (code.match(/^[EW]\d+$/)) {
+            errors.push({
+              code,
+              slug,
+              message,
+              category: currentCategory.id
+            });
+          }
+        }
+      }
+
+      // End of table
+      if (inTable && !line.startsWith('|') && line !== '') {
+        inTable = false;
+      }
+    }
+
+    return { categories, errors, total: errors.length };
+  }
+
+  // Render functions
+  function renderCategories(data) {
+    const container = document.getElementById('categories');
+    const tocList = document.getElementById('toc-list');
+
+    container.innerHTML = data.categories.map(category => {
+      const categoryErrors = data.errors.filter(e => e.category === category.id);
+      const visibleErrors = categoryErrors.slice(0, 8);
+      const hiddenErrors = categoryErrors.slice(8);
+
+      return `
+        <div id="category-${category.id}" class="scroll-mt-24 border border-[#e5e5e5] dark:border-[#333333] rounded-lg overflow-hidden" data-category-section="${category.id}">
+          <div class="px-4 py-4 bg-[#f5f5f5] dark:bg-[#1a1a1a]">
+            <div class="flex items-center justify-between mb-2">
+              <h2 class="text-xl font-semibold text-black dark:text-white">
+                ${category.name}
+                <span class="font-mono text-base opacity-60 ml-2">(${category.range})</span>
+              </h2>
+              <span class="text-base opacity-60 text-black dark:text-white">${categoryErrors.length} codes</span>
+            </div>
+            <p class="text-base opacity-70 mb-4 text-black dark:text-white">${category.description}</p>
+            <div class="flex flex-wrap gap-2">
+              ${visibleErrors.map(error => `
+                <a href="${base}errors/${error.code}" class="text-sm px-3 py-2 bg-white dark:bg-black rounded border border-[#e5e5e5] dark:border-[#333333] hover:border-black dark:hover:border-white transition-colors font-mono text-black dark:text-white">
+                  ${error.code}
+                </a>
+              `).join('')}
+              ${hiddenErrors.length > 0 ? `
+                <button class="show-all-btn text-sm px-3 py-2 opacity-50 hover:opacity-100 transition-opacity text-black dark:text-white" data-category="${category.id}" data-original-text="+${hiddenErrors.length} more">
+                  +${hiddenErrors.length} more
+                </button>
+              ` : ''}
+            </div>
+            ${hiddenErrors.length > 0 ? `
+              <div id="expanded-${category.id}" class="hidden mt-3 pt-3 border-t border-[#e5e5e5] dark:border-[#333333]">
+                <div class="flex flex-wrap gap-2">
+                  ${hiddenErrors.map(error => `
+                    <a href="${base}errors/${error.code}" class="text-sm px-3 py-2 bg-white dark:bg-black rounded border border-[#e5e5e5] dark:border-[#333333] hover:border-black dark:hover:border-white transition-colors font-mono text-black dark:text-white">
+                      ${error.code}
+                    </a>
+                  `).join('')}
+                </div>
+              </div>
+            ` : ''}
+          </div>
+        </div>
+      `;
+    }).join('');
+
+    // Render TOC
+    tocList.innerHTML = data.categories.map(category => `
+      <li>
+        <a href="#category-${category.id}" class="error-toc-link text-base opacity-60 hover:opacity-100 transition-opacity block py-1 text-black dark:text-white" data-category="${category.id}">
+          ${category.name}
+        </a>
+      </li>
+    `).join('');
+  }
+
+  function renderTable(data) {
+    const tbody = document.getElementById('errors-table-body');
+    tbody.innerHTML = data.errors.map(error => `
+      <tr class="hover:bg-[#f5f5f5] dark:hover:bg-[#1a1a1a] transition-colors error-row"
+          data-code="${error.code.toLowerCase()}"
+          data-slug="${error.slug}"
+          data-message="${error.message.toLowerCase()}">
+        <td class="px-4 py-3">
+          <a href="${base}errors/${error.code}" class="font-mono text-black dark:text-white hover:underline">
+            ${error.code}
+          </a>
+        </td>
+        <td class="px-4 py-3">
+          <a href="${base}errors/${error.code}" class="hover:underline opacity-80 text-black dark:text-white">
+            ${error.slug}
+          </a>
+        </td>
+        <td class="px-4 py-3 opacity-60 hidden sm:table-cell text-black dark:text-white">${error.message}</td>
+      </tr>
+    `).join('');
+  }
+
+  // Main init
+  async function initErrors() {
+    const loadingState = document.getElementById('loading-state');
+    const errorState = document.getElementById('error-state');
+    const categories = document.getElementById('categories');
+    const allErrorsSection = document.getElementById('all-errors-section');
+    const totalCount = document.getElementById('total-count');
+    const tableTotal = document.getElementById('table-total');
+
+    try {
+      const response = await fetch(ERRORS_URL);
+      if (!response.ok) throw new Error('Failed to fetch');
+
+      const markdown = await response.text();
+      const data = parseErrorsMd(markdown);
+
+      // Update counts
+      totalCount.textContent = data.total;
+      tableTotal.textContent = data.total;
+
+      // Render content
+      renderCategories(data);
+      renderTable(data);
+
+      // Show content
+      loadingState.classList.add('hidden');
+      categories.classList.remove('hidden');
+      allErrorsSection.classList.remove('hidden');
+
+      // Initialize interactions
+      initInteractions(data);
+    } catch (err) {
+      console.error('Error loading errors:', err);
+      loadingState.classList.add('hidden');
+      errorState.classList.remove('hidden');
+    }
+  }
+
+  function initInteractions(data) {
+    // Toggle all categories
+    const toggleAllBtn = document.getElementById('toggle-all-categories');
+    let allExpanded = false;
+
+    toggleAllBtn?.addEventListener('click', () => {
+      allExpanded = !allExpanded;
+      document.querySelectorAll('[id^="expanded-"]').forEach(section => {
+        section.classList.toggle('hidden', !allExpanded);
       });
-      // Restore table visibility based on expanded state
-      if (isExpanded) {
-        tableContainer?.classList.remove('hidden');
-      } else {
-        tableContainer?.classList.add('hidden');
-      }
-      return;
-    }
-
-    // Has search query - hide categories, show table, filter rows
-    categories?.classList.add('hidden');
-    searchResults?.classList.remove('hidden');
-    tableContainer?.classList.remove('hidden');
-
-    // Filter table rows
-    let matchCount = 0;
-    errorRows.forEach(row => {
-      const el = row as HTMLElement;
-      const code = el.dataset.code || '';
-      const slug = (el.dataset.slug || '').toLowerCase();
-      const message = el.dataset.message || '';
-
-      if (code.includes(query) || slug.includes(query) || message.includes(query)) {
-        el.style.display = '';
-        matchCount++;
-      } else {
-        el.style.display = 'none';
-      }
+      document.querySelectorAll('.show-all-btn').forEach(btn => {
+        const originalText = btn.dataset.originalText;
+        btn.textContent = allExpanded ? 'Show less' : originalText;
+      });
+      toggleAllBtn.textContent = allExpanded ? 'Collapse All' : 'Expand All';
     });
 
-    // Update results count and no results message
+    // Individual category expand
+    document.querySelectorAll('.show-all-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const category = btn.dataset.category;
+        const expanded = document.getElementById(`expanded-${category}`);
+        if (expanded) {
+          expanded.classList.toggle('hidden');
+          const originalText = btn.dataset.originalText;
+          btn.textContent = expanded.classList.contains('hidden') ? originalText : 'Show less';
+        }
+      });
+    });
+
+    // Table toggle
+    const showAllBtn = document.getElementById('show-all-errors-btn');
+    const hideErrorsBtn = document.getElementById('hide-errors-btn');
+    const tableContainer = document.getElementById('errors-table-container');
+    const expandIcon = document.getElementById('expand-icon');
+    const expandText = document.getElementById('expand-text');
+    let tableExpanded = false;
+
+    showAllBtn?.addEventListener('click', () => {
+      tableExpanded = !tableExpanded;
+      tableContainer.classList.toggle('hidden', !tableExpanded);
+      expandIcon.textContent = tableExpanded ? '▼' : '▶';
+      expandText.textContent = tableExpanded ? 'Hide all' : 'Show all';
+    });
+
+    hideErrorsBtn?.addEventListener('click', () => {
+      tableExpanded = false;
+      tableContainer.classList.add('hidden');
+      expandIcon.textContent = '▶';
+      expandText.textContent = 'Show all';
+      document.getElementById('all-errors-section')?.scrollIntoView({ behavior: 'smooth' });
+    });
+
+    // Search
+    const searchInput = document.getElementById('error-search');
+    const searchResults = document.getElementById('search-results');
     const searchResultsList = document.getElementById('search-results-list');
-    if (searchResultsList) {
+    const noResults = document.getElementById('no-results');
+    const categoriesEl = document.getElementById('categories');
+
+    searchInput?.addEventListener('input', (e) => {
+      const query = e.target.value.toLowerCase().trim();
+
+      if (!query) {
+        searchResults.classList.add('hidden');
+        categoriesEl.classList.remove('hidden');
+        document.querySelectorAll('.error-row').forEach(row => row.style.display = '');
+        if (!tableExpanded) tableContainer.classList.add('hidden');
+        return;
+      }
+
+      categoriesEl.classList.add('hidden');
+      searchResults.classList.remove('hidden');
+      tableContainer.classList.remove('hidden');
+
+      let matchCount = 0;
+      document.querySelectorAll('.error-row').forEach(row => {
+        const code = row.dataset.code || '';
+        const slug = row.dataset.slug?.toLowerCase() || '';
+        const message = row.dataset.message || '';
+
+        if (code.includes(query) || slug.includes(query) || message.includes(query)) {
+          row.style.display = '';
+          matchCount++;
+        } else {
+          row.style.display = 'none';
+        }
+      });
+
       searchResultsList.innerHTML = `<p class="text-sm opacity-70">Found ${matchCount} error${matchCount !== 1 ? 's' : ''} matching "${query}"</p>`;
-    }
+      noResults.classList.toggle('hidden', matchCount > 0);
+    });
 
-    if (matchCount === 0) {
-      noResults?.classList.remove('hidden');
-    } else {
-      noResults?.classList.add('hidden');
-    }
-  });
-
-  // TOC Scroll Spy
-  function initScrollSpy() {
+    // Scroll spy for TOC
     const tocLinks = document.querySelectorAll('.error-toc-link');
     const categorySections = document.querySelectorAll('[data-category-section]');
 
-    if (categorySections.length === 0 || tocLinks.length === 0) return;
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            const category = (entry.target as HTMLElement).dataset.categorySection;
-            tocLinks.forEach((link) => link.classList.remove('active'));
-            const activeLink = document.querySelector(`.error-toc-link[data-category="${category}"]`);
-            if (activeLink) {
-              activeLink.classList.add('active');
+    if (categorySections.length > 0 && tocLinks.length > 0) {
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              const category = entry.target.dataset.categorySection;
+              tocLinks.forEach((link) => link.classList.remove('active'));
+              document.querySelector(`.error-toc-link[data-category="${category}"]`)?.classList.add('active');
             }
-          }
-        });
-      },
-      {
-        rootMargin: '-100px 0px -70% 0px',
-        threshold: 0
-      }
-    );
+          });
+        },
+        { rootMargin: '-100px 0px -70% 0px', threshold: 0 }
+      );
 
-    categorySections.forEach((section) => observer.observe(section));
-
-    // Set first link as active by default
-    if (tocLinks.length > 0) {
-      tocLinks[0].classList.add('active');
+      categorySections.forEach((section) => observer.observe(section));
+      tocLinks[0]?.classList.add('active');
     }
   }
 
-  initScrollSpy();
+  // Retry button
+  document.getElementById('retry-btn')?.addEventListener('click', () => {
+    document.getElementById('error-state').classList.add('hidden');
+    document.getElementById('loading-state').classList.remove('hidden');
+    initErrors();
+  });
+
+  // Init on load
+  initErrors();
+  document.addEventListener('astro:after-swap', initErrors);
 </script>
