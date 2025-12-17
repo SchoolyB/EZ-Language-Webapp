@@ -251,6 +251,75 @@ do main() {
 }
 ```
 
+## Copy-by-Default Semantics
+
+EZ uses **copy-by-default** for all assignments. When you assign a value to a new variable, you get an independent copy:
+
+```ez
+const Person struct {
+    name string
+    age int
+}
+
+do main() {
+    temp p1 Person = Person{name: "Alice", age: 30}
+    temp p2 Person = p1  // p2 is an independent copy
+
+    p2.age = 31
+    std.println(p1.age)  // 30 - unchanged
+    std.println(p2.age)  // 31
+}
+```
+
+This applies to all types including:
+- Primitives (int, float, string, bool, char)
+- Structs
+- Arrays
+- Maps
+
+### Shared Data with ref()
+
+When you need multiple variables to share the same data, use `ref()`:
+
+```ez
+do main() {
+    temp p1 Person = Person{name: "Alice", age: 30}
+    temp p2 Person = ref(p1)  // p2 references the same data
+
+    p2.age = 31
+    std.println(p1.age)  // 31 - both changed!
+    std.println(p2.age)  // 31
+}
+```
+
+Use `ref()` when:
+- Multiple variables need to share and modify the same data
+- You want changes in one place to be visible everywhere
+- You want to avoid copying overhead for large data structures
+
+```ez
+// Arrays with ref()
+temp original [int] = {1, 2, 3}
+temp shared [int] = ref(original)
+shared[0] = 100
+std.println(original[0])  // 100 - both share the same array
+
+// Without ref() - independent copy
+temp copied [int] = original
+copied[1] = 200
+std.println(original[1])  // 2 - original unchanged
+```
+
+### Explicit Copying with copy()
+
+While `copy()` is no longer required for independent copies (since that's the default), it remains available for explicit intent:
+
+```ez
+temp a Person = Person{name: "Bob", age: 25}
+temp b Person = copy(a)  // Explicitly states "I want a copy"
+// Same result as: temp b Person = a
+```
+
 ## Compound Assignment
 
 ```ez

@@ -186,7 +186,7 @@ std.println(typeof(arr))  // "array"
 
 `(value) -> value`
 
-Creates a deep copy of a value. Use this when you need an independent copy rather than a reference.
+Creates a deep copy of a value. Since EZ uses copy-by-default semantics, this function is primarily useful when you want to be explicit about copying.
 
 ```ez
 const Person struct {
@@ -195,16 +195,61 @@ const Person struct {
 }
 
 temp a Person = Person{name: "Alice", age: 30}
-temp b Person = copy(a)
+temp b Person = copy(a)  // Explicit copy (same as just `temp b = a`)
 b.age = 31
 // a.age is still 30 - b is an independent copy
 ```
+
+**Note:** With copy-by-default behavior, `temp b = a` already creates an independent copy. Use `copy()` when you want to be explicit about your intent, or use `ref()` when you need shared data.
 
 **Deep copy behavior:**
 - Primitives return themselves
 - Nested structs are recursively copied
 - Arrays are copied with all elements
 - Maps are copied with all key-value pairs
+
+### ref()
+
+`(value) -> reference`
+
+Creates a reference to a value, enabling shared data between variables. Use this when multiple variables need to point to the same underlying data.
+
+```ez
+const Person struct {
+    name string
+    age int
+}
+
+temp a Person = Person{name: "Alice", age: 30}
+temp b Person = ref(a)  // b references the same data as a
+b.age = 31
+// a.age is now 31 - both variables share the same data
+```
+
+**When to use `ref()`:**
+- When multiple variables need to share and modify the same data
+- When passing large data structures without copying overhead
+- When you need changes in one place to be visible everywhere
+
+**Works with all types:**
+- Primitives (int, float, string, bool, char)
+- Complex types (structs, arrays, maps)
+
+```ez
+// Reference to an array
+temp original [int] = {1, 2, 3}
+temp shared [int] = ref(original)
+shared[0] = 100
+// original[0] is now 100
+
+// Reference to a primitive
+temp count int = 0
+temp counter int = ref(count)
+counter++
+// count is now 1
+```
+
+**Note:** Without `ref()`, assignments create independent copies by default.
 
 ### new()
 
@@ -395,7 +440,8 @@ do main() {
 | `range(start, end)` | Number sequence for loops | `range(0, 5)` → `0,1,2,3,4` |
 | `range(start, end, step)` | Number sequence with step | `range(0, 10, 2)` → `0,2,4,6,8` |
 | `typeof(x)` | Type name as string | `typeof(42)` → `"int"` |
-| `copy(x)` | Deep copy of a value | `copy(myStruct)` → independent copy |
+| `copy(x)` | Explicit deep copy of a value | `copy(myStruct)` → independent copy |
+| `ref(x)` | Create reference for shared data | `ref(myStruct)` → shared reference |
 | `new(Type)` | Create zero-initialized struct | `new(Person)` → struct with zero values |
 | `int(x)` | Convert to integer | `int("42")` → `42` |
 | `float(x)` | Convert to float | `float(42)` → `42.0` |

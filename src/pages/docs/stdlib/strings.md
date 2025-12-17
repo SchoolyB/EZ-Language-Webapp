@@ -529,6 +529,122 @@ do reverse_string() {
 
 **Returns:** `string` - Reversed string.
 
+## Parsing
+
+### `to_int()`
+`(str string) -> (int, Error)`
+
+Converts a string to an integer. Returns a tuple of the parsed value and an error (if conversion fails).
+
+```ez
+import @std, @strings
+
+do convert_numbers() {
+    temp num, err = strings.to_int("42")
+    if err != nil {
+        std.println("Conversion error: " + err.message)
+    } otherwise {
+        std.println(num)  // 42
+    }
+
+    // Negative numbers
+    temp negative, _ = strings.to_int("-100")
+    std.println(negative)  // -100
+
+    // Invalid input
+    temp _, err2 = strings.to_int("abc")
+    if err2 != nil {
+        std.println("Failed to convert 'abc'")
+    }
+}
+```
+
+**Parameters:** `str` - The string to convert.
+
+**Returns:** `(int, Error)` - Tuple of converted integer and error (nil on success).
+
+**Errors:** Returns an Error if the string cannot be converted to an integer.
+
+---
+
+### `to_float()`
+`(str string) -> (float, Error)`
+
+Converts a string to a float. Returns a tuple of the parsed value and an error (if conversion fails).
+
+```ez
+import @std, @strings
+
+do convert_decimals() {
+    temp pi, err = strings.to_float("3.14159")
+    if err != nil {
+        std.println("Conversion error: " + err.message)
+    } otherwise {
+        std.println(pi)  // 3.14159
+    }
+
+    // Integer strings work too
+    temp whole, _ = strings.to_float("42")
+    std.println(whole)  // 42.0
+
+    // Scientific notation
+    temp sci, _ = strings.to_float("1.5e10")
+    std.println(sci)  // 15000000000.0
+
+    // Invalid input
+    temp _, err2 = strings.to_float("not a number")
+    if err2 != nil {
+        std.println("Failed to convert")
+    }
+}
+```
+
+**Parameters:** `str` - The string to convert.
+
+**Returns:** `(float, Error)` - Tuple of converted float and error (nil on success).
+
+**Errors:** Returns an Error if the string cannot be converted to a float.
+
+---
+
+### `to_bool()`
+`(str string) -> (bool, Error)`
+
+Converts a string to a boolean. Returns a tuple of the parsed value and an error (if conversion fails).
+
+```ez
+import @std, @strings
+
+do convert_booleans() {
+    temp val1, _ = strings.to_bool("true")
+    std.println(val1)  // true
+
+    temp val2, _ = strings.to_bool("false")
+    std.println(val2)  // false
+
+    // Case-insensitive
+    temp val3, _ = strings.to_bool("TRUE")
+    std.println(val3)  // true
+
+    temp val4, _ = strings.to_bool("False")
+    std.println(val4)  // false
+
+    // Invalid input
+    temp _, err = strings.to_bool("yes")
+    if err != nil {
+        std.println("'yes' is not a valid boolean")
+    }
+}
+```
+
+**Parameters:** `str` - The string to convert ("true" or "false", case-insensitive).
+
+**Returns:** `(bool, Error)` - Tuple of converted boolean and error (nil on success).
+
+**Errors:** Returns an Error if the string is not "true" or "false" (case-insensitive).
+
+---
+
 ## Example Program
 
 ```ez
