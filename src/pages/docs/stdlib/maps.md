@@ -17,17 +17,17 @@ import @maps
 
 ## Creating Maps
 
-Maps are created using array-of-pairs syntax:
+Maps are created using key-value syntax:
 
 ```ez
 // Empty map
-temp empty map = {}
+temp empty map[string:int] = {}
 
 // Map with initial values
-temp ages map = {
-    {"Alice", 25},
-    {"Bob", 30},
-    {"Charlie", 35}
+temp ages map[string:int] = {
+    "Alice": 25,
+    "Bob": 30,
+    "Charlie": 35
 }
 ```
 
@@ -42,7 +42,7 @@ Retrieves a value by key.
 import @std, @maps
 
 do get_from_map() {
-    temp ages map = {{"Alice", 25}, {"Bob", 30}}
+    temp ages map[string:int] = {"Alice": 25, "Bob": 30}
     temp age int = maps.get(ages, "Alice")
     std.println(age)  // 25
 }
@@ -63,7 +63,7 @@ Sets a value for a key (adds or updates).
 import @maps
 
 do set_in_map() {
-    temp ages map = {{"Alice", 25}}
+    temp ages map[string:int] = {"Alice": 25}
     maps.set(ages, "Bob", 30)
     maps.set(ages, "Alice", 26)  // update existing
 }
@@ -84,7 +84,7 @@ Checks if a key exists in the map.
 import @std, @maps
 
 do check_key_exists() {
-    temp ages map = {{"Alice", 25}, {"Bob", 30}}
+    temp ages map[string:int] = {"Alice": 25, "Bob": 30}
     std.println(maps.has(ages, "Alice"))  // true
     std.println(maps.has(ages, "Eve"))    // false
 }
@@ -103,7 +103,7 @@ Removes a key-value pair from the map.
 import @std, @maps
 
 do delete_from_map() {
-    temp ages map = {{"Alice", 25}, {"Bob", 30}}
+    temp ages map[string:int] = {"Alice": 25, "Bob": 30}
     maps.delete(ages, "Alice")
     std.println(maps.has(ages, "Alice"))  // false
 }
@@ -124,7 +124,7 @@ Returns an array of all keys in the map.
 import @std, @maps
 
 do get_map_keys() {
-    temp ages map = {{"Alice", 25}, {"Bob", 30}}
+    temp ages map[string:int] = {"Alice": 25, "Bob": 30}
     temp names [string] = maps.keys(ages)
     std.println(names)  // {"Alice", "Bob"}
 }
@@ -145,7 +145,7 @@ Returns an array of all values in the map.
 import @std, @maps
 
 do get_map_values() {
-    temp ages map = {{"Alice", 25}, {"Bob", 30}}
+    temp ages map[string:int] = {"Alice": 25, "Bob": 30}
     temp all_ages [int] = maps.values(ages)
     std.println(all_ages)  // {25, 30}
 }
@@ -164,7 +164,7 @@ Returns the number of key-value pairs in the map.
 import @std, @maps
 
 do get_map_size() {
-    temp ages map = {{"Alice", 25}, {"Bob", 30}}
+    temp ages map[string:int] = {"Alice": 25, "Bob": 30}
     std.println(maps.size(ages))  // 2
 }
 ```
@@ -182,8 +182,8 @@ Checks if the map has no entries.
 import @std, @maps
 
 do check_map_empty() {
-    temp empty map = {}
-    temp filled map = {{"a", 1}}
+    temp empty map[string:int] = {}
+    temp filled map[string:int] = {"a": 1}
     std.println(maps.is_empty(empty))   // true
     std.println(maps.is_empty(filled))  // false
 }
@@ -204,10 +204,10 @@ Merges two maps. Values from the second map override the first.
 import @maps
 
 do merge_maps() {
-    temp defaults map = {{"color", "blue"}, {"size", "medium"}}
-    temp custom map = {{"color", "red"}}
-    temp result map = maps.merge(defaults, custom)
-    // result: {{"color", "red"}, {"size", "medium"}}
+    temp defaults map[string:string] = {"color": "blue", "size": "medium"}
+    temp custom map[string:string] = {"color": "red"}
+    temp result map[string:string] = maps.merge(defaults, custom)
+    // result: {"color": "red", "size": "medium"}
 }
 ```
 
@@ -224,7 +224,7 @@ Removes all key-value pairs from a map.
 import @std, @maps
 
 do clear_map() {
-    temp ages map = {{"Alice", 25}, {"Bob", 30}}
+    temp ages map[string:int] = {"Alice": 25, "Bob": 30}
     maps.clear(ages)
     std.println(maps.size(ages))  // 0
 }
@@ -245,7 +245,7 @@ Gets a value by key, returning a default if the key doesn't exist.
 import @maps
 
 do get_with_default() {
-    temp ages map = {{"Alice", 25}}
+    temp ages map[string:int] = {"Alice": 25}
     temp age1 int = maps.get_or(ages, "Alice", 0)  // 25
     temp age2 int = maps.get_or(ages, "Bob", 0)    // 0 (default)
 }
@@ -264,7 +264,7 @@ Attempts to get a value, returning both the value and a success boolean.
 import @std, @maps
 
 do try_get_from_map() {
-    temp ages map = {{"Alice", 25}}
+    temp ages map[string:int] = {"Alice": 25}
     temp value, ok = maps.try_get(ages, "Alice")
     if ok {
         std.println("Found:", value)
@@ -283,13 +283,11 @@ Arrays, maps, and structs cannot be used as keys.
 
 ```ez
 // Valid keys
-temp valid map = {
-    {"name", "Alice"},     // string key
-    {42, "answer"},        // int key
-    {true, "yes"}          // bool key
-}
+temp stringKey map[string:string] = {"name": "Alice"}
+temp intKey map[int:string] = {42: "answer"}
+temp boolKey map[bool:string] = {true: "yes"}
 
-// Invalid - will raise E12002
+// Invalid - will raise E12001
 temp arr [int] = {1, 2, 3}
 // maps.set(myMap, arr, "value")  // Error: array not hashable
 ```
@@ -308,7 +306,7 @@ do main() {
     temp text string = "the quick brown fox jumps over the lazy dog"
     temp words [string] = strings.split(text, " ")
 
-    temp frequency map = {}
+    temp frequency map[string:int] = {}
 
     for word in words {
         if maps.has(frequency, word) {
@@ -326,17 +324,16 @@ do main() {
     }
 
     // Configuration with defaults
-    temp defaults map = {
-        {"theme", "light"},
-        {"language", "en"},
-        {"timeout", 30}
+    temp defaults map[string:string] = {
+        "theme": "light",
+        "language": "en"
     }
 
-    temp user_config map = {
-        {"theme", "dark"}
+    temp user_config map[string:string] = {
+        "theme": "dark"
     }
 
-    temp config map = maps.merge(defaults, user_config)
+    temp config map[string:string] = maps.merge(defaults, user_config)
     std.println("Theme:", maps.get(config, "theme"))      // "dark"
     std.println("Language:", maps.get(config, "language")) // "en"
 }
