@@ -969,6 +969,36 @@
       "relatedErrors": []
     },
     {
+      "code": "E2054",
+      "slug": "when-strict-non-enum-case",
+      "message": "@strict when requires explicit enum member values in cases",
+      "category": "parse",
+      "usedFor": "",
+      "example": "@strict when requires explicit enum member values in cases",
+      "howToFix": "",
+      "relatedErrors": []
+    },
+    {
+      "code": "E2055",
+      "slug": "strict-invalid-target",
+      "message": "@strict can only be applied to when statements",
+      "category": "parse",
+      "usedFor": "",
+      "example": "@strict can only be applied to when statements",
+      "howToFix": "",
+      "relatedErrors": []
+    },
+    {
+      "code": "E2056",
+      "slug": "executable-at-file-scope",
+      "message": "executable statement not allowed at file scope",
+      "category": "parse",
+      "usedFor": "",
+      "example": "executable statement not allowed at file scope",
+      "howToFix": "",
+      "relatedErrors": []
+    },
+    {
       "code": "E3001",
       "slug": "type-mismatch",
       "message": "types do not match",
@@ -1369,6 +1399,26 @@
       "category": "type",
       "usedFor": "",
       "example": "'any' type is reserved for internal use",
+      "howToFix": "",
+      "relatedErrors": []
+    },
+    {
+      "code": "E3035",
+      "slug": "not-all-paths-return",
+      "message": "not all code paths return a value",
+      "category": "type",
+      "usedFor": "",
+      "example": "not all code paths return a value",
+      "howToFix": "",
+      "relatedErrors": []
+    },
+    {
+      "code": "E3036",
+      "slug": "integer-out-of-range",
+      "message": "integer literal exceeds type range",
+      "category": "type",
+      "usedFor": "",
+      "example": "integer literal exceeds type range",
       "howToFix": "",
       "relatedErrors": []
     },
@@ -2711,6 +2761,16 @@
       ]
     },
     {
+      "code": "E12006",
+      "slug": "map-duplicate-key",
+      "message": "map literal contains duplicate key",
+      "category": "map",
+      "usedFor": "",
+      "example": "map literal contains duplicate key",
+      "howToFix": "",
+      "relatedErrors": []
+    },
+    {
       "code": "E13001",
       "slug": "json-syntax-error",
       "message": "invalid JSON syntax",
@@ -2877,6 +2937,36 @@
       "category": "warnings",
       "usedFor": "",
       "example": "variable shadows global variable or constant",
+      "howToFix": "",
+      "relatedErrors": []
+    },
+    {
+      "code": "W2008",
+      "slug": "integer-overflow-potential",
+      "message": "integer arithmetic may overflow",
+      "category": "warnings",
+      "usedFor": "",
+      "example": "integer arithmetic may overflow",
+      "howToFix": "",
+      "relatedErrors": []
+    },
+    {
+      "code": "W2009",
+      "slug": "nil-dereference-potential",
+      "message": "accessing member on potentially nil value",
+      "category": "warnings",
+      "usedFor": "",
+      "example": "accessing member on potentially nil value",
+      "howToFix": "",
+      "relatedErrors": []
+    },
+    {
+      "code": "W2010",
+      "slug": "chained-nil-access",
+      "message": "chained member access on nullable struct type",
+      "category": "warnings",
+      "usedFor": "",
+      "example": "chained member access on nullable struct type",
       "howToFix": "",
       "relatedErrors": []
     },
