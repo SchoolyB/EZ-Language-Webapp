@@ -2,42 +2,46 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Header from '../../components/Header.astro';
 import Footer from '../../components/Footer.astro';
-import CodeBlock from '../../components/CodeBlock.astro';
-import errorsData from '../../data/errors.json';
+import errorDocs from '../../data/error-docs.json';
 
+// Generate pages for all possible error code ranges
 export function getStaticPaths() {
-  return errorsData.errors.map((error) => ({
-    params: { code: error.code },
-    props: { error },
-  }));
+  const paths = [];
+
+  // Error codes: E1xxx through E13xxx
+  for (let category = 1; category <= 13; category++) {
+    for (let num = 1; num <= 100; num++) {
+      const code = `E${category}${String(num).padStart(3, '0')}`;
+      paths.push({ params: { code } });
+    }
+  }
+
+  // Warning codes: W1xxx through W4xxx
+  for (let category = 1; category <= 4; category++) {
+    for (let num = 1; num <= 20; num++) {
+      const code = `W${category}${String(num).padStart(3, '0')}`;
+      paths.push({ params: { code } });
+    }
+  }
+
+  return paths;
 }
 
-interface Props {
-  error: {
-    code: string;
-    slug: string;
-    message: string;
-    usedFor: string;
-    example: string;
-    category: string;
-    suppressible?: string;
-    howToFix?: string;
-    relatedErrors?: string[];
-  };
-}
-
-const { error } = Astro.props;
-const category = errorsData.categories.find((c) => c.id === error.category);
-const isWarning = error.code.startsWith('W');
+const { code } = Astro.params;
 const base = import.meta.env.BASE_URL;
 
-// Get adjacent errors for navigation
-const currentIndex = errorsData.errors.findIndex((e) => e.code === error.code);
-const prevError = currentIndex > 0 ? errorsData.errors[currentIndex - 1] : null;
-const nextError = currentIndex < errorsData.errors.length - 1 ? errorsData.errors[currentIndex + 1] : null;
+// Get detailed docs if available (for passing to client)
+const errorDoc = errorDocs.errors.find((e: any) => e.code === code);
+const docData = errorDoc ? JSON.stringify({
+  usedFor: errorDoc.usedFor || null,
+  example: errorDoc.example || null,
+  howToFix: errorDoc.howToFix || null,
+  relatedErrors: errorDoc.relatedErrors || [],
+  suppressible: errorDoc.suppressible || null,
+}) : 'null';
 ---
 
-<BaseLayout title={`${error.code}: ${error.slug} - EZ Errors`}>
+<BaseLayout title={`${code} - EZ Errors`}>
   <Header />
 
   <main class="flex-1">
@@ -49,143 +53,315 @@ const nextError = currentIndex < errorsData.errors.length - 1 ? errorsData.error
           <li>/</li>
           <li><a href={`${base}errors`} class="hover:opacity-100">Errors</a></li>
           <li>/</li>
-          <li class="opacity-100 font-medium">{error.code}</li>
+          <li class="opacity-100 font-medium">{code}</li>
         </ol>
       </nav>
 
-      <!-- Header -->
-      <header class="mb-8">
-        <div class="flex items-center gap-3 mb-4">
-          <span class:list={[
-            'px-3 py-1 rounded-full text-sm font-mono font-semibold',
-            isWarning
-              ? 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200'
-              : 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200'
-          ]}>
-            {error.code}
-          </span>
-          {category && (
-            <span class="text-sm opacity-60">{category.name}</span>
-          )}
-        </div>
-        <h1 class="text-3xl sm:text-4xl font-bold mb-2 text-black dark:text-white">
-          {error.slug}
-        </h1>
-        <p class="text-xl opacity-70">{error.message}</p>
-      </header>
-
-      <!-- Main content -->
-      <div class="space-y-8">
-        <!-- When this occurs -->
-        <section>
-          <h2 class="text-xl font-semibold mb-3 text-black dark:text-white">When this occurs</h2>
-          <p class="opacity-80">{error.usedFor}</p>
-        </section>
-
-        <!-- Example message -->
-        <section>
-          <h2 class="text-xl font-semibold mb-3 text-black dark:text-white">Example error message</h2>
-          <div class="bg-[#f5f5f5] dark:bg-[#1a1a1a] border border-[#e5e5e5] dark:border-[#333333] rounded-lg p-4 font-mono text-sm">
-            <span class:list={[
-              'font-semibold',
-              isWarning ? 'text-yellow-600 dark:text-yellow-400' : 'text-red-600 dark:text-red-400'
-            ]}>
-              {isWarning ? 'warning' : 'error'}[{error.code}]:
-            </span>
-            <span class="opacity-80"> {error.example}</span>
-          </div>
-        </section>
-
-        <!-- Suppressible warning -->
-        {error.suppressible && (
-          <section>
-            <h2 class="text-xl font-semibold mb-3 text-black dark:text-white">Suppressing this warning</h2>
-            <p class="opacity-80 mb-3">This warning can be suppressed using:</p>
-            <code class="bg-[#f5f5f5] dark:bg-[#1a1a1a] px-3 py-1.5 rounded border border-[#e5e5e5] dark:border-[#333333] font-mono text-sm">
-              {error.suppressible}
-            </code>
-          </section>
-        )}
-
-        <!-- How to fix -->
-        <section class="border-t border-[#e5e5e5] dark:border-[#333333] pt-8">
-          <h2 class="text-xl font-semibold mb-3 text-black dark:text-white">How to fix</h2>
-          {error.howToFix ? (
-            <p class="opacity-80">{error.howToFix}</p>
-          ) : (
-            <p class="opacity-60 italic">
-              Detailed fix instructions will be added in a future update.
-            </p>
-          )}
-        </section>
-
-        <!-- Related errors -->
-        <section class="border-t border-[#e5e5e5] dark:border-[#333333] pt-8">
-          <h2 class="text-xl font-semibold mb-3 text-black dark:text-white">Related errors</h2>
-          {error.relatedErrors && error.relatedErrors.length > 0 ? (
-            <div class="flex flex-wrap gap-2">
-              {error.relatedErrors.map((relatedCode) => {
-                const relatedError = errorsData.errors.find((e) => e.code === relatedCode);
-                return relatedError ? (
-                  <a
-                    href={`${base}errors/${relatedCode}`}
-                    class="inline-flex items-center gap-2 px-3 py-1.5 bg-[#f5f5f5] dark:bg-[#1a1a1a] border border-[#e5e5e5] dark:border-[#333333] rounded-lg hover:border-black dark:hover:border-white transition-colors"
-                  >
-                    <span class="font-mono text-sm font-medium">{relatedCode}</span>
-                    <span class="text-sm opacity-60">- {relatedError.slug}</span>
-                  </a>
-                ) : (
-                  <span class="inline-flex items-center px-3 py-1.5 bg-[#f5f5f5] dark:bg-[#1a1a1a] border border-[#e5e5e5] dark:border-[#333333] rounded-lg font-mono text-sm">
-                    {relatedCode}
-                  </span>
-                );
-              })}
-            </div>
-          ) : (
-            <p class="opacity-60 italic">No related errors.</p>
-          )}
-        </section>
+      <!-- Loading State -->
+      <div id="loading-state" class="text-center py-12">
+        <div class="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-black dark:border-white"></div>
+        <p class="mt-4 opacity-60">Loading error details...</p>
       </div>
 
-      <!-- Navigation -->
-      <nav class="mt-12 pt-8 border-t border-[#e5e5e5] dark:border-[#333333]">
-        <div class="flex justify-between">
-          {prevError ? (
-            <a
-              href={`${base}errors/${prevError.code}`}
-              class="flex items-center gap-2 opacity-60 hover:opacity-100 transition-opacity"
-            >
+      <!-- Error State (not found) -->
+      <div id="not-found-state" class="hidden text-center py-12">
+        <h1 class="text-3xl font-bold mb-4 text-black dark:text-white">Error Not Found</h1>
+        <p class="opacity-60 mb-8">The error code <span class="font-mono font-bold">{code}</span> doesn't exist.</p>
+        <a href={`${base}errors`} class="px-4 py-2 border border-[#e5e5e5] dark:border-[#333333] rounded-lg hover:bg-[#f5f5f5] dark:hover:bg-[#1a1a1a]">
+          ← Back to Error Reference
+        </a>
+      </div>
+
+      <!-- Fetch Error State -->
+      <div id="fetch-error-state" class="hidden text-center py-12">
+        <p class="text-red-600 dark:text-red-400 mb-4">Failed to load error details</p>
+        <button id="retry-btn" class="px-4 py-2 border border-[#e5e5e5] dark:border-[#333333] rounded-lg hover:bg-[#f5f5f5] dark:hover:bg-[#1a1a1a]">
+          Retry
+        </button>
+      </div>
+
+      <!-- Content (populated dynamically) -->
+      <div id="error-content" class="hidden">
+        <!-- Header -->
+        <header class="mb-8">
+          <div class="flex items-center gap-3 mb-4">
+            <span id="error-badge" class="px-3 py-1 rounded-full text-sm font-mono font-semibold">
+              {code}
+            </span>
+            <span id="error-category" class="text-sm opacity-60"></span>
+          </div>
+          <h1 id="error-slug" class="text-3xl sm:text-4xl font-bold mb-2 text-black dark:text-white"></h1>
+          <p id="error-message" class="text-xl opacity-70"></p>
+        </header>
+
+        <!-- Main content -->
+        <div class="space-y-8">
+          <!-- When this occurs -->
+          <section>
+            <h2 class="text-xl font-semibold mb-3 text-black dark:text-white">When this occurs</h2>
+            <p id="error-used-for" class="opacity-80"></p>
+          </section>
+
+          <!-- Example message -->
+          <section>
+            <h2 class="text-xl font-semibold mb-3 text-black dark:text-white">Example error message</h2>
+            <div class="bg-[#f5f5f5] dark:bg-[#1a1a1a] border border-[#e5e5e5] dark:border-[#333333] rounded-lg p-4 font-mono text-sm">
+              <span id="error-type-label" class="font-semibold"></span>
+              <span id="error-example" class="opacity-80"></span>
+            </div>
+          </section>
+
+          <!-- Suppressible warning (only shown for warnings with suppressible info) -->
+          <section id="suppressible-section" class="hidden">
+            <h2 class="text-xl font-semibold mb-3 text-black dark:text-white">Suppressing this warning</h2>
+            <p class="opacity-80 mb-3">This warning can be suppressed using:</p>
+            <code id="suppressible-code" class="bg-[#f5f5f5] dark:bg-[#1a1a1a] px-3 py-1.5 rounded border border-[#e5e5e5] dark:border-[#333333] font-mono text-sm"></code>
+          </section>
+
+          <!-- How to fix -->
+          <section class="border-t border-[#e5e5e5] dark:border-[#333333] pt-8">
+            <h2 class="text-xl font-semibold mb-3 text-black dark:text-white">How to fix</h2>
+            <p id="error-how-to-fix" class="opacity-80"></p>
+          </section>
+
+          <!-- Related errors -->
+          <section id="related-section" class="border-t border-[#e5e5e5] dark:border-[#333333] pt-8">
+            <h2 class="text-xl font-semibold mb-3 text-black dark:text-white">Related errors</h2>
+            <div id="related-errors" class="flex flex-wrap gap-2"></div>
+            <p id="no-related" class="opacity-60 italic">No related errors.</p>
+          </section>
+        </div>
+
+        <!-- Navigation -->
+        <nav class="mt-12 pt-8 border-t border-[#e5e5e5] dark:border-[#333333]">
+          <div class="flex justify-between">
+            <a id="prev-link" href="#" class="hidden items-center gap-2 opacity-60 hover:opacity-100 transition-opacity">
               <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
               </svg>
               <span class="text-sm">
-                <span class="font-mono">{prevError.code}</span>
-                <span class="hidden sm:inline opacity-60 ml-1">- {prevError.slug}</span>
+                <span id="prev-code" class="font-mono"></span>
+                <span id="prev-slug" class="hidden sm:inline opacity-60 ml-1"></span>
               </span>
             </a>
-          ) : (
             <div></div>
-          )}
-          {nextError ? (
-            <a
-              href={`${base}errors/${nextError.code}`}
-              class="flex items-center gap-2 opacity-60 hover:opacity-100 transition-opacity"
-            >
+            <a id="next-link" href="#" class="hidden items-center gap-2 opacity-60 hover:opacity-100 transition-opacity">
               <span class="text-sm">
-                <span class="font-mono">{nextError.code}</span>
-                <span class="hidden sm:inline opacity-60 ml-1">- {nextError.slug}</span>
+                <span id="next-code" class="font-mono"></span>
+                <span id="next-slug" class="hidden sm:inline opacity-60 ml-1"></span>
               </span>
               <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
               </svg>
             </a>
-          ) : (
-            <div></div>
-          )}
-        </div>
-      </nav>
+          </div>
+        </nav>
+      </div>
     </div>
   </main>
 
   <Footer />
 </BaseLayout>
+
+<script define:vars={{ code, base, docData }}>
+  const ERRORS_URL = 'https://raw.githubusercontent.com/SchoolyB/EZ/main/ERRORS.md';
+  const docs = docData ? JSON.parse(docData) : null;
+
+  function parseErrorsMd(markdown) {
+    const lines = markdown.split('\n');
+    const errors = [];
+
+    let currentCategory = null;
+    let inTable = false;
+
+    function getCategoryInfo(header) {
+      const h = header.toLowerCase();
+      if (h.includes('lexer')) return { id: 'lexer', name: 'Lexer Errors' };
+      if (h.includes('parse')) return { id: 'parse', name: 'Parse Errors' };
+      if (h.includes('type error')) return { id: 'type', name: 'Type Errors' };
+      if (h.includes('reference')) return { id: 'reference', name: 'Reference Errors' };
+      if (h.includes('runtime')) return { id: 'runtime', name: 'Runtime Errors' };
+      if (h.includes('import')) return { id: 'import', name: 'Import Errors' };
+      if (h.includes('stdlib')) return { id: 'stdlib', name: 'Stdlib Errors' };
+      if (h.includes('math')) return { id: 'math', name: 'Math Errors' };
+      if (h.includes('array')) return { id: 'array', name: 'Array Errors' };
+      if (h.includes('string error')) return { id: 'string', name: 'String Errors' };
+      if (h.includes('time')) return { id: 'time', name: 'Time Errors' };
+      if (h.includes('map')) return { id: 'map', name: 'Map Errors' };
+      if (h.includes('json')) return { id: 'json', name: 'JSON Errors' };
+      if (h.includes('code style')) return { id: 'warnings-style', name: 'Code Style Warnings' };
+      if (h.includes('potential bug')) return { id: 'warnings-bugs', name: 'Potential Bug Warnings' };
+      if (h.includes('code quality')) return { id: 'warnings-quality', name: 'Code Quality Warnings' };
+      if (h.includes('module warning')) return { id: 'warnings-module', name: 'Module Warnings' };
+      return { id: 'unknown', name: 'Unknown' };
+    }
+
+    for (let i = 0; i < lines.length; i++) {
+      const line = lines[i].trim();
+
+      const headerMatch = line.match(/^## (.+?) \(([EW]\d+x+(?:-[EW]\d+x+)?)\)$/);
+      if (headerMatch) {
+        const info = getCategoryInfo(headerMatch[1]);
+        currentCategory = { ...info };
+        inTable = false;
+        continue;
+      }
+
+      if (line.startsWith('| Code |')) {
+        inTable = true;
+        continue;
+      }
+
+      if (line.startsWith('|---')) continue;
+
+      if (inTable && line.startsWith('|') && currentCategory) {
+        const cells = line.split('|').map(c => c.trim()).filter(c => c);
+        if (cells.length >= 3) {
+          const [errCode, slug, message] = cells;
+          if (errCode.match(/^[EW]\d+$/)) {
+            errors.push({
+              code: errCode,
+              slug,
+              message,
+              category: currentCategory.id,
+              categoryName: currentCategory.name
+            });
+          }
+        }
+      }
+
+      if (inTable && !line.startsWith('|') && line !== '') {
+        inTable = false;
+      }
+    }
+
+    return errors;
+  }
+
+  function formatSlug(slug) {
+    return slug.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+  }
+
+  function renderError(error, allErrors) {
+    const isWarning = error.code.startsWith('W');
+
+    // Update badge
+    const badge = document.getElementById('error-badge');
+    badge.className = `px-3 py-1 rounded-full text-sm font-mono font-semibold ${
+      isWarning
+        ? 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200'
+        : 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200'
+    }`;
+
+    // Update basic content from ERRORS.md
+    document.getElementById('error-category').textContent = error.categoryName;
+    document.getElementById('error-slug').textContent = formatSlug(error.slug);
+    document.getElementById('error-message').textContent = error.message;
+
+    // When this occurs - use docs if available, otherwise derive from message
+    const usedFor = docs?.usedFor || `This error is triggered when: ${error.message.toLowerCase()}`;
+    document.getElementById('error-used-for').textContent = usedFor;
+
+    // Example message - use docs if available, otherwise use basic message
+    const typeLabel = document.getElementById('error-type-label');
+    typeLabel.textContent = `${isWarning ? 'warning' : 'error'}[${error.code}]: `;
+    typeLabel.className = `font-semibold ${isWarning ? 'text-yellow-600 dark:text-yellow-400' : 'text-red-600 dark:text-red-400'}`;
+    document.getElementById('error-example').textContent = docs?.example || error.message;
+
+    // Suppressible (only for warnings with suppressible info)
+    if (docs?.suppressible) {
+      document.getElementById('suppressible-section').classList.remove('hidden');
+      document.getElementById('suppressible-code').textContent = docs.suppressible;
+    }
+
+    // How to fix - use docs if available, otherwise generic
+    const howToFix = docs?.howToFix ||
+      'Review the error message and check your code at the indicated location. The message describes what went wrong - fix the underlying issue it identifies.';
+    document.getElementById('error-how-to-fix').textContent = howToFix;
+
+    // Related errors
+    const relatedContainer = document.getElementById('related-errors');
+    const noRelated = document.getElementById('no-related');
+
+    if (docs?.relatedErrors && docs.relatedErrors.length > 0) {
+      noRelated.classList.add('hidden');
+      relatedContainer.innerHTML = docs.relatedErrors.map(relatedCode => {
+        const relatedError = allErrors.find(e => e.code === relatedCode);
+        const slug = relatedError ? formatSlug(relatedError.slug) : '';
+        return `
+          <a href="${base}errors/${relatedCode}" class="inline-flex items-center gap-2 px-3 py-1.5 bg-[#f5f5f5] dark:bg-[#1a1a1a] border border-[#e5e5e5] dark:border-[#333333] rounded-lg hover:border-black dark:hover:border-white transition-colors">
+            <span class="font-mono text-sm font-medium">${relatedCode}</span>
+            ${slug ? `<span class="text-sm opacity-60">- ${slug}</span>` : ''}
+          </a>
+        `;
+      }).join('');
+    } else {
+      noRelated.classList.remove('hidden');
+      relatedContainer.innerHTML = '';
+    }
+
+    // Navigation
+    const currentIndex = allErrors.findIndex(e => e.code === error.code);
+    const prevError = currentIndex > 0 ? allErrors[currentIndex - 1] : null;
+    const nextError = currentIndex < allErrors.length - 1 ? allErrors[currentIndex + 1] : null;
+
+    if (prevError) {
+      const prevLink = document.getElementById('prev-link');
+      prevLink.href = `${base}errors/${prevError.code}`;
+      document.getElementById('prev-code').textContent = prevError.code;
+      document.getElementById('prev-slug').textContent = `- ${formatSlug(prevError.slug)}`;
+      prevLink.classList.remove('hidden');
+      prevLink.classList.add('flex');
+    }
+
+    if (nextError) {
+      const nextLink = document.getElementById('next-link');
+      nextLink.href = `${base}errors/${nextError.code}`;
+      document.getElementById('next-code').textContent = nextError.code;
+      document.getElementById('next-slug').textContent = `- ${formatSlug(nextError.slug)}`;
+      nextLink.classList.remove('hidden');
+      nextLink.classList.add('flex');
+    }
+  }
+
+  async function init() {
+    const loadingState = document.getElementById('loading-state');
+    const notFoundState = document.getElementById('not-found-state');
+    const fetchErrorState = document.getElementById('fetch-error-state');
+    const errorContent = document.getElementById('error-content');
+
+    try {
+      const response = await fetch(ERRORS_URL);
+      if (!response.ok) throw new Error('Failed to fetch');
+
+      const markdown = await response.text();
+      const allErrors = parseErrorsMd(markdown);
+
+      const error = allErrors.find(e => e.code === code);
+
+      if (!error) {
+        loadingState.classList.add('hidden');
+        notFoundState.classList.remove('hidden');
+        return;
+      }
+
+      renderError(error, allErrors);
+
+      loadingState.classList.add('hidden');
+      errorContent.classList.remove('hidden');
+    } catch (err) {
+      console.error('Error loading error details:', err);
+      loadingState.classList.add('hidden');
+      fetchErrorState.classList.remove('hidden');
+    }
+  }
+
+  document.getElementById('retry-btn')?.addEventListener('click', () => {
+    document.getElementById('fetch-error-state').classList.add('hidden');
+    document.getElementById('loading-state').classList.remove('hidden');
+    init();
+  });
+
+  init();
+  document.addEventListener('astro:after-swap', init);
+</script>
