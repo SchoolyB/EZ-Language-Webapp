@@ -456,23 +456,36 @@ do helper() {
 
 ## Visibility
 
-### priv
+By default, all user-declared functions, types, and variables are **public** — they can be accessed from other modules that import yours.
 
-Makes a declaration private to its module.
+### private
+
+Makes a declaration private to its module. Private items cannot be accessed from outside the module.
 
 ```ez
-module counter
+module mylib
 
-priv temp count int = 0  // only accessible within this module
+// Private variable — only accessible within this module
+private temp internal_count int = 0
 
-do increment() {
-    count++
+// Private function — only callable within this module
+private do helper() {
+    internal_count++
 }
 
+// Private type — only usable within this module
+private const InternalState struct {
+    value int
+}
+
+// Public function (default) — accessible from other modules
 do get_count() -> int {
-    return count
+    helper()  // can call private function internally
+    return internal_count
 }
 ```
+
+**Why "private"?** Hides implementation details so other modules only see what they need.
 
 ## Boolean Values
 
@@ -505,6 +518,7 @@ temp hasError bool = false
 | `is` | `case` | Pattern case |
 | `default` | `default`, `_` | Fallback case |
 | `cast` | type casts, `as` | Type conversion |
+| `private` | `private`, `internal` | Module-private declaration |
 
 For attributes (`#enum`, `#flags`, `#strict`, `#suppress`), see [Attributes](/language.ez/docs/language/attributes).
 

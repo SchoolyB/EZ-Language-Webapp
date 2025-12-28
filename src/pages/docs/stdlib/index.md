@@ -150,7 +150,7 @@ do helper() {
 
 ## Available Modules
 
-EZ includes twelve built-in modules:
+EZ includes sixteen built-in modules:
 
 | Module | What it's for |
 |--------|---------------|
@@ -166,6 +166,10 @@ EZ includes twelve built-in modules:
 | [@os](/language.ez/docs/stdlib/os) | Operating system — environment, platform detection, commands |
 | [@json](/language.ez/docs/stdlib/json) | JSON parsing — encoding, decoding, validation |
 | [@binary](/language.ez/docs/stdlib/binary) | Binary encoding — numeric type serialization with endianness control |
+| [@uuid](/language.ez/docs/stdlib/uuid) | UUID generation — create and validate unique identifiers |
+| [@encoding](/language.ez/docs/stdlib/encoding) | Data encoding — Base64, hex, and URL encoding/decoding |
+| [@crypto](/language.ez/docs/stdlib/crypto) | Cryptography — hashing (SHA-256, MD5) and secure random |
+| [@db](/language.ez/docs/stdlib/db) | Database — simple key-value storage with .ezdb files |
 
 ## Quick Example
 
@@ -217,3 +221,7 @@ Pick a module and explore what it can do:
 - [@os](/language.ez/docs/stdlib/os) — For system info, environment, and commands
 - [@json](/language.ez/docs/stdlib/json) — For JSON encoding, decoding, and validation
 - [@binary](/language.ez/docs/stdlib/binary) — For binary encoding and decoding with endianness
+- [@uuid](/language.ez/docs/stdlib/uuid) — For generating and validating UUIDs
+- [@encoding](/language.ez/docs/stdlib/encoding) — For Base64, hex, and URL encoding
+- [@crypto](/language.ez/docs/stdlib/crypto) — For cryptographic hashing and secure random
+- [@db](/language.ez/docs/stdlib/db) — For simple key-value database storage

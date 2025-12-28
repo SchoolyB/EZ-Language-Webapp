@@ -39,10 +39,24 @@ Expand-Archive ez-windows-amd64.zip -DestinationPath C:\ez
 
 ### 2. Clone & Install ([Requires Go 1.23.1+](https://go.dev/dl/))
 
+#### macOS / Linux
+
 ```bash
 git clone https://github.com/SchoolyB/EZ.git
 cd EZ
-make install  # may require sudo permissions
+./install.sh
+# Or: make install (requires make)
+ez version
+```
+
+#### Windows (PowerShell)
+
+```powershell
+git clone https://github.com/SchoolyB/EZ.git
+cd EZ
+.\install.ps1
+# Run as Administrator for system-wide installation
+ez version
 ```
 
 ### 3. Build from Source ([Requires Go 1.23.1+](https://go.dev/dl/))
