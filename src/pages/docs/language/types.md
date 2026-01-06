@@ -221,7 +221,7 @@ Fixed-size byte arrays must use `const`:
 
 ```ez
 const HEADER [byte, 4] = {137, 80, 78, 71}  // PNG magic bytes
-const SMALL_BUFFER [byte, 16] = {0, 16}     // 16 zero-initialized bytes
+const SMALL_BUFFER [byte, 4] = {0, 0, 0, 0}  // 4 zero-initialized bytes
 ```
 
 > **Note:** Byte values can be written as decimal (0-255) or hexadecimal (0x00-0xFF). Negative values are never valid for bytes.
