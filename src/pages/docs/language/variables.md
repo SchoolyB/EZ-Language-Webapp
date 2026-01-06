@@ -174,6 +174,35 @@ temp ages map = {
 temp scores map[string:int] = {"math": 95, "english": 88}
 ```
 
+### Empty Collections
+
+Use `{}` for empty arrays and `{:}` for empty maps:
+
+```ez
+// Empty array
+temp numbers [int] = {}
+
+// Empty map - use {:} to distinguish from empty array
+temp scores map[string:int] = {:}
+```
+
+The `{:}` syntax is necessary because `{}` alone is ambiguous - it could be an empty array or an empty map. The colon `:` signals that it's a map (just like `{"key": value}` uses `:` for key-value pairs).
+
+```ez
+import @std
+using std
+
+do main() {
+    // Empty map, then add items
+    temp users map[string:int] = {:}
+    users["Alice"] = 25
+    users["Bob"] = 30
+
+    println("Users: ${users}")  // {"Alice": 25, "Bob": 30}
+    println("Count: ${len(users)}")  // 2
+}
+```
+
 ## Blank Identifier
 
 The underscore `_` serves as a blank identifier for discarding unwanted values in multi-value assignments.
