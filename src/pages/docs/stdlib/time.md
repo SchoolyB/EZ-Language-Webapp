@@ -365,6 +365,96 @@ do benchmark_operation() {
 
 **Errors:** [E7004](/language.ez/errors/E7004) if the argument is not an integer.
 
+## Constants
+
+The `@time` module provides constants for weekdays, months, and durations to make code more readable and avoid magic numbers.
+
+### Weekday Constants
+
+Use these with `time.weekday()` for readable day-of-week comparisons:
+
+```ez
+import @std, @time
+using std
+
+do main() {
+    temp today int = time.weekday()
+    if today == time.SATURDAY() || today == time.SUNDAY() {
+        println("It's the weekend!")
+    }
+}
+```
+
+| Constant | Value | Description |
+|----------|-------|-------------|
+| `time.SUNDAY()` | 0 | Sunday |
+| `time.MONDAY()` | 1 | Monday |
+| `time.TUESDAY()` | 2 | Tuesday |
+| `time.WEDNESDAY()` | 3 | Wednesday |
+| `time.THURSDAY()` | 4 | Thursday |
+| `time.FRIDAY()` | 5 | Friday |
+| `time.SATURDAY()` | 6 | Saturday |
+
+### Month Constants
+
+Use these with `time.month()` for readable month comparisons:
+
+```ez
+import @std, @time
+using std
+
+do main() {
+    temp current_month int = time.month()
+    if current_month == time.DECEMBER() {
+        println("Happy holidays!")
+    }
+}
+```
+
+| Constant | Value | Description |
+|----------|-------|-------------|
+| `time.JANUARY()` | 1 | January |
+| `time.FEBRUARY()` | 2 | February |
+| `time.MARCH()` | 3 | March |
+| `time.APRIL()` | 4 | April |
+| `time.MAY()` | 5 | May |
+| `time.JUNE()` | 6 | June |
+| `time.JULY()` | 7 | July |
+| `time.AUGUST()` | 8 | August |
+| `time.SEPTEMBER()` | 9 | September |
+| `time.OCTOBER()` | 10 | October |
+| `time.NOVEMBER()` | 11 | November |
+| `time.DECEMBER()` | 12 | December |
+
+### Duration Constants
+
+Use these for time arithmetic with timestamps (values are in seconds):
+
+```ez
+import @std, @time
+using std
+
+do main() {
+    temp now int = time.now()
+    temp one_hour_later int = now + time.HOUR()
+    temp next_week int = now + time.WEEK()
+
+    // Combine for complex durations
+    temp timeout int = 30 * time.MINUTE()
+    temp two_days int = 2 * time.DAY()
+}
+```
+
+| Constant | Value (seconds) | Description |
+|----------|-----------------|-------------|
+| `time.SECOND()` | 1 | One second |
+| `time.MINUTE()` | 60 | One minute |
+| `time.HOUR()` | 3600 | One hour |
+| `time.DAY()` | 86400 | One day (24 hours) |
+| `time.WEEK()` | 604800 | One week (7 days) |
+
+---
+
 ## Example Program
 
 ```ez
