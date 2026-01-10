@@ -212,6 +212,22 @@ do main() {
   .dark .error-output {
     color: #f87171;
   }
+
+  /* ANSI color classes for error formatting */
+  #output :global(.ansi-bold) { font-weight: bold; }
+  #output :global(.ansi-red) { color: #dc2626; }
+  #output :global(.ansi-green) { color: #16a34a; }
+  #output :global(.ansi-yellow) { color: #ca8a04; }
+  #output :global(.ansi-blue) { color: #2563eb; }
+  #output :global(.ansi-magenta) { color: #9333ea; }
+  #output :global(.ansi-cyan) { color: #0891b2; }
+
+  .dark #output :global(.ansi-red) { color: #f87171; }
+  .dark #output :global(.ansi-green) { color: #4ade80; }
+  .dark #output :global(.ansi-yellow) { color: #facc15; }
+  .dark #output :global(.ansi-blue) { color: #60a5fa; }
+  .dark #output :global(.ansi-magenta) { color: #c084fc; }
+  .dark #output :global(.ansi-cyan) { color: #22d3ee; }
 </style>
 
 <script define:vars={{ examples, base }}>
@@ -227,6 +243,68 @@ do main() {
   import { indentWithTab } from '@codemirror/commands';
   import { oneDark } from '@codemirror/theme-one-dark';
   import { StreamLanguage } from '@codemirror/language';
+
+  // Convert ANSI escape codes to HTML with CSS classes
+  function ansiToHtml(text: string): string {
+    // Escape HTML first
+    let html = text
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;');
+
+    // ANSI code to CSS class mapping
+    const ansiMap: Record<string, string> = {
+      '0': '',           // Reset
+      '1': 'ansi-bold',  // Bold
+      '31': 'ansi-red',
+      '32': 'ansi-green',
+      '33': 'ansi-yellow',
+      '34': 'ansi-blue',
+      '35': 'ansi-magenta',
+      '36': 'ansi-cyan',
+      '37': '',          // White (default)
+    };
+
+    // Track current active classes
+    let activeClasses: string[] = [];
+
+    // Replace ANSI codes with spans
+    // Match patterns like \033[0m, \033[1;31m, \033[31m
+    html = html.replace(/\x1b\[([0-9;]+)m/g, (match, codes) => {
+      const codeList = codes.split(';');
+      let newClasses: string[] = [];
+
+      for (const code of codeList) {
+        if (code === '0') {
+          // Reset - close all spans
+          newClasses = [];
+        } else {
+          const cls = ansiMap[code];
+          if (cls) {
+            newClasses.push(cls);
+          }
+        }
+      }
+
+      // Close previous span if any, open new one if needed
+      let result = '';
+      if (activeClasses.length > 0) {
+        result += '</span>';
+      }
+      activeClasses = newClasses;
+      if (newClasses.length > 0) {
+        result += `<span class="${newClasses.join(' ')}">`;
+      }
+      return result;
+    });
+
+    // Close any remaining open span
+    if (activeClasses.length > 0) {
+      html += '</span>';
+    }
+
+    return html;
+  }
 
   // Simple EZ language mode
   const ezLanguage = StreamLanguage.define({
@@ -421,24 +499,31 @@ do main() {
       const stdout = capturedOutput.join('\n') + (result.output || '');
       const stderr = capturedErrors.join('\n') + (result.error || '');
 
+      // Build output HTML
+      let outputHtml = '';
+
       if (stdout.trim()) {
-        outputEl.textContent = stdout;
+        // Normal output - escape HTML but no ANSI processing
+        outputHtml = stdout
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;');
       }
 
       if (stderr.trim()) {
-        if (outputEl.textContent) {
-          outputEl.textContent += '\n' + stderr;
-        } else {
-          outputEl.textContent = stderr;
+        // Error output - convert ANSI codes to styled HTML
+        if (outputHtml) {
+          outputHtml += '\n';
         }
-        outputEl.className += ' error-output';
+        outputHtml += ansiToHtml(stderr);
       }
 
-      if (!stdout.trim() && !stderr.trim()) {
+      if (outputHtml) {
+        outputEl.innerHTML = outputHtml;
+        outputEl.style.opacity = '1';
+      } else {
         outputEl.textContent = '(No output)';
         outputEl.style.opacity = '0.5';
-      } else {
-        outputEl.style.opacity = '1';
       }
 
     } catch (error) {
