@@ -2681,7 +2681,7 @@
       "category": "map",
       "usedFor": "Accessing non-existent key in map",
       "example": "key 'foo' not found in map",
-      "howToFix": "Check if the key exists using `maps.has(m, key)` before accessing.",
+      "howToFix": "Check if the key exists using `maps.contains(m, key)` before accessing.",
       "relatedErrors": [
         "E5003"
       ]

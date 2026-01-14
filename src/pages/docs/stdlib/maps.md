@@ -85,8 +85,8 @@ import @std, @maps
 
 do check_key_exists() {
     temp ages map[string:int] = {"Alice": 25, "Bob": 30}
-    std.println(maps.has(ages, "Alice"))  // true
-    std.println(maps.has(ages, "Eve"))    // false
+    std.println(maps.contains(ages, "Alice"))  // true
+    std.println(maps.contains(ages, "Eve"))    // false
 }
 ```
 
@@ -104,8 +104,8 @@ import @std, @maps
 
 do delete_from_map() {
     temp ages map[string:int] = {"Alice": 25, "Bob": 30}
-    maps.delete(ages, "Alice")
-    std.println(maps.has(ages, "Alice"))  // false
+    maps.remove(ages, "Alice")
+    std.println(maps.contains(ages, "Alice"))  // false
 }
 ```
 
@@ -309,7 +309,7 @@ do main() {
     temp frequency map[string:int] = {}
 
     for word in words {
-        if maps.has(frequency, word) {
+        if maps.contains(frequency, word) {
             temp count int = maps.get(frequency, word)
             maps.set(frequency, word, count + 1)
         } otherwise {

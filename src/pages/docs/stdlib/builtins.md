@@ -107,7 +107,7 @@ Reads a line of text from stdin.
 ```ez
 import @std
 
-std.printf("Enter your name: ")
+std.print("Enter your name: ")
 temp name string = input()
 std.println("Hello, " + name)
 ```
@@ -121,7 +121,7 @@ Reads an integer from stdin. Returns a tuple of the parsed integer and an error 
 ```ez
 import @std
 
-std.printf("Enter a number: ")
+std.print("Enter a number: ")
 temp num, err = read_int()
 
 if err != nil {

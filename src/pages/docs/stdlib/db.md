@@ -189,7 +189,7 @@ import @std, @db
 
 do main() {
     temp mydb database, _ error = db.open("data.ezdb")
-    temp deleted bool = db.delete(mydb, "old_key")
+    temp deleted bool = db.remove(mydb, "old_key")
     std.println("Deleted:", deleted)
     db.close(mydb)
 }
@@ -215,7 +215,7 @@ import @std, @db
 
 do main() {
     temp mydb database, _ error = db.open("data.ezdb")
-    if db.has(mydb, "config") {
+    if db.contains(mydb, "config") {
         std.println("Config exists")
     }
     db.close(mydb)

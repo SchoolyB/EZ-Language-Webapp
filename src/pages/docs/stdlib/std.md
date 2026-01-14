@@ -32,13 +32,13 @@ std.println("x =", x, "y =", y)
 
 **Returns:** Nothing.
 
-### `printf()`
+### `print()`
 `(values ...type) -> void`
 
 Prints one or more values to stdout without a trailing newline.
 
 ```ez
-std.printf("Enter your name: ")
+std.print("Enter your name: ")
 temp name string = input()
 std.println("Hello, " + name)
 ```
@@ -61,13 +61,13 @@ std.eprintln("Warning: invalid input")
 
 **Returns:** Nothing.
 
-### `eprintf()`
+### `eprint()`
 `(values ...type) -> void`
 
 Prints one or more values to stderr without a trailing newline.
 
 ```ez
-std.eprintf("Error: ")
+std.eprint("Error: ")
 std.eprintln("connection failed")
 ```
 
@@ -139,7 +139,7 @@ do main() {
     std.println("The answer is:", 42)
 
     // Print without newline
-    std.printf("Enter your name: ")
+    std.print("Enter your name: ")
     temp name string = input()
     std.println("Hello, " + name + "!")
 

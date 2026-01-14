@@ -234,8 +234,8 @@ import @std, @arrays
 
 do main() {
     temp arr [int] = {10, 20, 30, 20}
-    std.println(arrays.index_of(arr, 20))  // 1
-    std.println(arrays.index_of(arr, 99))  // -1
+    std.println(arrays.index(arr, 20))  // 1
+    std.println(arrays.index(arr, 99))  // -1
 }
 ```
 
@@ -546,7 +546,7 @@ do main() {
     std.println("Lowest:", arrays.min(scores))
 
     // Remove lowest score
-    temp lowest_idx int = arrays.index_of(scores, arrays.min(scores))
+    temp lowest_idx int = arrays.index(scores, arrays.min(scores))
     arrays.remove_at(scores, lowest_idx)
 
     std.println("After dropping lowest:", scores)

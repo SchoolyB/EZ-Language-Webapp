@@ -93,22 +93,22 @@ import @std
 
 // Single argument: range(end) - iterates 0 to end-1
 for i in range(5) {
-    std.printf("${i} ")  // 0 1 2 3 4
+    std.print("${i} ")  // 0 1 2 3 4
 }
 
 // Two arguments: range(start, end) - iterates start to end-1
 for i in range(2, 7) {
-    std.printf("${i} ")  // 2 3 4 5 6
+    std.print("${i} ")  // 2 3 4 5 6
 }
 
 // Three arguments: range(start, end, step)
 for i in range(0, 10, 2) {
-    std.printf("${i} ")  // 0 2 4 6 8
+    std.print("${i} ")  // 0 2 4 6 8
 }
 
 // Negative step for countdown
 for i in range(10, 0, -2) {
-    std.printf("${i} ")  // 10 8 6 4 2
+    std.print("${i} ")  // 10 8 6 4 2
 }
 ```
 
@@ -298,7 +298,7 @@ import @std
 // Multiplication table
 for i in range(1, 4) {
     for j in range(1, 4) {
-        std.printf("${i * j} ")
+        std.print("${i * j} ")
     }
     std.println("")
 }
@@ -313,7 +313,7 @@ for i in range(0, 3) {
         if j == 2 {
             break  // only breaks inner loop
         }
-        std.printf("${i},${j} ")
+        std.print("${i},${j} ")
     }
     std.println("")
 }
@@ -587,7 +587,7 @@ do main() {
         }
 
         if isPrime {
-            std.printf("${num} ")
+            std.print("${num} ")
         }
     }
     std.println("")
