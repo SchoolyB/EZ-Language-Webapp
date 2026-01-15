@@ -75,7 +75,7 @@ do set_in_map() {
 
 **Errors:** [E12002](/language.ez/errors/E12002) if the map is immutable (const).
 
-### `has()`
+### `contains()`
 `(m map, key key) -> bool`
 
 Checks if a key exists in the map.
@@ -94,7 +94,26 @@ do check_key_exists() {
 
 **Returns:** `bool` - true if key exists.
 
-### `delete()`
+### `contains_value()`
+`(m map, value value) -> bool`
+
+Checks if a value exists in the map.
+
+```ez
+import @std, @maps
+
+do check_value_exists() {
+    temp ages map[string:int] = {"Alice": 25, "Bob": 30}
+    std.println(maps.contains_value(ages, 25))  // true
+    std.println(maps.contains_value(ages, 99))  // false
+}
+```
+
+**Parameters:** `m`, `value`.
+
+**Returns:** `bool` - true if value exists.
+
+### `remove()`
 `(m map, key key) -> void`
 
 Removes a key-value pair from the map.
@@ -102,7 +121,7 @@ Removes a key-value pair from the map.
 ```ez
 import @std, @maps
 
-do delete_from_map() {
+do remove_from_map() {
     temp ages map[string:int] = {"Alice": 25, "Bob": 30}
     maps.remove(ages, "Alice")
     std.println(maps.contains(ages, "Alice"))  // false

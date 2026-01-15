@@ -179,33 +179,33 @@ do main() {
 
 ---
 
-### `delete()`
+### `remove()`
 `(db database, key string) -> bool`
 
-Deletes a key-value pair.
+Removes a key-value pair.
 
 ```ez
 import @std, @db
 
 do main() {
     temp mydb database, _ error = db.open("data.ezdb")
-    temp deleted bool = db.remove(mydb, "old_key")
-    std.println("Deleted:", deleted)
+    temp removed bool = db.remove(mydb, "old_key")
+    std.println("Removed:", removed)
     db.close(mydb)
 }
 ```
 
 **Parameters:**
 - `db` - The database.
-- `key` - The key to delete.
+- `key` - The key to remove.
 
-**Returns:** `bool` - `true` if key was deleted, `false` if it didn't exist.
+**Returns:** `bool` - `true` if key was removed, `false` if it didn't exist.
 
 **Errors:** [E7001](/language.ez/errors/E7001) for wrong argument count or types, [E17005](/language.ez/errors/E17005) if database is closed.
 
 ---
 
-### `has()`
+### `contains()`
 `(db database, key string) -> bool`
 
 Checks if a key exists.

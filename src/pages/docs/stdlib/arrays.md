@@ -224,7 +224,7 @@ do main() {
 
 **Returns:** `bool` - true if found.
 
-### `index_of()`
+### `index()`
 `(arr [type], value type) -> int`
 
 Returns the index of the first occurrence of a value, or -1 if not found.
@@ -236,6 +236,25 @@ do main() {
     temp arr [int] = {10, 20, 30, 20}
     std.println(arrays.index(arr, 20))  // 1
     std.println(arrays.index(arr, 99))  // -1
+}
+```
+
+**Parameters:** `arr`, `value`.
+
+**Returns:** `int` - Index or -1.
+
+### `last_index()`
+`(arr [type], value type) -> int`
+
+Returns the index of the last occurrence of a value, or -1 if not found.
+
+```ez
+import @std, @arrays
+
+do main() {
+    temp arr [int] = {10, 20, 30, 20}
+    std.println(arrays.last_index(arr, 20))  // 3
+    std.println(arrays.last_index(arr, 99))  // -1
 }
 ```
 
