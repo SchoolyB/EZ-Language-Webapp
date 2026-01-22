@@ -109,7 +109,7 @@ This will:
 
 <div class="mt-8 text-center">
   <p class="text-base opacity-50 mb-3">Next Step</p>
-  <a href="/language.ez/docs" class="inline-flex items-center gap-3 text-2xl font-bold hover:opacity-70 transition-opacity">
+  <a href="/EZ-Language-Webapp/docs" class="inline-flex items-center gap-3 text-2xl font-bold hover:opacity-70 transition-opacity">
     Write your first program
     <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
       <path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
@@ -117,4 +117,4 @@ This will:
   </a>
 </div>
 
-<small class="block text-center mt-8 opacity-50">Need to remove EZ? See the [uninstall guide](/language.ez/getting-started/uninstall).</small>
+<small class="block text-center mt-8 opacity-50">Need to remove EZ? See the [uninstall guide](/EZ-Language-Webapp/getting-started/uninstall).</small>

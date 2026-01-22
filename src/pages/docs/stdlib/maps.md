@@ -52,7 +52,7 @@ do get_from_map() {
 
 **Returns:** The value associated with the key.
 
-**Errors:** [E12003](/language.ez/errors/E12003) if the key is not found.
+**Errors:** [E12003](/EZ-Language-Webapp/errors/E12003) if the key is not found.
 
 ### `set()`
 `(m map, key key, value value) -> void`
@@ -73,7 +73,7 @@ do set_in_map() {
 
 **Returns:** Nothing (mutates map in place).
 
-**Errors:** [E12002](/language.ez/errors/E12002) if the map is immutable (const).
+**Errors:** [E12002](/EZ-Language-Webapp/errors/E12002) if the map is immutable (const).
 
 ### `contains()`
 `(m map, key key) -> bool`
@@ -153,7 +153,7 @@ do get_map_keys() {
 
 **Returns:** `[key]` - Array of keys.
 
-**Errors:** [E7007](/language.ez/errors/E7007) if the argument is not a map.
+**Errors:** [E7007](/EZ-Language-Webapp/errors/E7007) if the argument is not a map.
 
 ### `values()`
 `(m map) -> [key]`
@@ -311,7 +311,7 @@ temp arr [int] = {1, 2, 3}
 // maps.set(myMap, arr, "value")  // Error: array not hashable
 ```
 
-**Error:** [E12001](/language.ez/errors/E12001) if you try to use a non-hashable key.
+**Error:** [E12001](/EZ-Language-Webapp/errors/E12001) if you try to use a non-hashable key.
 
 ## Example Program
 

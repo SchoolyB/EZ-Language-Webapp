@@ -32,7 +32,7 @@ do main() {
 
 **Returns:** `string` - A UUID v4 in standard format (8-4-4-4-12 hex digits with hyphens).
 
-**Errors:** [E7001](/language.ez/errors/E7001) if called with arguments.
+**Errors:** [E7001](/EZ-Language-Webapp/errors/E7001) if called with arguments.
 
 ---
 
@@ -52,7 +52,7 @@ do main() {
 
 **Returns:** `string` - A UUID v4 as a 32-character hex string (no hyphens).
 
-**Errors:** [E7001](/language.ez/errors/E7001) if called with arguments.
+**Errors:** [E7001](/EZ-Language-Webapp/errors/E7001) if called with arguments.
 
 ---
 
@@ -77,7 +77,7 @@ do main() {
 
 **Returns:** `bool` - `true` if the string is a valid UUID, `false` otherwise.
 
-**Errors:** [E7001](/language.ez/errors/E7001) for wrong argument count, [E7002](/language.ez/errors/E7002) if argument is not a string.
+**Errors:** [E7001](/EZ-Language-Webapp/errors/E7001) for wrong argument count, [E7002](/EZ-Language-Webapp/errors/E7002) if argument is not a string.
 
 ---
 
@@ -97,7 +97,7 @@ do main() {
 
 **Returns:** `string` - The nil UUID `"00000000-0000-0000-0000-000000000000"`.
 
-**Errors:** [E7001](/language.ez/errors/E7001) if called with arguments.
+**Errors:** [E7001](/EZ-Language-Webapp/errors/E7001) if called with arguments.
 
 ---
 

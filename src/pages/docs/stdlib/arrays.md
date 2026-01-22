@@ -55,7 +55,7 @@ do pop_from_array(){
 
 **Returns:** The removed element.
 
-**Errors:** [E9001](/language.ez/errors/E9001) if the array is empty.
+**Errors:** [E9001](/EZ-Language-Webapp/errors/E9001) if the array is empty.
 
 ### `shift()`
 `(arr [type]) -> type`
@@ -77,7 +77,7 @@ do main(){
 
 **Returns:** The removed element.
 
-**Errors:** [E9001](/language.ez/errors/E9001) if the array is empty.
+**Errors:** [E9001](/EZ-Language-Webapp/errors/E9001) if the array is empty.
 
 ### `unshift()`
 `(arr [type], value type) -> void`
@@ -117,7 +117,7 @@ do main() {
 
 **Returns:** Nothing (mutates array in place).
 
-**Errors:** [E5003](/language.ez/errors/E5003) if the index is out of bounds.
+**Errors:** [E5003](/EZ-Language-Webapp/errors/E5003) if the index is out of bounds.
 
 ### `remove_at()`
 `(arr [type], index int) -> void`
@@ -138,7 +138,7 @@ do main() {
 
 **Returns:** Nothing (mutates array in place).
 
-**Errors:** [E5003](/language.ez/errors/E5003) if the index is out of bounds.
+**Errors:** [E5003](/EZ-Language-Webapp/errors/E5003) if the index is out of bounds.
 
 ## Accessing Elements
 
@@ -161,7 +161,7 @@ do main() {
 
 **Returns:** The element at the index.
 
-**Errors:** [E5003](/language.ez/errors/E5003) if the index is out of bounds.
+**Errors:** [E5003](/EZ-Language-Webapp/errors/E5003) if the index is out of bounds.
 
 ### `set()`
 `(arr [type], index int, value type) -> void`
@@ -182,7 +182,7 @@ do main() {
 
 **Returns:** Nothing (mutates array in place).
 
-**Errors:** [E5003](/language.ez/errors/E5003) if the index is out of bounds.
+**Errors:** [E5003](/EZ-Language-Webapp/errors/E5003) if the index is out of bounds.
 
 ### `first()` / `last()`
 `(arr [type]) -> type`
@@ -302,7 +302,7 @@ do main() {
 
 **Returns:** A new array with the slice.
 
-**Errors:** [E7004](/language.ez/errors/E7004) if indices are not integers.
+**Errors:** [E7004](/EZ-Language-Webapp/errors/E7004) if indices are not integers.
 
 ### `concat()`
 `(arr1 [type], arr2 [type]) -> [type]`
@@ -324,7 +324,7 @@ do main() {
 
 **Returns:** A new concatenated array.
 
-**Errors:** [E7002](/language.ez/errors/E7002) if arguments are not arrays.
+**Errors:** [E7002](/EZ-Language-Webapp/errors/E7002) if arguments are not arrays.
 
 ### `repeat()`
 `(value type, count int) -> [type]`
@@ -344,7 +344,7 @@ do main() {
 
 **Returns:** A new array.
 
-**Errors:** [E7004](/language.ez/errors/E7004) if count is not an integer.
+**Errors:** [E7004](/EZ-Language-Webapp/errors/E7004) if count is not an integer.
 
 ## Numeric Arrays
 
@@ -366,7 +366,7 @@ do main() {
 
 **Returns:** The sum.
 
-**Errors:** [E9002](/language.ez/errors/E9002) if the array is not numeric.
+**Errors:** [E9002](/EZ-Language-Webapp/errors/E9002) if the array is not numeric.
 
 ### `product()`
 `(arr [number]) -> number`
@@ -386,7 +386,7 @@ do main() {
 
 **Returns:** The product.
 
-**Errors:** [E9002](/language.ez/errors/E9002) if the array is not numeric.
+**Errors:** [E9002](/EZ-Language-Webapp/errors/E9002) if the array is not numeric.
 
 ### `min()` / `max()`
 `(arr [number]) -> number`
@@ -407,7 +407,7 @@ do main() {
 
 **Returns:** The min or max value.
 
-**Errors:** [E9001](/language.ez/errors/E9001) if the array is empty.
+**Errors:** [E9001](/EZ-Language-Webapp/errors/E9001) if the array is empty.
 
 ### `avg()`
 `(arr [number]) -> float`
@@ -427,7 +427,7 @@ do main() {
 
 **Returns:** `float` - The average.
 
-**Errors:** [E9001](/language.ez/errors/E9001) if the array is empty, [E9002](/language.ez/errors/E9002) if not numeric.
+**Errors:** [E9001](/EZ-Language-Webapp/errors/E9001) if the array is empty, [E9002](/EZ-Language-Webapp/errors/E9002) if not numeric.
 
 ## Utilities
 
@@ -453,7 +453,7 @@ do main() {
 
 **Returns:** A new array of integers.
 
-**Errors:** [E9003](/language.ez/errors/E9003) if step is zero.
+**Errors:** [E9003](/EZ-Language-Webapp/errors/E9003) if step is zero.
 
 ### `join()`
 `(arr [type], separator string) -> string`
@@ -476,7 +476,7 @@ do main() {
 
 **Returns:** `string` - The joined string.
 
-**Errors:** [E7003](/language.ez/errors/E7003) if separator is not a string.
+**Errors:** [E7003](/EZ-Language-Webapp/errors/E7003) if separator is not a string.
 
 ### `zip()`
 `(arr1 [type], arr2 [type]) -> [[type]]`
@@ -498,7 +498,7 @@ do main() {
 
 **Returns:** `[[type]]` - A 2D array of pairs.
 
-**Errors:** [E7002](/language.ez/errors/E7002) if arguments are not arrays.
+**Errors:** [E7002](/EZ-Language-Webapp/errors/E7002) if arguments are not arrays.
 
 ### `chunk()`
 `(arr [type], size int) -> [[type]]`
@@ -519,7 +519,7 @@ do main() {
 
 **Returns:** `[[type]]` - A 2D array of chunks.
 
-**Errors:** [E9004](/language.ez/errors/E9004) if chunk size is not greater than zero.
+**Errors:** [E9004](/EZ-Language-Webapp/errors/E9004) if chunk size is not greater than zero.
 
 ### `flatten()`
 `(arr [[type]]) -> [type]`
@@ -540,7 +540,7 @@ do main() {
 
 **Returns:** `[type]` - A flattened 1D array.
 
-**Errors:** [E7002](/language.ez/errors/E7002) if argument is not a 2D array.
+**Errors:** [E7002](/EZ-Language-Webapp/errors/E7002) if argument is not a 2D array.
 
 ## Example Program
 

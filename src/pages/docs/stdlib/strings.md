@@ -108,7 +108,7 @@ do check_contains() {
 
 **Returns:** `bool` - true if found.
 
-**Errors:** [E7003](/language.ez/errors/E7003) if arguments are not strings.
+**Errors:** [E7003](/EZ-Language-Webapp/errors/E7003) if arguments are not strings.
 
 ### `starts_with()`
 `(str string, prefix string) -> bool`
@@ -128,7 +128,7 @@ do check_prefix() {
 
 **Returns:** `bool` - true if starts with prefix.
 
-**Errors:** [E7003](/language.ez/errors/E7003) if arguments are not strings.
+**Errors:** [E7003](/EZ-Language-Webapp/errors/E7003) if arguments are not strings.
 
 ### `ends_with()`
 `(str string, suffix string) -> bool`
@@ -148,7 +148,7 @@ do check_suffix() {
 
 **Returns:** `bool` - true if ends with suffix.
 
-**Errors:** [E7003](/language.ez/errors/E7003) if arguments are not strings.
+**Errors:** [E7003](/EZ-Language-Webapp/errors/E7003) if arguments are not strings.
 
 ### `index()`
 `(str string, substr string) -> int`
@@ -168,7 +168,7 @@ do find_index() {
 
 **Returns:** `int` - Index or -1.
 
-**Errors:** [E7003](/language.ez/errors/E7003) if arguments are not strings.
+**Errors:** [E7003](/EZ-Language-Webapp/errors/E7003) if arguments are not strings.
 
 ## Trimming
 
@@ -231,7 +231,7 @@ do split_string() {
 
 **Returns:** `[string]` - Array of substrings.
 
-**Errors:** [E7003](/language.ez/errors/E7003) if arguments are not strings.
+**Errors:** [E7003](/EZ-Language-Webapp/errors/E7003) if arguments are not strings.
 
 ### `join()`
 `(arr [string], separator string) -> string`
@@ -252,7 +252,7 @@ do join_strings() {
 
 **Returns:** `string` - Joined string.
 
-**Errors:** [E7002](/language.ez/errors/E7002) if the first argument is not an array.
+**Errors:** [E7002](/EZ-Language-Webapp/errors/E7002) if the first argument is not an array.
 
 ## Replacing
 
@@ -274,7 +274,7 @@ do replace_all() {
 
 **Returns:** `string` - Modified string.
 
-**Errors:** [E7003](/language.ez/errors/E7003) if arguments are not strings.
+**Errors:** [E7003](/EZ-Language-Webapp/errors/E7003) if arguments are not strings.
 
 ### `replace_first()`
 `(str string, old string, new string) -> string`
@@ -311,7 +311,7 @@ do replace_limited() {
 
 **Returns:** `string` - Modified string.
 
-**Errors:** [E7003](/language.ez/errors/E7003) if string arguments are not strings, [E7004](/language.ez/errors/E7004) if n is not an integer.
+**Errors:** [E7003](/EZ-Language-Webapp/errors/E7003) if string arguments are not strings, [E7004](/EZ-Language-Webapp/errors/E7004) if n is not an integer.
 
 ---
 
@@ -336,7 +336,7 @@ do check_numeric() {
 
 **Returns:** `bool` - true if string contains only digits, false otherwise.
 
-**Errors:** [E7003](/language.ez/errors/E7003) if argument is not a string.
+**Errors:** [E7003](/EZ-Language-Webapp/errors/E7003) if argument is not a string.
 
 ---
 
@@ -359,7 +359,7 @@ do check_alpha() {
 
 **Returns:** `bool` - true if string contains only letters, false otherwise.
 
-**Errors:** [E7003](/language.ez/errors/E7003) if argument is not a string.
+**Errors:** [E7003](/EZ-Language-Webapp/errors/E7003) if argument is not a string.
 
 ---
 
@@ -386,7 +386,7 @@ do truncate_demo() {
 
 **Returns:** `string` - Truncated string with suffix, or original if shorter than length.
 
-**Errors:** [E7003](/language.ez/errors/E7003) if str or suffix are not strings, [E7004](/language.ez/errors/E7004) if length is not an integer, [E10001](/language.ez/errors/E10001) if length is negative.
+**Errors:** [E7003](/EZ-Language-Webapp/errors/E7003) if str or suffix are not strings, [E7004](/EZ-Language-Webapp/errors/E7004) if length is not an integer, [E10001](/EZ-Language-Webapp/errors/E10001) if length is negative.
 
 ---
 
@@ -411,7 +411,7 @@ do compare_demo() {
 
 **Returns:** `int` - Returns -1 if a < b, 0 if a == b, 1 if a > b.
 
-**Errors:** [E7003](/language.ez/errors/E7003) if arguments are not strings.
+**Errors:** [E7003](/EZ-Language-Webapp/errors/E7003) if arguments are not strings.
 
 ---
 

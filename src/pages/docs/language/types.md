@@ -201,7 +201,7 @@ const DAYS [string, 7] = {"Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"}
 const MATRIX [int, 9] = {1, 2, 3, 4, 5, 6, 7, 8, 9}
 ```
 
-See [@arrays](/language.ez/docs/stdlib/arrays) for array manipulation functions.
+See [@arrays](/EZ-Language-Webapp/docs/stdlib/arrays) for array manipulation functions.
 
 ## Byte Arrays
 
@@ -233,7 +233,7 @@ const SMALL_BUFFER [byte, 4] = {0, 0, 0, 0}  // 4 zero-initialized bytes
 | `byte` | 8 bits | 0-255 |
 | `[byte]` | dynamic | N/A |
 
-See [@bytes](/language.ez/docs/stdlib/bytes) for byte manipulation functions.
+See [@bytes](/EZ-Language-Webapp/docs/stdlib/bytes) for byte manipulation functions.
 
 ## Multi-dimensional Arrays
 
@@ -319,7 +319,7 @@ temp ages map = {
 temp scores map[string:int] = {"math": 95, "english": 88}
 ```
 
-See [@maps](/language.ez/docs/stdlib/maps) for map manipulation functions.
+See [@maps](/EZ-Language-Webapp/docs/stdlib/maps) for map manipulation functions.
 
 ## Structs
 

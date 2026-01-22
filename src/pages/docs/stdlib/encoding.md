@@ -34,7 +34,7 @@ do main() {
 
 **Returns:** `string` - The Base64-encoded string.
 
-**Errors:** [E7001](/language.ez/errors/E7001) for wrong argument count, [E7003](/language.ez/errors/E7003) if argument is not a string.
+**Errors:** [E7001](/EZ-Language-Webapp/errors/E7001) for wrong argument count, [E7003](/EZ-Language-Webapp/errors/E7003) if argument is not a string.
 
 ---
 
@@ -62,7 +62,7 @@ do main() {
 - `string` - The decoded string (empty on error).
 - `error` - `nil` on success, or an Error struct with `message` and `code` fields.
 
-**Errors:** [E7001](/language.ez/errors/E7001) for wrong argument count, [E7003](/language.ez/errors/E7003) if argument is not a string, [E16001](/language.ez/errors/E16001) for invalid Base64 input.
+**Errors:** [E7001](/EZ-Language-Webapp/errors/E7001) for wrong argument count, [E7003](/EZ-Language-Webapp/errors/E7003) if argument is not a string, [E16001](/EZ-Language-Webapp/errors/E16001) for invalid Base64 input.
 
 ---
 
@@ -86,7 +86,7 @@ do main() {
 
 **Returns:** `string` - The hex-encoded string (lowercase).
 
-**Errors:** [E7001](/language.ez/errors/E7001) for wrong argument count, [E7003](/language.ez/errors/E7003) if argument is not a string.
+**Errors:** [E7001](/EZ-Language-Webapp/errors/E7001) for wrong argument count, [E7003](/EZ-Language-Webapp/errors/E7003) if argument is not a string.
 
 ---
 
@@ -114,7 +114,7 @@ do main() {
 - `string` - The decoded string (empty on error).
 - `error` - `nil` on success, or an Error struct with `message` and `code` fields.
 
-**Errors:** [E7001](/language.ez/errors/E7001) for wrong argument count, [E7003](/language.ez/errors/E7003) if argument is not a string, [E16002](/language.ez/errors/E16002) for invalid hex input.
+**Errors:** [E7001](/EZ-Language-Webapp/errors/E7001) for wrong argument count, [E7003](/EZ-Language-Webapp/errors/E7003) if argument is not a string, [E16002](/EZ-Language-Webapp/errors/E16002) for invalid hex input.
 
 ---
 
@@ -138,7 +138,7 @@ do main() {
 
 **Returns:** `string` - The URL-encoded string.
 
-**Errors:** [E7001](/language.ez/errors/E7001) for wrong argument count, [E7003](/language.ez/errors/E7003) if argument is not a string.
+**Errors:** [E7001](/EZ-Language-Webapp/errors/E7001) for wrong argument count, [E7003](/EZ-Language-Webapp/errors/E7003) if argument is not a string.
 
 ---
 
@@ -166,7 +166,7 @@ do main() {
 - `string` - The decoded string (empty on error).
 - `error` - `nil` on success, or an Error struct with `message` and `code` fields.
 
-**Errors:** [E7001](/language.ez/errors/E7001) for wrong argument count, [E7003](/language.ez/errors/E7003) if argument is not a string, [E16003](/language.ez/errors/E16003) for invalid URL encoding.
+**Errors:** [E7001](/EZ-Language-Webapp/errors/E7001) for wrong argument count, [E7003](/EZ-Language-Webapp/errors/E7003) if argument is not a string, [E16003](/EZ-Language-Webapp/errors/E16003) for invalid URL encoding.
 
 ---
 

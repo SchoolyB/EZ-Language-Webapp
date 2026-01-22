@@ -58,7 +58,7 @@ const Color enum {
 }
 ```
 
-See [Enums](/language.ez/docs/language/enums) for complete documentation.
+See [Enums](/EZ-Language-Webapp/docs/language/enums) for complete documentation.
 
 ---
 
@@ -102,7 +102,7 @@ const FileMode enum {
 }
 ```
 
-See [Enums - Flag Enums](/language.ez/docs/language/enums#flag-enums) for complete documentation.
+See [Enums - Flag Enums](/EZ-Language-Webapp/docs/language/enums#flag-enums) for complete documentation.
 
 ---
 
@@ -140,7 +140,7 @@ when status {
 - All enum values must have a corresponding `is` case
 - No `default` case is allowed (defeats the purpose of exhaustive matching)
 
-See [Control Flow - Strict Enum Matching](/language.ez/docs/language/control-flow#strict-enum-matching) for complete documentation.
+See [Control Flow - Strict Enum Matching](/EZ-Language-Webapp/docs/language/control-flow#strict-enum-matching) for complete documentation.
 
 ---
 

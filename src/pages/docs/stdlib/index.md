@@ -154,23 +154,23 @@ EZ includes seventeen built-in modules:
 
 | Module | What it's for |
 |--------|---------------|
-| [@std](/language.ez/docs/stdlib/std) | Basic input/output — printing text, getting user input |
-| [@math](/language.ez/docs/stdlib/math) | Math operations — square roots, powers, logarithms |
-| [@random](/language.ez/docs/stdlib/random) | Random generation — numbers, choices, shuffling |
-| [@arrays](/language.ez/docs/stdlib/arrays) | Working with lists — sorting, filtering, finding items |
-| [@strings](/language.ez/docs/stdlib/strings) | Working with text — uppercase, splitting, trimming |
-| [@maps](/language.ez/docs/stdlib/maps) | Key-value storage — like a dictionary or phonebook |
-| [@time](/language.ez/docs/stdlib/time) | Dates and time — current time, formatting, delays |
-| [@bytes](/language.ez/docs/stdlib/bytes) | Binary data — encoding, decoding, byte manipulation |
-| [@io](/language.ez/docs/stdlib/io) | File system — reading, writing, paths, directories |
-| [@os](/language.ez/docs/stdlib/os) | Operating system — environment, platform detection, commands |
-| [@json](/language.ez/docs/stdlib/json) | JSON parsing — encoding, decoding, validation |
-| [@http](/language.ez/docs/stdlib/http) | HTTP client — web requests, URL encoding, status codes |
-| [@binary](/language.ez/docs/stdlib/binary) | Binary encoding — numeric type serialization with endianness control |
-| [@uuid](/language.ez/docs/stdlib/uuid) | UUID generation — create and validate unique identifiers |
-| [@encoding](/language.ez/docs/stdlib/encoding) | Data encoding — Base64, hex, and URL encoding/decoding |
-| [@crypto](/language.ez/docs/stdlib/crypto) | Cryptography — hashing (SHA-256, MD5) and secure random |
-| [@db](/language.ez/docs/stdlib/db) | Database — simple key-value storage with .ezdb files |
+| [@std](/EZ-Language-Webapp/docs/stdlib/std) | Basic input/output — printing text, getting user input |
+| [@math](/EZ-Language-Webapp/docs/stdlib/math) | Math operations — square roots, powers, logarithms |
+| [@random](/EZ-Language-Webapp/docs/stdlib/random) | Random generation — numbers, choices, shuffling |
+| [@arrays](/EZ-Language-Webapp/docs/stdlib/arrays) | Working with lists — sorting, filtering, finding items |
+| [@strings](/EZ-Language-Webapp/docs/stdlib/strings) | Working with text — uppercase, splitting, trimming |
+| [@maps](/EZ-Language-Webapp/docs/stdlib/maps) | Key-value storage — like a dictionary or phonebook |
+| [@time](/EZ-Language-Webapp/docs/stdlib/time) | Dates and time — current time, formatting, delays |
+| [@bytes](/EZ-Language-Webapp/docs/stdlib/bytes) | Binary data — encoding, decoding, byte manipulation |
+| [@io](/EZ-Language-Webapp/docs/stdlib/io) | File system — reading, writing, paths, directories |
+| [@os](/EZ-Language-Webapp/docs/stdlib/os) | Operating system — environment, platform detection, commands |
+| [@json](/EZ-Language-Webapp/docs/stdlib/json) | JSON parsing — encoding, decoding, validation |
+| [@http](/EZ-Language-Webapp/docs/stdlib/http) | HTTP client — web requests, URL encoding, status codes |
+| [@binary](/EZ-Language-Webapp/docs/stdlib/binary) | Binary encoding — numeric type serialization with endianness control |
+| [@uuid](/EZ-Language-Webapp/docs/stdlib/uuid) | UUID generation — create and validate unique identifiers |
+| [@encoding](/EZ-Language-Webapp/docs/stdlib/encoding) | Data encoding — Base64, hex, and URL encoding/decoding |
+| [@crypto](/EZ-Language-Webapp/docs/stdlib/crypto) | Cryptography — hashing (SHA-256, MD5) and secure random |
+| [@db](/EZ-Language-Webapp/docs/stdlib/db) | Database — simple key-value storage with .ezdb files |
 
 ## Quick Example
 
@@ -210,20 +210,20 @@ do main() {
 
 Pick a module and explore what it can do:
 
-- [@std](/language.ez/docs/stdlib/std) — Start here, it's the most common
-- [@math](/language.ez/docs/stdlib/math) — For calculations and logarithms
-- [@random](/language.ez/docs/stdlib/random) — For random numbers and shuffling
-- [@arrays](/language.ez/docs/stdlib/arrays) — For working with lists of things
-- [@strings](/language.ez/docs/stdlib/strings) — For manipulating text
-- [@maps](/language.ez/docs/stdlib/maps) — For key-value data
-- [@time](/language.ez/docs/stdlib/time) — For dates, times, and delays
-- [@bytes](/language.ez/docs/stdlib/bytes) — For binary data and encoding
-- [@io](/language.ez/docs/stdlib/io) — For file and directory operations
-- [@os](/language.ez/docs/stdlib/os) — For system info, environment, and commands
-- [@json](/language.ez/docs/stdlib/json) — For JSON encoding, decoding, and validation
-- [@http](/language.ez/docs/stdlib/http) — For making web requests and working with URLs
-- [@binary](/language.ez/docs/stdlib/binary) — For binary encoding and decoding with endianness
-- [@uuid](/language.ez/docs/stdlib/uuid) — For generating and validating UUIDs
-- [@encoding](/language.ez/docs/stdlib/encoding) — For Base64, hex, and URL encoding
-- [@crypto](/language.ez/docs/stdlib/crypto) — For cryptographic hashing and secure random
-- [@db](/language.ez/docs/stdlib/db) — For simple key-value database storage
+- [@std](/EZ-Language-Webapp/docs/stdlib/std) — Start here, it's the most common
+- [@math](/EZ-Language-Webapp/docs/stdlib/math) — For calculations and logarithms
+- [@random](/EZ-Language-Webapp/docs/stdlib/random) — For random numbers and shuffling
+- [@arrays](/EZ-Language-Webapp/docs/stdlib/arrays) — For working with lists of things
+- [@strings](/EZ-Language-Webapp/docs/stdlib/strings) — For manipulating text
+- [@maps](/EZ-Language-Webapp/docs/stdlib/maps) — For key-value data
+- [@time](/EZ-Language-Webapp/docs/stdlib/time) — For dates, times, and delays
+- [@bytes](/EZ-Language-Webapp/docs/stdlib/bytes) — For binary data and encoding
+- [@io](/EZ-Language-Webapp/docs/stdlib/io) — For file and directory operations
+- [@os](/EZ-Language-Webapp/docs/stdlib/os) — For system info, environment, and commands
+- [@json](/EZ-Language-Webapp/docs/stdlib/json) — For JSON encoding, decoding, and validation
+- [@http](/EZ-Language-Webapp/docs/stdlib/http) — For making web requests and working with URLs
+- [@binary](/EZ-Language-Webapp/docs/stdlib/binary) — For binary encoding and decoding with endianness
+- [@uuid](/EZ-Language-Webapp/docs/stdlib/uuid) — For generating and validating UUIDs
+- [@encoding](/EZ-Language-Webapp/docs/stdlib/encoding) — For Base64, hex, and URL encoding
+- [@crypto](/EZ-Language-Webapp/docs/stdlib/crypto) — For cryptographic hashing and secure random
+- [@db](/EZ-Language-Webapp/docs/stdlib/db) — For simple key-value database storage

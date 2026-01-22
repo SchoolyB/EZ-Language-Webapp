@@ -306,7 +306,7 @@ temp u8_arr = cast(bytes, [u8])  // [byte] -> [u8]
 
 **Why "cast"?** Explicitly converts (casts) a value from one type to another.
 
-**Note:** Although `cast()` uses function-like syntax, it is a language keyword, not a regular function. The second argument must be a valid EZ type, which the interpreter validates at check-time (before execution). This is why `cast()` is documented here rather than solely in built-in functions — though it also appears there for discoverability. See also: [cast() in Built-in Functions](/language.ez/docs/stdlib/builtins#cast).
+**Note:** Although `cast()` uses function-like syntax, it is a language keyword, not a regular function. The second argument must be a valid EZ type, which the interpreter validates at check-time (before execution). This is why `cast()` is documented here rather than solely in built-in functions — though it also appears there for discoverability. See also: [cast() in Built-in Functions](/EZ-Language-Webapp/docs/stdlib/builtins#cast).
 
 #### Supported Conversions
 
@@ -520,7 +520,7 @@ temp hasError bool = false
 | `cast` | type casts, `as` | Type conversion |
 | `private` | `private`, `internal` | Module-private declaration |
 
-For attributes (`#enum`, `#flags`, `#strict`, `#suppress`), see [Attributes](/language.ez/docs/language/attributes).
+For attributes (`#enum`, `#flags`, `#strict`, `#suppress`), see [Attributes](/EZ-Language-Webapp/docs/language/attributes).
 
 <script>
   function initKeywordFilter() {

@@ -10,8 +10,8 @@ Welcome to the EZ documentation. EZ is a simple programming language designed to
 
 ## Quick Start
 
-1. [Download EZ](/language.ez/downloads) for your platform
-2. [Install EZ](/language.ez/getting-started) on your system
+1. [Download EZ](/EZ-Language-Webapp/downloads) for your platform
+2. [Install EZ](/EZ-Language-Webapp/getting-started) on your system
 3. Create a file called `hello.ez`:
 
 ```ez
@@ -40,11 +40,11 @@ Hello, EZ!
 
 ## What's Next?
 
-### [Language Reference](/language.ez/docs/language)
+### [Language Reference](/EZ-Language-Webapp/docs/language)
 Learn about variables, functions, and more.
 
-### [Standard Library](/language.ez/docs/stdlib)
+### [Standard Library](/EZ-Language-Webapp/docs/stdlib)
 Explore the built-in modules.
 
-### [Examples](/language.ez/examples)
+### [Examples](/EZ-Language-Webapp/examples)
 Real-world code examples and recipes.

@@ -16,20 +16,20 @@ EZ is designed to be straightforward. There are no hidden tricks or complex rule
 
 | Topic | What it covers |
 |-------|----------------|
-| [Keywords](/language.ez/docs/language/keywords) | Reserved words in EZ — `temp`, `const`, `do`, `if`, etc. |
-| [Variables](/language.ez/docs/language/variables) | Storing values with `temp` and `const` |
-| [Functions](/language.ez/docs/language/functions) | Creating reusable blocks of code with `do` |
-| [Control Flow](/language.ez/docs/language/control-flow) | Making decisions with `if`/`otherwise` and loops |
-| [Types](/language.ez/docs/language/types) | Data types — `int`, `float`, `string`, `bool`, arrays, maps |
-| [Structs](/language.ez/docs/language/structs) | Grouping related data together |
-| [Enums](/language.ez/docs/language/enums) | Defining a set of named values |
-| [Modules](/language.ez/docs/language/modules) | Organizing code into separate files |
+| [Keywords](/EZ-Language-Webapp/docs/language/keywords) | Reserved words in EZ — `temp`, `const`, `do`, `if`, etc. |
+| [Variables](/EZ-Language-Webapp/docs/language/variables) | Storing values with `temp` and `const` |
+| [Functions](/EZ-Language-Webapp/docs/language/functions) | Creating reusable blocks of code with `do` |
+| [Control Flow](/EZ-Language-Webapp/docs/language/control-flow) | Making decisions with `if`/`otherwise` and loops |
+| [Types](/EZ-Language-Webapp/docs/language/types) | Data types — `int`, `float`, `string`, `bool`, arrays, maps |
+| [Structs](/EZ-Language-Webapp/docs/language/structs) | Grouping related data together |
+| [Enums](/EZ-Language-Webapp/docs/language/enums) | Defining a set of named values |
+| [Modules](/EZ-Language-Webapp/docs/language/modules) | Organizing code into separate files |
 
 ## Where to Start
 
-**New to programming?** Start with [Variables](/language.ez/docs/language/variables), then [Functions](/language.ez/docs/language/functions), then [Control Flow](/language.ez/docs/language/control-flow). These three concepts are the foundation of almost every program.
+**New to programming?** Start with [Variables](/EZ-Language-Webapp/docs/language/variables), then [Functions](/EZ-Language-Webapp/docs/language/functions), then [Control Flow](/EZ-Language-Webapp/docs/language/control-flow). These three concepts are the foundation of almost every program.
 
-**Coming from another language?** Skim through [Keywords](/language.ez/docs/language/keywords) to see EZ's syntax, then jump to whatever topic you need.
+**Coming from another language?** Skim through [Keywords](/EZ-Language-Webapp/docs/language/keywords) to see EZ's syntax, then jump to whatever topic you need.
 
 ## Quick Example
 
@@ -78,11 +78,11 @@ Hey Bob!
 
 Pick a topic and dive in:
 
-- [Keywords](/language.ez/docs/language/keywords) — See all reserved words
-- [Variables](/language.ez/docs/language/variables) — Start here if you're new
-- [Functions](/language.ez/docs/language/functions) — Create reusable code
-- [Control Flow](/language.ez/docs/language/control-flow) — Conditionals and loops
-- [Types](/language.ez/docs/language/types) — All the data types
-- [Structs](/language.ez/docs/language/structs) — Custom data structures
-- [Enums](/language.ez/docs/language/enums) — Named value sets
-- [Modules](/language.ez/docs/language/modules) — Organize larger projects
+- [Keywords](/EZ-Language-Webapp/docs/language/keywords) — See all reserved words
+- [Variables](/EZ-Language-Webapp/docs/language/variables) — Start here if you're new
+- [Functions](/EZ-Language-Webapp/docs/language/functions) — Create reusable code
+- [Control Flow](/EZ-Language-Webapp/docs/language/control-flow) — Conditionals and loops
+- [Types](/EZ-Language-Webapp/docs/language/types) — All the data types
+- [Structs](/EZ-Language-Webapp/docs/language/structs) — Custom data structures
+- [Enums](/EZ-Language-Webapp/docs/language/enums) — Named value sets
+- [Modules](/EZ-Language-Webapp/docs/language/modules) — Organize larger projects

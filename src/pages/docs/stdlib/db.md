@@ -43,7 +43,7 @@ do main() {
 - `database` - The database object.
 - `error` - `nil` on success, or an Error struct.
 
-**Errors:** [E7001](/language.ez/errors/E7001) for wrong argument count, [E7003](/language.ez/errors/E7003) if path is not a string, [E17001](/language.ez/errors/E17001) for invalid path or non-.ezdb file, [E17002](/language.ez/errors/E17002) if path is a directory, [E17004](/language.ez/errors/E17004) if file is corrupted.
+**Errors:** [E7001](/EZ-Language-Webapp/errors/E7001) for wrong argument count, [E7003](/EZ-Language-Webapp/errors/E7003) if path is not a string, [E17001](/EZ-Language-Webapp/errors/E17001) for invalid path or non-.ezdb file, [E17002](/EZ-Language-Webapp/errors/E17002) if path is a directory, [E17004](/EZ-Language-Webapp/errors/E17004) if file is corrupted.
 
 ---
 
@@ -66,7 +66,7 @@ do main() {
 
 **Returns:** `nil` on success, or an Error struct.
 
-**Errors:** [E7001](/language.ez/errors/E7001) for wrong argument count, [E17003](/language.ez/errors/E17003) if save fails, [E17005](/language.ez/errors/E17005) if database is already closed.
+**Errors:** [E7001](/EZ-Language-Webapp/errors/E7001) for wrong argument count, [E17003](/EZ-Language-Webapp/errors/E17003) if save fails, [E17005](/EZ-Language-Webapp/errors/E17005) if database is already closed.
 
 ---
 
@@ -91,7 +91,7 @@ do main() {
 
 **Returns:** `nil` on success, or an Error struct.
 
-**Errors:** [E7001](/language.ez/errors/E7001) for wrong argument count, [E17003](/language.ez/errors/E17003) if save fails, [E17005](/language.ez/errors/E17005) if database is closed.
+**Errors:** [E7001](/EZ-Language-Webapp/errors/E7001) for wrong argument count, [E17003](/EZ-Language-Webapp/errors/E17003) if save fails, [E17005](/EZ-Language-Webapp/errors/E17005) if database is closed.
 
 ---
 
@@ -116,7 +116,7 @@ do main() {
 
 **Returns:** `bool` - `true` if file exists, `false` otherwise.
 
-**Errors:** [E7001](/language.ez/errors/E7001) for wrong argument count, [E7003](/language.ez/errors/E7003) if path is not a string, [E17001](/language.ez/errors/E17001) if path doesn't end in `.ezdb`.
+**Errors:** [E7001](/EZ-Language-Webapp/errors/E7001) for wrong argument count, [E7003](/EZ-Language-Webapp/errors/E7003) if path is not a string, [E17001](/EZ-Language-Webapp/errors/E17001) if path doesn't end in `.ezdb`.
 
 ---
 
@@ -143,7 +143,7 @@ do main() {
 - `key` - The key (string).
 - `value` - The value (string).
 
-**Errors:** [E7001](/language.ez/errors/E7001) for wrong argument count or types, [E17005](/language.ez/errors/E17005) if database is closed.
+**Errors:** [E7001](/EZ-Language-Webapp/errors/E7001) for wrong argument count or types, [E17005](/EZ-Language-Webapp/errors/E17005) if database is closed.
 
 ---
 
@@ -175,7 +175,7 @@ do main() {
 - `string` - The value (empty string if not found).
 - `bool` - `true` if key exists, `false` otherwise.
 
-**Errors:** [E7001](/language.ez/errors/E7001) for wrong argument count or types, [E17005](/language.ez/errors/E17005) if database is closed.
+**Errors:** [E7001](/EZ-Language-Webapp/errors/E7001) for wrong argument count or types, [E17005](/EZ-Language-Webapp/errors/E17005) if database is closed.
 
 ---
 
@@ -201,7 +201,7 @@ do main() {
 
 **Returns:** `bool` - `true` if key was removed, `false` if it didn't exist.
 
-**Errors:** [E7001](/language.ez/errors/E7001) for wrong argument count or types, [E17005](/language.ez/errors/E17005) if database is closed.
+**Errors:** [E7001](/EZ-Language-Webapp/errors/E7001) for wrong argument count or types, [E17005](/EZ-Language-Webapp/errors/E17005) if database is closed.
 
 ---
 
@@ -228,7 +228,7 @@ do main() {
 
 **Returns:** `bool` - `true` if key exists.
 
-**Errors:** [E7001](/language.ez/errors/E7001) for wrong argument count or types, [E17005](/language.ez/errors/E17005) if database is closed.
+**Errors:** [E7001](/EZ-Language-Webapp/errors/E7001) for wrong argument count or types, [E17005](/EZ-Language-Webapp/errors/E17005) if database is closed.
 
 ---
 
@@ -252,7 +252,7 @@ do main() {
 
 **Returns:** `[string]` - Array of all keys.
 
-**Errors:** [E7001](/language.ez/errors/E7001) for wrong argument count, [E17005](/language.ez/errors/E17005) if database is closed.
+**Errors:** [E7001](/EZ-Language-Webapp/errors/E7001) for wrong argument count, [E17005](/EZ-Language-Webapp/errors/E17005) if database is closed.
 
 ---
 
@@ -282,7 +282,7 @@ do main() {
 
 **Returns:** `[string]` - Array of matching keys.
 
-**Errors:** [E7001](/language.ez/errors/E7001) for wrong argument count, [E7003](/language.ez/errors/E7003) if prefix is not a string, [E17005](/language.ez/errors/E17005) if database is closed.
+**Errors:** [E7001](/EZ-Language-Webapp/errors/E7001) for wrong argument count, [E7003](/EZ-Language-Webapp/errors/E7003) if prefix is not a string, [E17005](/EZ-Language-Webapp/errors/E17005) if database is closed.
 
 ---
 
@@ -305,7 +305,7 @@ do main() {
 
 **Returns:** `int` - Number of entries.
 
-**Errors:** [E7001](/language.ez/errors/E7001) for wrong argument count, [E17005](/language.ez/errors/E17005) if database is closed.
+**Errors:** [E7001](/EZ-Language-Webapp/errors/E7001) for wrong argument count, [E17005](/EZ-Language-Webapp/errors/E17005) if database is closed.
 
 ---
 
@@ -326,7 +326,7 @@ do main() {
 
 **Parameters:** `db` - The database.
 
-**Errors:** [E7001](/language.ez/errors/E7001) for wrong argument count, [E17005](/language.ez/errors/E17005) if database is closed.
+**Errors:** [E7001](/EZ-Language-Webapp/errors/E7001) for wrong argument count, [E17005](/EZ-Language-Webapp/errors/E17005) if database is closed.
 
 ---
 
@@ -354,7 +354,7 @@ do main() {
 
 **Returns:** `bool` - `true` if renamed, `false` if old key didn't exist.
 
-**Errors:** [E7001](/language.ez/errors/E7001) for wrong argument count or types, [E17005](/language.ez/errors/E17005) if database is closed.
+**Errors:** [E7001](/EZ-Language-Webapp/errors/E7001) for wrong argument count or types, [E17005](/EZ-Language-Webapp/errors/E17005) if database is closed.
 
 ---
 
@@ -384,7 +384,7 @@ do main() {
 - `db` - The database.
 - `order` - A sort order constant.
 
-**Errors:** [E7001](/language.ez/errors/E7001) for wrong argument count, [E7003](/language.ez/errors/E7003) for invalid order, [E17005](/language.ez/errors/E17005) if database is closed.
+**Errors:** [E7001](/EZ-Language-Webapp/errors/E7001) for wrong argument count, [E7003](/EZ-Language-Webapp/errors/E7003) for invalid order, [E17005](/EZ-Language-Webapp/errors/E17005) if database is closed.
 
 ---
 

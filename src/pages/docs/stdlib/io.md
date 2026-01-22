@@ -37,7 +37,7 @@ do read_text_file() {
 
 **Returns:** Tuple of (file contents as string, error).
 
-**Errors:** [E7016](/language.ez/errors/E7016), [E7017](/language.ez/errors/E7017), [E7040](/language.ez/errors/E7040), [E7041](/language.ez/errors/E7041), [E7042](/language.ez/errors/E7042)
+**Errors:** [E7016](/EZ-Language-Webapp/errors/E7016), [E7017](/EZ-Language-Webapp/errors/E7017), [E7040](/EZ-Language-Webapp/errors/E7040), [E7041](/EZ-Language-Webapp/errors/E7041), [E7042](/EZ-Language-Webapp/errors/E7042)
 
 ---
 
@@ -58,7 +58,7 @@ do read_binary_file() {
 
 **Returns:** Tuple of (byte array, error).
 
-**Errors:** [E7016](/language.ez/errors/E7016), [E7017](/language.ez/errors/E7017), [E7040](/language.ez/errors/E7040), [E7041](/language.ez/errors/E7041), [E7042](/language.ez/errors/E7042)
+**Errors:** [E7016](/EZ-Language-Webapp/errors/E7016), [E7017](/EZ-Language-Webapp/errors/E7017), [E7040](/EZ-Language-Webapp/errors/E7040), [E7041](/EZ-Language-Webapp/errors/E7041), [E7042](/EZ-Language-Webapp/errors/E7042)
 
 ---
 
@@ -82,7 +82,7 @@ do read_file_lines() {
 
 **Returns:** Tuple of (array of strings, error).
 
-**Errors:** [E7016](/language.ez/errors/E7016), [E7017](/language.ez/errors/E7017), [E7040](/language.ez/errors/E7040), [E7041](/language.ez/errors/E7041), [E7042](/language.ez/errors/E7042)
+**Errors:** [E7016](/EZ-Language-Webapp/errors/E7016), [E7017](/EZ-Language-Webapp/errors/E7017), [E7040](/EZ-Language-Webapp/errors/E7040), [E7041](/EZ-Language-Webapp/errors/E7041), [E7042](/EZ-Language-Webapp/errors/E7042)
 
 ---
 
@@ -109,7 +109,7 @@ do write_text_file() {
 
 **Returns:** Tuple of (success, error).
 
-**Errors:** [E7017](/language.ez/errors/E7017), [E7040](/language.ez/errors/E7040), [E7041](/language.ez/errors/E7041)
+**Errors:** [E7017](/EZ-Language-Webapp/errors/E7017), [E7040](/EZ-Language-Webapp/errors/E7040), [E7041](/EZ-Language-Webapp/errors/E7041)
 
 ---
 
@@ -134,7 +134,7 @@ do write_binary_file() {
 
 **Returns:** Tuple of (success, error).
 
-**Errors:** [E7002](/language.ez/errors/E7002), [E7017](/language.ez/errors/E7017), [E7040](/language.ez/errors/E7040), [E7041](/language.ez/errors/E7041)
+**Errors:** [E7002](/EZ-Language-Webapp/errors/E7002), [E7017](/EZ-Language-Webapp/errors/E7017), [E7040](/EZ-Language-Webapp/errors/E7040), [E7041](/EZ-Language-Webapp/errors/E7041)
 
 ---
 
@@ -158,7 +158,7 @@ do append_to_file() {
 
 **Returns:** Tuple of (success, error).
 
-**Errors:** [E7017](/language.ez/errors/E7017), [E7040](/language.ez/errors/E7040), [E7041](/language.ez/errors/E7041)
+**Errors:** [E7017](/EZ-Language-Webapp/errors/E7017), [E7040](/EZ-Language-Webapp/errors/E7040), [E7041](/EZ-Language-Webapp/errors/E7041)
 
 ---
 
@@ -182,7 +182,7 @@ do append_log_line() {
 
 **Returns:** Tuple of (success, error).
 
-**Errors:** [E7017](/language.ez/errors/E7017), [E7040](/language.ez/errors/E7040), [E7041](/language.ez/errors/E7041)
+**Errors:** [E7017](/EZ-Language-Webapp/errors/E7017), [E7040](/EZ-Language-Webapp/errors/E7040), [E7041](/EZ-Language-Webapp/errors/E7041)
 
 ---
 
@@ -270,7 +270,7 @@ do remove_file() {
 
 **Returns:** Tuple of (success, error).
 
-**Errors:** [E7016](/language.ez/errors/E7016), [E7017](/language.ez/errors/E7017), [E7018](/language.ez/errors/E7018), [E7040](/language.ez/errors/E7040), [E7041](/language.ez/errors/E7041)
+**Errors:** [E7016](/EZ-Language-Webapp/errors/E7016), [E7017](/EZ-Language-Webapp/errors/E7017), [E7018](/EZ-Language-Webapp/errors/E7018), [E7040](/EZ-Language-Webapp/errors/E7040), [E7041](/EZ-Language-Webapp/errors/E7041)
 
 ---
 
@@ -291,7 +291,7 @@ do remove_empty_dir() {
 
 **Returns:** Tuple of (success, error).
 
-**Errors:** [E7016](/language.ez/errors/E7016), [E7017](/language.ez/errors/E7017), [E7019](/language.ez/errors/E7019), [E7023](/language.ez/errors/E7023), [E7040](/language.ez/errors/E7040), [E7041](/language.ez/errors/E7041)
+**Errors:** [E7016](/EZ-Language-Webapp/errors/E7016), [E7017](/EZ-Language-Webapp/errors/E7017), [E7019](/EZ-Language-Webapp/errors/E7019), [E7023](/EZ-Language-Webapp/errors/E7023), [E7040](/EZ-Language-Webapp/errors/E7040), [E7041](/EZ-Language-Webapp/errors/E7041)
 
 ---
 
@@ -312,7 +312,7 @@ do remove_recursively() {
 
 **Returns:** Tuple of (success, error).
 
-**Errors:** [E7017](/language.ez/errors/E7017), [E7020](/language.ez/errors/E7020), [E7040](/language.ez/errors/E7040), [E7041](/language.ez/errors/E7041)
+**Errors:** [E7017](/EZ-Language-Webapp/errors/E7017), [E7020](/EZ-Language-Webapp/errors/E7020), [E7040](/EZ-Language-Webapp/errors/E7040), [E7041](/EZ-Language-Webapp/errors/E7041)
 
 ---
 
@@ -336,7 +336,7 @@ do rename_file() {
 
 **Returns:** Tuple of (success, error).
 
-**Errors:** [E7016](/language.ez/errors/E7016), [E7017](/language.ez/errors/E7017), [E7040](/language.ez/errors/E7040), [E7041](/language.ez/errors/E7041)
+**Errors:** [E7016](/EZ-Language-Webapp/errors/E7016), [E7017](/EZ-Language-Webapp/errors/E7017), [E7040](/EZ-Language-Webapp/errors/E7040), [E7041](/EZ-Language-Webapp/errors/E7041)
 
 ---
 
@@ -360,7 +360,7 @@ do copy_file() {
 
 **Returns:** Tuple of (success, error).
 
-**Errors:** [E7016](/language.ez/errors/E7016), [E7017](/language.ez/errors/E7017), [E7021](/language.ez/errors/E7021), [E7040](/language.ez/errors/E7040), [E7041](/language.ez/errors/E7041)
+**Errors:** [E7016](/EZ-Language-Webapp/errors/E7016), [E7017](/EZ-Language-Webapp/errors/E7017), [E7021](/EZ-Language-Webapp/errors/E7021), [E7040](/EZ-Language-Webapp/errors/E7040), [E7041](/EZ-Language-Webapp/errors/E7041)
 
 ---
 
@@ -386,7 +386,7 @@ do make_directory() {
 
 **Returns:** Tuple of (success, error).
 
-**Errors:** [E7017](/language.ez/errors/E7017), [E7022](/language.ez/errors/E7022), [E7040](/language.ez/errors/E7040), [E7041](/language.ez/errors/E7041)
+**Errors:** [E7017](/EZ-Language-Webapp/errors/E7017), [E7022](/EZ-Language-Webapp/errors/E7022), [E7040](/EZ-Language-Webapp/errors/E7040), [E7041](/EZ-Language-Webapp/errors/E7041)
 
 ---
 
@@ -409,7 +409,7 @@ do make_nested_dirs() {
 
 **Returns:** Tuple of (success, error).
 
-**Errors:** [E7017](/language.ez/errors/E7017), [E7040](/language.ez/errors/E7040), [E7041](/language.ez/errors/E7041)
+**Errors:** [E7017](/EZ-Language-Webapp/errors/E7017), [E7040](/EZ-Language-Webapp/errors/E7040), [E7041](/EZ-Language-Webapp/errors/E7041)
 
 ---
 
@@ -433,7 +433,7 @@ do list_directory() {
 
 **Returns:** Tuple of (array of filenames, error).
 
-**Errors:** [E7016](/language.ez/errors/E7016), [E7017](/language.ez/errors/E7017), [E7040](/language.ez/errors/E7040), [E7041](/language.ez/errors/E7041)
+**Errors:** [E7016](/EZ-Language-Webapp/errors/E7016), [E7017](/EZ-Language-Webapp/errors/E7017), [E7040](/EZ-Language-Webapp/errors/E7040), [E7041](/EZ-Language-Webapp/errors/E7041)
 
 ---
 
@@ -457,7 +457,7 @@ do get_file_size() {
 
 **Returns:** Tuple of (size in bytes, error).
 
-**Errors:** [E7016](/language.ez/errors/E7016), [E7040](/language.ez/errors/E7040), [E7041](/language.ez/errors/E7041)
+**Errors:** [E7016](/EZ-Language-Webapp/errors/E7016), [E7040](/EZ-Language-Webapp/errors/E7040), [E7041](/EZ-Language-Webapp/errors/E7041)
 
 ---
 
@@ -478,7 +478,7 @@ do get_mod_time() {
 
 **Returns:** Tuple of (Unix timestamp, error).
 
-**Errors:** [E7016](/language.ez/errors/E7016), [E7040](/language.ez/errors/E7040), [E7041](/language.ez/errors/E7041)
+**Errors:** [E7016](/EZ-Language-Webapp/errors/E7016), [E7040](/EZ-Language-Webapp/errors/E7040), [E7041](/EZ-Language-Webapp/errors/E7041)
 
 ---
 
@@ -510,7 +510,7 @@ do find_files() {
 
 **Returns:** Tuple of (array of matching file paths, error).
 
-**Errors:** [E7043](/language.ez/errors/E7043) if the pattern is invalid.
+**Errors:** [E7043](/EZ-Language-Webapp/errors/E7043) if the pattern is invalid.
 
 ---
 
@@ -537,7 +537,7 @@ do list_all_files() {
 
 **Returns:** Tuple of (array of all file paths recursively, error).
 
-**Errors:** [E7016](/language.ez/errors/E7016), [E7017](/language.ez/errors/E7017), [E7040](/language.ez/errors/E7040), [E7041](/language.ez/errors/E7041)
+**Errors:** [E7016](/EZ-Language-Webapp/errors/E7016), [E7017](/EZ-Language-Webapp/errors/E7017), [E7040](/EZ-Language-Webapp/errors/E7040), [E7041](/EZ-Language-Webapp/errors/E7041)
 
 ---
 
@@ -584,7 +584,7 @@ do join_paths() {
 
 **Returns:** Joined path string.
 
-**Errors:** [E7041](/language.ez/errors/E7041)
+**Errors:** [E7041](/EZ-Language-Webapp/errors/E7041)
 
 ---
 
@@ -605,7 +605,7 @@ do get_base_name() {
 
 **Returns:** The base name.
 
-**Errors:** [E7041](/language.ez/errors/E7041)
+**Errors:** [E7041](/EZ-Language-Webapp/errors/E7041)
 
 ---
 
@@ -626,7 +626,7 @@ do get_directory_path() {
 
 **Returns:** The directory part.
 
-**Errors:** [E7041](/language.ez/errors/E7041)
+**Errors:** [E7041](/EZ-Language-Webapp/errors/E7041)
 
 ---
 
@@ -647,7 +647,7 @@ do get_file_extension() {
 
 **Returns:** The extension (e.g., ".txt").
 
-**Errors:** [E7041](/language.ez/errors/E7041)
+**Errors:** [E7041](/EZ-Language-Webapp/errors/E7041)
 
 ---
 
@@ -668,7 +668,7 @@ do get_absolute_path() {
 
 **Returns:** Tuple of (absolute path, error).
 
-**Errors:** [E7040](/language.ez/errors/E7040), [E7041](/language.ez/errors/E7041)
+**Errors:** [E7040](/EZ-Language-Webapp/errors/E7040), [E7041](/EZ-Language-Webapp/errors/E7041)
 
 ---
 
@@ -689,7 +689,7 @@ do clean_path() {
 
 **Returns:** Cleaned path.
 
-**Errors:** [E7041](/language.ez/errors/E7041)
+**Errors:** [E7041](/EZ-Language-Webapp/errors/E7041)
 
 ---
 
@@ -728,7 +728,7 @@ do expand_home_path() {
 
 **Returns:** Expanded and cleaned path.
 
-**Errors:** [E7029](/language.ez/errors/E7029)
+**Errors:** [E7029](/EZ-Language-Webapp/errors/E7029)
 
 ---
 
@@ -945,7 +945,7 @@ do open_file() {
 
 **Returns:** Tuple of (file handle, error).
 
-**Errors:** [E7016](/language.ez/errors/E7016), [E7017](/language.ez/errors/E7017), [E7040](/language.ez/errors/E7040), [E7041](/language.ez/errors/E7041)
+**Errors:** [E7016](/EZ-Language-Webapp/errors/E7016), [E7017](/EZ-Language-Webapp/errors/E7017), [E7040](/EZ-Language-Webapp/errors/E7040), [E7041](/EZ-Language-Webapp/errors/E7041)
 
 ---
 
@@ -969,7 +969,7 @@ do read_bytes_from_handle() {
 
 **Returns:** Tuple of (bytes read, error).
 
-**Errors:** [E7011](/language.ez/errors/E7011), [E7050](/language.ez/errors/E7050)
+**Errors:** [E7011](/EZ-Language-Webapp/errors/E7011), [E7050](/EZ-Language-Webapp/errors/E7050)
 
 ---
 
@@ -991,7 +991,7 @@ do read_entire_file() {
 
 **Returns:** Tuple of (all remaining bytes, error).
 
-**Errors:** [E7050](/language.ez/errors/E7050)
+**Errors:** [E7050](/EZ-Language-Webapp/errors/E7050)
 
 ---
 
@@ -1015,7 +1015,7 @@ do read_string_from_handle() {
 
 **Returns:** Tuple of (string, error).
 
-**Errors:** [E7011](/language.ez/errors/E7011), [E7050](/language.ez/errors/E7050)
+**Errors:** [E7011](/EZ-Language-Webapp/errors/E7011), [E7050](/EZ-Language-Webapp/errors/E7050)
 
 ---
 
@@ -1040,7 +1040,7 @@ do write_to_handle() {
 
 **Returns:** Tuple of (bytes written, error).
 
-**Errors:** [E7050](/language.ez/errors/E7050)
+**Errors:** [E7050](/EZ-Language-Webapp/errors/E7050)
 
 ---
 
@@ -1066,7 +1066,7 @@ do seek_in_file() {
 
 **Returns:** Tuple of (new position, error).
 
-**Errors:** [E7050](/language.ez/errors/E7050)
+**Errors:** [E7050](/EZ-Language-Webapp/errors/E7050)
 
 ---
 
@@ -1088,7 +1088,7 @@ do get_file_position() {
 
 **Returns:** Tuple of (current position, error).
 
-**Errors:** [E7050](/language.ez/errors/E7050)
+**Errors:** [E7050](/EZ-Language-Webapp/errors/E7050)
 
 ---
 
@@ -1111,7 +1111,7 @@ do flush_file_buffer() {
 
 **Returns:** Tuple of (success, error).
 
-**Errors:** [E7050](/language.ez/errors/E7050)
+**Errors:** [E7050](/EZ-Language-Webapp/errors/E7050)
 
 ---
 

@@ -134,7 +134,7 @@ do main() {
 
 ## Standard Library Modules
 
-EZ includes built-in modules prefixed with `@` (like `@std`, `@math`, `@arrays`). See the [Standard Library](/language.ez/docs/stdlib) for a complete list of modules and their functions.
+EZ includes built-in modules prefixed with `@` (like `@std`, `@math`, `@arrays`). See the [Standard Library](/EZ-Language-Webapp/docs/stdlib) for a complete list of modules and their functions.
 
 ## Project Structure
 

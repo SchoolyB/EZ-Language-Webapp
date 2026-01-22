@@ -247,6 +247,6 @@ ez> [press up arrow to recall "println(x + y)"]
 
 ## Next Steps
 
-- [Variables](/language.ez/docs/language/variables) — Learn about `temp` and `const`
-- [Functions](/language.ez/docs/language/functions) — Create reusable code
-- [Types](/language.ez/docs/language/types) — Understand the type system
+- [Variables](/EZ-Language-Webapp/docs/language/variables) — Learn about `temp` and `const`
+- [Functions](/EZ-Language-Webapp/docs/language/functions) — Create reusable code
+- [Types](/EZ-Language-Webapp/docs/language/types) — Understand the type system

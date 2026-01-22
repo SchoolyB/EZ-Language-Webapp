@@ -6,7 +6,7 @@ description: 'Mathematical functions and constants.'
 
 # @math
 
-The `@math` module provides mathematical functions and constants. For random number generation, see the [@random](/language.ez/docs/stdlib/random) module.
+The `@math` module provides mathematical functions and constants. For random number generation, see the [@random](/EZ-Language-Webapp/docs/stdlib/random) module.
 
 ## Import
 
@@ -91,7 +91,7 @@ do average_demo() {
 
 **Returns:** `float` - The arithmetic mean.
 
-**Errors:** [E7001](/language.ez/errors/E7001) if called with no arguments.
+**Errors:** [E7001](/EZ-Language-Webapp/errors/E7001) if called with no arguments.
 
 ### `floor()` / `ceil()` / `round()`
 `(n float) -> int`
@@ -152,7 +152,7 @@ do square_root_demo() {
 
 **Returns:** `float` - The square root.
 
-**Errors:** [E8001](/language.ez/errors/E8001) if the argument is negative.
+**Errors:** [E8001](/EZ-Language-Webapp/errors/E8001) if the argument is negative.
 
 ## Logarithms
 
@@ -174,7 +174,7 @@ do natural_log_demo() {
 
 **Returns:** `float` - The natural logarithm.
 
-**Errors:** [E8002](/language.ez/errors/E8002) if the argument is not positive.
+**Errors:** [E8002](/EZ-Language-Webapp/errors/E8002) if the argument is not positive.
 
 ### `log2()`
 `(n number) -> float`
@@ -194,7 +194,7 @@ do log2_demo() {
 
 **Returns:** `float` - The base-2 logarithm.
 
-**Errors:** [E8002](/language.ez/errors/E8002) if the argument is not positive.
+**Errors:** [E8002](/EZ-Language-Webapp/errors/E8002) if the argument is not positive.
 
 ### `log10()`
 `(n number) -> float`
@@ -214,7 +214,7 @@ do log10_demo() {
 
 **Returns:** `float` - The base-10 logarithm.
 
-**Errors:** [E8002](/language.ez/errors/E8002) if the argument is not positive.
+**Errors:** [E8002](/EZ-Language-Webapp/errors/E8002) if the argument is not positive.
 
 ### `log_base()`
 `(value number, base number) -> float`
@@ -239,7 +239,7 @@ do log_base_demo() {
 
 **Returns:** `float` - The logarithm of value with the given base.
 
-**Errors:** [E8002](/language.ez/errors/E8002) if value is not positive, or if base is not positive or equals 1.
+**Errors:** [E8002](/EZ-Language-Webapp/errors/E8002) if value is not positive, or if base is not positive or equals 1.
 
 ---
 
@@ -283,7 +283,7 @@ do inverse_trig_demo() {
 
 **Returns:** `float` - Angle in radians.
 
-**Errors:** [E8003](/language.ez/errors/E8003) if value is outside [-1, 1].
+**Errors:** [E8003](/EZ-Language-Webapp/errors/E8003) if value is outside [-1, 1].
 
 ## Other Functions
 
@@ -306,7 +306,7 @@ do factorial_demo() {
 
 **Returns:** `int` - n!
 
-**Errors:** [E8004](/language.ez/errors/E8004) for negative numbers, [E8005](/language.ez/errors/E8005) for values > 20.
+**Errors:** [E8004](/EZ-Language-Webapp/errors/E8004) for negative numbers, [E8005](/EZ-Language-Webapp/errors/E8005) for values > 20.
 
 ---
 

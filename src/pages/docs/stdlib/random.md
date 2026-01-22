@@ -41,7 +41,7 @@ do random_float_demo() {
 
 **Returns:** `float` - A random floating-point number.
 
-**Errors:** [E7001](/language.ez/errors/E7001) for wrong argument count, [E8006](/language.ez/errors/E8006) if max <= min.
+**Errors:** [E7001](/EZ-Language-Webapp/errors/E7001) for wrong argument count, [E8006](/EZ-Language-Webapp/errors/E8006) if max <= min.
 
 ---
 
@@ -70,7 +70,7 @@ do random_int_demo() {
 
 **Returns:** `int` - A random integer.
 
-**Errors:** [E7001](/language.ez/errors/E7001) for wrong argument count, [E8006](/language.ez/errors/E8006) if max <= 0 or max <= min.
+**Errors:** [E7001](/EZ-Language-Webapp/errors/E7001) for wrong argument count, [E8006](/EZ-Language-Webapp/errors/E8006) if max <= 0 or max <= min.
 
 ---
 
@@ -93,7 +93,7 @@ do coin_flip() {
 
 **Returns:** `bool` - Either `true` or `false`.
 
-**Errors:** [E7001](/language.ez/errors/E7001) if called with arguments.
+**Errors:** [E7001](/EZ-Language-Webapp/errors/E7001) if called with arguments.
 
 ---
 
@@ -113,7 +113,7 @@ do random_byte_demo() {
 
 **Returns:** `byte` - A random byte value.
 
-**Errors:** [E7001](/language.ez/errors/E7001) if called with arguments.
+**Errors:** [E7001](/EZ-Language-Webapp/errors/E7001) if called with arguments.
 
 ---
 
@@ -142,7 +142,7 @@ do random_char_demo() {
 
 **Returns:** `char` - A random character.
 
-**Errors:** [E7001](/language.ez/errors/E7001) for wrong argument count, [E7003](/language.ez/errors/E7003) for non-char/int arguments, [E8006](/language.ez/errors/E8006) if max <= min.
+**Errors:** [E7001](/EZ-Language-Webapp/errors/E7001) for wrong argument count, [E7003](/EZ-Language-Webapp/errors/E7003) for non-char/int arguments, [E8006](/EZ-Language-Webapp/errors/E8006) if max <= min.
 
 ---
 
@@ -171,7 +171,7 @@ do pick_random() {
 
 **Returns:** A random element from the array.
 
-**Errors:** [E7001](/language.ez/errors/E7001) for wrong argument count, [E7002](/language.ez/errors/E7002) if argument is not an array, [E10002](/language.ez/errors/E10002) if array is empty.
+**Errors:** [E7001](/EZ-Language-Webapp/errors/E7001) for wrong argument count, [E7002](/EZ-Language-Webapp/errors/E7002) if argument is not an array, [E10002](/EZ-Language-Webapp/errors/E10002) if array is empty.
 
 ---
 
@@ -196,7 +196,7 @@ do shuffle_demo() {
 
 **Returns:** A new array with elements randomly reordered.
 
-**Errors:** [E7001](/language.ez/errors/E7001) for wrong argument count, [E7002](/language.ez/errors/E7002) if argument is not an array.
+**Errors:** [E7001](/EZ-Language-Webapp/errors/E7001) for wrong argument count, [E7002](/EZ-Language-Webapp/errors/E7002) if argument is not an array.
 
 ---
 
@@ -227,7 +227,7 @@ do sample_demo() {
 
 **Returns:** A new array with n unique random elements.
 
-**Errors:** [E7001](/language.ez/errors/E7001) for wrong argument count, [E7002](/language.ez/errors/E7002) if first argument is not an array, [E7004](/language.ez/errors/E7004) if second argument is not an integer, [E10001](/language.ez/errors/E10001) if n is negative, [E10002](/language.ez/errors/E10002) if n exceeds array length.
+**Errors:** [E7001](/EZ-Language-Webapp/errors/E7001) for wrong argument count, [E7002](/EZ-Language-Webapp/errors/E7002) if first argument is not an array, [E7004](/EZ-Language-Webapp/errors/E7004) if second argument is not an integer, [E10001](/EZ-Language-Webapp/errors/E10001) if n is negative, [E10002](/EZ-Language-Webapp/errors/E10002) if n exceeds array length.
 
 ---
 

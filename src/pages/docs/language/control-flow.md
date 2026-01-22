@@ -485,10 +485,10 @@ These will cause compile errors:
 - **Arrays or maps** — not supported as when conditions
 
 **Related Errors:**
-- [E2041](/language.ez/errors/E2041): when statement requires a default case
-- [E2042](/language.ez/errors/E2042): strict when statement cannot have a default case
-- [E2043](/language.ez/errors/E2043): duplicate case value in when statement
-- [E2048](/language.ez/errors/E2048): when condition cannot be a boolean
+- [E2041](/EZ-Language-Webapp/errors/E2041): when statement requires a default case
+- [E2042](/EZ-Language-Webapp/errors/E2042): strict when statement cannot have a default case
+- [E2043](/EZ-Language-Webapp/errors/E2043): duplicate case value in when statement
+- [E2048](/EZ-Language-Webapp/errors/E2048): when condition cannot be a boolean
 
 ---
 

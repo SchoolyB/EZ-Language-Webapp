@@ -88,7 +88,7 @@ do sleep_demo() {
 
 **Returns:** Nothing.
 
-**Errors:** [E7005](/language.ez/errors/E7005) if the argument is not a number.
+**Errors:** [E7005](/EZ-Language-Webapp/errors/E7005) if the argument is not a number.
 
 ### `sleep_ms()`
 `(milliseconds int) -> void`
@@ -109,7 +109,7 @@ do sleep_ms_demo() {
 
 **Returns:** Nothing.
 
-**Errors:** [E7004](/language.ez/errors/E7004) if the argument is not an integer.
+**Errors:** [E7004](/EZ-Language-Webapp/errors/E7004) if the argument is not an integer.
 
 ## Formatting
 
@@ -136,7 +136,7 @@ do format_time() {
 
 **Returns:** `string` - Formatted date string.
 
-**Errors:** [E7003](/language.ez/errors/E7003) if format is not a string, [E7004](/language.ez/errors/E7004) if timestamp is not an integer.
+**Errors:** [E7003](/EZ-Language-Webapp/errors/E7003) if format is not a string, [E7004](/EZ-Language-Webapp/errors/E7004) if timestamp is not an integer.
 
 ### Format Tokens
 
@@ -171,7 +171,7 @@ do parse_date() {
 
 **Returns:** `int` - Unix timestamp.
 
-**Errors:** [E11001](/language.ez/errors/E11001) if parsing fails, [E7003](/language.ez/errors/E7003) if arguments are not strings.
+**Errors:** [E11001](/EZ-Language-Webapp/errors/E11001) if parsing fails, [E7003](/EZ-Language-Webapp/errors/E7003) if arguments are not strings.
 
 ## Creating Timestamps
 
@@ -196,7 +196,7 @@ do create_timestamp() {
 
 **Returns:** `int` - Unix timestamp.
 
-**Errors:** [E7004](/language.ez/errors/E7004) if arguments are not integers.
+**Errors:** [E7004](/EZ-Language-Webapp/errors/E7004) if arguments are not integers.
 
 ## Date Arithmetic
 
@@ -222,7 +222,7 @@ do add_time() {
 
 **Returns:** `int` - New timestamp.
 
-**Errors:** [E7004](/language.ez/errors/E7004) if arguments are not integers.
+**Errors:** [E7004](/EZ-Language-Webapp/errors/E7004) if arguments are not integers.
 
 ### `diff()`
 `(timestamp1 int, timestamp2 int) -> int`
@@ -245,7 +245,7 @@ do time_difference() {
 
 **Returns:** `int` - Difference in seconds.
 
-**Errors:** [E7004](/language.ez/errors/E7004) if arguments are not integers.
+**Errors:** [E7004](/EZ-Language-Webapp/errors/E7004) if arguments are not integers.
 
 ## Date Components
 
@@ -313,7 +313,7 @@ do check_leap_year() {
 
 **Returns:** `bool` - true if leap year.
 
-**Errors:** [E7004](/language.ez/errors/E7004) if the argument is not an integer.
+**Errors:** [E7004](/EZ-Language-Webapp/errors/E7004) if the argument is not an integer.
 
 ### `days_in_month()`
 `(year int, month int) -> int`
@@ -334,7 +334,7 @@ do get_days_in_month() {
 
 **Returns:** `int` - Number of days.
 
-**Errors:** [E7004](/language.ez/errors/E7004) if arguments are not integers.
+**Errors:** [E7004](/EZ-Language-Webapp/errors/E7004) if arguments are not integers.
 
 ## Performance Timing
 
@@ -363,7 +363,7 @@ do benchmark_operation() {
 
 **Returns:** `int` - Milliseconds elapsed.
 
-**Errors:** [E7004](/language.ez/errors/E7004) if the argument is not an integer.
+**Errors:** [E7004](/EZ-Language-Webapp/errors/E7004) if the argument is not an integer.
 
 ## Constants
 

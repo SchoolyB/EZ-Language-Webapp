@@ -90,8 +90,8 @@ const config Config = Config{debug: true}
 ```
 
 **Related Errors:**
-- [E5015](/language.ez/errors/E5015): cannot modify read-only parameter
-- [E5016](/language.ez/errors/E5016): cannot pass immutable variable to mutable parameter
+- [E5015](/EZ-Language-Webapp/errors/E5015): cannot modify read-only parameter
+- [E5016](/EZ-Language-Webapp/errors/E5016): cannot pass immutable variable to mutable parameter
 
 > **Note:** The `&` mutable parameter syntax applies to user-defined functions only. Standard library functions that modify data (like `arrays.append()`) require the variable to be declared with `temp`, not `const`.
 
@@ -186,8 +186,8 @@ do main() {
 - Default values are evaluated at call time
 
 **Related Errors:**
-- [E2039](/language.ez/errors/E2039): required parameter after parameter with default
-- [E2040](/language.ez/errors/E2040): mutable parameter cannot have default value
+- [E2039](/EZ-Language-Webapp/errors/E2039): required parameter after parameter with default
+- [E2040](/EZ-Language-Webapp/errors/E2040): mutable parameter cannot have default value
 
 ---
 

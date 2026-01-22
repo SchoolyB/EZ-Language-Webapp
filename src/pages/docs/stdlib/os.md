@@ -58,7 +58,7 @@ do set_env_var() {
 
 **Returns:** Tuple of (success, error).
 
-**Errors:** [E7024](/language.ez/errors/E7024)
+**Errors:** [E7024](/EZ-Language-Webapp/errors/E7024)
 
 ---
 
@@ -79,7 +79,7 @@ do unset_env_var() {
 
 **Returns:** Tuple of (success, error).
 
-**Errors:** [E7024](/language.ez/errors/E7024)
+**Errors:** [E7024](/EZ-Language-Webapp/errors/E7024)
 
 ---
 
@@ -164,7 +164,7 @@ do get_working_dir() {
 
 **Returns:** Tuple of (current directory path, error).
 
-**Errors:** [E7025](/language.ez/errors/E7025)
+**Errors:** [E7025](/EZ-Language-Webapp/errors/E7025)
 
 ---
 
@@ -185,7 +185,7 @@ do change_directory() {
 
 **Returns:** Tuple of (success, error).
 
-**Errors:** [E7026](/language.ez/errors/E7026)
+**Errors:** [E7026](/EZ-Language-Webapp/errors/E7026)
 
 ---
 
@@ -205,7 +205,7 @@ do get_hostname() {
 
 **Returns:** Tuple of (hostname, error).
 
-**Errors:** [E7027](/language.ez/errors/E7027)
+**Errors:** [E7027](/EZ-Language-Webapp/errors/E7027)
 
 ---
 
@@ -225,7 +225,7 @@ do get_username() {
 
 **Returns:** Tuple of (username, error).
 
-**Errors:** [E7028](/language.ez/errors/E7028)
+**Errors:** [E7028](/EZ-Language-Webapp/errors/E7028)
 
 ---
 
@@ -244,7 +244,7 @@ do get_user_home() {
 
 **Returns:** Tuple of (home directory path, error).
 
-**Errors:** [E7029](/language.ez/errors/E7029)
+**Errors:** [E7029](/EZ-Language-Webapp/errors/E7029)
 
 ---
 
@@ -330,7 +330,7 @@ do run_command() {
 
 **Returns:** Tuple of (exit code as int, error). Error is only set if the command fails to start entirely (not for non-zero exit codes).
 
-**Errors:** [E7030](/language.ez/errors/E7030) if the command fails to execute.
+**Errors:** [E7030](/EZ-Language-Webapp/errors/E7030) if the command fails to execute.
 
 **Note:** Uses `/bin/sh -c` on Unix and `cmd /c` on Windows.
 
@@ -365,7 +365,7 @@ do capture_output() {
 
 **Returns:** Tuple of (output as string with trailing whitespace trimmed, error).
 
-**Errors:** [E7030](/language.ez/errors/E7030) if the command fails to start, [E7031](/language.ez/errors/E7031) if the command returns a non-zero exit code (output is still returned).
+**Errors:** [E7030](/EZ-Language-Webapp/errors/E7030) if the command fails to start, [E7031](/EZ-Language-Webapp/errors/E7031) if the command returns a non-zero exit code (output is still returned).
 
 **Note:** Uses `/bin/sh -c` on Unix and `cmd /c` on Windows.
 

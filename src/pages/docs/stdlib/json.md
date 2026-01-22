@@ -50,8 +50,8 @@ do encode_demo() {
 - Large integers (beyond int64) are encoded as strings to preserve precision
 
 **Errors:**
-- [E7001](/language.ez/errors/E7001) if wrong number of arguments
-- [E13002](/language.ez/errors/E13002) if value cannot be encoded (functions, error objects)
+- [E7001](/EZ-Language-Webapp/errors/E7001) if wrong number of arguments
+- [E13002](/EZ-Language-Webapp/errors/E13002) if value cannot be encoded (functions, error objects)
 
 ---
 
@@ -101,8 +101,8 @@ do pretty_demo() {
 **Returns:** A tuple of `(string, error)` - The formatted JSON string and nil on success, or nil and an error on failure.
 
 **Errors:**
-- [E7001](/language.ez/errors/E7001) if wrong number of arguments
-- [E13002](/language.ez/errors/E13002) if value cannot be encoded
+- [E7001](/EZ-Language-Webapp/errors/E7001) if wrong number of arguments
+- [E13002](/EZ-Language-Webapp/errors/E13002) if value cannot be encoded
 
 ---
 
@@ -145,8 +145,8 @@ do decode_demo() {
 | null | `nil` |
 
 **Errors:**
-- [E7003](/language.ez/errors/E7003) if argument is not a string
-- [E13001](/language.ez/errors/E13001) if JSON syntax is invalid
+- [E7003](/EZ-Language-Webapp/errors/E7003) if argument is not a string
+- [E13001](/EZ-Language-Webapp/errors/E13001) if JSON syntax is invalid
 
 ---
 
@@ -193,8 +193,8 @@ do decode_typed_demo() {
 - Missing fields get zero values for their types
 
 **Errors:**
-- [E7003](/language.ez/errors/E7003) if arguments are invalid
-- [E13002](/language.ez/errors/E13002) if target type is not a struct
+- [E7003](/EZ-Language-Webapp/errors/E7003) if arguments are invalid
+- [E13002](/EZ-Language-Webapp/errors/E13002) if target type is not a struct
 
 ---
 
@@ -221,8 +221,8 @@ do validate_demo() {
 **Returns:** `bool` - true if valid JSON, false otherwise.
 
 **Errors:**
-- [E7001](/language.ez/errors/E7001) if wrong number of arguments
-- [E7003](/language.ez/errors/E7003) if argument is not a string
+- [E7001](/EZ-Language-Webapp/errors/E7001) if wrong number of arguments
+- [E7003](/EZ-Language-Webapp/errors/E7003) if argument is not a string
 
 ---
 

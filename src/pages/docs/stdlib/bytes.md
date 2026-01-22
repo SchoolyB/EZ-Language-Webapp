@@ -35,7 +35,7 @@ do create_from_array() {
 
 **Returns:** A byte array.
 
-**Errors:** [E7001](/language.ez/errors/E7001), [E7002](/language.ez/errors/E7002), [E7004](/language.ez/errors/E7004)
+**Errors:** [E7001](/EZ-Language-Webapp/errors/E7001), [E7002](/EZ-Language-Webapp/errors/E7002), [E7004](/EZ-Language-Webapp/errors/E7004)
 
 ---
 
@@ -57,7 +57,7 @@ do create_from_string() {
 
 **Returns:** A byte array containing the UTF-8 bytes.
 
-**Errors:** [E7001](/language.ez/errors/E7001), [E7003](/language.ez/errors/E7003)
+**Errors:** [E7001](/EZ-Language-Webapp/errors/E7001), [E7003](/EZ-Language-Webapp/errors/E7003)
 
 ---
 
@@ -81,7 +81,7 @@ do decode_hex_string() {
 
 **Returns:** Tuple of (byte array, error) - error is nil on success.
 
-**Errors:** [E7001](/language.ez/errors/E7001), [E7003](/language.ez/errors/E7003), [E7014](/language.ez/errors/E7014)
+**Errors:** [E7001](/EZ-Language-Webapp/errors/E7001), [E7003](/EZ-Language-Webapp/errors/E7003), [E7014](/EZ-Language-Webapp/errors/E7014)
 
 ---
 
@@ -105,7 +105,7 @@ do decode_base64_string() {
 
 **Returns:** Tuple of (byte array, error) - error is nil on success.
 
-**Errors:** [E7001](/language.ez/errors/E7001), [E7003](/language.ez/errors/E7003), [E7014](/language.ez/errors/E7014)
+**Errors:** [E7001](/EZ-Language-Webapp/errors/E7001), [E7003](/EZ-Language-Webapp/errors/E7003), [E7014](/EZ-Language-Webapp/errors/E7014)
 
 ---
 
@@ -129,7 +129,7 @@ do convert_to_string() {
 
 **Returns:** The UTF-8 decoded string.
 
-**Errors:** [E7001](/language.ez/errors/E7001), [E7002](/language.ez/errors/E7002)
+**Errors:** [E7001](/EZ-Language-Webapp/errors/E7001), [E7002](/EZ-Language-Webapp/errors/E7002)
 
 ---
 
@@ -151,7 +151,7 @@ do convert_to_array() {
 
 **Returns:** An array of integers (0-255).
 
-**Errors:** [E7001](/language.ez/errors/E7001), [E7002](/language.ez/errors/E7002)
+**Errors:** [E7001](/EZ-Language-Webapp/errors/E7001), [E7002](/EZ-Language-Webapp/errors/E7002)
 
 ---
 
@@ -173,7 +173,7 @@ do encode_as_hex() {
 
 **Returns:** Lowercase hex string.
 
-**Errors:** [E7001](/language.ez/errors/E7001), [E7002](/language.ez/errors/E7002)
+**Errors:** [E7001](/EZ-Language-Webapp/errors/E7001), [E7002](/EZ-Language-Webapp/errors/E7002)
 
 ---
 
@@ -195,7 +195,7 @@ do encode_as_hex_upper() {
 
 **Returns:** Uppercase hex string.
 
-**Errors:** [E7001](/language.ez/errors/E7001), [E7002](/language.ez/errors/E7002)
+**Errors:** [E7001](/EZ-Language-Webapp/errors/E7001), [E7002](/EZ-Language-Webapp/errors/E7002)
 
 ---
 
@@ -217,7 +217,7 @@ do encode_as_base64() {
 
 **Returns:** Base64 encoded string.
 
-**Errors:** [E7001](/language.ez/errors/E7001), [E7002](/language.ez/errors/E7002)
+**Errors:** [E7001](/EZ-Language-Webapp/errors/E7001), [E7002](/EZ-Language-Webapp/errors/E7002)
 
 ---
 
@@ -245,7 +245,7 @@ do slice_bytes() {
 
 **Returns:** A new byte array containing the slice.
 
-**Errors:** [E7001](/language.ez/errors/E7001), [E7002](/language.ez/errors/E7002), [E7004](/language.ez/errors/E7004)
+**Errors:** [E7001](/EZ-Language-Webapp/errors/E7001), [E7002](/EZ-Language-Webapp/errors/E7002), [E7004](/EZ-Language-Webapp/errors/E7004)
 
 ---
 
@@ -270,7 +270,7 @@ do concat_bytes() {
 
 **Returns:** A new byte array containing both inputs.
 
-**Errors:** [E7001](/language.ez/errors/E7001), [E7002](/language.ez/errors/E7002)
+**Errors:** [E7001](/EZ-Language-Webapp/errors/E7001), [E7002](/EZ-Language-Webapp/errors/E7002)
 
 ---
 
@@ -295,7 +295,7 @@ do join_byte_arrays() {
 
 **Returns:** A single byte array with all elements joined.
 
-**Errors:** [E7001](/language.ez/errors/E7001), [E7002](/language.ez/errors/E7002)
+**Errors:** [E7001](/EZ-Language-Webapp/errors/E7001), [E7002](/EZ-Language-Webapp/errors/E7002)
 
 ---
 
@@ -320,7 +320,7 @@ do split_bytes() {
 
 **Returns:** Array of byte arrays.
 
-**Errors:** [E7001](/language.ez/errors/E7001), [E7002](/language.ez/errors/E7002)
+**Errors:** [E7001](/EZ-Language-Webapp/errors/E7001), [E7002](/EZ-Language-Webapp/errors/E7002)
 
 ---
 
@@ -344,7 +344,7 @@ do check_bytes_contains() {
 
 **Returns:** true if pattern is found, false otherwise.
 
-**Errors:** [E7001](/language.ez/errors/E7001), [E7002](/language.ez/errors/E7002)
+**Errors:** [E7001](/EZ-Language-Webapp/errors/E7001), [E7002](/EZ-Language-Webapp/errors/E7002)
 
 ---
 
@@ -368,7 +368,7 @@ do find_byte_index() {
 
 **Returns:** Index of first occurrence, or -1.
 
-**Errors:** [E7001](/language.ez/errors/E7001), [E7002](/language.ez/errors/E7002)
+**Errors:** [E7001](/EZ-Language-Webapp/errors/E7001), [E7002](/EZ-Language-Webapp/errors/E7002)
 
 ---
 
@@ -392,7 +392,7 @@ do find_last_byte_index() {
 
 **Returns:** Index of last occurrence, or -1.
 
-**Errors:** [E7001](/language.ez/errors/E7001), [E7002](/language.ez/errors/E7002)
+**Errors:** [E7001](/EZ-Language-Webapp/errors/E7001), [E7002](/EZ-Language-Webapp/errors/E7002)
 
 ---
 
@@ -416,7 +416,7 @@ do count_byte_occurrences() {
 
 **Returns:** Number of occurrences.
 
-**Errors:** [E7001](/language.ez/errors/E7001), [E7002](/language.ez/errors/E7002)
+**Errors:** [E7001](/EZ-Language-Webapp/errors/E7001), [E7002](/EZ-Language-Webapp/errors/E7002)
 
 ---
 
@@ -440,7 +440,7 @@ do compare_bytes() {
 
 **Returns:** -1 if a < b, 0 if a == b, 1 if a > b.
 
-**Errors:** [E7001](/language.ez/errors/E7001), [E7002](/language.ez/errors/E7002)
+**Errors:** [E7001](/EZ-Language-Webapp/errors/E7001), [E7002](/EZ-Language-Webapp/errors/E7002)
 
 ---
 
@@ -464,7 +464,7 @@ do check_bytes_equal() {
 
 **Returns:** true if equal, false otherwise.
 
-**Errors:** [E7001](/language.ez/errors/E7001), [E7002](/language.ez/errors/E7002)
+**Errors:** [E7001](/EZ-Language-Webapp/errors/E7001), [E7002](/EZ-Language-Webapp/errors/E7002)
 
 ---
 
@@ -487,7 +487,7 @@ do check_bytes_empty() {
 
 **Returns:** true if empty, false otherwise.
 
-**Errors:** [E7001](/language.ez/errors/E7001), [E7002](/language.ez/errors/E7002)
+**Errors:** [E7001](/EZ-Language-Webapp/errors/E7001), [E7002](/EZ-Language-Webapp/errors/E7002)
 
 ---
 
@@ -511,7 +511,7 @@ do check_bytes_prefix() {
 
 **Returns:** true if data starts with prefix.
 
-**Errors:** [E7001](/language.ez/errors/E7001), [E7002](/language.ez/errors/E7002)
+**Errors:** [E7001](/EZ-Language-Webapp/errors/E7001), [E7002](/EZ-Language-Webapp/errors/E7002)
 
 ---
 
@@ -535,7 +535,7 @@ do check_bytes_suffix() {
 
 **Returns:** true if data ends with suffix.
 
-**Errors:** [E7001](/language.ez/errors/E7001), [E7002](/language.ez/errors/E7002)
+**Errors:** [E7001](/EZ-Language-Webapp/errors/E7001), [E7002](/EZ-Language-Webapp/errors/E7002)
 
 ---
 
@@ -559,7 +559,7 @@ do reverse_bytes() {
 
 **Returns:** New byte array with elements in reverse order.
 
-**Errors:** [E7001](/language.ez/errors/E7001), [E7002](/language.ez/errors/E7002)
+**Errors:** [E7001](/EZ-Language-Webapp/errors/E7001), [E7002](/EZ-Language-Webapp/errors/E7002)
 
 ---
 
@@ -583,7 +583,7 @@ do repeat_bytes() {
 
 **Returns:** New byte array with repeated content.
 
-**Errors:** [E7001](/language.ez/errors/E7001), [E7002](/language.ez/errors/E7002), [E7004](/language.ez/errors/E7004), [E7011](/language.ez/errors/E7011)
+**Errors:** [E7001](/EZ-Language-Webapp/errors/E7001), [E7002](/EZ-Language-Webapp/errors/E7002), [E7004](/EZ-Language-Webapp/errors/E7004), [E7011](/EZ-Language-Webapp/errors/E7011)
 
 ---
 
@@ -609,7 +609,7 @@ do replace_bytes() {
 
 **Returns:** New byte array with replacements.
 
-**Errors:** [E7001](/language.ez/errors/E7001), [E7002](/language.ez/errors/E7002)
+**Errors:** [E7001](/EZ-Language-Webapp/errors/E7001), [E7002](/EZ-Language-Webapp/errors/E7002)
 
 ---
 
@@ -636,7 +636,7 @@ do replace_bytes_n_times() {
 
 **Returns:** New byte array with replacements.
 
-**Errors:** [E7001](/language.ez/errors/E7001), [E7002](/language.ez/errors/E7002), [E7004](/language.ez/errors/E7004)
+**Errors:** [E7001](/EZ-Language-Webapp/errors/E7001), [E7002](/EZ-Language-Webapp/errors/E7002), [E7004](/EZ-Language-Webapp/errors/E7004)
 
 ---
 
@@ -660,7 +660,7 @@ do trim_bytes() {
 
 **Returns:** Trimmed byte array.
 
-**Errors:** [E7001](/language.ez/errors/E7001), [E7002](/language.ez/errors/E7002)
+**Errors:** [E7001](/EZ-Language-Webapp/errors/E7001), [E7002](/EZ-Language-Webapp/errors/E7002)
 
 ---
 
@@ -675,7 +675,7 @@ Removes leading bytes that appear in cutset.
 
 **Returns:** Trimmed byte array.
 
-**Errors:** [E7001](/language.ez/errors/E7001), [E7002](/language.ez/errors/E7002)
+**Errors:** [E7001](/EZ-Language-Webapp/errors/E7001), [E7002](/EZ-Language-Webapp/errors/E7002)
 
 ---
 
@@ -690,7 +690,7 @@ Removes trailing bytes that appear in cutset.
 
 **Returns:** Trimmed byte array.
 
-**Errors:** [E7001](/language.ez/errors/E7001), [E7002](/language.ez/errors/E7002)
+**Errors:** [E7001](/EZ-Language-Webapp/errors/E7001), [E7002](/EZ-Language-Webapp/errors/E7002)
 
 ---
 
@@ -716,7 +716,7 @@ do pad_bytes_left() {
 
 **Returns:** Padded byte array (or original if already long enough).
 
-**Errors:** [E7001](/language.ez/errors/E7001), [E7002](/language.ez/errors/E7002), [E7004](/language.ez/errors/E7004)
+**Errors:** [E7001](/EZ-Language-Webapp/errors/E7001), [E7002](/EZ-Language-Webapp/errors/E7002), [E7004](/EZ-Language-Webapp/errors/E7004)
 
 ---
 
@@ -742,7 +742,7 @@ do pad_bytes_right() {
 
 **Returns:** Padded byte array (or original if already long enough).
 
-**Errors:** [E7001](/language.ez/errors/E7001), [E7002](/language.ez/errors/E7002), [E7004](/language.ez/errors/E7004)
+**Errors:** [E7001](/EZ-Language-Webapp/errors/E7001), [E7002](/EZ-Language-Webapp/errors/E7002), [E7004](/EZ-Language-Webapp/errors/E7004)
 
 ---
 
@@ -770,7 +770,7 @@ do bitwise_and() {
 
 **Returns:** Tuple of (result byte array, error) - error if lengths differ.
 
-**Errors:** [E7001](/language.ez/errors/E7001), [E7002](/language.ez/errors/E7002), [E7010](/language.ez/errors/E7010)
+**Errors:** [E7001](/EZ-Language-Webapp/errors/E7001), [E7002](/EZ-Language-Webapp/errors/E7002), [E7010](/EZ-Language-Webapp/errors/E7010)
 
 ---
 
@@ -796,7 +796,7 @@ do bitwise_or() {
 
 **Returns:** Tuple of (result byte array, error) - error if lengths differ.
 
-**Errors:** [E7001](/language.ez/errors/E7001), [E7002](/language.ez/errors/E7002), [E7010](/language.ez/errors/E7010)
+**Errors:** [E7001](/EZ-Language-Webapp/errors/E7001), [E7002](/EZ-Language-Webapp/errors/E7002), [E7010](/EZ-Language-Webapp/errors/E7010)
 
 ---
 
@@ -822,7 +822,7 @@ do bitwise_xor() {
 
 **Returns:** Tuple of (result byte array, error) - error if lengths differ.
 
-**Errors:** [E7001](/language.ez/errors/E7001), [E7002](/language.ez/errors/E7002), [E7010](/language.ez/errors/E7010)
+**Errors:** [E7001](/EZ-Language-Webapp/errors/E7001), [E7002](/EZ-Language-Webapp/errors/E7002), [E7010](/EZ-Language-Webapp/errors/E7010)
 
 ---
 
@@ -845,7 +845,7 @@ do bitwise_not() {
 
 **Returns:** New byte array with each byte inverted.
 
-**Errors:** [E7001](/language.ez/errors/E7001), [E7002](/language.ez/errors/E7002)
+**Errors:** [E7001](/EZ-Language-Webapp/errors/E7001), [E7002](/EZ-Language-Webapp/errors/E7002)
 
 ---
 
@@ -872,7 +872,7 @@ do fill_bytes() {
 
 **Returns:** New byte array filled with the value.
 
-**Errors:** [E7001](/language.ez/errors/E7001), [E7002](/language.ez/errors/E7002), [E7004](/language.ez/errors/E7004)
+**Errors:** [E7001](/EZ-Language-Webapp/errors/E7001), [E7002](/EZ-Language-Webapp/errors/E7002), [E7004](/EZ-Language-Webapp/errors/E7004)
 
 ---
 
@@ -894,7 +894,7 @@ do copy_bytes() {
 
 **Returns:** A new byte array with the same contents.
 
-**Errors:** [E7001](/language.ez/errors/E7001), [E7002](/language.ez/errors/E7002)
+**Errors:** [E7001](/EZ-Language-Webapp/errors/E7001), [E7002](/EZ-Language-Webapp/errors/E7002)
 
 ---
 
@@ -917,7 +917,7 @@ do zero_bytes() {
 
 **Returns:** New byte array filled with zeros.
 
-**Errors:** [E7001](/language.ez/errors/E7001), [E7002](/language.ez/errors/E7002)
+**Errors:** [E7001](/EZ-Language-Webapp/errors/E7001), [E7002](/EZ-Language-Webapp/errors/E7002)
 
 ---
 

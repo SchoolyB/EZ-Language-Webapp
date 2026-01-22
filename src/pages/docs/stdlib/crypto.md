@@ -34,7 +34,7 @@ do main() {
 
 **Returns:** `string` - The SHA-256 hash as a 64-character lowercase hex string.
 
-**Errors:** [E7001](/language.ez/errors/E7001) for wrong argument count, [E7003](/language.ez/errors/E7003) if argument is not a string.
+**Errors:** [E7001](/EZ-Language-Webapp/errors/E7001) for wrong argument count, [E7003](/EZ-Language-Webapp/errors/E7003) if argument is not a string.
 
 ---
 
@@ -56,7 +56,7 @@ do main() {
 
 **Returns:** `string` - The SHA-512 hash as a 128-character lowercase hex string.
 
-**Errors:** [E7001](/language.ez/errors/E7001) for wrong argument count, [E7003](/language.ez/errors/E7003) if argument is not a string.
+**Errors:** [E7001](/EZ-Language-Webapp/errors/E7001) for wrong argument count, [E7003](/EZ-Language-Webapp/errors/E7003) if argument is not a string.
 
 ---
 
@@ -80,7 +80,7 @@ do main() {
 
 **Returns:** `string` - The MD5 hash as a 32-character lowercase hex string.
 
-**Errors:** [E7001](/language.ez/errors/E7001) for wrong argument count, [E7003](/language.ez/errors/E7003) if argument is not a string.
+**Errors:** [E7001](/EZ-Language-Webapp/errors/E7001) for wrong argument count, [E7003](/EZ-Language-Webapp/errors/E7003) if argument is not a string.
 
 ---
 
@@ -104,7 +104,7 @@ do main() {
 
 **Returns:** `[byte]` - An array of random bytes.
 
-**Errors:** [E7001](/language.ez/errors/E7001) for wrong argument count, [E7004](/language.ez/errors/E7004) if argument is not an integer, [E7011](/language.ez/errors/E7011) if length is negative, [E15001](/language.ez/errors/E15001) if random generation fails.
+**Errors:** [E7001](/EZ-Language-Webapp/errors/E7001) for wrong argument count, [E7004](/EZ-Language-Webapp/errors/E7004) if argument is not an integer, [E7011](/EZ-Language-Webapp/errors/E7011) if length is negative, [E15001](/EZ-Language-Webapp/errors/E15001) if random generation fails.
 
 ---
 
@@ -126,7 +126,7 @@ do main() {
 
 **Returns:** `string` - A random hex string of length `2 * length`.
 
-**Errors:** [E7001](/language.ez/errors/E7001) for wrong argument count, [E7004](/language.ez/errors/E7004) if argument is not an integer, [E7011](/language.ez/errors/E7011) if length is negative, [E15001](/language.ez/errors/E15001) if random generation fails.
+**Errors:** [E7001](/EZ-Language-Webapp/errors/E7001) for wrong argument count, [E7004](/EZ-Language-Webapp/errors/E7004) if argument is not an integer, [E7011](/EZ-Language-Webapp/errors/E7011) if length is negative, [E15001](/EZ-Language-Webapp/errors/E15001) if random generation fails.
 
 ---
 

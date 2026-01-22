@@ -329,7 +329,7 @@ temp result = cast([-1, 2, 3], [u8])
 // Error: "cast failed at index 0: value -1 out of u8 range (0 to 255)"
 ```
 
-**Note:** `cast()` is technically a language keyword because the type argument is validated at check-time (before execution). See also: [cast in Keywords](/language.ez/docs/language/keywords#cast).
+**Note:** `cast()` is technically a language keyword because the type argument is validated at check-time (before execution). See also: [cast in Keywords](/EZ-Language-Webapp/docs/language/keywords#cast).
 
 ### int()
 
