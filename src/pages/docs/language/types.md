@@ -483,17 +483,26 @@ temp pi float = 3.141_592_653
 
 ## Type Inference
 
-EZ does **not** support type inference. Types must always be declared:
+EZ supports **partial type inference**. When assigning a function's return value to a variable, the type can be inferred:
 
 ```ez
-// This is required:
-temp x int = 10
-
-// This won't work:
-// temp x = 10  // Error! Missing type
+// Type inferred from function return type
+temp content = io.read_file("config.txt")  // inferred as string
+const size = io.file_size("data.bin")      // inferred as int
 ```
 
-**Why require explicit types?** It makes code clearer and easier to read. You always know exactly what type a variable is without having to guess or trace through the code.
+However, literal values require explicit type annotations:
+
+```ez
+// Explicit types required for literals
+temp x int = 10
+temp name string = "hello"
+
+// This won't work:
+// temp x = 10  // Error! Missing type for literal
+```
+
+**Why this design?** Function return types are already defined in their signatures, so inference is unambiguous. For literals, explicit types keep code clear and prevent ambiguity (e.g., is `10` an `int`, `i8`, or `u32`?).
 
 ## Example Program
 

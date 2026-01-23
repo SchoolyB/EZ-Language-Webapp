@@ -36,25 +36,25 @@ const APP_NAME string = "MyApp"
 // PI = 3.14  // Error! Cannot reassign const
 ```
 
-### Type Inference for Constants
+### Type Inference from Function Returns
 
-When assigning a function's return value to a `const`, you can omit the type annotation and let EZ infer it:
+When assigning a function's return value to a variable, you can omit the type annotation and let EZ infer it:
 
 ```ez
 import @io
 
 do main() {
     // Type is inferred from the function's return type
-    const content = io.read_file("config.txt")
+    temp content = io.read_file("config.txt")
     const size = io.file_size("data.bin")
 
     // Explicit types still required for literal values
+    temp count int = 0
     const PI float = 3.14159
-    const MAX_SIZE int = 100
 }
 ```
 
-**Note:** Type inference for `const` only works with function return values. Literal values (numbers, strings, etc.) still require explicit type annotations.
+**Note:** Type inference only works with function return values. Literal values (numbers, strings, etc.) still require explicit type annotations.
 
 ## Type Annotations
 
