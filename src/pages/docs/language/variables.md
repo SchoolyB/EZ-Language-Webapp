@@ -158,7 +158,7 @@ temp numbers [int] = {1, 2, 3, 4, 5}
 temp names [string] = {"Alice", "Bob", "Charlie"}
 temp empty [int] = {}
 
-// Fixed-size arrays (must use const because their size is fixed at compile time)
+// Fixed-size arrays (must use const because their size is fixed at checktime)
 const DAYS [string, 7] = {"Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"}
 const PRIMES [int, 5] = {2, 3, 5, 7, 11}
 ```

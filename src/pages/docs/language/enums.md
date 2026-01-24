@@ -238,7 +238,7 @@ when status {
     is Status.ACTIVE { std.println("In progress...") }
     is Status.DONE { std.println("Completed!") }
 }
-// No default needed - compiler ensures all cases are covered
+// No default needed - typechecker ensures all cases are covered
 ```
 
 ### In Arrays

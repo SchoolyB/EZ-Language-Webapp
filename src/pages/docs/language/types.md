@@ -6,7 +6,7 @@ description: 'The EZ type system.'
 
 # Types
 
-EZ is a statically-typed language with strong typing. Types are checked at compile time, and there is no implicit type coercion.
+EZ is a statically-typed language with strong typing. Types are checked at checktime (before execution), and there is no implicit type coercion.
 
 ## Primitive Types
 
@@ -354,7 +354,7 @@ See [Enums](/docs/language/enums) for more details.
 
 ## Type Checking
 
-EZ enforces types at compile time:
+EZ enforces types at checktime:
 
 ```ez
 temp x int = 10

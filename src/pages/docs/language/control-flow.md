@@ -477,7 +477,7 @@ when category {
 
 ### Invalid When Conditions
 
-These will cause compile errors:
+These will cause checktime errors:
 
 - **Type names** — use a variable instead
 - **Boolean values or expressions** — use `if/otherwise`

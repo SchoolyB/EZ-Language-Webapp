@@ -6,7 +6,7 @@ description: 'Attributes that modify declarations and behavior in EZ.'
 
 # Attributes
 
-Attributes are prefixed with `#` and modify the behavior of declarations. They provide compile-time directives that affect how code is interpreted or checked.
+Attributes are prefixed with `#` and modify the behavior of declarations. They provide checktime directives that affect how code is interpreted or checked.
 
 ## #enum
 
@@ -125,13 +125,13 @@ when status {
     is Status.ACTIVE { std.println("working") }
     is Status.DONE { std.println("finished") }
 }
-// No default needed - compiler ensures all cases are covered
+// No default needed - typechecker ensures all cases are covered
 ```
 
 ### Why Use #strict?
 
-- **Compile-time safety** — The compiler will error if you forget to handle an enum value
-- **Future-proofing** — If new enum values are added, the compiler will flag all `#strict` when statements that need updating
+- **Checktime safety** — The typechecker will error if you forget to handle an enum value
+- **Future-proofing** — If new enum values are added, the typechecker will flag all `#strict` when statements that need updating
 - **Self-documenting** — Makes it clear that all cases are intentionally handled
 
 ### Rules
