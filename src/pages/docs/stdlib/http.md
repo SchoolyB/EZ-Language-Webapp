@@ -159,6 +159,54 @@ if resp.status == http.NO_CONTENT {
 
 ---
 
+### `head()`
+`(url string) -> (HttpResponse, error)`
+
+Performs an HTTP HEAD request. Returns only headers without a response body.
+
+```ez
+temp resp, err = http.head("https://api.example.com/users")
+if err != nil {
+    println("Error: ${err.message}")
+    return
+}
+
+println("Status: ${resp.status}")
+// Access headers to check content type, length, etc.
+if resp.headers["Content-Length"] != nil {
+    println("Content-Length: ${resp.headers["Content-Length"][0]}")
+}
+```
+
+**Parameters:** `url` - The URL to request.
+
+**Returns:** A tuple of `(HttpResponse, error)`. The `body` field will be empty.
+
+---
+
+### `options()`
+`(url string) -> (HttpResponse, error)`
+
+Performs an HTTP OPTIONS request to discover allowed methods and CORS information.
+
+```ez
+temp resp, err = http.options("https://api.example.com/users")
+if err != nil {
+    println("Error: ${err.message}")
+    return
+}
+
+if resp.headers["Allow"] != nil {
+    println("Allowed methods: ${resp.headers["Allow"][0]}")
+}
+```
+
+**Parameters:** `url` - The URL to request.
+
+**Returns:** A tuple of `(HttpResponse, error)`.
+
+---
+
 ### `request()`
 `(method string, url string, body string, headers map[string:string], timeout int) -> (HttpResponse, error)`
 
@@ -204,6 +252,42 @@ do main() {
 - E14001 - Invalid URL
 - E14002 - Request failed
 - E14004 - Invalid HTTP method
+
+---
+
+### `download()`
+`(url string, path string) -> (int, error)`
+
+Downloads a file from a URL and saves it to the specified path.
+
+```ez
+import @std, @http
+using std
+
+do main() {
+    temp bytes_written, err = http.download(
+        "https://example.com/file.pdf",
+        "/tmp/downloaded_file.pdf"
+    )
+    if err != nil {
+        println("Download failed: ${err.message}")
+        return
+    }
+
+    println("Downloaded ${bytes_written} bytes")
+}
+```
+
+**Parameters:**
+- `url` - The URL to download from
+- `path` - The local file path to save to
+
+**Returns:** A tuple of `(int, error)` where the int is the number of bytes written.
+
+**Errors:**
+- E14001 - Invalid URL
+- E14002 - Request failed
+- E14003 - Could not create or write file
 
 ---
 
@@ -277,6 +361,79 @@ println(body)  // {"age":30,"name":"Alice"}
 **Parameters:** `data` - A map to convert to JSON.
 
 **Returns:** The JSON string.
+
+---
+
+### `parse_url()`
+`(url string) -> (URL, error)`
+
+Parses a URL string into its components.
+
+```ez
+import @std, @http
+using std
+
+do main() {
+    temp parsed, err = http.parse_url("https://example.com:8080/path?query=value#section")
+    if err != nil {
+        println("Parse error: ${err.message}")
+        return
+    }
+
+    println("Scheme: ${parsed.scheme}")    // "https"
+    println("Host: ${parsed.host}")        // "example.com"
+    println("Port: ${parsed.port}")        // 8080
+    println("Path: ${parsed.path}")        // "/path"
+    println("Query: ${parsed.query}")      // "query=value"
+    println("Fragment: ${parsed.fragment}") // "section"
+}
+```
+
+**Parameters:** `url` - The URL string to parse.
+
+**Returns:** A tuple of `(URL, error)`. The `URL` struct contains:
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `scheme` | `string` | URL scheme (e.g., "https") |
+| `host` | `string` | Hostname |
+| `port` | `int` | Port number (0 if not specified) |
+| `path` | `string` | URL path |
+| `query` | `string` | Query string (without leading `?`) |
+| `fragment` | `string` | Fragment (without leading `#`) |
+
+**Errors:**
+- E14001 - Invalid URL
+
+---
+
+### `build_url()`
+`(components URL) -> string`
+
+Builds a URL string from components.
+
+```ez
+import @std, @http
+using std
+
+do main() {
+    temp url_parts = URL{
+        scheme: "https",
+        host: "api.example.com",
+        port: 443,
+        path: "/users",
+        query: "page=1",
+        fragment: ""
+    }
+
+    temp url = http.build_url(url_parts)
+    println(url)  // "https://api.example.com:443/users?page=1"
+}
+```
+
+**Parameters:** `components` - A struct with URL components (scheme, host, port, path, query, fragment).
+
+**Returns:** The constructed URL string.
 
 ---
 
@@ -355,11 +512,14 @@ if err != nil {
 |------|-------------|
 | E7001 | Wrong number of arguments |
 | E7003 | Invalid argument type (expected string) |
+| E7004 | Invalid argument type (expected integer) |
 | E7007 | Invalid argument type (expected map) |
 | E14001 | Invalid URL |
 | E14002 | Request failed |
+| E14003 | Could not create or write file |
 | E14004 | Invalid HTTP method |
 | E14005 | URL decode failed |
+| E14006 | JSON encoding failed |
 
 ---
 
