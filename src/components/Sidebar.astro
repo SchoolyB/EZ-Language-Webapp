@@ -32,6 +32,7 @@ const navigation: NavSection[] = [
       { href: `${base}docs/language/enums`, label: 'Enums' },
       { href: `${base}docs/language/modules`, label: 'Modules' },
       { href: `${base}docs/language/attributes`, label: 'Attributes' },
+      { href: 'https://github.com/SchoolyB/EZ/blob/main/STANDARD.md', label: 'Language Spec ↗' },
     ],
   },
   {
@@ -75,6 +76,8 @@ const currentPath = Astro.url.pathname;
             <li>
               <a
                 href={item.href}
+                target={item.href.startsWith('http') ? '_blank' : undefined}
+                rel={item.href.startsWith('http') ? 'noopener noreferrer' : undefined}
                 class:list={[
                   'block px-3 py-1.5 rounded-lg text-base transition-all',
                   currentPath === item.href

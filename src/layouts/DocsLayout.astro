@@ -133,14 +133,16 @@ const description = Astro.props.description || frontmatter?.description;
       return marker;
     };
 
-    // Extract multi-line comments first
-    result = result.replace(/(\/\*[\s\S]*?\*\/)/g, (match) => createMarker(match, 'ez-comment'));
-    // Extract single-line comments
-    result = result.replace(/(\/\/.*$)/gm, (match) => createMarker(match, 'ez-comment'));
+    // Extract strings FIRST to protect URLs like "https://..." from being matched as comments
     // Extract strings (double quotes)
     result = result.replace(/("(?:[^"\\]|\\.)*")/g, (match) => createMarker(match, 'ez-string'));
     // Extract single-char strings (single quotes)
     result = result.replace(/('(?:[^'\\]|\\.)')/g, (match) => createMarker(match, 'ez-string'));
+
+    // Extract multi-line comments
+    result = result.replace(/(\/\*[\s\S]*?\*\/)/g, (match) => createMarker(match, 'ez-comment'));
+    // Extract single-line comments (after strings, so // in URLs won't match)
+    result = result.replace(/(\/\/.*$)/gm, (match) => createMarker(match, 'ez-comment'));
 
     // Extract import statements with @ - handle alias@module and @module patterns
     // Pattern: alias@module (e.g., arr@arrays, m@math)
