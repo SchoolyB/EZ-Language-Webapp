@@ -140,6 +140,63 @@ do main() {
 
 **Errors:** [E5003](/EZ-Language-Webapp/errors/E5003) if the index is out of bounds.
 
+### `remove_all()`
+`(arr [type], value type) -> void`
+
+Removes all occurrences of a value from an array (in place).
+
+```ez
+import @std, @arrays
+
+do main() {
+    temp arr [int] = {1, 2, 3, 2, 4, 2}
+    arrays.remove_all(arr, 2)
+    std.println(arr)  // {1, 3, 4}
+}
+```
+
+**Parameters:** `arr` - The array, `value` - The value to remove.
+
+**Returns:** Nothing (mutates array in place).
+
+### `clear()`
+`(arr [type]) -> void`
+
+Removes all elements from an array (in place).
+
+```ez
+import @std, @arrays
+
+do main() {
+    temp arr [int] = {1, 2, 3}
+    arrays.clear(arr)
+    std.println(arr)  // {}
+}
+```
+
+**Parameters:** `arr` - The array.
+
+**Returns:** Nothing (mutates array in place).
+
+### `fill()`
+`(arr [type], value type) -> void`
+
+Fills all elements of an array with a value (in place).
+
+```ez
+import @std, @arrays
+
+do main() {
+    temp arr [int] = {1, 2, 3, 4, 5}
+    arrays.fill(arr, 0)
+    std.println(arr)  // {0, 0, 0, 0, 0}
+}
+```
+
+**Parameters:** `arr` - The array, `value` - The value to fill with.
+
+**Returns:** Nothing (mutates array in place).
+
 ## Accessing Elements
 
 ### `get()`
@@ -276,6 +333,63 @@ do main() {
     temp arr [int] = {1, 2, 3, 4, 5}
     arrays.reverse(arr)
     std.println(arr)  // {5, 4, 3, 2, 1}
+}
+```
+
+**Parameters:** `arr` - The array.
+
+**Returns:** Nothing (mutates array in place).
+
+### `sort()`
+`(arr [type]) -> void`
+
+Sorts an array in ascending order (in place).
+
+```ez
+import @std, @arrays
+
+do main() {
+    temp arr [int] = {3, 1, 4, 1, 5}
+    arrays.sort(arr)
+    std.println(arr)  // {1, 1, 3, 4, 5}
+}
+```
+
+**Parameters:** `arr` - The array.
+
+**Returns:** Nothing (mutates array in place).
+
+### `sort_desc()`
+`(arr [type]) -> void`
+
+Sorts an array in descending order (in place).
+
+```ez
+import @std, @arrays
+
+do main() {
+    temp arr [int] = {3, 1, 4, 1, 5}
+    arrays.sort_desc(arr)
+    std.println(arr)  // {5, 4, 3, 1, 1}
+}
+```
+
+**Parameters:** `arr` - The array.
+
+**Returns:** Nothing (mutates array in place).
+
+### `shuffle()`
+`(arr [type]) -> void`
+
+Randomly shuffles the elements of an array (in place).
+
+```ez
+import @std, @arrays
+
+do main() {
+    temp arr [int] = {1, 2, 3, 4, 5}
+    arrays.shuffle(arr)
+    std.println(arr)  // random order, e.g., {3, 1, 5, 2, 4}
 }
 ```
 
