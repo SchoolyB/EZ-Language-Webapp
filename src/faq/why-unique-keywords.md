@@ -83,76 +83,15 @@ Read it: "If score is at least 90, print A. Or if score is at least 80, print B.
 
 That's plain English. No weird `else if` construction.
 
-## Keywords That Stay The Same
-
-Some keywords are intentionally the same as other languages:
-
-| EZ | Same As | Why |
-|----|---------|-----|
-| `break` | C, Go, Rust, Python | Universal concept |
-| `continue` | C, Go, Rust, Python | Universal concept |
-| `if` | Everything | It's already plain English |
-| `for` | Most languages | Familiar iteration |
-| `return` | Everything | Universal concept |
-| `const` | C, Go, JavaScript | Established meaning |
-| `struct` | C, Go, Rust | Established meaning |
-| `import` | Most languages | Familiar concept |
-
-### Why Keep Some Keywords Standard?
-
-**Beginners won't stay beginners forever.**
-
-One day, EZ learners will move on to other languages — Go, Rust, C, Python, whatever calls to them. When they do, I want them to recognize concepts:
-
-- "Oh, this language has `break` and `continue` too! EZ taught me those."
-- "This language uses `else if` instead of `or`, but I know what it means — I'll just read it as 'or' in my head."
-- "Structs work the same way here!"
-
-EZ teaches transferable concepts with approachable syntax. The goal isn't to trap you in EZ — it's to give you a foundation that makes learning other languages easier.
-
 ## The Balance
 
-EZ strikes a balance:
+Not everything is different. Some keywords are the same as other languages because they're already clear:
 
 | Keyword Type | Examples | Philosophy |
 |--------------|----------|------------|
 | **Unique to EZ** | `do`, `temp`, `as_long_as`, `or`, `otherwise` | Plain English readability |
 | **Standard** | `if`, `for`, `break`, `continue`, `return`, `const`, `struct` | Transferable knowledge |
 
-The unique keywords make EZ readable. The standard keywords make your knowledge portable.
-
-## Reading Other Languages After EZ (Example of Go Code)
-
-After learning EZ, when you see this in Go:
-
-```go
-func greet(name string) {
-    fmt.Println("Hello, " + name)
-}
-
-x := 0
-for x < 10 {
-    x++
-}
-
-if score >= 90 {
-    fmt.Println("A")
-} else if score >= 80 {
-    fmt.Println("B")
-} else {
-    fmt.Println("F")
-}
-```
-
-Your brain will read:
-
-- `func` → "Oh, that's like `do`"
-- `for x < 10` → "That's like `as_long_as`"
-- `else if` → "That's just `or`"
-- `else` → "That's `otherwise`"
-
-You'll understand it instantly because you learned the concepts, not just the syntax.
+The unique keywords make EZ readable. The standard keywords make your knowledge portable. Beginners won't stay beginners forever — when they move to Go, Rust, or Python, they'll recognize the shared concepts.
 
 ---
-
-
