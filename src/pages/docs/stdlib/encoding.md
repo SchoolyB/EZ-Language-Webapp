@@ -39,7 +39,7 @@ do main() {
 ---
 
 ### `base64_decode()`
-`(data string) -> (string, error)`
+`(data string) -> (string, Error)`
 
 Decodes a Base64 string.
 
@@ -47,7 +47,7 @@ Decodes a Base64 string.
 import @std, @encoding
 
 do main() {
-    temp decoded string, err error = encoding.base64_decode("SGVsbG8sIFdvcmxkIQ==")
+    temp decoded string, err Error = encoding.base64_decode("SGVsbG8sIFdvcmxkIQ==")
     if err == nil {
         std.println(decoded)  // "Hello, World!"
     } otherwise {
@@ -60,7 +60,7 @@ do main() {
 
 **Returns:**
 - `string` - The decoded string (empty on error).
-- `error` - `nil` on success, or an Error struct with `message` and `code` fields.
+- `Error` - `nil` on success, or an Error struct with `message` and `code` fields.
 
 **Errors:** [E7001](/EZ-Language-Webapp/errors/E7001) for wrong argument count, [E7003](/EZ-Language-Webapp/errors/E7003) if argument is not a string, [E16001](/EZ-Language-Webapp/errors/E16001) for invalid Base64 input.
 
@@ -91,7 +91,7 @@ do main() {
 ---
 
 ### `hex_decode()`
-`(data string) -> (string, error)`
+`(data string) -> (string, Error)`
 
 Decodes a hexadecimal string.
 
@@ -99,7 +99,7 @@ Decodes a hexadecimal string.
 import @std, @encoding
 
 do main() {
-    temp decoded string, err error = encoding.hex_decode("48656c6c6f")
+    temp decoded string, err Error = encoding.hex_decode("48656c6c6f")
     if err == nil {
         std.println(decoded)  // "Hello"
     } otherwise {
@@ -112,7 +112,7 @@ do main() {
 
 **Returns:**
 - `string` - The decoded string (empty on error).
-- `error` - `nil` on success, or an Error struct with `message` and `code` fields.
+- `Error` - `nil` on success, or an Error struct with `message` and `code` fields.
 
 **Errors:** [E7001](/EZ-Language-Webapp/errors/E7001) for wrong argument count, [E7003](/EZ-Language-Webapp/errors/E7003) if argument is not a string, [E16002](/EZ-Language-Webapp/errors/E16002) for invalid hex input.
 
@@ -143,7 +143,7 @@ do main() {
 ---
 
 ### `url_decode()`
-`(data string) -> (string, error)`
+`(data string) -> (string, Error)`
 
 Decodes a URL percent-encoded string.
 
@@ -151,7 +151,7 @@ Decodes a URL percent-encoded string.
 import @std, @encoding
 
 do main() {
-    temp decoded string, err error = encoding.url_decode("hello+world%3Ffoo%3Dbar")
+    temp decoded string, err Error = encoding.url_decode("hello+world%3Ffoo%3Dbar")
     if err == nil {
         std.println(decoded)  // "hello world?foo=bar"
     } otherwise {
@@ -164,7 +164,7 @@ do main() {
 
 **Returns:**
 - `string` - The decoded string (empty on error).
-- `error` - `nil` on success, or an Error struct with `message` and `code` fields.
+- `Error` - `nil` on success, or an Error struct with `message` and `code` fields.
 
 **Errors:** [E7001](/EZ-Language-Webapp/errors/E7001) for wrong argument count, [E7003](/EZ-Language-Webapp/errors/E7003) if argument is not a string, [E16003](/EZ-Language-Webapp/errors/E16003) for invalid URL encoding.
 
@@ -186,7 +186,7 @@ do main() {
     temp b64 string = encoding.base64_encode(original)
     std.println("Encoded:", b64)
 
-    temp b64_decoded string, b64_err error = encoding.base64_decode(b64)
+    temp b64_decoded string, b64_err Error = encoding.base64_decode(b64)
     if b64_err == nil {
         std.println("Decoded:", b64_decoded)
     }
@@ -196,7 +196,7 @@ do main() {
     temp hex string = encoding.hex_encode(original)
     std.println("Encoded:", hex)
 
-    temp hex_decoded string, hex_err error = encoding.hex_decode(hex)
+    temp hex_decoded string, hex_err Error = encoding.hex_decode(hex)
     if hex_err == nil {
         std.println("Decoded:", hex_decoded)
     }
@@ -207,7 +207,7 @@ do main() {
     temp url_enc string = encoding.url_encode(query)
     std.println("Encoded:", url_enc)
 
-    temp url_decoded string, url_err error = encoding.url_decode(url_enc)
+    temp url_decoded string, url_err Error = encoding.url_decode(url_enc)
     if url_err == nil {
         std.println("Decoded:", url_decoded)
     }

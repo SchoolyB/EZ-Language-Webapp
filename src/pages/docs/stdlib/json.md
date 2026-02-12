@@ -17,7 +17,7 @@ import @json
 ## Encoding
 
 ### `encode()`
-`(value type) -> (string, error)`
+`(value type) -> (string, Error)`
 
 Serializes an EZ value to a JSON string.
 
@@ -30,7 +30,7 @@ do encode_demo() {
         "role": "admin"
     }
 
-    temp json_str string, err error = json.encode(data)
+    temp json_str string, err Error = json.encode(data)
     if err != nil {
         std.println("Error:", err.message)
         return
@@ -42,7 +42,7 @@ do encode_demo() {
 
 **Parameters:** `value` - An EZ value (string, int, float, bool, nil, array, map, struct).
 
-**Returns:** A tuple of `(string, error)` - The JSON string and nil on success, or nil and an error on failure.
+**Returns:** A tuple of `(string, Error)` - The JSON string and nil on success, or nil and an error on failure.
 
 **Supported Types:**
 - Primitives: `int`, `float`, `string`, `bool`, `char`, `byte`, `nil`
@@ -56,7 +56,7 @@ do encode_demo() {
 ---
 
 ### `pretty()`
-`(value type, indent string) -> (string, error)`
+`(value type, indent string) -> (string, Error)`
 
 Serializes an EZ value to a formatted JSON string with custom indentation.
 
@@ -76,7 +76,7 @@ do pretty_demo() {
         roles: {"admin", "user"}
     }
 
-    temp pretty_json string, err error = json.pretty(user, "    ")
+    temp pretty_json string, err Error = json.pretty(user, "    ")
     if err != nil {
         std.println("Error:", err.message)
         return
@@ -98,7 +98,7 @@ do pretty_demo() {
 - `value` - An EZ value to serialize
 - `indent` - The string to use for indentation (e.g., `"    "` for 4 spaces, `"\t"` for tabs)
 
-**Returns:** A tuple of `(string, error)` - The formatted JSON string and nil on success, or nil and an error on failure.
+**Returns:** A tuple of `(string, Error)` - The formatted JSON string and nil on success, or nil and an error on failure.
 
 **Errors:**
 - [E7001](/EZ-Language-Webapp/errors/E7001) if wrong number of arguments
@@ -109,7 +109,7 @@ do pretty_demo() {
 ## Decoding
 
 ### `decode()` (Dynamic)
-`(text string) -> (type, error)`
+`(text string) -> (type, Error)`
 
 Parses a JSON string into dynamic EZ types.
 
@@ -119,7 +119,7 @@ import @std, @json
 do decode_demo() {
     temp json_str string = `{"name": "Alice", "age": 30, "active": true}`
 
-    temp data, err error = json.decode(json_str)
+    temp data, err Error = json.decode(json_str)
     if err != nil {
         std.println("Error:", err.message)
         return
@@ -131,7 +131,7 @@ do decode_demo() {
 
 **Parameters:** `text` - A valid JSON string.
 
-**Returns:** A tuple of `(value, error)` - The parsed value and nil on success, or nil and an error on failure.
+**Returns:** A tuple of `(value, Error)` - The parsed value and nil on success, or nil and an Error on failure.
 
 **Type Mapping:**
 | JSON Type | EZ Type |
@@ -151,7 +151,7 @@ do decode_demo() {
 ---
 
 ### `decode()` (Typed)
-`(text string, Type) -> (Type, error)`
+`(text string, Type) -> (Type, Error)`
 
 Parses a JSON string into a typed struct instance.
 
@@ -167,7 +167,7 @@ const User struct {
 do decode_typed_demo() {
     temp json_str string = `{"name": "Alice", "email": "alice@example.com", "age": 30}`
 
-    temp user User, err error = json.decode(json_str, User)
+    temp user User, err Error = json.decode(json_str, User)
     if err != nil {
         std.println("Error:", err.message)
         return
@@ -183,7 +183,7 @@ do decode_typed_demo() {
 - `text` - A valid JSON string
 - `Type` - The struct type to decode into
 
-**Returns:** A tuple of `(Type, error)` - The typed struct and nil on success, or nil and an error on failure.
+**Returns:** A tuple of `(Type, Error)` - The typed struct and nil on success, or nil and an error on failure.
 
 **Type Conversion:**
 - JSON floats convert to ints (truncated)
@@ -231,7 +231,7 @@ do validate_demo() {
 All `@json` functions (except `is_valid()`) return error tuples following EZ's standard error handling pattern:
 
 ```ez
-temp result Type, err error = json.function(args)
+temp result Type, err Error = json.function(args)
 if err != nil {
     // Handle error
     std.println("Error code:", err.code)
@@ -280,7 +280,7 @@ do main() {
     }
 
     // Decode into typed struct
-    temp person Person, decode_err error = json.decode(content, Person)
+    temp person Person, decode_err Error = json.decode(content, Person)
     if decode_err != nil {
         std.println("Decode error:", decode_err.message)
         return
@@ -297,7 +297,7 @@ do main() {
         role: person.role
     }
 
-    temp json_out string, encode_err error = json.pretty(updated, "  ")
+    temp json_out string, encode_err Error = json.pretty(updated, "  ")
     if encode_err != nil {
         std.println("Encode error:", encode_err.message)
         return

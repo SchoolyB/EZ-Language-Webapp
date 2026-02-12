@@ -16,7 +16,7 @@ import @http
 
 ## Response Structure
 
-All request functions return a tuple of `(HttpResponse, error)`. The `HttpResponse` struct contains:
+All request functions return a tuple of `(HttpResponse, Error)`. The `HttpResponse` struct contains:
 
 | Field | Type | Description |
 |-------|------|-------------|
@@ -29,7 +29,7 @@ All request functions return a tuple of `(HttpResponse, error)`. The `HttpRespon
 ## Request Functions
 
 ### `get()`
-`(url string) -> (HttpResponse, error)`
+`(url string) -> (HttpResponse, Error)`
 
 Performs an HTTP GET request.
 
@@ -55,7 +55,7 @@ do main() {
 
 **Parameters:** `url` - The URL to request (must be valid).
 
-**Returns:** A tuple of `(HttpResponse, error)`.
+**Returns:** A tuple of `(HttpResponse, Error)`.
 
 **Errors:**
 - E14001 - Invalid URL
@@ -64,7 +64,7 @@ do main() {
 ---
 
 ### `post()`
-`(url string, body string) -> (HttpResponse, error)`
+`(url string, body string) -> (HttpResponse, Error)`
 
 Performs an HTTP POST request with a body.
 
@@ -92,12 +92,12 @@ do main() {
 - `url` - The URL to request
 - `body` - The request body as a string
 
-**Returns:** A tuple of `(HttpResponse, error)`.
+**Returns:** A tuple of `(HttpResponse, Error)`.
 
 ---
 
 ### `put()`
-`(url string, body string) -> (HttpResponse, error)`
+`(url string, body string) -> (HttpResponse, Error)`
 
 Performs an HTTP PUT request with a body.
 
@@ -112,12 +112,12 @@ temp resp, err = http.put(
 - `url` - The URL to request
 - `body` - The request body as a string
 
-**Returns:** A tuple of `(HttpResponse, error)`.
+**Returns:** A tuple of `(HttpResponse, Error)`.
 
 ---
 
 ### `patch()`
-`(url string, body string) -> (HttpResponse, error)`
+`(url string, body string) -> (HttpResponse, Error)`
 
 Performs an HTTP PATCH request with a body.
 
@@ -132,12 +132,12 @@ temp resp, err = http.patch(
 - `url` - The URL to request
 - `body` - The request body as a string
 
-**Returns:** A tuple of `(HttpResponse, error)`.
+**Returns:** A tuple of `(HttpResponse, Error)`.
 
 ---
 
 ### `delete()`
-`(url string) -> (HttpResponse, error)`
+`(url string) -> (HttpResponse, Error)`
 
 Performs an HTTP DELETE request.
 
@@ -155,12 +155,12 @@ if resp.status == http.NO_CONTENT {
 
 **Parameters:** `url` - The URL to request.
 
-**Returns:** A tuple of `(HttpResponse, error)`.
+**Returns:** A tuple of `(HttpResponse, Error)`.
 
 ---
 
 ### `head()`
-`(url string) -> (HttpResponse, error)`
+`(url string) -> (HttpResponse, Error)`
 
 Performs an HTTP HEAD request. Returns only headers without a response body.
 
@@ -180,12 +180,12 @@ if resp.headers["Content-Length"] != nil {
 
 **Parameters:** `url` - The URL to request.
 
-**Returns:** A tuple of `(HttpResponse, error)`. The `body` field will be empty.
+**Returns:** A tuple of `(HttpResponse, Error)`. The `body` field will be empty.
 
 ---
 
 ### `options()`
-`(url string) -> (HttpResponse, error)`
+`(url string) -> (HttpResponse, Error)`
 
 Performs an HTTP OPTIONS request to discover allowed methods and CORS information.
 
@@ -203,12 +203,12 @@ if resp.headers["Allow"] != nil {
 
 **Parameters:** `url` - The URL to request.
 
-**Returns:** A tuple of `(HttpResponse, error)`.
+**Returns:** A tuple of `(HttpResponse, Error)`.
 
 ---
 
 ### `request()`
-`(method string, url string, body string, headers map[string:string], timeout int) -> (HttpResponse, error)`
+`(method string, url string, body string, headers map[string:string], timeout int) -> (HttpResponse, Error)`
 
 Performs an advanced HTTP request with custom method, headers, and timeout.
 
@@ -246,7 +246,7 @@ do main() {
 - `headers` - Custom headers as `map[string:string]`
 - `timeout` - Request timeout in seconds (use 0 for default 30 seconds)
 
-**Returns:** A tuple of `(HttpResponse, error)`.
+**Returns:** A tuple of `(HttpResponse, Error)`.
 
 **Errors:**
 - E14001 - Invalid URL
@@ -256,7 +256,7 @@ do main() {
 ---
 
 ### `download()`
-`(url string, path string) -> (int, error)`
+`(url string, path string) -> (int, Error)`
 
 Downloads a file from a URL and saves it to the specified path.
 
@@ -282,7 +282,7 @@ do main() {
 - `url` - The URL to download from
 - `path` - The local file path to save to
 
-**Returns:** A tuple of `(int, error)` where the int is the number of bytes written.
+**Returns:** A tuple of `(int, Error)` where the int is the number of bytes written.
 
 **Errors:**
 - E14001 - Invalid URL
@@ -310,7 +310,7 @@ println(encoded)  // "hello%20world"
 ---
 
 ### `decode_url()`
-`(text string) -> (string, error)`
+`(text string) -> (string, Error)`
 
 Decodes a URL-encoded string.
 
@@ -325,7 +325,7 @@ println(decoded)  // "hello world"
 
 **Parameters:** `text` - The URL-encoded string.
 
-**Returns:** A tuple of `(string, error)`.
+**Returns:** A tuple of `(string, Error)`.
 
 **Errors:**
 - E14005 - URL decode failed
@@ -365,7 +365,7 @@ println(body)  // {"age":30,"name":"Alice"}
 ---
 
 ### `parse_url()`
-`(url string) -> (URL, error)`
+`(url string) -> (URL, Error)`
 
 Parses a URL string into its components.
 
@@ -391,7 +391,7 @@ do main() {
 
 **Parameters:** `url` - The URL string to parse.
 
-**Returns:** A tuple of `(URL, error)`. The `URL` struct contains:
+**Returns:** A tuple of `(URL, Error)`. The `URL` struct contains:
 
 | Field | Type | Description |
 |-------|------|-------------|

@@ -17,7 +17,7 @@ import @db
 ## Database Management
 
 ### `open()`
-`(path string) -> (database, error)`
+`(path string) -> (database, Error)`
 
 Opens a database file. Creates a new file if it doesn't exist.
 
@@ -25,7 +25,7 @@ Opens a database file. Creates a new file if it doesn't exist.
 import @std, @db
 
 do main() {
-    temp mydb database, err error = db.open("data.ezdb")
+    temp mydb database, err Error = db.open("data.ezdb")
     if err != nil {
         std.println("Error:", err.message)
         return
@@ -41,14 +41,14 @@ do main() {
 
 **Returns:**
 - `database` - The database object.
-- `error` - `nil` on success, or an Error struct.
+- `Error` - `nil` on success, or an Error struct.
 
 **Errors:** [E7001](/EZ-Language-Webapp/errors/E7001) for wrong argument count, [E7003](/EZ-Language-Webapp/errors/E7003) if path is not a string, [E17001](/EZ-Language-Webapp/errors/E17001) for invalid path or non-.ezdb file, [E17002](/EZ-Language-Webapp/errors/E17002) if path is a directory, [E17004](/EZ-Language-Webapp/errors/E17004) if file is corrupted.
 
 ---
 
 ### `close()`
-`(db database) -> error`
+`(db database) -> Error`
 
 Closes the database and saves all changes to disk.
 
@@ -56,7 +56,7 @@ Closes the database and saves all changes to disk.
 import @db
 
 do main() {
-    temp mydb database, _ error = db.open("data.ezdb")
+    temp mydb database, _ Error = db.open("data.ezdb")
     // ... use database ...
     db.close(mydb)
 }
@@ -71,7 +71,7 @@ do main() {
 ---
 
 ### `save()`
-`(db database) -> error`
+`(db database) -> Error`
 
 Manually saves the database to disk without closing it.
 
@@ -79,7 +79,7 @@ Manually saves the database to disk without closing it.
 import @db
 
 do main() {
-    temp mydb database, _ error = db.open("data.ezdb")
+    temp mydb database, _ Error = db.open("data.ezdb")
     db.set(mydb, "key", "value")
     db.save(mydb)  // Save now, keep using
     // ... more operations ...
@@ -131,7 +131,7 @@ Sets a key-value pair in the database.
 import @db
 
 do main() {
-    temp mydb database, _ error = db.open("users.ezdb")
+    temp mydb database, _ Error = db.open("users.ezdb")
     db.set(mydb, "user:1", "Alice")
     db.set(mydb, "user:2", "Bob")
     db.close(mydb)
@@ -156,7 +156,7 @@ Gets a value by key.
 import @std, @db
 
 do main() {
-    temp mydb database, _ error = db.open("users.ezdb")
+    temp mydb database, _ Error = db.open("users.ezdb")
     temp value string, found bool = db.get(mydb, "user:1")
     if found {
         std.println("Found:", value)
@@ -188,7 +188,7 @@ Removes a key-value pair.
 import @std, @db
 
 do main() {
-    temp mydb database, _ error = db.open("data.ezdb")
+    temp mydb database, _ Error = db.open("data.ezdb")
     temp removed bool = db.remove(mydb, "old_key")
     std.println("Removed:", removed)
     db.close(mydb)
@@ -214,7 +214,7 @@ Checks if a key exists.
 import @std, @db
 
 do main() {
-    temp mydb database, _ error = db.open("data.ezdb")
+    temp mydb database, _ Error = db.open("data.ezdb")
     if db.contains(mydb, "config") {
         std.println("Config exists")
     }
@@ -241,7 +241,7 @@ Gets all keys in the database.
 import @std, @db
 
 do main() {
-    temp mydb database, _ error = db.open("data.ezdb")
+    temp mydb database, _ Error = db.open("data.ezdb")
     temp all_keys [string] = db.keys(mydb)
     std.println("Keys:", all_keys)
     db.close(mydb)
@@ -265,7 +265,7 @@ Gets all keys that start with a given prefix.
 import @std, @db
 
 do main() {
-    temp mydb database, _ error = db.open("data.ezdb")
+    temp mydb database, _ Error = db.open("data.ezdb")
     db.set(mydb, "user:1", "Alice")
     db.set(mydb, "user:2", "Bob")
     db.set(mydb, "config:theme", "dark")
@@ -295,7 +295,7 @@ Returns the number of key-value pairs.
 import @std, @db
 
 do main() {
-    temp mydb database, _ error = db.open("data.ezdb")
+    temp mydb database, _ Error = db.open("data.ezdb")
     std.println("Entries:", db.count(mydb))
     db.close(mydb)
 }
@@ -318,7 +318,7 @@ Removes all key-value pairs from the database.
 import @db
 
 do main() {
-    temp mydb database, _ error = db.open("data.ezdb")
+    temp mydb database, _ Error = db.open("data.ezdb")
     db.clear(mydb)
     db.close(mydb)
 }
@@ -339,7 +339,7 @@ Renames a key while preserving its value.
 import @std, @db
 
 do main() {
-    temp mydb database, _ error = db.open("data.ezdb")
+    temp mydb database, _ Error = db.open("data.ezdb")
     db.set(mydb, "old_name", "value")
     temp renamed bool = db.update_key_name(mydb, "old_name", "new_name")
     std.println("Renamed:", renamed)
@@ -369,7 +369,7 @@ Sorts the database entries by the specified order. Use the sort constants below.
 import @std, @db
 
 do main() {
-    temp mydb database, _ error = db.open("data.ezdb")
+    temp mydb database, _ Error = db.open("data.ezdb")
     db.set(mydb, "banana", "yellow")
     db.set(mydb, "apple", "red")
     db.set(mydb, "cherry", "red")
@@ -415,7 +415,7 @@ do main() {
     std.println("=== Database Demo ===")
 
     // Open or create database
-    temp mydb database, err error = db.open("demo.ezdb")
+    temp mydb database, err Error = db.open("demo.ezdb")
     if err != nil {
         std.println("Error:", err.message)
         return

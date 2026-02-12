@@ -40,7 +40,7 @@ temp user User = User{name: "Alice", email: "alice@example.com", age: 30}
 ### Functions for Behavior
 
 ```ez
-do validate_user(u User) -> error {
+do validate_user(u User) -> Error {
     if len(u.name) == 0 {
         return error("name cannot be empty")
     }

@@ -226,7 +226,7 @@ temp _, middle, _ = get_three_values()
 
 ```ez
 do read_file(path string) -> string, string {
-    // Returns (content, error)
+    // Returns (content, Error)
     return "file content", ""
 }
 
