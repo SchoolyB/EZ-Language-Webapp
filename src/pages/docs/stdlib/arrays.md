@@ -656,6 +656,32 @@ do main() {
 
 **Errors:** [E7002](/EZ-Language-Webapp/errors/E7002) if argument is not a 2D array.
 
+### `equals()`
+`(arr1 [type], arr2 [type]) -> bool`
+
+Checks if two arrays have the same elements in the same order.
+
+```ez
+import @std, @arrays
+
+do main() {
+    temp a [int] = {1, 2, 3}
+    temp b [int] = {1, 2, 3}
+    temp c [int] = {3, 2, 1}
+
+    std.println(arrays.equals(a, b))  // true
+    std.println(arrays.equals(a, c))  // false
+}
+```
+
+**Parameters:**
+- `arr1` - First array.
+- `arr2` - Second array.
+
+**Returns:** `bool` - `true` if both arrays have equal elements in the same order.
+
+**Errors:** [E7002](/EZ-Language-Webapp/errors/E7002) if arguments are not arrays.
+
 ## Example Program
 
 ```ez

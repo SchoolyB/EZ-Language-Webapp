@@ -59,6 +59,7 @@ temp message string = "Hello, ${name}!"   // String interpolation
 | `\\` | Backslash |
 | `\"` | Double quote |
 | `\r` | Carriage return |
+| `\xNN` | Hex byte value (e.g., `\x41` = "A", `\x0a` = newline) |
 
 #### Raw Strings
 

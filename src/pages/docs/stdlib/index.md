@@ -150,7 +150,7 @@ do helper() {
 
 ## Available Modules
 
-EZ includes seventeen built-in modules:
+EZ includes nineteen built-in modules:
 
 | Module | What it's for |
 |--------|---------------|
@@ -170,6 +170,8 @@ EZ includes seventeen built-in modules:
 | [@uuid](/EZ-Language-Webapp/docs/stdlib/uuid) | UUID generation — create and validate unique identifiers |
 | [@encoding](/EZ-Language-Webapp/docs/stdlib/encoding) | Data encoding — Base64, hex, and URL encoding/decoding |
 | [@crypto](/EZ-Language-Webapp/docs/stdlib/crypto) | Cryptography — hashing (SHA-256, MD5) and secure random |
+| [@regex](/EZ-Language-Webapp/docs/stdlib/regex) | Regular expressions — matching, finding, replacing patterns |
+| [@csv](/EZ-Language-Webapp/docs/stdlib/csv) | CSV — parsing, generating, reading, and writing CSV data |
 | [@db](/EZ-Language-Webapp/docs/stdlib/db) | Database — simple key-value storage with .ezdb files |
 
 ## Quick Example
@@ -226,4 +228,6 @@ Pick a module and explore what it can do:
 - [@uuid](/EZ-Language-Webapp/docs/stdlib/uuid) — For generating and validating UUIDs
 - [@encoding](/EZ-Language-Webapp/docs/stdlib/encoding) — For Base64, hex, and URL encoding
 - [@crypto](/EZ-Language-Webapp/docs/stdlib/crypto) — For cryptographic hashing and secure random
+- [@regex](/EZ-Language-Webapp/docs/stdlib/regex) — For regular expression operations
+- [@csv](/EZ-Language-Webapp/docs/stdlib/csv) — For CSV parsing and file operations
 - [@db](/EZ-Language-Webapp/docs/stdlib/db) — For simple key-value database storage

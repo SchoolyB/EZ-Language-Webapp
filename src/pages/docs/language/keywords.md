@@ -224,7 +224,7 @@ for i in range(0, 10) {
 
 ### in
 
-Used with `for` to iterate over a range, or to check if a value exists in a collection.
+Used with `for` to iterate over a range, or to check if a value exists in a collection (arrays, ranges, or maps).
 
 ```ez
 import @std
@@ -234,10 +234,32 @@ for i in range(0, 10) {
     std.println(i)
 }
 
-// Membership check
+// Array membership
 temp nums [int] = {1, 2, 3}
 if 2 in nums {
     std.println("Found it!")
+}
+
+// Map key membership
+temp ages map[string:int] = {"Alice": 30}
+if "Alice" in ages {
+    std.println("Key exists!")
+}
+```
+
+### not_in
+
+Checks if a value does **not** exist in a collection (arrays, ranges, or maps).
+
+```ez
+temp nums [int] = {1, 2, 3}
+if 5 not_in nums {
+    std.println("Not found")
+}
+
+temp ages map[string:int] = {"Alice": 30}
+if "Bob" not_in ages {
+    std.println("Bob not in map")
 }
 ```
 
@@ -520,7 +542,7 @@ temp hasError bool = false
 | `cast` | type casts, `as` | Type conversion |
 | `private` | `private`, `internal` | Module-private declaration |
 
-For attributes (`#enum`, `#flags`, `#strict`, `#suppress`), see [Attributes](/EZ-Language-Webapp/docs/language/attributes).
+For attributes (`#doc`, `#enum`, `#flags`, `#strict`, `#suppress`), see [Attributes](/EZ-Language-Webapp/docs/language/attributes).
 
 <script>
   function initKeywordFilter() {

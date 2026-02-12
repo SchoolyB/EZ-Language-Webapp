@@ -276,23 +276,6 @@ do replace_all() {
 
 **Errors:** [E7003](/EZ-Language-Webapp/errors/E7003) if arguments are not strings.
 
-### `replace_first()`
-`(str string, old string, new string) -> string`
-
-Replaces only the first occurrence of a substring.
-
-```ez
-import @std, @strings
-
-do replace_once() {
-    std.println(strings.replace_first("aaa", "a", "b"))  // "baa"
-}
-```
-
-**Parameters:** `str`, `old`, `new`.
-
-**Returns:** `string` - Modified string.
-
 ### `replace_n()`
 `(str string, old string, new string, n int) -> string`
 
@@ -416,24 +399,6 @@ do compare_demo() {
 ---
 
 ## Substrings
-
-### `substring()`
-`(str string, start int, end int) -> string`
-
-Returns a portion of a string from start index to end index. The end index is exclusive (not included), just like `range()`.
-
-```ez
-import @std, @strings
-
-do get_substring() {
-    std.println(strings.substring("hello world", 0, 5))   // "hello" (chars 0-4)
-    std.println(strings.substring("hello world", 6, 11))  // "world" (chars 6-10)
-}
-```
-
-**Parameters:** `str`, `start`, `end` (end is exclusive).
-
-**Returns:** `string` - The substring.
 
 ### `char_at()`
 `(str string, index int) -> string`
@@ -645,6 +610,234 @@ do convert_booleans() {
 
 ---
 
+### `lines()`
+`(str string) -> [string]`
+
+Splits a string into an array of lines (by newline characters).
+
+```ez
+temp text string = "line one\nline two\nline three"
+temp result [string] = strings.lines(text)
+std.println(result)  // {"line one", "line two", "line three"}
+```
+
+**Parameters:** `str` - The string to split.
+
+**Returns:** `[string]` - Array of lines. Handles both `\n` and `\r\n`.
+
+---
+
+### `words()`
+`(str string) -> [string]`
+
+Splits a string by whitespace into an array of words. Empty words are excluded.
+
+```ez
+temp text string = "  hello   world  foo  "
+temp result [string] = strings.words(text)
+std.println(result)  // {"hello", "world", "foo"}
+```
+
+**Parameters:** `str` - The string to split.
+
+**Returns:** `[string]` - Array of non-empty words.
+
+---
+
+### `insert()`
+`(str string, position int, substr string) -> string`
+
+Inserts a substring at the given position.
+
+```ez
+std.println(strings.insert("hello world", 5, ","))  // "hello, world"
+std.println(strings.insert("abc", 0, "XY"))          // "XYabc"
+```
+
+**Parameters:**
+- `str` - The original string.
+- `position` - Index to insert at (clamped to valid range).
+- `substr` - The string to insert.
+
+**Returns:** `string` - The string with the substring inserted.
+
+---
+
+### `center()`
+`(str string, width int, [pad string]) -> string`
+
+Pads a string on both sides to center it within the given width.
+
+```ez
+std.println(strings.center("hi", 10))        // "    hi    "
+std.println(strings.center("hi", 10, "-"))    // "----hi----"
+```
+
+**Parameters:**
+- `str` - The string to center.
+- `width` - Target width.
+- `pad` *(optional)* - Pad character (default: space). Uses first character if longer.
+
+**Returns:** `string` - The centered string. Unchanged if already wider than target.
+
+---
+
+### `slice()`
+`(str string, start int, [end int]) -> string`
+
+Extracts a portion of a string by index. Supports negative indices.
+
+```ez
+std.println(strings.slice("hello world", 0, 5))   // "hello"
+std.println(strings.slice("hello world", 6))       // "world"
+std.println(strings.slice("hello world", -5))      // "world"
+```
+
+**Parameters:**
+- `str` - The string.
+- `start` - Start index (negative counts from end).
+- `end` *(optional)* - End index, exclusive (defaults to string length).
+
+**Returns:** `string` - The extracted substring.
+
+---
+
+### `count()`
+`(str string, substr string) -> int`
+
+Counts non-overlapping occurrences of a substring.
+
+```ez
+std.println(strings.count("hello world", "o"))    // 2
+std.println(strings.count("aaa", "aa"))            // 1
+```
+
+**Parameters:**
+- `str` - The string to search.
+- `substr` - The substring to count.
+
+**Returns:** `int` - Number of occurrences.
+
+---
+
+### `last_index()`
+`(str string, substr string) -> int`
+
+Finds the last occurrence of a substring. Returns -1 if not found.
+
+```ez
+std.println(strings.last_index("hello world hello", "hello"))  // 12
+std.println(strings.last_index("hello", "xyz"))                // -1
+```
+
+**Parameters:**
+- `str` - The string to search.
+- `substr` - The substring to find.
+
+**Returns:** `int` - Index of the last occurrence, or -1.
+
+---
+
+### `from_chars()`
+`(chars [char]) -> string`
+
+Creates a string from an array of characters.
+
+```ez
+temp chars [char] = {'H', 'i'}
+temp result string = strings.from_chars(chars)
+std.println(result)  // "Hi"
+```
+
+**Parameters:** `chars` - An array of char values.
+
+**Returns:** `string` - The constructed string.
+
+---
+
+### `remove()` / `remove_all()`
+`(str string, substr string) -> string`
+
+Removes the first occurrence (`remove`) or all occurrences (`remove_all`) of a substring.
+
+```ez
+std.println(strings.remove("hello world hello", "hello"))      // " world hello"
+std.println(strings.remove_all("hello world hello", "hello"))  // " world "
+```
+
+**Parameters:**
+- `str` - The original string.
+- `substr` - The substring to remove.
+
+**Returns:** `string` - The string with occurrences removed.
+
+---
+
+### `is_empty()`
+`(str string) -> bool`
+
+Checks if a string is empty or contains only whitespace.
+
+```ez
+std.println(strings.is_empty(""))       // true
+std.println(strings.is_empty("   "))    // true
+std.println(strings.is_empty("hello"))  // false
+```
+
+**Parameters:** `str` - The string to check.
+
+**Returns:** `bool` - `true` if empty or whitespace-only.
+
+---
+
+### `is_alphanumeric()`
+`(str string) -> bool`
+
+Checks if all characters are letters or digits.
+
+```ez
+std.println(strings.is_alphanumeric("Hello123"))  // true
+std.println(strings.is_alphanumeric("Hello 123")) // false
+```
+
+---
+
+### `is_whitespace()`
+`(str string) -> bool`
+
+Checks if all characters are whitespace.
+
+```ez
+std.println(strings.is_whitespace("  \t\n"))  // true
+std.println(strings.is_whitespace("  a  "))   // false
+```
+
+---
+
+### `is_lowercase()` / `is_uppercase()`
+`(str string) -> bool`
+
+Checks if all letters in the string are lowercase or uppercase.
+
+```ez
+std.println(strings.is_lowercase("hello"))  // true
+std.println(strings.is_uppercase("HELLO"))  // true
+```
+
+---
+
+### `is_ascii()`
+`(str string) -> bool`
+
+Checks if all characters are ASCII (code points 0-127).
+
+```ez
+std.println(strings.is_ascii("hello"))  // true
+std.println(strings.is_ascii("héllo"))  // false
+```
+
+---
+
 ## Example Program
 
 ```ez
@@ -668,15 +861,17 @@ do main() {
     }
 
     // Split and rejoin
-    temp words [string] = strings.split(cleaned, " ")
-    std.println("Words:", words)
+    temp w [string] = strings.words(cleaned)
+    std.println("Words:", w)
 
-    temp kebab string = strings.join(words, "-")
+    temp kebab string = strings.join(w, "-")
     std.println("Kebab case:", strings.lower(kebab))
 
     // Build a slug
     temp title string = "My Blog Post Title"
     temp slug string = strings.lower(strings.replace(title, " ", "-"))
     std.println("Slug:", slug)  // "my-blog-post-title"
+
+    // Center and pad
+    std.println(strings.center("EZ", 20, "="))  // "=========EZ========="
 }
-```

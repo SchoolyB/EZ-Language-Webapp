@@ -144,6 +144,38 @@ See [Control Flow - Strict Enum Matching](/EZ-Language-Webapp/docs/language/cont
 
 ---
 
+## #doc
+
+Marks a function, struct, or enum for documentation generation. Used by the [`ez doc`](/EZ-Language-Webapp/docs/cli) command to generate markdown documentation.
+
+```ez
+#doc("Returns a greeting message for the given name.")
+do greet(name string) -> string {
+    return "Hello, " + name + "!"
+}
+
+#doc("Application configuration settings.")
+const Config struct {
+    name string
+    version string
+    debug bool
+}
+
+#doc("Available log levels.")
+const LogLevel enum {
+    DEBUG
+    INFO
+    WARN
+    ERROR
+}
+```
+
+The description string is optional — `#doc` without arguments still marks the item for inclusion in generated docs.
+
+Run `ez doc ./...` to generate a `DOCS.md` file from all `#doc`-annotated items. See [CLI Commands](/EZ-Language-Webapp/docs/cli) for details.
+
+---
+
 ## #suppress
 
 Suppresses specific warnings. Can be applied to individual functions or at file level.
@@ -212,6 +244,7 @@ This is useful when you have many functions that would otherwise need individual
 
 | Attribute | Target | Description |
 |-----------|--------|-------------|
+| `#doc(desc)` | Function, struct, enum | Mark for documentation generation |
 | `#enum(type)` | Enum declaration | Specify underlying type (int, float, string) |
 | `#flags` | Enum declaration | Create bitwise flag enum with power-of-2 values |
 | `#strict` | When statement | Enforce exhaustive enum case coverage |

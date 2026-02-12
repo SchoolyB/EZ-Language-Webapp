@@ -29,6 +29,9 @@ do show_constants() {
     std.println(math.TAU)      // 6.283185307179586
     std.println(math.INF)      // +Inf
     std.println(math.NEG_INF)  // -Inf
+    std.println(math.EPSILON)  // ~2.22e-16 (smallest difference from 1.0)
+    std.println(math.MAX_FLOAT)  // ~1.80e+308 (largest float)
+    std.println(math.MIN_FLOAT)  // ~5e-324 (smallest positive float)
 }
 ```
 
@@ -307,6 +310,57 @@ do factorial_demo() {
 **Returns:** `int` - n!
 
 **Errors:** [E8004](/EZ-Language-Webapp/errors/E8004) for negative numbers, [E8005](/EZ-Language-Webapp/errors/E8005) for values > 20.
+
+---
+
+## Special Value Checks
+
+### `is_nan()`
+`(value number) -> bool`
+
+Checks if a number is NaN (not a number).
+
+```ez
+std.println(math.is_nan(0.0 / 0.0))  // true
+std.println(math.is_nan(42.0))       // false
+```
+
+**Parameters:** `value` - A number.
+
+**Returns:** `bool` - `true` if the value is NaN.
+
+---
+
+### `is_finite()`
+`(value number) -> bool`
+
+Checks if a number is finite (not infinite and not NaN).
+
+```ez
+std.println(math.is_finite(42.0))      // true
+std.println(math.is_finite(math.INF))  // false
+```
+
+**Parameters:** `value` - A number.
+
+**Returns:** `bool` - `true` if finite.
+
+---
+
+### `is_inf()`
+`(value number) -> bool`
+
+Checks if a number is infinite.
+
+```ez
+std.println(math.is_inf(math.INF))      // true
+std.println(math.is_inf(math.NEG_INF))  // true
+std.println(math.is_inf(42.0))          // false
+```
+
+**Parameters:** `value` - A number.
+
+**Returns:** `bool` - `true` if infinite.
 
 ---
 

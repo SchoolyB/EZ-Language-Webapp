@@ -494,29 +494,43 @@ These will cause checktime errors:
 
 ## Membership Operators
 
-### in / !in
+### in / not_in
 
-Check if a value exists in an array:
+Check if a value exists in an array or if a key exists in a map:
 
 ```ez
 import @std
 
+// Array membership
 temp numbers [int] = {1, 2, 3, 4, 5}
 
 if 3 in numbers {
     std.println("Found 3!")
 }
 
-if 10 !in numbers {
+if 10 not_in numbers {
     std.println("10 is not in the array")
 }
 
-// Combined with other conditions
-temp validCodes [int] = {100, 200, 300}
-temp code int = 200
+// Map key membership
+temp ages map[string:int] = {"Alice": 30, "Bob": 25}
 
-if code in validCodes && code != 100 {
-    std.println("Valid non-100 code")
+if "Alice" in ages {
+    std.println("Alice found!")
+}
+
+if "Charlie" not_in ages {
+    std.println("Charlie not found")
+}
+```
+
+Works with any map key type:
+
+```ez
+temp codes map[int:string] = {200: "OK", 404: "Not Found"}
+
+if 200 in codes {
+    std.println("Status exists")
 }
 ```
 

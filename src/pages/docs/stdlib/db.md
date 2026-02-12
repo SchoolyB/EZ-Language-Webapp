@@ -256,6 +256,61 @@ do main() {
 
 ---
 
+### `values()`
+`(db Database) -> [string]`
+
+Gets all values in the database.
+
+```ez
+import @std, @db
+
+do main() {
+    temp mydb Database, _ Error = db.open("data.ezdb")
+    db.set(mydb, "a", "Alice")
+    db.set(mydb, "b", "Bob")
+    temp all_values [string] = db.values(mydb)
+    std.println("Values:", all_values)  // {"Alice", "Bob"}
+    db.close(mydb)
+}
+```
+
+**Parameters:** `db` - The database.
+
+**Returns:** `[string]` - Array of all values.
+
+**Errors:** [E7001](/EZ-Language-Webapp/errors/E7001) for wrong argument count, [E17005](/EZ-Language-Webapp/errors/E17005) if database is closed.
+
+---
+
+### `entries()`
+`(db Database) -> [Entry]`
+
+Gets all key-value pairs as Entry structs. Each Entry has `key` and `value` fields.
+
+```ez
+import @std, @db
+
+do main() {
+    temp mydb Database, _ Error = db.open("data.ezdb")
+    db.set(mydb, "user:1", "Alice")
+    db.set(mydb, "user:2", "Bob")
+
+    temp all_entries [Entry] = db.entries(mydb)
+    for_each entry in all_entries {
+        std.println(entry.key, "->", entry.value)
+    }
+    db.close(mydb)
+}
+```
+
+**Parameters:** `db` - The database.
+
+**Returns:** `[Entry]` - Array of Entry structs, each with `key` (string) and `value` (string) fields.
+
+**Errors:** [E7001](/EZ-Language-Webapp/errors/E7001) for wrong argument count, [E17005](/EZ-Language-Webapp/errors/E17005) if database is closed.
+
+---
+
 ### `prefix()`
 `(db Database, prefix string) -> [string]`
 

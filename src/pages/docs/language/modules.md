@@ -62,7 +62,7 @@ do main() {
     using std
 
     println("No prefix needed!")
-    printf("This works too")
+    print("This works too")
 }
 ```
 
@@ -185,6 +185,45 @@ Key points:
 - Add `module <name>` at the top of files you want to import
 - Import with `"./<filename>"` (no `.ez` extension)
 - Access with the module prefix: `utils.greet()`
+
+### Multi-File Main Module
+
+Your main module can span multiple files in the same directory. All files declare the same module name, and functions, types, and variables are shared across them automatically.
+
+```
+my-project/
+├── main.ez       (module main — has main())
+├── commands.ez   (module main — command handlers)
+```
+
+**main.ez**
+```ez
+module main
+
+import @std
+using std
+
+do main() {
+    temp args [string] = os.args()
+    if len(args) >= 3 {
+        handleGreet(args)  // defined in commands.ez
+    }
+}
+```
+
+**commands.ez**
+```ez
+module main
+
+import @std
+using std
+
+do handleGreet(args [string]) {
+    println("Hello, " + args[3] + "!")
+}
+```
+
+Run with `ez main.ez` or `ez ./` — EZ automatically discovers sibling files with the same module declaration.
 
 ### Nested Directories
 

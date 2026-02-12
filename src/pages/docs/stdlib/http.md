@@ -293,45 +293,6 @@ do main() {
 
 ## URL Utilities
 
-### `encode_url()`
-`(text string) -> string`
-
-URL-encodes a string (percent-encoding).
-
-```ez
-temp encoded = http.encode_url("hello world")
-println(encoded)  // "hello%20world"
-```
-
-**Parameters:** `text` - The string to encode.
-
-**Returns:** The URL-encoded string.
-
----
-
-### `decode_url()`
-`(text string) -> (string, Error)`
-
-Decodes a URL-encoded string.
-
-```ez
-temp decoded, err = http.decode_url("hello%20world")
-if err != nil {
-    println("Decode error: ${err.message}")
-    return
-}
-println(decoded)  // "hello world"
-```
-
-**Parameters:** `text` - The URL-encoded string.
-
-**Returns:** A tuple of `(string, Error)`.
-
-**Errors:**
-- E14005 - URL decode failed
-
----
-
 ### `build_query()`
 `(params map[string:string]) -> string`
 
@@ -518,7 +479,6 @@ if err != nil {
 | E14002 | Request failed |
 | E14003 | Could not create or write file |
 | E14004 | Invalid HTTP method |
-| E14005 | URL decode failed |
 | E14006 | JSON encoding failed |
 
 ---

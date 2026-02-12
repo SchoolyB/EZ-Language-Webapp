@@ -258,6 +258,56 @@ do divmod(dividend, divisor int) -> (int, int) {
     temp remainder int = dividend % divisor
     return quotient, remainder
 }
+```
+
+### Named Return Variables
+
+You can name your return variables. Named returns are automatically initialized to their zero values (`0` for int, `""` for string, `false` for bool, `0.0` for float) and are available as mutable local variables inside the function body.
+
+```ez
+import @std
+
+do getUserName() -> (name string) {
+    name = "Alice"
+    return name
+}
+
+do getPersonInfo() -> (age int, name string) {
+    age = 25
+    name = "Bob"
+    return age, name
+}
+
+// Named returns can share types
+do getNames() -> (first, last string) {
+    first = "John"
+    last = "Doe"
+    return first, last
+}
+
+do main() {
+    std.println(getUserName())  // "Alice"
+
+    temp a int, n string = getPersonInfo()
+    std.println(a, n)  // 25 Bob
+
+    temp f string, l string = getNames()
+    std.println(f, l)  // John Doe
+}
+```
+
+Named returns require an explicit `return` statement — bare `return` without values is not supported.
+
+```ez
+// Zero values returned if not assigned
+do getZeroInt() -> (count int) {
+    return count  // returns 0
+}
+```
+
+---
+
+Multiple return values (continued):
 
 do minmax(a, b, c int) -> (int, int) {
     temp min int = a
