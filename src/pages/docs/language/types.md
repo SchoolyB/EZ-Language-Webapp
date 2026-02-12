@@ -335,7 +335,7 @@ const Person struct {
 temp p Person = Person{name: "Alice", age: 30}
 ```
 
-See [Structs](/docs/language/structs) for more details.
+See [Structs](/EZ-Language-Webapp/docs/language/structs) for more details.
 
 ## Enums
 
@@ -351,7 +351,7 @@ const Status enum {
 temp s int = Status.ACTIVE
 ```
 
-See [Enums](/docs/language/enums) for more details.
+See [Enums](/EZ-Language-Webapp/docs/language/enums) for more details.
 
 ## Type Checking
 

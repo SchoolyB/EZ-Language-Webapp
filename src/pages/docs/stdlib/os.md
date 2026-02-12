@@ -89,12 +89,13 @@ do unset_env_var() {
 Returns all environment variables as an immutable map.
 
 ```ez
-import @std, @os
+import @std, @os, @maps
 
 do print_all_env() {
     temp env map[string:string] = os.env()
-    for key, value in env {
-        std.println(key, "=", value)
+    temp env_keys [string] = maps.keys(env)
+    for_each key in env_keys {
+        std.println(key, "=", maps.get(env, key))
     }
 }
 ```

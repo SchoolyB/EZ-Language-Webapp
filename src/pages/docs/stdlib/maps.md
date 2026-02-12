@@ -21,7 +21,7 @@ Maps are created using key-value syntax:
 
 ```ez
 // Empty map
-temp empty map[string:int] = {}
+temp empty map[string:int] = {:}
 
 // Map with initial values
 temp ages map[string:int] = {
@@ -156,7 +156,7 @@ do get_map_keys() {
 **Errors:** [E7007](/EZ-Language-Webapp/errors/E7007) if the argument is not a map.
 
 ### `values()`
-`(m map) -> [key]`
+`(m map) -> [value]`
 
 Returns an array of all values in the map.
 
@@ -172,7 +172,7 @@ do get_map_values() {
 
 **Parameters:** `m` - The map.
 
-**Returns:** `[key]` - Array of values.
+**Returns:** `[value]` - Array of values.
 
 ### `size()`
 `(m map) -> int`
@@ -201,7 +201,7 @@ Checks if the map has no entries.
 import @std, @maps
 
 do check_map_empty() {
-    temp empty map[string:int] = {}
+    temp empty map[string:int] = {:}
     temp filled map[string:int] = {"a": 1}
     std.println(maps.is_empty(empty))   // true
     std.println(maps.is_empty(filled))  // false
@@ -327,7 +327,7 @@ do main() {
 
     temp frequency map[string:int] = {}
 
-    for word in words {
+    for_each word in words {
         if maps.contains(frequency, word) {
             temp count int = maps.get(frequency, word)
             maps.set(frequency, word, count + 1)
@@ -338,7 +338,7 @@ do main() {
 
     std.println("Word frequencies:")
     temp unique_words [string] = maps.keys(frequency)
-    for word in unique_words {
+    for_each word in unique_words {
         std.println(word + ":", maps.get(frequency, word))
     }
 

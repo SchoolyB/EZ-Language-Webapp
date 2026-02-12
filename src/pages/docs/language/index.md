@@ -24,6 +24,7 @@ EZ is designed to be straightforward. There are no hidden tricks or complex rule
 | [Structs](/EZ-Language-Webapp/docs/language/structs) | Grouping related data together |
 | [Enums](/EZ-Language-Webapp/docs/language/enums) | Defining a set of named values |
 | [Modules](/EZ-Language-Webapp/docs/language/modules) | Organizing code into separate files |
+| [Attributes](/EZ-Language-Webapp/docs/language/attributes) | Directives like `#doc`, `#enum`, `#flags`, `#strict`, `#suppress` |
 
 ## Where to Start
 
@@ -86,3 +87,4 @@ Pick a topic and dive in:
 - [Structs](/EZ-Language-Webapp/docs/language/structs) — Custom data structures
 - [Enums](/EZ-Language-Webapp/docs/language/enums) — Named value sets
 - [Modules](/EZ-Language-Webapp/docs/language/modules) — Organize larger projects
+- [Attributes](/EZ-Language-Webapp/docs/language/attributes) — Directives for enums, docs, and more

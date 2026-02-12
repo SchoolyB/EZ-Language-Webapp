@@ -69,6 +69,8 @@ do measure_elapsed_time() {
 
 ## Sleeping
 
+> **Note:** The `@std` module also provides [`sleep_seconds()`](/EZ-Language-Webapp/docs/stdlib/std), [`sleep_milliseconds()`](/EZ-Language-Webapp/docs/stdlib/std), and [`sleep_nanoseconds()`](/EZ-Language-Webapp/docs/stdlib/std) functions. Use whichever module you already have imported.
+
 ### `sleep()`
 `(seconds number) -> void`
 
@@ -250,9 +252,9 @@ do time_difference() {
 ## Date Components
 
 ### `year()` / `month()` / `day()` / `hour()` / `minute()` / `second()`
-`(timestamp int) -> int`
+`([timestamp int]) -> int`
 
-Extracts components from a timestamp.
+Extracts components from a timestamp. If no timestamp is provided, uses the current time.
 
 ```ez
 import @std, @time
@@ -265,15 +267,18 @@ do extract_date_parts() {
     std.println("Hour:", time.hour(ts))
     std.println("Minute:", time.minute(ts))
     std.println("Second:", time.second(ts))
+
+    // Can also be called without arguments for current time
+    std.println("Current year:", time.year())
 }
 ```
 
-**Parameters:** `timestamp`.
+**Parameters:** `timestamp` *(optional)* - A Unix timestamp. Defaults to current time.
 
 **Returns:** `int` - The component value.
 
 ### `weekday()`
-`(timestamp int) -> int`
+`([timestamp int]) -> int`
 
 Returns the day of the week (0 = Sunday, 6 = Saturday).
 
@@ -289,7 +294,7 @@ do get_weekday() {
 }
 ```
 
-**Parameters:** `timestamp`.
+**Parameters:** `timestamp` *(optional)* - A Unix timestamp. Defaults to current time.
 
 **Returns:** `int` - Day of week (0-6).
 

@@ -194,7 +194,9 @@ do shuffle_demo() {
 
 **Parameters:** `arr` - An array of any type.
 
-**Returns:** A new array with elements randomly reordered.
+**Returns:** A new array with elements randomly reordered. Does **not** modify the original.
+
+> **Note:** [`arrays.shuffle()`](/EZ-Language-Webapp/docs/stdlib/arrays) shuffles in place instead of returning a new array.
 
 **Errors:** [E7001](/EZ-Language-Webapp/errors/E7001) for wrong argument count, [E7002](/EZ-Language-Webapp/errors/E7002) if argument is not an array.
 

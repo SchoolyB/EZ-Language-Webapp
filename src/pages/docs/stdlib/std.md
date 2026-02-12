@@ -78,7 +78,7 @@ std.eprintln("connection failed")
 ### `sleep_seconds()`
 `(int) -> void`
 
-Pauses execution for the specified number of seconds.
+Pauses execution for the specified number of seconds. See also [`@time` sleep functions](/EZ-Language-Webapp/docs/stdlib/time) for fractional-second and millisecond sleep.
 
 ```ez
 std.println("Starting...")

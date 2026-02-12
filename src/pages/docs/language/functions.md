@@ -307,7 +307,8 @@ do getZeroInt() -> (count int) {
 
 ---
 
-Multiple return values (continued):
+```ez
+import @std
 
 do minmax(a, b, c int) -> (int, int) {
     temp min int = a

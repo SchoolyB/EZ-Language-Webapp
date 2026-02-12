@@ -22,7 +22,7 @@ import @arrays
 Adds an element to the end of an array.
 
 ```ez
-import @arrays
+import @std, @arrays
 
 do append_to_array(){
     temp arr [int] = {1, 2, 3}
@@ -34,6 +34,8 @@ do append_to_array(){
 **Parameters:** `arr` - The array, `value` - Element to add.
 
 **Returns:** Nothing (mutates array in place).
+
+---
 
 ### `pop()`
 `(arr [type]) -> type`
@@ -57,6 +59,8 @@ do pop_from_array(){
 
 **Errors:** [E9001](/EZ-Language-Webapp/errors/E9001) if the array is empty.
 
+---
+
 ### `shift()`
 `(arr [type]) -> type`
 
@@ -79,6 +83,8 @@ do main(){
 
 **Errors:** [E9001](/EZ-Language-Webapp/errors/E9001) if the array is empty.
 
+---
+
 ### `unshift()`
 `(arr [type], value type) -> void`
 
@@ -97,6 +103,8 @@ do main(){
 **Parameters:** `arr` - The array, `value` - Element to add.
 
 **Returns:** Nothing (mutates array in place).
+
+---
 
 ### `insert()`
 `(arr [type], index int, value type) -> void`
@@ -119,6 +127,8 @@ do main() {
 
 **Errors:** [E5003](/EZ-Language-Webapp/errors/E5003) if the index is out of bounds.
 
+---
+
 ### `remove_at()`
 `(arr [type], index int) -> void`
 
@@ -140,6 +150,8 @@ do main() {
 
 **Errors:** [E5003](/EZ-Language-Webapp/errors/E5003) if the index is out of bounds.
 
+---
+
 ### `remove_all()`
 `(arr [type], value type) -> void`
 
@@ -158,6 +170,8 @@ do main() {
 **Parameters:** `arr` - The array, `value` - The value to remove.
 
 **Returns:** Nothing (mutates array in place).
+
+---
 
 ### `clear()`
 `(arr [type]) -> void`
@@ -178,6 +192,8 @@ do main() {
 
 **Returns:** Nothing (mutates array in place).
 
+---
+
 ### `fill()`
 `(arr [type], value type) -> void`
 
@@ -196,6 +212,8 @@ do main() {
 **Parameters:** `arr` - The array, `value` - The value to fill with.
 
 **Returns:** Nothing (mutates array in place).
+
+---
 
 ## Accessing Elements
 
@@ -220,6 +238,8 @@ do main() {
 
 **Errors:** [E5003](/EZ-Language-Webapp/errors/E5003) if the index is out of bounds.
 
+---
+
 ### `set()`
 `(arr [type], index int, value type) -> void`
 
@@ -241,6 +261,8 @@ do main() {
 
 **Errors:** [E5003](/EZ-Language-Webapp/errors/E5003) if the index is out of bounds.
 
+---
+
 ### `first()` / `last()`
 `(arr [type]) -> type`
 
@@ -259,6 +281,8 @@ do main() {
 **Parameters:** `arr` - The array.
 
 **Returns:** The first or last element.
+
+---
 
 ## Searching
 
@@ -281,6 +305,8 @@ do main() {
 
 **Returns:** `bool` - true if found.
 
+---
+
 ### `index()`
 `(arr [type], value type) -> int`
 
@@ -300,6 +326,8 @@ do main() {
 
 **Returns:** `int` - Index or -1.
 
+---
+
 ### `last_index()`
 `(arr [type], value type) -> int`
 
@@ -318,6 +346,8 @@ do main() {
 **Parameters:** `arr`, `value`.
 
 **Returns:** `int` - Index or -1.
+
+---
 
 ## Transforming
 
@@ -340,6 +370,8 @@ do main() {
 
 **Returns:** Nothing (mutates array in place).
 
+---
+
 ### `sort()`
 `(arr [type]) -> void`
 
@@ -358,6 +390,8 @@ do main() {
 **Parameters:** `arr` - The array.
 
 **Returns:** Nothing (mutates array in place).
+
+---
 
 ### `sort_desc()`
 `(arr [type]) -> void`
@@ -378,6 +412,8 @@ do main() {
 
 **Returns:** Nothing (mutates array in place).
 
+---
+
 ### `shuffle()`
 `(arr [type]) -> void`
 
@@ -396,6 +432,10 @@ do main() {
 **Parameters:** `arr` - The array.
 
 **Returns:** Nothing (mutates array in place).
+
+> **Note:** [`random.shuffle()`](/EZ-Language-Webapp/docs/stdlib/random) returns a new shuffled array without modifying the original.
+
+---
 
 ### `slice()`
 `(arr [type], start int, end int) -> [type]`
@@ -417,6 +457,8 @@ do main() {
 **Returns:** A new array with the slice.
 
 **Errors:** [E7004](/EZ-Language-Webapp/errors/E7004) if indices are not integers.
+
+---
 
 ### `concat()`
 `(arr1 [type], arr2 [type]) -> [type]`
@@ -440,6 +482,8 @@ do main() {
 
 **Errors:** [E7002](/EZ-Language-Webapp/errors/E7002) if arguments are not arrays.
 
+---
+
 ### `repeat()`
 `(value type, count int) -> [type]`
 
@@ -459,6 +503,8 @@ do main() {
 **Returns:** A new array.
 
 **Errors:** [E7004](/EZ-Language-Webapp/errors/E7004) if count is not an integer.
+
+---
 
 ## Numeric Arrays
 
@@ -482,6 +528,8 @@ do main() {
 
 **Errors:** [E9002](/EZ-Language-Webapp/errors/E9002) if the array is not numeric.
 
+---
+
 ### `product()`
 `(arr [number]) -> number`
 
@@ -501,6 +549,8 @@ do main() {
 **Returns:** The product.
 
 **Errors:** [E9002](/EZ-Language-Webapp/errors/E9002) if the array is not numeric.
+
+---
 
 ### `min()` / `max()`
 `(arr [number]) -> number`
@@ -523,6 +573,8 @@ do main() {
 
 **Errors:** [E9001](/EZ-Language-Webapp/errors/E9001) if the array is empty.
 
+---
+
 ### `avg()`
 `(arr [number]) -> float`
 
@@ -542,6 +594,8 @@ do main() {
 **Returns:** `float` - The average.
 
 **Errors:** [E9001](/EZ-Language-Webapp/errors/E9001) if the array is empty, [E9002](/EZ-Language-Webapp/errors/E9002) if not numeric.
+
+---
 
 ## Utilities
 
@@ -569,6 +623,8 @@ do main() {
 
 **Errors:** [E9003](/EZ-Language-Webapp/errors/E9003) if step is zero.
 
+---
+
 ### `join()`
 `(arr [type], separator string) -> string`
 
@@ -592,6 +648,8 @@ do main() {
 
 **Errors:** [E7003](/EZ-Language-Webapp/errors/E7003) if separator is not a string.
 
+---
+
 ### `zip()`
 `(arr1 [type], arr2 [type]) -> [[type]]`
 
@@ -614,6 +672,8 @@ do main() {
 
 **Errors:** [E7002](/EZ-Language-Webapp/errors/E7002) if arguments are not arrays.
 
+---
+
 ### `chunk()`
 `(arr [type], size int) -> [[type]]`
 
@@ -635,6 +695,8 @@ do main() {
 
 **Errors:** [E9004](/EZ-Language-Webapp/errors/E9004) if chunk size is not greater than zero.
 
+---
+
 ### `flatten()`
 `(arr [[type]]) -> [type]`
 
@@ -655,6 +717,8 @@ do main() {
 **Returns:** `[type]` - A flattened 1D array.
 
 **Errors:** [E7002](/EZ-Language-Webapp/errors/E7002) if argument is not a 2D array.
+
+---
 
 ### `equals()`
 `(arr1 [type], arr2 [type]) -> bool`
@@ -681,6 +745,8 @@ do main() {
 **Returns:** `bool` - `true` if both arrays have equal elements in the same order.
 
 **Errors:** [E7002](/EZ-Language-Webapp/errors/E7002) if arguments are not arrays.
+
+---
 
 ## Example Program
 

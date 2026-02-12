@@ -84,6 +84,24 @@ do validate(n int) -> bool {
 }
 ```
 
+### ensure
+
+Guarantees a function call runs when the current function exits, regardless of how it exits. Used for cleanup like closing files or databases.
+
+```ez
+import @io
+
+do process() {
+    temp file, _ = io.open("data.txt", "r")
+    ensure io.close(file)  // always runs when process() exits
+
+    // ... work with file ...
+    // io.close(file) runs automatically, even on early return
+}
+```
+
+Multiple `ensure` statements run in reverse order (last registered runs first). See [Functions - ensure](/EZ-Language-Webapp/docs/language/functions) for details.
+
 ## Control Flow
 
 ### if
@@ -524,6 +542,26 @@ temp isValid bool = true
 temp hasError bool = false
 ```
 
+### nil
+
+Represents the absence of a value. Used primarily with `Error` types to indicate success or check for errors.
+
+```ez
+import @std, @io
+
+do main() {
+    temp content, err = io.read("data.txt")
+    if err != nil {
+        std.println("Error:", err.message)
+        return
+    }
+    // err is nil, meaning no error occurred
+    std.println(content)
+}
+```
+
+Functions that can fail return `nil` for the error on success, or an `Error` on failure.
+
 ## Quick Reference Table
 
 | EZ Keyword | Other Languages | Purpose |
@@ -540,6 +578,8 @@ temp hasError bool = false
 | `is` | `case` | Pattern case |
 | `default` | `default`, `_` | Fallback case |
 | `cast` | type casts, `as` | Type conversion |
+| `ensure` | `defer` | Guaranteed cleanup on function exit |
+| `nil` | `null`, `None`, `nil` | Absence of a value |
 | `private` | `private`, `internal` | Module-private declaration |
 
 For attributes (`#doc`, `#enum`, `#flags`, `#strict`, `#suppress`), see [Attributes](/EZ-Language-Webapp/docs/language/attributes).

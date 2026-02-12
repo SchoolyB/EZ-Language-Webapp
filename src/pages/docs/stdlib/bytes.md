@@ -7,7 +7,7 @@ description: 'Binary data manipulation and encoding/decoding operations.'
 # @bytes
 
 The `@bytes` module provides functions for working with binary data, including
-encoding/decoding (hex, base64), byte manipulation, and bitwise operations.
+encoding/decoding (hex, base64), byte manipulation, and bitwise operations. For string-level encoding, see [`@encoding`](/EZ-Language-Webapp/docs/stdlib/encoding).
 
 ## Import
 

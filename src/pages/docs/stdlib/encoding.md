@@ -6,7 +6,7 @@ description: 'Base64, hex, and URL encoding/decoding utilities.'
 
 # @encoding
 
-The `@encoding` module provides functions for encoding and decoding data in various formats including Base64, hexadecimal, and URL encoding.
+The `@encoding` module provides functions for encoding and decoding data in various formats including Base64, hexadecimal, and URL encoding. These functions work with strings. For byte-level encoding, see [`@bytes`](/EZ-Language-Webapp/docs/stdlib/bytes).
 
 ## Import
 

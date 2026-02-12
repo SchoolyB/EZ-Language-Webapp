@@ -34,6 +34,8 @@ do uppercase_demo() {
 
 **Returns:** `string` - Uppercase version.
 
+---
+
 ### `lower()`
 `(str string) -> string`
 
@@ -51,6 +53,8 @@ do lowercase_demo() {
 **Parameters:** `str` - The string.
 
 **Returns:** `string` - Lowercase version.
+
+---
 
 ### `capitalize()`
 `(str string) -> string`
@@ -70,6 +74,8 @@ do capitalize_demo() {
 
 **Returns:** `string` - Capitalized string.
 
+---
+
 ### `title()`
 `(str string) -> string`
 
@@ -87,6 +93,8 @@ do title_case_demo() {
 **Parameters:** `str` - The string.
 
 **Returns:** `string` - Title-cased string.
+
+---
 
 ## Searching
 
@@ -110,6 +118,8 @@ do check_contains() {
 
 **Errors:** [E7003](/EZ-Language-Webapp/errors/E7003) if arguments are not strings.
 
+---
+
 ### `starts_with()`
 `(str string, prefix string) -> bool`
 
@@ -129,6 +139,8 @@ do check_prefix() {
 **Returns:** `bool` - true if starts with prefix.
 
 **Errors:** [E7003](/EZ-Language-Webapp/errors/E7003) if arguments are not strings.
+
+---
 
 ### `ends_with()`
 `(str string, suffix string) -> bool`
@@ -150,6 +162,8 @@ do check_suffix() {
 
 **Errors:** [E7003](/EZ-Language-Webapp/errors/E7003) if arguments are not strings.
 
+---
+
 ### `index()`
 `(str string, substr string) -> int`
 
@@ -169,6 +183,8 @@ do find_index() {
 **Returns:** `int` - Index or -1.
 
 **Errors:** [E7003](/EZ-Language-Webapp/errors/E7003) if arguments are not strings.
+
+---
 
 ## Trimming
 
@@ -190,6 +206,8 @@ do trim_whitespace() {
 
 **Returns:** `string` - Trimmed string.
 
+---
+
 ### `trim_left()` / `trim_right()`
 `(str string) -> string`
 
@@ -207,6 +225,8 @@ do trim_sides() {
 **Parameters:** `str` - The string.
 
 **Returns:** `string` - Trimmed string.
+
+---
 
 ## Splitting and Joining
 
@@ -233,6 +253,8 @@ do split_string() {
 
 **Errors:** [E7003](/EZ-Language-Webapp/errors/E7003) if arguments are not strings.
 
+---
+
 ### `join()`
 `(arr [string], separator string) -> string`
 
@@ -253,6 +275,8 @@ do join_strings() {
 **Returns:** `string` - Joined string.
 
 **Errors:** [E7002](/EZ-Language-Webapp/errors/E7002) if the first argument is not an array.
+
+---
 
 ## Replacing
 
@@ -275,6 +299,8 @@ do replace_all() {
 **Returns:** `string` - Modified string.
 
 **Errors:** [E7003](/EZ-Language-Webapp/errors/E7003) if arguments are not strings.
+
+---
 
 ### `replace_n()`
 `(str string, old string, new string, n int) -> string`
@@ -418,6 +444,8 @@ do get_char() {
 
 **Returns:** `string` - Single character.
 
+---
+
 ## Padding
 
 ### `pad_left()` / `pad_right()`
@@ -438,6 +466,8 @@ do pad_strings() {
 
 **Returns:** `string` - Padded string.
 
+---
+
 ### `repeat()`
 `(str string, count int) -> string`
 
@@ -455,6 +485,8 @@ do repeat_string() {
 **Parameters:** `str`, `count`.
 
 **Returns:** `string` - Repeated string.
+
+---
 
 ## Conversion
 
@@ -476,6 +508,8 @@ do split_to_chars() {
 
 **Returns:** `[string]` - Array of characters.
 
+---
+
 ### `reverse()`
 `(str string) -> string`
 
@@ -493,6 +527,8 @@ do reverse_string() {
 **Parameters:** `str` - The string.
 
 **Returns:** `string` - Reversed string.
+
+---
 
 ## Parsing
 
@@ -800,6 +836,10 @@ std.println(strings.is_alphanumeric("Hello123"))  // true
 std.println(strings.is_alphanumeric("Hello 123")) // false
 ```
 
+**Parameters:** `str` - The string to check.
+
+**Returns:** `bool` - `true` if all characters are alphanumeric.
+
 ---
 
 ### `is_whitespace()`
@@ -811,6 +851,10 @@ Checks if all characters are whitespace.
 std.println(strings.is_whitespace("  \t\n"))  // true
 std.println(strings.is_whitespace("  a  "))   // false
 ```
+
+**Parameters:** `str` - The string to check.
+
+**Returns:** `bool` - `true` if all characters are whitespace.
 
 ---
 
@@ -824,6 +868,10 @@ std.println(strings.is_lowercase("hello"))  // true
 std.println(strings.is_uppercase("HELLO"))  // true
 ```
 
+**Parameters:** `str` - The string to check.
+
+**Returns:** `bool` - `true` if all letters match the case.
+
 ---
 
 ### `is_ascii()`
@@ -835,6 +883,10 @@ Checks if all characters are ASCII (code points 0-127).
 std.println(strings.is_ascii("hello"))  // true
 std.println(strings.is_ascii("héllo"))  // false
 ```
+
+**Parameters:** `str` - The string to check.
+
+**Returns:** `bool` - `true` if all characters are ASCII.
 
 ---
 
@@ -875,3 +927,4 @@ do main() {
     // Center and pad
     std.println(strings.center("EZ", 20, "="))  // "=========EZ========="
 }
+```

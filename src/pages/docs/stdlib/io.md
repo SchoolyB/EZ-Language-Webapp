@@ -72,7 +72,7 @@ import @std, @io
 
 do read_file_lines() {
     temp lines, err = io.read_lines("data.txt")
-    for line in lines {
+    for_each line in lines {
         std.println(line)
     }
 }
@@ -423,7 +423,7 @@ import @std, @io
 
 do list_directory() {
     temp entries, err = io.read_dir("src")
-    for entry in entries {
+    for_each entry in entries {
         std.println(entry)
     }
 }

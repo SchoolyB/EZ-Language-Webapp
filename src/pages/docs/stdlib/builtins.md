@@ -419,6 +419,9 @@ The `Error` type represents an error value that can be returned from functions.
 **Checking for errors:**
 
 ```ez
+import @std
+using std
+
 temp err = validate("")
 if err != nil {
     println("Error: ${err.message}")
@@ -434,6 +437,9 @@ Creates a user-defined error. Returns an `Error` with `.message` set to the argu
 **Single error return:**
 
 ```ez
+import @std
+using std
+
 do validate(name string) -> Error {
     if len(name) == 0 {
         return error("name cannot be empty")
@@ -452,6 +458,9 @@ do main() {
 **Tuple return (value + error):**
 
 ```ez
+import @std
+using std
+
 do divide(a int, b int) -> (int, Error) {
     if b == 0 {
         return 0, error("division by zero")
