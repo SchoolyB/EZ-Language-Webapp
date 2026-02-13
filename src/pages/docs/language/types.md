@@ -479,6 +479,7 @@ Use underscores for readability:
 temp million int = 1_000_000
 temp binary int = 0b1010_1010
 temp hex int = 0xFF_FF
+temp octal int = 0o777
 temp pi float = 3.141_592_653
 ```
 

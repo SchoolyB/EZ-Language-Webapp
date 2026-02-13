@@ -67,6 +67,24 @@ do measure_elapsed_time() {
 
 **Returns:** `int` - Tick value for use with elapsed_ms.
 
+---
+
+### `now_ns()`
+`() -> int`
+
+Returns the current Unix timestamp in nanoseconds.
+
+```ez
+import @std, @time
+
+do get_time_nanoseconds() {
+    temp timestamp_ns int = time.now_ns()
+    std.println(timestamp_ns)  // e.g., 1701234567890000000
+}
+```
+
+**Returns:** `int` - Unix timestamp in nanoseconds.
+
 ## Sleeping
 
 > **Note:** The `@std` module also provides [`sleep_seconds()`](/EZ-Language-Webapp/docs/stdlib/std), [`sleep_milliseconds()`](/EZ-Language-Webapp/docs/stdlib/std), and [`sleep_nanoseconds()`](/EZ-Language-Webapp/docs/stdlib/std) functions. Use whichever module you already have imported.
@@ -150,6 +168,75 @@ do format_time() {
 - `ss` - 2-digit second (00-59)
 - `MMM` - 3-letter month name (Jan, Feb, ...)
 
+---
+
+### `iso()`
+`([timestamp int]) -> string`
+
+Returns a timestamp in ISO 8601 format (YYYY-MM-DDTHH:mm:ssZ). Uses current time if no argument is provided.
+
+```ez
+import @std, @time
+
+do get_iso_time() {
+    temp ts int = time.now()
+    std.println(time.iso(ts))  // e.g., "2024-12-15T14:30:45Z"
+
+    // Can also be called without arguments for current time
+    std.println(time.iso())
+}
+```
+
+**Parameters:** `timestamp` *(optional)* - A Unix timestamp. Defaults to current time.
+
+**Returns:** `string` - ISO 8601 formatted date string.
+
+---
+
+### `date()`
+`([timestamp int]) -> string`
+
+Returns a timestamp as a YYYY-MM-DD string. Uses current time if no argument is provided.
+
+```ez
+import @std, @time
+
+do get_date_string() {
+    temp ts int = time.now()
+    std.println(time.date(ts))  // e.g., "2024-12-15"
+
+    // Can also be called without arguments for current time
+    std.println(time.date())
+}
+```
+
+**Parameters:** `timestamp` *(optional)* - A Unix timestamp. Defaults to current time.
+
+**Returns:** `string` - Date string in YYYY-MM-DD format.
+
+---
+
+### `clock()`
+`([timestamp int]) -> string`
+
+Returns a timestamp as an HH:mm:ss string. Uses current time if no argument is provided.
+
+```ez
+import @std, @time
+
+do get_clock_string() {
+    temp ts int = time.now()
+    std.println(time.clock(ts))  // e.g., "14:30:45"
+
+    // Can also be called without arguments for current time
+    std.println(time.clock())
+}
+```
+
+**Parameters:** `timestamp` *(optional)* - A Unix timestamp. Defaults to current time.
+
+**Returns:** `string` - Time string in HH:mm:ss format.
+
 ## Parsing
 
 ### `parse()`
@@ -202,7 +289,7 @@ do create_timestamp() {
 
 ## Date Arithmetic
 
-### `add_days()` / `add_hours()` / `add_minutes()` / `add_seconds()`
+### `add_days()` / `add_hours()` / `add_minutes()` / `add_seconds()` / `add_weeks()` / `add_months()` / `add_years()`
 `(timestamp int, amount int) -> int`
 
 Adds time to a timestamp and returns a new timestamp.
@@ -221,6 +308,78 @@ do add_time() {
 ```
 
 **Parameters:** `timestamp`, `amount`.
+
+**Returns:** `int` - New timestamp.
+
+**Errors:** [E7004](/EZ-Language-Webapp/errors/E7004) if arguments are not integers.
+
+---
+
+### `add_weeks()`
+`(timestamp int, weeks int) -> int`
+
+Adds weeks to a timestamp.
+
+```ez
+import @std, @time
+
+do add_weeks_demo() {
+    temp today int = time.now()
+    temp next_week int = time.add_weeks(today, 1)
+    temp last_week int = time.add_weeks(today, -1)
+    std.println("Next week:", time.format(next_week, "YYYY-MM-DD"))
+}
+```
+
+**Parameters:** `timestamp`, `weeks`.
+
+**Returns:** `int` - New timestamp.
+
+**Errors:** [E7004](/EZ-Language-Webapp/errors/E7004) if arguments are not integers.
+
+---
+
+### `add_months()`
+`(timestamp int, months int) -> int`
+
+Adds months to a timestamp.
+
+```ez
+import @std, @time
+
+do add_months_demo() {
+    temp today int = time.now()
+    temp next_month int = time.add_months(today, 1)
+    temp six_months_ago int = time.add_months(today, -6)
+    std.println("Next month:", time.format(next_month, "YYYY-MM-DD"))
+}
+```
+
+**Parameters:** `timestamp`, `months`.
+
+**Returns:** `int` - New timestamp.
+
+**Errors:** [E7004](/EZ-Language-Webapp/errors/E7004) if arguments are not integers.
+
+---
+
+### `add_years()`
+`(timestamp int, years int) -> int`
+
+Adds years to a timestamp.
+
+```ez
+import @std, @time
+
+do add_years_demo() {
+    temp today int = time.now()
+    temp next_year int = time.add_years(today, 1)
+    temp decade_ago int = time.add_years(today, -10)
+    std.println("Next year:", time.format(next_year, "YYYY-MM-DD"))
+}
+```
+
+**Parameters:** `timestamp`, `years`.
 
 **Returns:** `int` - New timestamp.
 
@@ -246,6 +405,126 @@ do time_difference() {
 **Parameters:** `timestamp1`, `timestamp2`.
 
 **Returns:** `int` - Difference in seconds.
+
+**Errors:** [E7004](/EZ-Language-Webapp/errors/E7004) if arguments are not integers.
+
+---
+
+### `diff_days()`
+`(timestamp1 int, timestamp2 int) -> int`
+
+Returns the difference between two timestamps in days.
+
+```ez
+import @std, @time
+
+do days_between() {
+    temp start int = time.make(2024, 1, 1)
+    temp end int = time.make(2024, 12, 31)
+    temp days int = time.diff_days(end, start)
+    std.println("Days between:", days)
+}
+```
+
+**Parameters:** `timestamp1`, `timestamp2`.
+
+**Returns:** `int` - Difference in days.
+
+**Errors:** [E7004](/EZ-Language-Webapp/errors/E7004) if arguments are not integers.
+
+---
+
+### `diff_hours()`
+`(timestamp1 int, timestamp2 int) -> int`
+
+Returns the difference between two timestamps in hours.
+
+```ez
+import @std, @time
+
+do hours_between() {
+    temp start int = time.make(2024, 1, 1)
+    temp end int = time.make(2024, 1, 2)
+    temp hours int = time.diff_hours(end, start)
+    std.println("Hours between:", hours)  // 24
+}
+```
+
+**Parameters:** `timestamp1`, `timestamp2`.
+
+**Returns:** `int` - Difference in hours.
+
+**Errors:** [E7004](/EZ-Language-Webapp/errors/E7004) if arguments are not integers.
+
+---
+
+### `diff_minutes()`
+`(timestamp1 int, timestamp2 int) -> int`
+
+Returns the difference between two timestamps in minutes.
+
+```ez
+import @std, @time
+
+do minutes_between() {
+    temp start int = time.make(2024, 1, 1, 12, 0, 0)
+    temp end int = time.make(2024, 1, 1, 14, 30, 0)
+    temp minutes int = time.diff_minutes(end, start)
+    std.println("Minutes between:", minutes)  // 150
+}
+```
+
+**Parameters:** `timestamp1`, `timestamp2`.
+
+**Returns:** `int` - Difference in minutes.
+
+**Errors:** [E7004](/EZ-Language-Webapp/errors/E7004) if arguments are not integers.
+
+---
+
+### `is_before()`
+`(timestamp1 int, timestamp2 int) -> bool`
+
+Returns true if timestamp1 is before timestamp2.
+
+```ez
+import @std, @time
+
+do check_before() {
+    temp past int = time.make(2020, 1, 1)
+    temp future int = time.make(2025, 1, 1)
+    std.println(time.is_before(past, future))  // true
+    std.println(time.is_before(future, past))  // false
+}
+```
+
+**Parameters:** `timestamp1`, `timestamp2`.
+
+**Returns:** `bool` - true if timestamp1 is before timestamp2.
+
+**Errors:** [E7004](/EZ-Language-Webapp/errors/E7004) if arguments are not integers.
+
+---
+
+### `is_after()`
+`(timestamp1 int, timestamp2 int) -> bool`
+
+Returns true if timestamp1 is after timestamp2.
+
+```ez
+import @std, @time
+
+do check_after() {
+    temp past int = time.make(2020, 1, 1)
+    temp future int = time.make(2025, 1, 1)
+    std.println(time.is_after(future, past))  // true
+    std.println(time.is_after(past, future))  // false
+}
+```
+
+**Parameters:** `timestamp1`, `timestamp2`.
+
+**Returns:** `bool` - true if timestamp1 is after timestamp2.
 
 **Errors:** [E7004](/EZ-Language-Webapp/errors/E7004) if arguments are not integers.
 
@@ -298,6 +577,75 @@ do get_weekday() {
 
 **Returns:** `int` - Day of week (0-6).
 
+---
+
+### `weekday_name()`
+`([timestamp int]) -> string`
+
+Returns the name of the day (e.g., "Monday"). Uses current time if no argument is provided.
+
+```ez
+import @std, @time
+
+do get_weekday_name() {
+    temp ts int = time.now()
+    std.println(time.weekday_name(ts))  // e.g., "Monday"
+
+    // Can also be called without arguments for current time
+    std.println(time.weekday_name())
+}
+```
+
+**Parameters:** `timestamp` *(optional)* - A Unix timestamp. Defaults to current time.
+
+**Returns:** `string` - Name of the day.
+
+---
+
+### `month_name()`
+`([timestamp int]) -> string`
+
+Returns the name of the month (e.g., "January"). Uses current time if no argument is provided.
+
+```ez
+import @std, @time
+
+do get_month_name() {
+    temp ts int = time.now()
+    std.println(time.month_name(ts))  // e.g., "January"
+
+    // Can also be called without arguments for current time
+    std.println(time.month_name())
+}
+```
+
+**Parameters:** `timestamp` *(optional)* - A Unix timestamp. Defaults to current time.
+
+**Returns:** `string` - Name of the month.
+
+---
+
+### `day_of_year()`
+`([timestamp int]) -> int`
+
+Returns the day of the year (1-366). Uses current time if no argument is provided.
+
+```ez
+import @std, @time
+
+do get_day_of_year() {
+    temp ts int = time.now()
+    std.println(time.day_of_year(ts))  // e.g., 350
+
+    // Can also be called without arguments for current time
+    std.println(time.day_of_year())
+}
+```
+
+**Parameters:** `timestamp` *(optional)* - A Unix timestamp. Defaults to current time.
+
+**Returns:** `int` - Day of the year (1-366).
+
 ## Calendar Utilities
 
 ### `is_leap_year()`
@@ -341,6 +689,163 @@ do get_days_in_month() {
 
 **Errors:** [E7004](/EZ-Language-Webapp/errors/E7004) if arguments are not integers.
 
+---
+
+### `timezone()`
+`() -> string`
+
+Returns the local timezone name (e.g., "EST", "UTC").
+
+```ez
+import @std, @time
+
+do get_timezone() {
+    temp tz string = time.timezone()
+    std.println(tz)  // e.g., "EST"
+}
+```
+
+**Returns:** `string` - Local timezone name.
+
+---
+
+### `utc_offset()`
+`() -> int`
+
+Returns the UTC offset in seconds for the local timezone.
+
+```ez
+import @std, @time
+
+do get_utc_offset() {
+    temp offset int = time.utc_offset()
+    std.println(offset)  // e.g., -18000 for EST (UTC-5)
+}
+```
+
+**Returns:** `int` - UTC offset in seconds.
+
+---
+
+### `start_of_day()` / `end_of_day()`
+`(timestamp int) -> int`
+
+Returns the timestamp for the start (00:00:00) or end (23:59:59) of the day.
+
+```ez
+import @std, @time
+
+do day_boundaries() {
+    temp ts int = time.now()
+    temp start int = time.start_of_day(ts)
+    temp end int = time.end_of_day(ts)
+    std.println("Start of day:", time.format(start, "YYYY-MM-DD HH:mm:ss"))
+    std.println("End of day:", time.format(end, "YYYY-MM-DD HH:mm:ss"))
+}
+```
+
+**Parameters:** `timestamp` - A Unix timestamp.
+
+**Returns:** `int` - Timestamp for start or end of day.
+
+**Errors:** [E7004](/EZ-Language-Webapp/errors/E7004) if the argument is not an integer.
+
+---
+
+### `start_of_month()` / `end_of_month()`
+`(timestamp int) -> int`
+
+Returns the timestamp for the start or end of the month.
+
+```ez
+import @std, @time
+
+do month_boundaries() {
+    temp ts int = time.now()
+    temp start int = time.start_of_month(ts)
+    temp end int = time.end_of_month(ts)
+    std.println("Start of month:", time.format(start, "YYYY-MM-DD"))
+    std.println("End of month:", time.format(end, "YYYY-MM-DD"))
+}
+```
+
+**Parameters:** `timestamp` - A Unix timestamp.
+
+**Returns:** `int` - Timestamp for start or end of month.
+
+**Errors:** [E7004](/EZ-Language-Webapp/errors/E7004) if the argument is not an integer.
+
+---
+
+### `start_of_year()` / `end_of_year()`
+`(timestamp int) -> int`
+
+Returns the timestamp for the start or end of the year.
+
+```ez
+import @std, @time
+
+do year_boundaries() {
+    temp ts int = time.now()
+    temp start int = time.start_of_year(ts)
+    temp end int = time.end_of_year(ts)
+    std.println("Start of year:", time.format(start, "YYYY-MM-DD"))
+    std.println("End of year:", time.format(end, "YYYY-MM-DD"))
+}
+```
+
+**Parameters:** `timestamp` - A Unix timestamp.
+
+**Returns:** `int` - Timestamp for start or end of year.
+
+**Errors:** [E7004](/EZ-Language-Webapp/errors/E7004) if the argument is not an integer.
+
+---
+
+### `quarter()`
+`([timestamp int]) -> int`
+
+Returns the quarter of the year (1-4). Uses current time if no argument is provided.
+
+```ez
+import @std, @time
+
+do get_quarter() {
+    temp ts int = time.now()
+    std.println(time.quarter(ts))  // e.g., 4
+
+    // Can also be called without arguments for current time
+    std.println(time.quarter())
+}
+```
+
+**Parameters:** `timestamp` *(optional)* - A Unix timestamp. Defaults to current time.
+
+**Returns:** `int` - Quarter of the year (1-4).
+
+---
+
+### `week_of_year()`
+`([timestamp int]) -> int`
+
+Returns the ISO week number of the year (1-53). Uses current time if no argument is provided.
+
+```ez
+import @std, @time
+
+do get_week_of_year() {
+    temp ts int = time.now()
+    std.println(time.week_of_year(ts))  // e.g., 50
+
+    // Can also be called without arguments for current time
+    std.println(time.week_of_year())
+}
+```
+
+**Parameters:** `timestamp` *(optional)* - A Unix timestamp. Defaults to current time.
+
+**Returns:** `int` - ISO week number (1-53).
+
 ## Performance Timing
 
 ### `elapsed_ms()`
@@ -367,6 +872,223 @@ do benchmark_operation() {
 **Parameters:** `start_tick` - A tick value from time.tick().
 
 **Returns:** `int` - Milliseconds elapsed.
+
+**Errors:** [E7004](/EZ-Language-Webapp/errors/E7004) if the argument is not an integer.
+
+## Conversion
+
+### `from_unix()`
+`(seconds int) -> int`
+
+Alias for identity — converts Unix seconds to a timestamp (pass-through for clarity).
+
+```ez
+import @std, @time
+
+do convert_from_unix() {
+    temp ts int = time.from_unix(1701234567)
+    std.println(time.format(ts, "YYYY-MM-DD HH:mm:ss"))
+}
+```
+
+**Parameters:** `seconds` - Unix timestamp in seconds.
+
+**Returns:** `int` - Timestamp in seconds.
+
+**Errors:** [E7004](/EZ-Language-Webapp/errors/E7004) if the argument is not an integer.
+
+---
+
+### `from_unix_ms()`
+`(milliseconds int) -> int`
+
+Converts Unix milliseconds to a seconds timestamp.
+
+```ez
+import @std, @time
+
+do convert_from_unix_ms() {
+    temp ts int = time.from_unix_ms(1701234567890)
+    std.println(time.format(ts, "YYYY-MM-DD HH:mm:ss"))
+}
+```
+
+**Parameters:** `milliseconds` - Unix timestamp in milliseconds.
+
+**Returns:** `int` - Timestamp in seconds.
+
+**Errors:** [E7004](/EZ-Language-Webapp/errors/E7004) if the argument is not an integer.
+
+---
+
+### `to_unix()`
+`(timestamp int) -> int`
+
+Returns the Unix timestamp in seconds (identity/pass-through).
+
+```ez
+import @std, @time
+
+do convert_to_unix() {
+    temp ts int = time.now()
+    temp unix_ts int = time.to_unix(ts)
+    std.println(unix_ts)
+}
+```
+
+**Parameters:** `timestamp` - A Unix timestamp.
+
+**Returns:** `int` - Unix timestamp in seconds.
+
+**Errors:** [E7004](/EZ-Language-Webapp/errors/E7004) if the argument is not an integer.
+
+---
+
+### `to_unix_ms()`
+`(timestamp int) -> int`
+
+Converts a seconds timestamp to milliseconds.
+
+```ez
+import @std, @time
+
+do convert_to_unix_ms() {
+    temp ts int = time.now()
+    temp ms int = time.to_unix_ms(ts)
+    std.println(ms)  // e.g., 1701234567000
+}
+```
+
+**Parameters:** `timestamp` - A Unix timestamp in seconds.
+
+**Returns:** `int` - Unix timestamp in milliseconds.
+
+**Errors:** [E7004](/EZ-Language-Webapp/errors/E7004) if the argument is not an integer.
+
+## Convenience Checks
+
+### `is_weekend()`
+`([timestamp int]) -> bool`
+
+Returns true if the timestamp falls on Saturday or Sunday. Uses current time if no argument is provided.
+
+```ez
+import @std, @time
+
+do check_weekend() {
+    temp ts int = time.now()
+    if time.is_weekend(ts) {
+        std.println("It's the weekend!")
+    }
+
+    // Can also be called without arguments for current time
+    std.println(time.is_weekend())
+}
+```
+
+**Parameters:** `timestamp` *(optional)* - A Unix timestamp. Defaults to current time.
+
+**Returns:** `bool` - true if Saturday or Sunday.
+
+---
+
+### `is_weekday()`
+`([timestamp int]) -> bool`
+
+Returns true if the timestamp falls on a weekday (Monday-Friday). Uses current time if no argument is provided.
+
+```ez
+import @std, @time
+
+do check_weekday() {
+    temp ts int = time.now()
+    if time.is_weekday(ts) {
+        std.println("It's a weekday!")
+    }
+
+    // Can also be called without arguments for current time
+    std.println(time.is_weekday())
+}
+```
+
+**Parameters:** `timestamp` *(optional)* - A Unix timestamp. Defaults to current time.
+
+**Returns:** `bool` - true if Monday through Friday.
+
+---
+
+### `is_today()`
+`(timestamp int) -> bool`
+
+Returns true if the timestamp is on the same date as today.
+
+```ez
+import @std, @time
+
+do check_today() {
+    temp ts int = time.now()
+    std.println(time.is_today(ts))  // true
+
+    temp past int = time.make(2020, 1, 1)
+    std.println(time.is_today(past))  // false
+}
+```
+
+**Parameters:** `timestamp` - A Unix timestamp.
+
+**Returns:** `bool` - true if the timestamp is today.
+
+**Errors:** [E7004](/EZ-Language-Webapp/errors/E7004) if the argument is not an integer.
+
+---
+
+### `is_same_day()`
+`(timestamp1 int, timestamp2 int) -> bool`
+
+Returns true if two timestamps fall on the same calendar day.
+
+```ez
+import @std, @time
+
+do check_same_day() {
+    temp morning int = time.make(2024, 12, 15, 8, 0, 0)
+    temp evening int = time.make(2024, 12, 15, 20, 0, 0)
+    temp next_day int = time.make(2024, 12, 16, 8, 0, 0)
+
+    std.println(time.is_same_day(morning, evening))  // true
+    std.println(time.is_same_day(morning, next_day))  // false
+}
+```
+
+**Parameters:** `timestamp1`, `timestamp2`.
+
+**Returns:** `bool` - true if both timestamps are on the same day.
+
+**Errors:** [E7004](/EZ-Language-Webapp/errors/E7004) if arguments are not integers.
+
+---
+
+### `relative()`
+`(timestamp int) -> string`
+
+Returns a human-readable relative time string (e.g., "5 minutes ago", "in 2 hours").
+
+```ez
+import @std, @time
+
+do get_relative_time() {
+    temp now int = time.now()
+    temp past int = time.add_hours(now, -2)
+    temp future int = time.add_minutes(now, 30)
+
+    std.println(time.relative(past))    // e.g., "2 hours ago"
+    std.println(time.relative(future))  // e.g., "in 30 minutes"
+}
+```
+
+**Parameters:** `timestamp` - A Unix timestamp.
+
+**Returns:** `string` - Human-readable relative time string.
 
 **Errors:** [E7004](/EZ-Language-Webapp/errors/E7004) if the argument is not an integer.
 

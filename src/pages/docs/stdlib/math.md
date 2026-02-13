@@ -96,6 +96,95 @@ do average_demo() {
 
 **Errors:** [E7001](/EZ-Language-Webapp/errors/E7001) if called with no arguments.
 
+---
+
+### `sign()`
+`(n number) -> int`
+
+Returns -1, 0, or 1 indicating the sign of a number.
+
+```ez
+import @std, @math
+
+do sign_demo() {
+    std.println(math.sign(-42))   // -1
+    std.println(math.sign(0))     // 0
+    std.println(math.sign(3.14))  // 1
+}
+```
+
+**Parameters:** `n` - A number (int or float).
+
+**Returns:** `int` - `-1` if negative, `0` if zero, `1` if positive.
+
+---
+
+### `neg()`
+`(n number) -> number`
+
+Returns the negation of a number.
+
+```ez
+import @std, @math
+
+do neg_demo() {
+    std.println(math.neg(5))     // -5
+    std.println(math.neg(-3))    // 3
+    std.println(math.neg(0))     // 0
+}
+```
+
+**Parameters:** `n` - A number (int or float).
+
+**Returns:** The negation of the number.
+
+---
+
+### `clamp()`
+`(value number, min number, max number) -> number`
+
+Constrains a value between a minimum and maximum.
+
+```ez
+import @std, @math
+
+do clamp_demo() {
+    std.println(math.clamp(15, 0, 10))   // 10
+    std.println(math.clamp(-5, 0, 10))   // 0
+    std.println(math.clamp(5, 0, 10))    // 5
+}
+```
+
+**Parameters:**
+- `value` - The number to clamp
+- `min` - The minimum bound
+- `max` - The maximum bound
+
+**Returns:** The clamped value.
+
+---
+
+### `trunc()`
+`(n float) -> int`
+
+Truncates a float to an integer (removes decimal part without rounding).
+
+```ez
+import @std, @math
+
+do trunc_demo() {
+    std.println(math.trunc(3.7))   // 3
+    std.println(math.trunc(-3.7))  // -3
+    std.println(math.trunc(5.0))   // 5
+}
+```
+
+**Parameters:** `n` - A float.
+
+**Returns:** `int` - The truncated value.
+
+---
+
 ### `floor()` / `ceil()` / `round()`
 `(n float) -> int`
 
@@ -156,6 +245,91 @@ do square_root_demo() {
 **Returns:** `float` - The square root.
 
 **Errors:** [E8001](/EZ-Language-Webapp/errors/E8001) if the argument is negative.
+
+---
+
+### `cbrt()`
+`(n number) -> float`
+
+Returns the cube root of a number.
+
+```ez
+import @std, @math
+
+do cbrt_demo() {
+    std.println(math.cbrt(27))   // 3.0
+    std.println(math.cbrt(8))    // 2.0
+    std.println(math.cbrt(-8))   // -2.0
+}
+```
+
+**Parameters:** `n` - A number (int or float).
+
+**Returns:** `float` - The cube root.
+
+---
+
+### `hypot()`
+`(a number, b number) -> float`
+
+Returns the hypotenuse: sqrt(a² + b²).
+
+```ez
+import @std, @math
+
+do hypot_demo() {
+    std.println(math.hypot(3, 4))   // 5.0
+    std.println(math.hypot(5, 12))  // 13.0
+}
+```
+
+**Parameters:** `a`, `b` - Numbers.
+
+**Returns:** `float` - The hypotenuse.
+
+---
+
+### `exp()`
+`(n number) -> float`
+
+Returns e raised to the power of n.
+
+```ez
+import @std, @math
+
+do exp_demo() {
+    std.println(math.exp(0))   // 1.0
+    std.println(math.exp(1))   // 2.718281828459045
+    std.println(math.exp(2))   // 7.38905609893065
+}
+```
+
+**Parameters:** `n` - A number.
+
+**Returns:** `float` - e^n.
+
+---
+
+### `exp2()`
+`(n number) -> float`
+
+Returns 2 raised to the power of n.
+
+```ez
+import @std, @math
+
+do exp2_demo() {
+    std.println(math.exp2(0))   // 1.0
+    std.println(math.exp2(3))   // 8.0
+    std.println(math.exp2(10))  // 1024.0
+}
+```
+
+**Parameters:** `n` - A number.
+
+**Returns:** `float` - 2^n.
+
+---
 
 ## Logarithms
 
@@ -288,6 +462,97 @@ do inverse_trig_demo() {
 
 **Errors:** [E8003](/EZ-Language-Webapp/errors/E8003) if value is outside [-1, 1].
 
+---
+
+### `atan2()`
+`(y float, x float) -> float`
+
+Returns the angle in radians between the positive x-axis and the point (x, y).
+
+```ez
+import @std, @math
+
+do atan2_demo() {
+    std.println(math.atan2(1, 1))    // 0.7853981... (PI/4)
+    std.println(math.atan2(0, -1))   // 3.1415926... (PI)
+    std.println(math.atan2(-1, 0))   // -1.5707963... (-PI/2)
+}
+```
+
+**Parameters:**
+- `y` - The y-coordinate
+- `x` - The x-coordinate
+
+**Returns:** `float` - Angle in radians.
+
+---
+
+### `sinh()` / `cosh()` / `tanh()`
+`(value float) -> float`
+
+Hyperbolic trigonometric functions.
+
+```ez
+import @std, @math
+
+do hyperbolic_trig_demo() {
+    std.println(math.sinh(0))   // 0.0
+    std.println(math.cosh(0))   // 1.0
+    std.println(math.tanh(0))   // 0.0
+    std.println(math.sinh(1))   // 1.1752011936438014
+    std.println(math.cosh(1))   // 1.5430806348152437
+    std.println(math.tanh(1))   // 0.7615941559557649
+}
+```
+
+**Parameters:** `value` - A float.
+
+**Returns:** `float` - The hyperbolic trigonometric value.
+
+---
+
+### `deg_to_rad()`
+`(degrees float) -> float`
+
+Converts degrees to radians.
+
+```ez
+import @std, @math
+
+do deg_to_rad_demo() {
+    std.println(math.deg_to_rad(180))  // 3.141592653589793
+    std.println(math.deg_to_rad(90))   // 1.5707963267948966
+    std.println(math.deg_to_rad(45))   // 0.7853981633974483
+}
+```
+
+**Parameters:** `degrees` - An angle in degrees.
+
+**Returns:** `float` - The angle in radians.
+
+---
+
+### `rad_to_deg()`
+`(radians float) -> float`
+
+Converts radians to degrees.
+
+```ez
+import @std, @math
+
+do rad_to_deg_demo() {
+    std.println(math.rad_to_deg(math.PI))      // 180.0
+    std.println(math.rad_to_deg(math.PI / 2))  // 90.0
+    std.println(math.rad_to_deg(1))             // 57.29577951308232
+}
+```
+
+**Parameters:** `radians` - An angle in radians.
+
+**Returns:** `float` - The angle in degrees.
+
+---
+
 ## Other Functions
 
 ### `factorial()`
@@ -310,6 +575,251 @@ do factorial_demo() {
 **Returns:** `int` - n!
 
 **Errors:** [E8004](/EZ-Language-Webapp/errors/E8004) for negative numbers, [E8005](/EZ-Language-Webapp/errors/E8005) for values > 20.
+
+---
+
+### `gcd()`
+`(a int, b int) -> int`
+
+Returns the greatest common divisor.
+
+```ez
+import @std, @math
+
+do gcd_demo() {
+    std.println(math.gcd(12, 8))    // 4
+    std.println(math.gcd(100, 75))  // 25
+    std.println(math.gcd(7, 13))    // 1
+}
+```
+
+**Parameters:** `a`, `b` - Integers.
+
+**Returns:** `int` - The greatest common divisor.
+
+---
+
+### `lcm()`
+`(a int, b int) -> int`
+
+Returns the least common multiple.
+
+```ez
+import @std, @math
+
+do lcm_demo() {
+    std.println(math.lcm(4, 6))    // 12
+    std.println(math.lcm(3, 7))    // 21
+    std.println(math.lcm(12, 18))  // 36
+}
+```
+
+**Parameters:** `a`, `b` - Integers.
+
+**Returns:** `int` - The least common multiple.
+
+---
+
+### `is_prime()`
+`(n int) -> bool`
+
+Checks if a number is prime.
+
+```ez
+import @std, @math
+
+do is_prime_demo() {
+    std.println(math.is_prime(7))   // true
+    std.println(math.is_prime(4))   // false
+    std.println(math.is_prime(13))  // true
+    std.println(math.is_prime(1))   // false
+}
+```
+
+**Parameters:** `n` - An integer.
+
+**Returns:** `bool` - `true` if the number is prime.
+
+---
+
+### `is_even()`
+`(n int) -> bool`
+
+Returns true if n is even.
+
+```ez
+import @std, @math
+
+do is_even_demo() {
+    std.println(math.is_even(4))   // true
+    std.println(math.is_even(7))   // false
+    std.println(math.is_even(0))   // true
+}
+```
+
+**Parameters:** `n` - An integer.
+
+**Returns:** `bool` - `true` if n is even.
+
+---
+
+### `is_odd()`
+`(n int) -> bool`
+
+Returns true if n is odd.
+
+```ez
+import @std, @math
+
+do is_odd_demo() {
+    std.println(math.is_odd(3))   // true
+    std.println(math.is_odd(8))   // false
+    std.println(math.is_odd(-1))  // true
+}
+```
+
+**Parameters:** `n` - An integer.
+
+**Returns:** `bool` - `true` if n is odd.
+
+---
+
+### `sum()`
+`(numbers ...number) -> number`
+
+Returns the sum of all arguments.
+
+```ez
+import @std, @math
+
+do sum_demo() {
+    std.println(math.sum(1, 2, 3))        // 6
+    std.println(math.sum(10, 20, 30, 40))  // 100
+    std.println(math.sum(1.5, 2.5))        // 4.0
+}
+```
+
+**Parameters:** One or more numbers.
+
+**Returns:** The sum of all arguments.
+
+---
+
+### `lerp()`
+`(a float, b float, t float) -> float`
+
+Linear interpolation between a and b by factor t (0.0 to 1.0).
+
+```ez
+import @std, @math
+
+do lerp_demo() {
+    std.println(math.lerp(0, 10, 0.5))   // 5.0
+    std.println(math.lerp(0, 10, 0.0))   // 0.0
+    std.println(math.lerp(0, 10, 1.0))   // 10.0
+    std.println(math.lerp(0, 10, 0.25))  // 2.5
+}
+```
+
+**Parameters:**
+- `a` - The start value
+- `b` - The end value
+- `t` - The interpolation factor (0.0 to 1.0)
+
+**Returns:** `float` - The interpolated value.
+
+---
+
+### `map_range()`
+`(value float, in_min float, in_max float, out_min float, out_max float) -> float`
+
+Maps a value from one range to another.
+
+```ez
+import @std, @math
+
+do map_range_demo() {
+    std.println(math.map_range(5, 0, 10, 0, 100))    // 50.0
+    std.println(math.map_range(0.5, 0, 1, 0, 255))   // 127.5
+    std.println(math.map_range(25, 0, 100, 0, 1))     // 0.25
+}
+```
+
+**Parameters:**
+- `value` - The value to map
+- `in_min` - The lower bound of the input range
+- `in_max` - The upper bound of the input range
+- `out_min` - The lower bound of the output range
+- `out_max` - The upper bound of the output range
+
+**Returns:** `float` - The mapped value.
+
+---
+
+### `distance()`
+`(x1 float, y1 float, x2 float, y2 float) -> float`
+
+Returns the Euclidean distance between two 2D points.
+
+```ez
+import @std, @math
+
+do distance_demo() {
+    std.println(math.distance(0, 0, 3, 4))    // 5.0
+    std.println(math.distance(1, 1, 4, 5))    // 5.0
+    std.println(math.distance(0, 0, 0, 0))    // 0.0
+}
+```
+
+**Parameters:**
+- `x1`, `y1` - Coordinates of the first point
+- `x2`, `y2` - Coordinates of the second point
+
+**Returns:** `float` - The Euclidean distance.
+
+---
+
+### `random()`
+`(min int, max int) -> int`
+
+Returns a random integer between min and max (inclusive).
+
+```ez
+import @std, @math
+
+do random_demo() {
+    std.println(math.random(1, 10))    // Random int between 1 and 10
+    std.println(math.random(0, 100))   // Random int between 0 and 100
+}
+```
+
+**Parameters:**
+- `min` - The minimum value (inclusive)
+- `max` - The maximum value (inclusive)
+
+**Returns:** `int` - A random integer in the range [min, max].
+
+---
+
+### `random_float()`
+`(min float, max float) -> float`
+
+Returns a random float between min and max.
+
+```ez
+import @std, @math
+
+do random_float_demo() {
+    std.println(math.random_float(0.0, 1.0))    // Random float between 0.0 and 1.0
+    std.println(math.random_float(-1.0, 1.0))   // Random float between -1.0 and 1.0
+}
+```
+
+**Parameters:**
+- `min` - The minimum value
+- `max` - The maximum value
+
+**Returns:** `float` - A random float in the range [min, max].
 
 ---
 

@@ -169,7 +169,53 @@ for_each person in people {
 ```
 
 > **Note:** Use `for_each` when iterating directly over collections.
-> Use `for` with `range()` when you need the index.
+> Use `for` with `range()` when you need a numeric loop counter.
+
+### for_each with Index
+
+Add an index variable by using a comma-separated pair. The index starts at 0:
+
+```ez
+import @std
+
+do main() {
+    temp fruits [string] = {"apple", "banana", "cherry"}
+    for_each i, fruit in fruits {
+        std.println("${i}: ${fruit}")
+    }
+    // Output:
+    // 0: apple
+    // 1: banana
+    // 2: cherry
+}
+```
+
+Works with strings too — the index is the character position:
+
+```ez
+import @std
+
+do main() {
+    for_each i, ch in "hello" {
+        std.println("${i}: ${ch}")
+    }
+    // Output: 0: h, 1: e, 2: l, 3: l, 4: o
+}
+```
+
+Use `_` in either position to discard:
+
+```ez
+// Index only, discard value
+for_each i, _ in items {
+    std.println("index: ${i}")
+}
+
+// Same as basic for_each (discard index)
+for_each _, item in items {
+    std.println(item)
+}
+```
 
 ### Ignoring Values in for_each
 

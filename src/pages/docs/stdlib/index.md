@@ -173,6 +173,7 @@ EZ includes nineteen built-in modules:
 | [@regex](/EZ-Language-Webapp/docs/stdlib/regex) | Regular expressions — matching, finding, replacing patterns |
 | [@csv](/EZ-Language-Webapp/docs/stdlib/csv) | CSV — parsing, generating, reading, and writing CSV data |
 | [@db](/EZ-Language-Webapp/docs/stdlib/db) | Database — simple key-value storage with .ezdb files |
+| [@server](/EZ-Language-Webapp/docs/stdlib/server) | HTTP server — routing, response helpers, and serving |
 
 ## Quick Example
 
@@ -231,3 +232,4 @@ Pick a module and explore what it can do:
 - [@regex](/EZ-Language-Webapp/docs/stdlib/regex) — For regular expression operations
 - [@csv](/EZ-Language-Webapp/docs/stdlib/csv) — For CSV parsing and file operations
 - [@db](/EZ-Language-Webapp/docs/stdlib/db) — For simple key-value database storage
+- [@server](/EZ-Language-Webapp/docs/stdlib/server) — For building HTTP servers with routing

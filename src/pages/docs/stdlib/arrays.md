@@ -284,6 +284,49 @@ do main() {
 
 ---
 
+### `is_empty()`
+`(arr [type]) -> bool`
+
+Checks if an array is empty.
+
+```ez
+import @std, @arrays
+
+do main() {
+    temp arr [int] = {}
+    std.println(arrays.is_empty(arr))  // true
+    arrays.append(arr, 1)
+    std.println(arrays.is_empty(arr))  // false
+}
+```
+
+**Parameters:** `arr` - The array.
+
+**Returns:** `bool` - `true` if the array has no elements.
+
+---
+
+### `remove_value()`
+`(arr [type], value type) -> void`
+
+Removes the first occurrence of a value from an array (in place).
+
+```ez
+import @std, @arrays
+
+do main() {
+    temp arr [int] = {1, 2, 3, 2, 4}
+    arrays.remove_value(arr, 2)
+    std.println(arr)  // {1, 3, 2, 4}
+}
+```
+
+**Parameters:** `arr` - The array, `value` - The value to remove.
+
+**Returns:** Nothing (mutates array in place).
+
+---
+
 ## Searching
 
 ### `contains()`
@@ -346,6 +389,27 @@ do main() {
 **Parameters:** `arr`, `value`.
 
 **Returns:** `int` - Index or -1.
+
+---
+
+### `count()`
+`(arr [type], value type) -> int`
+
+Counts the number of occurrences of a value in an array.
+
+```ez
+import @std, @arrays
+
+do main() {
+    temp arr [int] = {1, 2, 3, 2, 4, 2}
+    std.println(arrays.count(arr, 2))  // 3
+    std.println(arrays.count(arr, 9))  // 0
+}
+```
+
+**Parameters:** `arr`, `value`.
+
+**Returns:** `int` - Number of occurrences.
 
 ---
 
@@ -457,6 +521,48 @@ do main() {
 **Returns:** A new array with the slice.
 
 **Errors:** [E7004](/EZ-Language-Webapp/errors/E7004) if indices are not integers.
+
+---
+
+### `take()`
+`(arr [type], n int) -> [type]`
+
+Returns a new array with the first n elements.
+
+```ez
+import @std, @arrays
+
+do main() {
+    temp arr [int] = {1, 2, 3, 4, 5}
+    temp first3 [int] = arrays.take(arr, 3)
+    std.println(first3)  // {1, 2, 3}
+}
+```
+
+**Parameters:** `arr`, `n` - Number of elements to take.
+
+**Returns:** A new array.
+
+---
+
+### `drop()`
+`(arr [type], n int) -> [type]`
+
+Returns a new array with the first n elements removed.
+
+```ez
+import @std, @arrays
+
+do main() {
+    temp arr [int] = {1, 2, 3, 4, 5}
+    temp rest [int] = arrays.drop(arr, 2)
+    std.println(rest)  // {3, 4, 5}
+}
+```
+
+**Parameters:** `arr`, `n` - Number of elements to drop.
+
+**Returns:** A new array.
 
 ---
 
@@ -717,6 +823,70 @@ do main() {
 **Returns:** `[type]` - A flattened 1D array.
 
 **Errors:** [E7002](/EZ-Language-Webapp/errors/E7002) if argument is not a 2D array.
+
+---
+
+### `unique()`
+`(arr [type]) -> [type]`
+
+Returns a new array with duplicate elements removed.
+
+```ez
+import @std, @arrays
+
+do main() {
+    temp arr [int] = {1, 2, 2, 3, 3, 3}
+    temp uniq [int] = arrays.unique(arr)
+    std.println(uniq)  // {1, 2, 3}
+}
+```
+
+**Parameters:** `arr` - The array.
+
+**Returns:** A new array with unique elements.
+
+---
+
+### `duplicates()`
+`(arr [type]) -> [type]`
+
+Returns a new array containing only elements that appear more than once.
+
+```ez
+import @std, @arrays
+
+do main() {
+    temp arr [int] = {1, 2, 2, 3, 3, 4}
+    temp dups [int] = arrays.duplicates(arr)
+    std.println(dups)  // {2, 3}
+}
+```
+
+**Parameters:** `arr` - The array.
+
+**Returns:** A new array of duplicate values.
+
+---
+
+### `all_equal()`
+`(arr [type]) -> bool`
+
+Checks if all elements in an array are equal.
+
+```ez
+import @std, @arrays
+
+do main() {
+    temp same [int] = {5, 5, 5, 5}
+    temp diff [int] = {5, 5, 3, 5}
+    std.println(arrays.all_equal(same))  // true
+    std.println(arrays.all_equal(diff))  // false
+}
+```
+
+**Parameters:** `arr` - The array.
+
+**Returns:** `bool` - `true` if all elements are equal.
 
 ---
 
