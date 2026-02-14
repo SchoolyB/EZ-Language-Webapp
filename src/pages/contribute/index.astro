@@ -93,7 +93,7 @@ const ways = [
             {ways.map(way => (
               <div class="p-5 border border-[#e5e5e5] dark:border-[#333333] rounded-lg">
                 <h3 class="font-semibold mb-2">{way.title}</h3>
-                <p class="text-sm opacity-70">{way.description}</p>
+                <p class="text-base opacity-70">{way.description}</p>
               </div>
             ))}
           </div>
@@ -109,9 +109,9 @@ const ways = [
           <div class="space-y-6">
             <div>
               <h3 class="font-semibold mb-3">Issue Title Format</h3>
-              <p class="text-sm opacity-70 mb-3">All issue titles must use one of these prefixes:</p>
+              <p class="text-base opacity-70 mb-3">All issue titles must use one of these prefixes:</p>
               <div class="overflow-x-auto">
-                <table class="w-full text-sm border border-[#e5e5e5] dark:border-[#333333] rounded-lg">
+                <table class="w-full text-base border border-[#e5e5e5] dark:border-[#333333] rounded-lg">
                   <thead class="bg-[#f5f5f5] dark:bg-[#1a1a1a]">
                     <tr>
                       <th class="px-4 py-2 text-left font-medium">Prefix</th>
@@ -131,8 +131,8 @@ const ways = [
 
             <div>
               <h3 class="font-semibold mb-3">Bug Reports</h3>
-              <p class="text-sm opacity-70 mb-3">Include these sections in every bug report:</p>
-              <ul class="text-sm space-y-2 opacity-70">
+              <p class="text-base opacity-70 mb-3">Include these sections in every bug report:</p>
+              <ul class="text-base space-y-2 opacity-70">
                 <li><strong>Description</strong> &mdash; 1-3 sentences describing the bug</li>
                 <li><strong>Severity</strong> &mdash; High, Medium, or Low with justification</li>
                 <li><strong>Reproduction</strong> &mdash; Minimal EZ code that reproduces the bug</li>
@@ -143,8 +143,8 @@ const ways = [
 
             <div>
               <h3 class="font-semibold mb-3">Feature Requests</h3>
-              <p class="text-sm opacity-70 mb-3">Include these sections in feature requests:</p>
-              <ul class="text-sm space-y-2 opacity-70">
+              <p class="text-base opacity-70 mb-3">Include these sections in feature requests:</p>
+              <ul class="text-base space-y-2 opacity-70">
                 <li><strong>Description</strong> &mdash; What the feature does and why it's useful</li>
                 <li><strong>Tasks</strong> &mdash; Actionable items with checkboxes</li>
                 <li><strong>Proposed Syntax</strong> &mdash; Example EZ code showing usage</li>
@@ -155,7 +155,7 @@ const ways = [
             <div class="pt-4">
               <a
                 href={`${base}ISSUE_TEMPLATE.md`}
-                class="inline-flex items-center gap-2 text-sm font-medium underline underline-offset-4 hover:opacity-70 transition-opacity"
+                class="inline-flex items-center gap-2 text-base font-medium underline underline-offset-4 hover:opacity-70 transition-opacity"
               >
                 View full issue template &rarr;
               </a>
@@ -175,7 +175,7 @@ const ways = [
               <div class="flex-shrink-0 w-8 h-8 rounded-full bg-black dark:bg-white text-white dark:text-black flex items-center justify-center text-sm font-bold">1</div>
               <div>
                 <h3 class="font-semibold">Fork & Clone</h3>
-                <p class="text-sm opacity-70">Fork the repository and clone it locally.</p>
+                <p class="text-base opacity-70">Fork the repository and clone it locally.</p>
               </div>
             </div>
 
@@ -183,7 +183,7 @@ const ways = [
               <div class="flex-shrink-0 w-8 h-8 rounded-full bg-black dark:bg-white text-white dark:text-black flex items-center justify-center text-sm font-bold">2</div>
               <div>
                 <h3 class="font-semibold">Create a Branch</h3>
-                <p class="text-sm opacity-70">Create a branch with a descriptive name: <code class="text-xs px-1.5 py-0.5 bg-[#f5f5f5] dark:bg-[#1a1a1a] rounded">fix/parser-struct-literal</code> or <code class="text-xs px-1.5 py-0.5 bg-[#f5f5f5] dark:bg-[#1a1a1a] rounded">feature/sets-module</code></p>
+                <p class="text-base opacity-70">Create a branch with a descriptive name: <code class="text-sm px-1.5 py-0.5 bg-[#f5f5f5] dark:bg-[#1a1a1a] rounded">fix/parser-struct-literal</code> or <code class="text-sm px-1.5 py-0.5 bg-[#f5f5f5] dark:bg-[#1a1a1a] rounded">feature/sets-module</code></p>
               </div>
             </div>
 
@@ -191,7 +191,7 @@ const ways = [
               <div class="flex-shrink-0 w-8 h-8 rounded-full bg-black dark:bg-white text-white dark:text-black flex items-center justify-center text-sm font-bold">3</div>
               <div>
                 <h3 class="font-semibold">Make Changes</h3>
-                <p class="text-sm opacity-70">Write your code. Follow existing patterns and style.</p>
+                <p class="text-base opacity-70">Write your code. Follow existing patterns and style.</p>
               </div>
             </div>
 
@@ -199,7 +199,7 @@ const ways = [
               <div class="flex-shrink-0 w-8 h-8 rounded-full bg-black dark:bg-white text-white dark:text-black flex items-center justify-center text-sm font-bold">4</div>
               <div>
                 <h3 class="font-semibold">Test</h3>
-                <p class="text-sm opacity-70">Run existing tests and add new ones for your changes.</p>
+                <p class="text-base opacity-70">Run existing tests and add new ones for your changes.</p>
               </div>
             </div>
 
@@ -207,7 +207,7 @@ const ways = [
               <div class="flex-shrink-0 w-8 h-8 rounded-full bg-black dark:bg-white text-white dark:text-black flex items-center justify-center text-sm font-bold">5</div>
               <div>
                 <h3 class="font-semibold">Submit PR</h3>
-                <p class="text-sm opacity-70">Push your branch and open a pull request with a clear description of changes.</p>
+                <p class="text-base opacity-70">Push your branch and open a pull request with a clear description of changes.</p>
               </div>
             </div>
           </div>
@@ -219,7 +219,7 @@ const ways = [
           <p class="opacity-70 mb-6">
             Good examples help people learn EZ faster. When writing examples:
           </p>
-          <ul class="space-y-3 text-sm opacity-70">
+          <ul class="space-y-3 text-base opacity-70">
             <li><strong>Keep it focused</strong> &mdash; One concept per example</li>
             <li><strong>Make it runnable</strong> &mdash; Examples should work as-is when copied</li>
             <li><strong>Add comments</strong> &mdash; Explain non-obvious parts</li>
@@ -244,6 +244,7 @@ const ways = [
                 <a href={`${base}docs/stdlib/binary`} class="text-base font-semibold px-3 py-1.5 border border-[#e5e5e5] dark:border-[#333333] rounded-lg hover:bg-[#f5f5f5] dark:hover:bg-[#1a1a1a] transition-colors">@binary</a>
                 <a href={`${base}docs/stdlib/bytes`} class="text-base font-semibold px-3 py-1.5 border border-[#e5e5e5] dark:border-[#333333] rounded-lg hover:bg-[#f5f5f5] dark:hover:bg-[#1a1a1a] transition-colors">@bytes</a>
                 <a href={`${base}docs/stdlib/crypto`} class="text-base font-semibold px-3 py-1.5 border border-[#e5e5e5] dark:border-[#333333] rounded-lg hover:bg-[#f5f5f5] dark:hover:bg-[#1a1a1a] transition-colors">@crypto</a>
+                <a href={`${base}docs/stdlib/csv`} class="text-base font-semibold px-3 py-1.5 border border-[#e5e5e5] dark:border-[#333333] rounded-lg hover:bg-[#f5f5f5] dark:hover:bg-[#1a1a1a] transition-colors">@csv</a>
                 <a href={`${base}docs/stdlib/db`} class="text-base font-semibold px-3 py-1.5 border border-[#e5e5e5] dark:border-[#333333] rounded-lg hover:bg-[#f5f5f5] dark:hover:bg-[#1a1a1a] transition-colors">@db</a>
                 <a href={`${base}docs/stdlib/encoding`} class="text-base font-semibold px-3 py-1.5 border border-[#e5e5e5] dark:border-[#333333] rounded-lg hover:bg-[#f5f5f5] dark:hover:bg-[#1a1a1a] transition-colors">@encoding</a>
                 <a href={`${base}docs/stdlib/http`} class="text-base font-semibold px-3 py-1.5 border border-[#e5e5e5] dark:border-[#333333] rounded-lg hover:bg-[#f5f5f5] dark:hover:bg-[#1a1a1a] transition-colors">@http</a>
@@ -253,6 +254,8 @@ const ways = [
                 <a href={`${base}docs/stdlib/math`} class="text-base font-semibold px-3 py-1.5 border border-[#e5e5e5] dark:border-[#333333] rounded-lg hover:bg-[#f5f5f5] dark:hover:bg-[#1a1a1a] transition-colors">@math</a>
                 <a href={`${base}docs/stdlib/os`} class="text-base font-semibold px-3 py-1.5 border border-[#e5e5e5] dark:border-[#333333] rounded-lg hover:bg-[#f5f5f5] dark:hover:bg-[#1a1a1a] transition-colors">@os</a>
                 <a href={`${base}docs/stdlib/random`} class="text-base font-semibold px-3 py-1.5 border border-[#e5e5e5] dark:border-[#333333] rounded-lg hover:bg-[#f5f5f5] dark:hover:bg-[#1a1a1a] transition-colors">@random</a>
+                <a href={`${base}docs/stdlib/regex`} class="text-base font-semibold px-3 py-1.5 border border-[#e5e5e5] dark:border-[#333333] rounded-lg hover:bg-[#f5f5f5] dark:hover:bg-[#1a1a1a] transition-colors">@regex</a>
+                <a href={`${base}docs/stdlib/server`} class="text-base font-semibold px-3 py-1.5 border border-[#e5e5e5] dark:border-[#333333] rounded-lg hover:bg-[#f5f5f5] dark:hover:bg-[#1a1a1a] transition-colors">@server</a>
                 <a href={`${base}docs/stdlib/strings`} class="text-base font-semibold px-3 py-1.5 border border-[#e5e5e5] dark:border-[#333333] rounded-lg hover:bg-[#f5f5f5] dark:hover:bg-[#1a1a1a] transition-colors">@strings</a>
                 <a href={`${base}docs/stdlib/time`} class="text-base font-semibold px-3 py-1.5 border border-[#e5e5e5] dark:border-[#333333] rounded-lg hover:bg-[#f5f5f5] dark:hover:bg-[#1a1a1a] transition-colors">@time</a>
                 <a href={`${base}docs/stdlib/uuid`} class="text-base font-semibold px-3 py-1.5 border border-[#e5e5e5] dark:border-[#333333] rounded-lg hover:bg-[#f5f5f5] dark:hover:bg-[#1a1a1a] transition-colors">@uuid</a>
@@ -261,7 +264,7 @@ const ways = [
 
             <div>
               <h3 class="font-semibold mb-2">Guidelines</h3>
-              <ul class="text-sm space-y-2 opacity-70">
+              <ul class="text-base space-y-2 opacity-70">
                 <li><strong>Check for duplicates</strong> &mdash; Make sure the function doesn't already exist</li>
                 <li><strong>Follow naming conventions</strong> &mdash; snake_case for functions, SCREAMING_SNAKE_CASE for constants, PascalCase for types</li>
                 <li><strong>Write tests</strong> &mdash; Every stdlib function needs test coverage</li>
@@ -272,16 +275,16 @@ const ways = [
 
             <div>
               <h3 class="font-semibold mb-2">Proposing New Modules</h3>
-              <p class="text-sm opacity-70 mb-3">
+              <p class="text-base opacity-70 mb-3">
                 Have an idea for an entirely new stdlib module? You can propose one. Open a feature issue with:
               </p>
-              <ul class="text-sm space-y-2 opacity-70">
-                <li><strong>Module name</strong> &mdash; What would it be called? (e.g., <code class="text-xs px-1.5 py-0.5 bg-[#f5f5f5] dark:bg-[#1a1a1a] rounded">@sets</code>, <code class="text-xs px-1.5 py-0.5 bg-[#f5f5f5] dark:bg-[#1a1a1a] rounded">@regex</code>, <code class="text-xs px-1.5 py-0.5 bg-[#f5f5f5] dark:bg-[#1a1a1a] rounded">@csv</code>)</li>
+              <ul class="text-base space-y-2 opacity-70">
+                <li><strong>Module name</strong> &mdash; What would it be called? (e.g., <code class="text-sm px-1.5 py-0.5 bg-[#f5f5f5] dark:bg-[#1a1a1a] rounded">@sets</code>, <code class="text-sm px-1.5 py-0.5 bg-[#f5f5f5] dark:bg-[#1a1a1a] rounded">@async</code>, <code class="text-sm px-1.5 py-0.5 bg-[#f5f5f5] dark:bg-[#1a1a1a] rounded">@net</code>)</li>
                 <li><strong>Purpose</strong> &mdash; What problem does it solve?</li>
                 <li><strong>Proposed API</strong> &mdash; List the functions, constants, and types it would include</li>
                 <li><strong>Example usage</strong> &mdash; Show how it would be used in EZ code</li>
               </ul>
-              <p class="text-sm opacity-70 mt-3">
+              <p class="text-base opacity-70 mt-3">
                 Not every proposal will be accepted &mdash; EZ intentionally keeps a limited scope &mdash; but good ideas that fit the language's goals are welcome.
               </p>
             </div>
@@ -295,7 +298,7 @@ const ways = [
             Thank you to everyone who has contributed to EZ.
           </p>
           {contributors.length > 0 ? (
-            <div class="flex flex-wrap gap-6">
+            <div class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-6">
               {contributors.map(contributor => (
                 <a
                   href={contributor.html_url}
@@ -307,17 +310,17 @@ const ways = [
                   <img
                     src={contributor.avatar_url}
                     alt={contributor.login}
-                    class="w-16 h-16 rounded-full border-2 border-[#e5e5e5] dark:border-[#333333] group-hover:border-black dark:group-hover:border-white transition-colors"
+                    class="w-16 h-16 sm:w-20 sm:h-20 rounded-full border-2 border-[#e5e5e5] dark:border-[#333333] group-hover:border-black dark:group-hover:border-white transition-colors"
                   />
-                  <span class="text-sm font-medium">@{contributor.login}</span>
+                  <span class="text-sm font-medium text-center truncate w-full">@{contributor.login}</span>
                   <span class="text-xs opacity-50">{contributor.contributions} {contributor.contributions === 1 ? 'commit' : 'commits'}</span>
                 </a>
               ))}
             </div>
           ) : (
-            <p class="text-sm opacity-50">Loading contributors...</p>
+            <p class="text-base opacity-50">Loading contributors...</p>
           )}
-          <p class="text-sm opacity-50 mt-8">
+          <p class="text-base opacity-50 mt-8">
             Want to see your name here? <a href="#ways-to-contribute" class="underline hover:opacity-70">Start contributing</a>
           </p>
         </section>
@@ -369,7 +372,7 @@ const ways = [
       <aside class="hidden xl:block w-56 shrink-0">
         <nav class="sticky top-20">
           <h4 class="text-sm font-semibold uppercase tracking-wider opacity-50 mb-3">On This Page</h4>
-          <ul class="space-y-2 text-sm">
+          <ul class="space-y-2 text-base">
             <li><a href="#ways-to-contribute" class="opacity-60 hover:opacity-100 transition-opacity">Ways to Contribute</a></li>
             <li><a href="#creating-issues" class="opacity-60 hover:opacity-100 transition-opacity">Creating Issues</a></li>
             <li><a href="#pull-requests" class="opacity-60 hover:opacity-100 transition-opacity">Pull Requests</a></li>
