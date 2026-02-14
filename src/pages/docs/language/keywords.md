@@ -354,7 +354,7 @@ temp u8_arr = cast(bytes, [u8])  // [byte] -> [u8]
 |-------------|----------------------|
 | `int` | int, float, string, char, byte |
 | `float` | float, int, string, byte, char |
-| `string` | any (uses string representation) |
+| `string` | all types (uses string representation) |
 | `char` | char, int, float, byte, string (len=1) |
 | `byte` | byte, int, float, char, string |
 | `i8/i16/i32/i64/i128/i256` | int, float, string, byte, char |
@@ -674,3 +674,9 @@ For attributes (`#doc`, `#enum`, `#flags`, `#strict`, `#suppress`), see [Attribu
   // Re-initialize after Astro page transitions
   document.addEventListener('astro:after-swap', initKeywordFilter);
 </script>
+
+## See Also
+- [Control Flow](/EZ-Language-Webapp/docs/language/control-flow) — detailed control flow usage and examples
+- [Functions](/EZ-Language-Webapp/docs/language/functions) — detailed function usage and examples
+- [Variables](/EZ-Language-Webapp/docs/language/variables) — detailed variable usage and examples
+- [Modules](/EZ-Language-Webapp/docs/language/modules) — detailed module system usage

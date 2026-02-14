@@ -354,3 +354,9 @@ do main() {
     std.println("Total (with 10% discount): $${total}")
 }
 ```
+
+## See Also
+- [Types](/EZ-Language-Webapp/docs/language/types) — primitive and composite types
+- [Functions](/EZ-Language-Webapp/docs/language/functions) — structs as parameters and return values
+- [Variables](/EZ-Language-Webapp/docs/language/variables) — `temp` vs `const` for struct instances
+- [Enums](/EZ-Language-Webapp/docs/language/enums) — another way to define custom types

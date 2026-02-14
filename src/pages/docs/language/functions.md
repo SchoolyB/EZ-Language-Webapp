@@ -305,6 +305,37 @@ do getZeroInt() -> (count int) {
 }
 ```
 
+### Named Return Variable Behavior
+
+Named return variables are **mutable** — they behave like `temp` variables, even though they are declared without the `temp` keyword. This means they can be reassigned and passed to mutable (`&`) parameters:
+
+```ez
+import @std
+
+do increment(&val int) {
+    val = val + 1
+}
+
+do compute() -> (count int) {
+    count = 5
+    count = 10       // reassignment is allowed
+    increment(count) // passing to &mutable parameter works
+    return count     // returns 11
+}
+
+do main() {
+    temp result int = compute()
+    std.println(result)  // 11
+}
+```
+
+| Behavior | Named return variables |
+|---|---|
+| Declared with `temp`/`const`? | No — declared implicitly by the return signature |
+| Mutable? | Yes — can be reassigned freely |
+| Passable to `&` params? | Yes — treated as mutable |
+| Zero-initialized? | Yes — `0`, `""`, `false`, `0.0` depending on type |
+
 ---
 
 ```ez
@@ -630,3 +661,9 @@ do main() {
     std.println("Scaled radius:", bigger.radius)  // 10.0
 }
 ```
+
+## See Also
+- [Control Flow](/EZ-Language-Webapp/docs/language/control-flow) — loops and conditionals used within functions
+- [Variables](/EZ-Language-Webapp/docs/language/variables) — variable declarations, `temp` vs `const`
+- [Structs](/EZ-Language-Webapp/docs/language/structs) — struct types as parameters and return values
+- [Keywords](/EZ-Language-Webapp/docs/language/keywords) — `do`, `return`, `ensure` keyword reference

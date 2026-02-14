@@ -250,3 +250,8 @@ This is useful when you have many functions that would otherwise need individual
 | `#strict` | When statement | Enforce exhaustive enum case coverage |
 | `#suppress(code)` | Function | Suppress specific warning |
 | `#suppress(ALL)` | File (top) | Suppress all warnings in file |
+
+## See Also
+- [Enums](/EZ-Language-Webapp/docs/language/enums) — `#enum` and `#flags` usage with enums
+- [Control Flow](/EZ-Language-Webapp/docs/language/control-flow) — `#strict` with `when/is` matching
+- [Functions](/EZ-Language-Webapp/docs/language/functions) — `#doc` for documenting functions

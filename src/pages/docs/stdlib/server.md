@@ -51,19 +51,44 @@ temp resp = server.text(200, "Hello, World!")
 ---
 
 ### `json()`
-`(status int, data any) -> Response`
+`(status int, data type) -> Response`
 
-Creates a Response with `application/json` Content-Type. Automatically encodes the data to JSON.
+Creates a Response with `application/json` Content-Type. Automatically encodes the data to JSON. The `data` argument can be any JSON-serializable EZ value.
 
 ```ez
+// Map → JSON object
 temp resp = server.json(200, {"name": "Alice", "age": 30})
+
+// Struct → JSON object (respects `json:` field tags)
+temp user User = User{name: "Alice", age: 30}
+temp resp2 = server.json(200, user)
+
+// Array → JSON array
+temp resp3 = server.json(200, {1, 2, 3})
+
+// Primitives
+temp resp4 = server.json(200, "hello")  // JSON string
+temp resp5 = server.json(200, 42)       // JSON number
+temp resp6 = server.json(200, true)     // JSON boolean
 ```
 
 **Parameters:**
 - `status` - HTTP status code (e.g., 200, 201)
-- `data` - The data to encode as JSON
+- `data` - The data to encode as JSON. Accepts maps (string keys only), structs, arrays, strings, ints, floats, bools, and nil
 
 **Returns:** A `Response` with Content-Type set to `application/json`.
+
+| EZ Type | JSON Output |
+|---------|-------------|
+| `map` (string keys) | Object `{"key": "value"}` |
+| `struct` | Object from fields |
+| `array` | Array `[1, 2, 3]` |
+| `string` | String `"hello"` |
+| `int` / `float` | Number |
+| `bool` | `true` / `false` |
+| `nil` | `null` |
+
+> **Note:** Maps with non-string keys will produce error E13003. Functions cannot be encoded to JSON.
 
 ---
 

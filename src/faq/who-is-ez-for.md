@@ -15,7 +15,7 @@ Want to automate something? Build a small tool? Tinker with code on weekends? EZ
 
 ## Experienced Developers
 
-If you're tired of complexity, EZ might be refreshing. No frameworks to configure. No dependency trees to manage. No implicit behavior to debug. Just explicit, predictable code.
+If you're tired of complexity, EZ might be refreshing. No frameworks to configure. No dependency trees to manage. No hidden behavior to debug. Just explicit, predictable code.
 
 ## What Can You Build?
 

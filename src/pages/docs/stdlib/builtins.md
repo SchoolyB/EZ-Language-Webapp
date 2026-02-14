@@ -314,7 +314,7 @@ temp strs = cast(nums, [string])  // ["1", "2", "3"]
 |-------------|----------------------|
 | `int` | int, float, string, char, byte |
 | `float` | float, int, string, byte, char |
-| `string` | any (uses string representation) |
+| `string` | all types (uses string representation) |
 | `char` | char, int, float, byte, string (len=1) |
 | `byte` | byte, int, float, char, string |
 | `i8/i16/i32/i64/i128/i256` | int, float, string, byte, char |
@@ -404,6 +404,186 @@ temp wrapped byte = byte(256)  // Error: value out of range
 - Values 0-255 convert directly
 - Values outside 0-255 range produce an error
 - Useful when working with the `@bytes` module
+
+### Sized Integer Conversions
+
+These functions convert values to explicitly sized integer types with range validation. They accept int, float, string, byte, or char values. Out-of-range values produce error E3022.
+
+#### i8()
+
+`(value) -> i8`
+
+Converts to a signed 8-bit integer. Range: -128 to 127.
+
+```ez
+temp small i8 = i8(42)       // 42
+temp neg i8 = i8(-100)       // -100
+temp from_str i8 = i8("50")  // 50
+// i8(200)  // Error E3022: value 200 out of i8 range (-128 to 127)
+```
+
+#### i16()
+
+`(value) -> i16`
+
+Converts to a signed 16-bit integer. Range: -32,768 to 32,767.
+
+```ez
+temp val i16 = i16(1000)      // 1000
+temp neg i16 = i16(-30000)    // -30000
+// i16(40000)  // Error E3022: out of i16 range
+```
+
+#### i32()
+
+`(value) -> i32`
+
+Converts to a signed 32-bit integer. Range: -2,147,483,648 to 2,147,483,647.
+
+```ez
+temp val i32 = i32(100000)    // 100000
+temp neg i32 = i32(-100000)   // -100000
+```
+
+#### i64()
+
+`(value) -> i64`
+
+Converts to a signed 64-bit integer. Range: -9.2 quintillion to 9.2 quintillion.
+
+```ez
+temp val i64 = i64(1000000000)  // 1000000000
+```
+
+#### i128()
+
+`(value) -> i128`
+
+Converts to a signed 128-bit integer. Range: -2^127 to 2^127-1.
+
+```ez
+temp val i128 = i128(1000000000000)  // 1000000000000
+```
+
+#### i256()
+
+`(value) -> i256`
+
+Converts to a signed 256-bit integer. Range: -2^255 to 2^255-1.
+
+```ez
+temp val i256 = i256(1000000000000)  // 1000000000000
+```
+
+#### u8()
+
+`(value) -> u8`
+
+Converts to an unsigned 8-bit integer. Range: 0 to 255.
+
+```ez
+temp val u8 = u8(200)          // 200
+temp from_char u8 = u8('A')   // 65
+// u8(-1)   // Error E3022: value -1 out of u8 range (0 to 255)
+// u8(256)  // Error E3022: value 256 out of u8 range (0 to 255)
+```
+
+#### u16()
+
+`(value) -> u16`
+
+Converts to an unsigned 16-bit integer. Range: 0 to 65,535.
+
+```ez
+temp val u16 = u16(50000)  // 50000
+// u16(-1)  // Error E3022: out of u16 range
+```
+
+#### u32()
+
+`(value) -> u32`
+
+Converts to an unsigned 32-bit integer. Range: 0 to 4,294,967,295.
+
+```ez
+temp val u32 = u32(3000000000)  // 3000000000
+```
+
+#### u64()
+
+`(value) -> u64`
+
+Converts to an unsigned 64-bit integer. Range: 0 to 18,446,744,073,709,551,615.
+
+```ez
+temp val u64 = u64(10000000000)  // 10000000000
+```
+
+#### u128()
+
+`(value) -> u128`
+
+Converts to an unsigned 128-bit integer. Range: 0 to 2^128-1.
+
+```ez
+temp val u128 = u128(1000000000000)  // 1000000000000
+```
+
+#### u256()
+
+`(value) -> u256`
+
+Converts to an unsigned 256-bit integer. Range: 0 to 2^256-1.
+
+```ez
+temp val u256 = u256(1000000000000)  // 1000000000000
+```
+
+#### Accepted Source Types (all sized integers)
+
+| Source Type | Example |
+|-------------|---------|
+| `int` | `i8(42)` |
+| `float` | `u16(3.14)` → truncates to `3` |
+| `string` | `i32("100")` |
+| `byte` | `u8(byte(65))` |
+| `char` | `i16('A')` → `65` |
+
+### Sized Float Conversions
+
+#### f32()
+
+`(value) -> f32`
+
+Converts to a 32-bit floating-point number. Truncates precision to float32 range.
+
+```ez
+temp val f32 = f32(3.14159265358979)  // 3.1415927 (reduced precision)
+temp from_int f32 = f32(42)           // 42.0
+temp from_str f32 = f32("2.5")       // 2.5
+```
+
+#### f64()
+
+`(value) -> f64`
+
+Converts to a 64-bit floating-point number. Full double-precision range.
+
+```ez
+temp val f64 = f64(3.14159265358979)  // 3.14159265358979 (full precision)
+temp from_int f64 = f64(42)           // 42.0
+temp from_str f64 = f64("2.5")       // 2.5
+```
+
+#### Accepted Source Types (f32/f64)
+
+| Source Type | Example |
+|-------------|---------|
+| `float` | `f32(3.14)` |
+| `int` | `f64(42)` |
+| `string` | `f32("2.5")` |
+| `byte` | `f64(byte(65))` |
+| `char` | `f32('A')` → `65.0` |
 
 ## Error Handling
 
@@ -507,6 +687,20 @@ do main() {
 | `string(x)` | Convert to string | `string(42)` → `"42"` |
 | `char(x)` | Convert int to character | `char(65)` → `'A'` |
 | `byte(x)` | Convert int to byte (0-255) | `byte(65)` → `65` |
+| `i8(x)` | Convert to signed 8-bit int | `i8(42)` → `42` as i8 |
+| `i16(x)` | Convert to signed 16-bit int | `i16(1000)` → `1000` as i16 |
+| `i32(x)` | Convert to signed 32-bit int | `i32(100000)` → `100000` as i32 |
+| `i64(x)` | Convert to signed 64-bit int | `i64(val)` → value as i64 |
+| `i128(x)` | Convert to signed 128-bit int | `i128(val)` → value as i128 |
+| `i256(x)` | Convert to signed 256-bit int | `i256(val)` → value as i256 |
+| `u8(x)` | Convert to unsigned 8-bit int | `u8(200)` → `200` as u8 |
+| `u16(x)` | Convert to unsigned 16-bit int | `u16(50000)` → `50000` as u16 |
+| `u32(x)` | Convert to unsigned 32-bit int | `u32(val)` → value as u32 |
+| `u64(x)` | Convert to unsigned 64-bit int | `u64(val)` → value as u64 |
+| `u128(x)` | Convert to unsigned 128-bit int | `u128(val)` → value as u128 |
+| `u256(x)` | Convert to unsigned 256-bit int | `u256(val)` → value as u256 |
+| `f32(x)` | Convert to 32-bit float | `f32(3.14)` → reduced precision |
+| `f64(x)` | Convert to 64-bit float | `f64(42)` → `42.0` as f64 |
 | `error(msg)` | Create user-defined error | `error("invalid input")` → `Error` |
 
 ### Constants

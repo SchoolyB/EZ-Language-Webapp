@@ -287,3 +287,8 @@ do main() {
     temp task Task = create_task(1, "Test")
 }
 ```
+
+## See Also
+- [Standard Library](/EZ-Language-Webapp/docs/stdlib/) — built-in modules reference
+- [Keywords](/EZ-Language-Webapp/docs/language/keywords) — `import`, `using`, `module` keywords
+- [Variables](/EZ-Language-Webapp/docs/language/variables) — variable scope and visibility

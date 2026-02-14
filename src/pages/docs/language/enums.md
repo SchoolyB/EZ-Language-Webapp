@@ -388,3 +388,9 @@ do main() {
     }
 }
 ```
+
+## See Also
+- [Control Flow](/EZ-Language-Webapp/docs/language/control-flow) — `when/is` pattern matching with enums
+- [Attributes](/EZ-Language-Webapp/docs/language/attributes) — `#enum`, `#flags`, `#strict` attributes
+- [Types](/EZ-Language-Webapp/docs/language/types) — all available types
+- [Structs](/EZ-Language-Webapp/docs/language/structs) — another way to define custom types
