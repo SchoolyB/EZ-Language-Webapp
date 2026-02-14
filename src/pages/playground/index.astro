@@ -99,6 +99,297 @@ do main() {
     println("Location: (\${p.location.x}, \${p.location.y})")
 }`,
 
+  variables: `/*
+ * Variables - temp vs const
+ */
+
+import @std
+using std
+
+do main() {
+    // Mutable variables with 'temp'
+    temp age int = 25
+    temp name string = "Alice"
+    temp score float = 95.5
+    temp active bool = true
+    temp grade char = 'A'
+
+    println("Initial values:")
+    println("  age = \${age}")
+    println("  name = \${name}")
+    println("  score = \${score}")
+    println("  active = \${active}")
+    println("  grade = \${grade}")
+
+    // temp variables can be changed
+    age = 26
+    name = "Bob"
+    println("")
+    println("After modification:")
+    println("  age = \${age}")
+    println("  name = \${name}")
+
+    // Immutable constants with 'const'
+    const PI float = 3.14159
+    const MAX_USERS int = 100
+    const APP_NAME string = "MyApp"
+
+    println("")
+    println("Constants:")
+    println("  PI = \${PI}")
+    println("  MAX_USERS = \${MAX_USERS}")
+    println("  APP_NAME = \${APP_NAME}")
+
+    // Numeric separators for readability
+    temp billion int = 1_000_000_000
+    temp precise float = 3.141_592_653
+    println("")
+    println("Numeric separators:")
+    println("  billion = \${billion}")
+    println("  precise = \${precise}")
+}`,
+
+  functions: `/*
+ * Functions - Parameters, returns, and recursion
+ */
+
+import @std
+using std
+
+do main() {
+    // Simple function
+    greet()
+
+    // Function with parameters
+    greet_person("Alice")
+    greet_person("Bob")
+
+    // Function with return value
+    temp sum int = add(5, 3)
+    println("add(5, 3) = \${sum}")
+
+    // Recursive function
+    temp fact int = factorial(5)
+    println("factorial(5) = \${fact}")
+
+    // Named return variables
+    temp x int, y int = swap(10, 20)
+    println("swap(10, 20) = \${x}, \${y}")
+
+    // Multiple return values
+    temp name string, age int, active bool = get_user()
+    println("get_user() = \${name}, \${age}, \${active}")
+}
+
+do greet() {
+    println("Hello!")
+}
+
+do greet_person(name string) {
+    println("Hello, \${name}!")
+}
+
+do add(a int, b int) -> int {
+    return a + b
+}
+
+do factorial(n int) -> int {
+    if n <= 1 {
+        return 1
+    }
+    return n * factorial(n - 1)
+}
+
+do swap(a int, b int) -> (x int, y int) {
+    x = b
+    y = a
+    return x, y
+}
+
+do get_user() -> (name string, age int, active bool) {
+    name = "Alice"
+    age = 30
+    active = true
+    return name, age, active
+}`,
+
+  control_flow: `/*
+ * Control Flow - Conditionals, loops, and pattern matching
+ */
+
+import @std
+using std
+
+const Season enum {
+    SPRING,
+    SUMMER,
+    FALL,
+    WINTER
+}
+
+do main() {
+    // if / or / otherwise
+    temp score int = 85
+
+    if score >= 90 {
+        println("Grade: A")
+    } or score >= 80 {
+        println("Grade: B")
+    } or score >= 70 {
+        println("Grade: C")
+    } otherwise {
+        println("Grade: F")
+    }
+
+    // when/is pattern matching
+    temp day int = 6
+    when day {
+        is 1, 2, 3, 4, 5 { println("Weekday") }
+        is 6, 7 { println("Weekend!") }
+        default { println("Invalid day") }
+    }
+
+    // when/is with range
+    when score {
+        is range(90, 101) { println("Letter: A") }
+        is range(80, 90) { println("Letter: B") }
+        is range(70, 80) { println("Letter: C") }
+        default { println("Letter: F") }
+    }
+
+    // #strict when/is (all enum values covered)
+    temp current = Season.SUMMER
+    #strict
+    when current {
+        is Season.SPRING { println("Flowers blooming") }
+        is Season.SUMMER { println("Sun is shining") }
+        is Season.FALL { println("Leaves falling") }
+        is Season.WINTER { println("Snow is falling") }
+    }
+
+    // for loop with range
+    println("")
+    println("Counting 1 to 5:")
+    for i in range(1, 6) {
+        println("  \${i}")
+    }
+
+    // for_each with index
+    temp fruits [string] = {"apple", "banana", "cherry"}
+    println("")
+    println("Fruits:")
+    for_each i, fruit in fruits {
+        println("  \${i}: \${fruit}")
+    }
+
+    // as_long_as (while loop)
+    println("")
+    temp count int = 0
+    as_long_as count < 3 {
+        println("count = \${count}")
+        count++
+    }
+}`,
+
+  arrays: `/*
+ * Arrays - Ordered collections
+ */
+
+import @std
+using std
+
+do main() {
+    // Declaring arrays
+    temp numbers [int] = {1, 2, 3, 4, 5}
+    temp names [string] = {"Alice", "Bob", "Charlie"}
+    println("numbers: \${numbers}")
+    println("names: \${names}")
+
+    // Accessing elements (0-indexed)
+    println("")
+    println("numbers[0] = \${numbers[0]}")
+    println("numbers[2] = \${numbers[2]}")
+    println("names[1] = \${names[1]}")
+
+    // Modifying elements
+    numbers[0] = 100
+    println("")
+    println("After numbers[0] = 100: \${numbers}")
+
+    // Array length
+    println("")
+    println("Length of numbers: \${len(numbers)}")
+    println("Length of names: \${len(names)}")
+
+    // Iterating with for_each
+    println("")
+    println("All names:")
+    for_each name in names {
+        println("  - \${name}")
+    }
+
+    // Iterating with index
+    println("")
+    for i in range(0, len(numbers)) {
+        println("  numbers[\${i}] = \${numbers[i]}")
+    }
+
+    // Empty array
+    temp empty [int] = {}
+    println("")
+    println("Empty array length: \${len(empty)}")
+}`,
+
+  maps: `/*
+ * Maps - Key-value pairs
+ */
+
+import @std, @maps
+using std
+
+do main() {
+    // Declaring maps
+    temp ages map[string:int] = {
+        "Alice": 30,
+        "Bob": 25,
+        "Charlie": 35
+    }
+    println("ages: \${ages}")
+
+    // Accessing values
+    temp alice_key string = "Alice"
+    println("Alice's age: \${ages[alice_key]}")
+
+    // Modifying values
+    ages[alice_key] = 31
+    println("After birthday: Alice is \${ages[alice_key]}")
+
+    // Adding new entries
+    temp diana_key string = "Diana"
+    ages[diana_key] = 28
+    println("Added Diana: \${ages}")
+
+    // Map length
+    println("Number of people: \${len(ages)}")
+
+    // Iterating over maps using keys
+    println("")
+    println("All ages:")
+    temp keys [string] = maps.keys(ages)
+    for_each key in keys {
+        println("  \${key} is \${ages[key]} years old")
+    }
+
+    // Integer keys
+    println("")
+    temp lookup map[int:string] = {
+        1: "one",
+        2: "two",
+        3: "three"
+    }
+    println("lookup[2] = \${lookup[2]}")
+}`,
+
   enums: `/*
  * Enums and Pattern Matching
  */
@@ -140,21 +431,27 @@ do main() {
     <!-- Toolbar -->
     <div class="flex items-center justify-between px-4 py-3 border-b border-[#e5e5e5] dark:border-[#333333] bg-[#f5f5f5] dark:bg-[#1a1a1a]">
       <div class="flex items-center gap-4">
-        <h1 class="text-lg font-semibold text-black dark:text-white">EZ Playground</h1>
+        <h1 class="text-xl font-semibold text-black dark:text-white">EZ Playground</h1>
+        <span id="version-tag" class="px-2.5 py-0.5 text-sm font-medium rounded-full bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300 border border-green-300 dark:border-green-700">...</span>
         <span id="wasm-status" class="text-sm text-amber-600 dark:text-amber-400">Loading...</span>
       </div>
 
       <div class="flex items-center gap-3">
-        <select id="examples" class="px-3 py-1.5 text-sm rounded-md border border-[#e5e5e5] dark:border-[#333333] bg-white dark:bg-black text-black dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500">
+        <select id="examples" class="px-4 py-2 text-base rounded-md border border-[#e5e5e5] dark:border-[#333333] bg-white dark:bg-black text-black dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500">
           <option value="">Load Example...</option>
           <option value="hello">Hello World</option>
-          <option value="fibonacci">Fibonacci</option>
-          <option value="fizzbuzz">FizzBuzz</option>
+          <option value="variables">Variables</option>
+          <option value="functions">Functions</option>
+          <option value="control_flow">Control Flow</option>
+          <option value="arrays">Arrays</option>
+          <option value="maps">Maps</option>
           <option value="structs">Structs</option>
           <option value="enums">Enums</option>
+          <option value="fibonacci">Fibonacci</option>
+          <option value="fizzbuzz">FizzBuzz</option>
         </select>
 
-        <button id="run-btn" class="px-4 py-1.5 text-sm font-medium text-white bg-green-600 hover:bg-green-700 rounded-md transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2">
+        <button id="run-btn" class="px-5 py-2 text-base font-medium text-white bg-green-600 hover:bg-green-700 rounded-md transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2">
           <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
             <path stroke-linecap="round" stroke-linejoin="round" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
             <path stroke-linecap="round" stroke-linejoin="round" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -589,10 +886,30 @@ do main() {
     });
   }
 
+  // Fetch latest EZ version from GitHub
+  function initVersionTag() {
+    const tag = document.getElementById('version-tag');
+    if (!tag) return;
+
+    fetch('https://api.github.com/repos/SchoolyB/EZ/releases/latest')
+      .then(res => res.json())
+      .then(data => {
+        if (data.tag_name) {
+          tag.textContent = data.tag_name;
+        } else {
+          tag.style.display = 'none';
+        }
+      })
+      .catch(() => {
+        tag.style.display = 'none';
+      });
+  }
+
   // Initialize everything
   function init() {
     initEditor();
     initWasm();
+    initVersionTag();
     setupListeners();
   }
 
