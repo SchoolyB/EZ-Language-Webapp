@@ -94,7 +94,7 @@ const description = Astro.props.description || frontmatter?.description;
 
     // Restore markers
     markers.forEach(({ marker, replacement }) => {
-      result = result.replace(marker, replacement);
+      result = result.replace(marker, () => replacement);
     });
 
     return result;
@@ -201,7 +201,7 @@ const description = Astro.props.description || frontmatter?.description;
 
     // Restore markers
     markers.forEach(({ marker, replacement }) => {
-      result = result.replace(marker, replacement);
+      result = result.replace(marker, () => replacement);
     });
 
     return result;

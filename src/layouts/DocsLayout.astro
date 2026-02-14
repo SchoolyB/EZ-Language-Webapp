@@ -94,7 +94,7 @@ const description = Astro.props.description || frontmatter?.description;
 
     // Restore markers
     markers.forEach(({ marker, replacement }) => {
-      result = result.replace(marker, replacement);
+      result = result.replace(marker, () => replacement);
     });
 
     return result;
@@ -123,14 +123,23 @@ const description = Astro.props.description || frontmatter?.description;
     const typeConversions = ['int', 'float', 'string'];
 
     let result = code;
-    const markers: { marker: string; replacement: string }[] = [];
+    const markers: { marker: string; replacement: string; original: string }[] = [];
     let markerIndex = 0;
 
     const createMarker = (content: string, className: string): string => {
       const marker = `__EZ_MARKER_${markerIndex++}__`;
       const escaped = content.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-      markers.push({ marker, replacement: `<span class="${className}">${escaped}</span>` });
+      markers.push({ marker, replacement: `<span class="${className}">${escaped}</span>`, original: content });
       return marker;
+    };
+
+    // Restore any string markers embedded in a comment back to original text
+    const inlineMarkers = (text: string): string => {
+      let restored = text;
+      markers.forEach(({ marker, original }) => {
+        restored = restored.replace(marker, original);
+      });
+      return restored;
     };
 
     // Extract strings FIRST to protect URLs like "https://..." from being matched as comments
@@ -139,10 +148,10 @@ const description = Astro.props.description || frontmatter?.description;
     // Extract single-char strings (single quotes)
     result = result.replace(/('(?:[^'\\]|\\.)')/g, (match) => createMarker(match, 'ez-string'));
 
-    // Extract multi-line comments
-    result = result.replace(/(\/\*[\s\S]*?\*\/)/g, (match) => createMarker(match, 'ez-comment'));
+    // Extract multi-line comments (inline any string markers back to original text)
+    result = result.replace(/(\/\*[\s\S]*?\*\/)/g, (match) => createMarker(inlineMarkers(match), 'ez-comment'));
     // Extract single-line comments (after strings, so // in URLs won't match)
-    result = result.replace(/(\/\/.*$)/gm, (match) => createMarker(match, 'ez-comment'));
+    result = result.replace(/(\/\/.*$)/gm, (match) => createMarker(inlineMarkers(match), 'ez-comment'));
 
     // Extract import statements with @ - handle alias@module and @module patterns
     // Pattern: alias@module (e.g., arr@arrays, m@math)
@@ -203,7 +212,7 @@ const description = Astro.props.description || frontmatter?.description;
 
     // Restore markers
     markers.forEach(({ marker, replacement }) => {
-      result = result.replace(marker, replacement);
+      result = result.replace(marker, () => replacement);
     });
 
     return result;
