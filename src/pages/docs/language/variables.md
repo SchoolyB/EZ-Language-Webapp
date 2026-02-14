@@ -426,3 +426,11 @@ do main() {
     std.println("Total: $${total}")
 }
 ```
+
+## See Also
+- [Types](/EZ-Language-Webapp/docs/language/types) — all available types and type conversions
+- [Arrays](/EZ-Language-Webapp/docs/language/arrays) — array declarations and `const` vs `temp` arrays
+- [Maps](/EZ-Language-Webapp/docs/language/maps) — map declarations and the `{:}` empty map syntax
+- [Functions](/EZ-Language-Webapp/docs/language/functions) — using variables as function parameters
+- [Structs](/EZ-Language-Webapp/docs/language/structs) — struct variable declarations
+- [Modules](/EZ-Language-Webapp/docs/language/modules) — importing and using modules

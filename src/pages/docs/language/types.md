@@ -542,3 +542,11 @@ do main() {
     std.println("Average score:", average)
 }
 ```
+
+## See Also
+- [Variables](/EZ-Language-Webapp/docs/language/variables) — declaring variables with types
+- [Arrays](/EZ-Language-Webapp/docs/language/arrays) — array declarations, iteration, and fixed-size arrays
+- [Maps](/EZ-Language-Webapp/docs/language/maps) — map declarations, key types, and iteration
+- [Functions](/EZ-Language-Webapp/docs/language/functions) — typed parameters and return values
+- [Structs](/EZ-Language-Webapp/docs/language/structs) — custom composite types
+- [Enums](/EZ-Language-Webapp/docs/language/enums) — enumeration types

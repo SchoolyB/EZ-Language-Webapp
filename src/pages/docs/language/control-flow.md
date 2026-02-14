@@ -667,3 +667,10 @@ do main() {
     std.println("Passing scores:", passing)
 }
 ```
+
+## See Also
+- [Arrays](/EZ-Language-Webapp/docs/language/arrays) — iterating arrays with `for_each` and `for`
+- [Functions](/EZ-Language-Webapp/docs/language/functions) — function declarations and return values
+- [Keywords](/EZ-Language-Webapp/docs/language/keywords) — full keyword reference including control flow keywords
+- [Enums](/EZ-Language-Webapp/docs/language/enums) — enum types used with `when/is` and `#strict`
+- [Attributes](/EZ-Language-Webapp/docs/language/attributes) — `#strict` attribute for exhaustive matching
