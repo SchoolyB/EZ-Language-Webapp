@@ -34,11 +34,10 @@ All request functions return a tuple of `(HttpResponse, Error)`. The `HttpRespon
 Performs an HTTP GET request.
 
 ```ez
-import @std, @http
-using std
+import @http
 
 do main() {
-    temp resp, err = http.get("https://api.example.com/users")
+    mut resp, err = http.get("https://api.example.com/users")
     if err != nil {
         println("Error: ${err.message}")
         return
@@ -69,11 +68,10 @@ do main() {
 Performs an HTTP POST request with a body.
 
 ```ez
-import @std, @http
-using std
+import @http
 
 do main() {
-    temp resp, err = http.post(
+    mut resp, err = http.post(
         "https://api.example.com/users",
         http.json_body({"name": "Alice", "email": "alice@example.com"})
     )
@@ -102,7 +100,7 @@ do main() {
 Performs an HTTP PUT request with a body.
 
 ```ez
-temp resp, err = http.put(
+mut resp, err = http.put(
     "https://api.example.com/users/123",
     http.json_body({"name": "Alice Updated"})
 )
@@ -122,7 +120,7 @@ temp resp, err = http.put(
 Performs an HTTP PATCH request with a body.
 
 ```ez
-temp resp, err = http.patch(
+mut resp, err = http.patch(
     "https://api.example.com/users/123",
     http.json_body({"email": "newemail@example.com"})
 )
@@ -142,7 +140,7 @@ temp resp, err = http.patch(
 Performs an HTTP DELETE request.
 
 ```ez
-temp resp, err = http.delete("https://api.example.com/users/123")
+mut resp, err = http.delete("https://api.example.com/users/123")
 if err != nil {
     println("Error: ${err.message}")
     return
@@ -165,7 +163,7 @@ if resp.status == http.NO_CONTENT {
 Performs an HTTP HEAD request. Returns only headers without a response body.
 
 ```ez
-temp resp, err = http.head("https://api.example.com/users")
+mut resp, err = http.head("https://api.example.com/users")
 if err != nil {
     println("Error: ${err.message}")
     return
@@ -190,7 +188,7 @@ if resp.headers["Content-Length"] != nil {
 Performs an HTTP OPTIONS request to discover allowed methods and CORS information.
 
 ```ez
-temp resp, err = http.options("https://api.example.com/users")
+mut resp, err = http.options("https://api.example.com/users")
 if err != nil {
     println("Error: ${err.message}")
     return
@@ -213,16 +211,15 @@ if resp.headers["Allow"] != nil {
 Performs an advanced HTTP request with custom method, headers, and timeout.
 
 ```ez
-import @std, @http
-using std
+import @http
 
 do main() {
-    temp headers map[string:string] = {
+    mut headers map[string:string] = {
         "Authorization": "Bearer token123",
         "Content-Type": "application/json"
     }
 
-    temp resp, err = http.request(
+    mut resp, err = http.request(
         "POST",
         "https://api.example.com/posts",
         http.json_body({"title": "Hello", "body": "World"}),
@@ -261,11 +258,10 @@ do main() {
 Downloads a file from a URL and saves it to the specified path.
 
 ```ez
-import @std, @http
-using std
+import @http
 
 do main() {
-    temp bytes_written, err = http.download(
+    mut bytes_written, err = http.download(
         "https://example.com/file.pdf",
         "/tmp/downloaded_file.pdf"
     )
@@ -299,7 +295,7 @@ do main() {
 Builds a URL query string from a map.
 
 ```ez
-temp query = http.build_query({"page": "1", "limit": "10", "sort": "name"})
+mut query = http.build_query({"page": "1", "limit": "10", "sort": "name"})
 println(query)  // "limit=10&page=1&sort=name"
 ```
 
@@ -315,7 +311,7 @@ println(query)  // "limit=10&page=1&sort=name"
 Converts a map to a JSON string for use as a request body.
 
 ```ez
-temp body = http.json_body({"name": "Alice", "age": 30})
+mut body = http.json_body({"name": "Alice", "age": 30})
 println(body)  // {"age":30,"name":"Alice"}
 ```
 
@@ -331,11 +327,10 @@ println(body)  // {"age":30,"name":"Alice"}
 Parses a URL string into its components.
 
 ```ez
-import @std, @http
-using std
+import @http
 
 do main() {
-    temp parsed, err = http.parse_url("https://example.com:8080/path?query=value#section")
+    mut parsed, err = http.parse_url("https://example.com:8080/path?query=value#section")
     if err != nil {
         println("Parse error: ${err.message}")
         return
@@ -374,11 +369,10 @@ do main() {
 Builds a URL string from components.
 
 ```ez
-import @std, @http
-using std
+import @http
 
 do main() {
-    temp url_parts = URL{
+    mut url_parts = URL{
         scheme: "https",
         host: "api.example.com",
         port: 443,
@@ -387,7 +381,7 @@ do main() {
         fragment: ""
     }
 
-    temp url = http.build_url(url_parts)
+    mut url = http.build_url(url_parts)
     println(url)  // "https://api.example.com:443/users?page=1"
 }
 ```
@@ -458,7 +452,7 @@ if resp.status == http.NOT_FOUND {
 All request functions return error tuples following EZ's standard pattern:
 
 ```ez
-temp resp, err = http.get(url)
+mut resp, err = http.get(url)
 if err != nil {
     println("Error code:", err.code)
     println("Error message:", err.message)
@@ -486,10 +480,8 @@ if err != nil {
 ## Example Program
 
 ```ez
-import @std
 import @http
 import @json
-using std
 
 const User struct {
     id int
@@ -499,7 +491,7 @@ const User struct {
 
 do main() {
     // Fetch users from API
-    temp resp, err = http.get("https://jsonplaceholder.typicode.com/users/1")
+    mut resp, err = http.get("https://jsonplaceholder.typicode.com/users/1")
     if err != nil {
         println("Request failed: ${err.message}")
         return
@@ -511,7 +503,7 @@ do main() {
     }
 
     // Parse JSON response
-    temp user User, parse_err = json.decode(resp.body, User)
+    mut user User, parse_err = json.decode(resp.body, User)
     if parse_err != nil {
         println("Parse failed: ${parse_err.message}")
         return
@@ -532,7 +524,7 @@ do main() {
 **Use `json_body()` for JSON APIs** - When posting JSON data, use `http.json_body()` to convert maps to JSON strings:
 
 ```ez
-temp resp, err = http.post(url, http.json_body({"key": "value"}))
+mut resp, err = http.post(url, http.json_body({"key": "value"}))
 ```
 
 **Check status codes with constants** - Use the provided constants for readable status checks:
@@ -548,6 +540,6 @@ if resp.status == http.OK { ... }
 **Set custom headers for authenticated APIs** - Use `http.request()` when you need custom headers:
 
 ```ez
-temp headers = {"Authorization": "Bearer ${token}"}
-temp resp, err = http.request("GET", url, "", headers, 30)
+mut headers = {"Authorization": "Bearer ${token}"}
+mut resp, err = http.request("GET", url, "", headers, 30)
 ```

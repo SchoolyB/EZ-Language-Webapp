@@ -19,7 +19,7 @@ import @csv
 CSV data in EZ is represented as `[[string]]` — a 2D array of strings where each inner array is a row:
 
 ```ez
-temp data [[string]] = {
+mut data [[string]] = {
     {"name", "age", "city"},
     {"Alice", "30", "NYC"},
     {"Bob", "25", "LA"}
@@ -30,25 +30,25 @@ temp data [[string]] = {
 
 ## String Operations
 
-### `parse()`
+### `decode()`
 `(text string) -> ([[string]], Error)`
 
 Parses a CSV string into a 2D array.
 
 ```ez
-import @std, @csv
+import @csv
 
 do main() {
-    temp text string = "name,age\nAlice,30\nBob,25"
-    temp data, err = csv.parse(text)
+    mut text string = "name,age\nAlice,30\nBob,25"
+    mut data, err = csv.decode(text)
     if err != nil {
-        std.println("Error:", err.message)
+        println("Error:", err.message)
         return
     }
 
-    std.println(len(data))     // 3
-    std.println(data[0])       // {"name", "age"}
-    std.println(data[1])       // {"Alice", "30"}
+    println(len(data))     // 3
+    println(data[0])       // {"name", "age"}
+    println(data[1])       // {"Alice", "30"}
 }
 ```
 
@@ -62,19 +62,19 @@ do main() {
 
 ---
 
-### `stringify()`
+### `encode()`
 `(data [[string]]) -> (string, Error)`
 
 Converts a 2D array to a CSV string.
 
 ```ez
-import @std, @csv
+import @csv
 
 do main() {
-    temp data [[string]] = {{"name", "age"}, {"Alice", "30"}}
-    temp result, err = csv.stringify(data)
+    mut data [[string]] = {{"name", "age"}, {"Alice", "30"}}
+    mut result, err = csv.encode(data)
     if err == nil {
-        std.println(result)  // "name,age\nAlice,30\n"
+        println(result)  // "name,age\nAlice,30\n"
     }
 }
 ```
@@ -91,23 +91,23 @@ do main() {
 
 ## File Operations
 
-### `read()`
+### `read_file()`
 `(path string, [options map]) -> ([[string]], Error)`
 
 Reads a CSV file and returns a 2D array.
 
 ```ez
-import @std, @csv
+import @csv
 
 do main() {
-    temp data, err = csv.read("data.csv")
+    mut data, err = csv.read_file("data.csv")
     if err != nil {
-        std.println("Error:", err.message)
+        println("Error:", err.message)
         return
     }
 
     for_each row in data {
-        std.println(row)
+        println(row)
     }
 }
 ```
@@ -115,7 +115,7 @@ do main() {
 **With options:**
 
 ```ez
-temp data, err = csv.read("data.tsv", {"delimiter": "\t", "skip_empty": true})
+mut data, err = csv.read_file("data.tsv", {"delimiter": "\t", "skip_empty": true})
 ```
 
 **Parameters:**
@@ -136,16 +136,16 @@ temp data, err = csv.read("data.tsv", {"delimiter": "\t", "skip_empty": true})
 Reads just the first row (headers) of a CSV file.
 
 ```ez
-import @std, @csv
+import @csv
 
 do main() {
-    temp headers, err = csv.headers("data.csv")
+    mut headers, err = csv.headers("data.csv")
     if err != nil {
-        std.println("Error:", err.message)
+        println("Error:", err.message)
         return
     }
 
-    std.println("Columns:", headers)  // {"name", "age", "city"}
+    println("Columns:", headers)  // {"name", "age", "city"}
 }
 ```
 
@@ -157,35 +157,35 @@ do main() {
 
 ---
 
-### `write()`
+### `write_file()`
 `(path string, data [[string]], [options map]) -> (bool, Error)`
 
 Writes a 2D array to a CSV file.
 
 ```ez
-import @std, @csv
+import @csv
 
 do main() {
-    temp data [[string]] = {
+    mut data [[string]] = {
         {"id", "name", "value"},
         {"1", "foo", "100"},
         {"2", "bar", "200"}
     }
 
-    temp ok, err = csv.write("output.csv", data)
+    mut ok, err = csv.write_file("output.csv", data)
     if err != nil {
-        std.println("Error:", err.message)
+        println("Error:", err.message)
         return
     }
 
-    std.println("Written:", ok)  // true
+    println("Written:", ok)  // true
 }
 ```
 
 **With options:**
 
 ```ez
-temp ok, err = csv.write("output.tsv", data, {"delimiter": "\t"})
+mut ok, err = csv.write_file("output.tsv", data, {"delimiter": "\t"})
 ```
 
 **Parameters:**
@@ -206,10 +206,10 @@ temp ok, err = csv.write("output.tsv", data, {"delimiter": "\t"})
 All functions return error tuples:
 
 ```ez
-temp result, err = csv.parse(text)
+mut result, err = csv.decode(text)
 if err != nil {
-    std.println("Error code:", err.code)
-    std.println("Error message:", err.message)
+    println("Error code:", err.code)
+    println("Error message:", err.message)
     return
 }
 ```
@@ -228,13 +228,11 @@ if err != nil {
 ## Example Program
 
 ```ez
-import @std
 import @csv
-using std
 
 do main() {
     // Create data
-    temp records [[string]] = {
+    mut records [[string]] = {
         {"name", "email", "role"},
         {"Alice", "alice@example.com", "admin"},
         {"Bob", "bob@example.com", "user"},
@@ -242,7 +240,7 @@ do main() {
     }
 
     // Write to file
-    temp ok, write_err = csv.write("users.csv", records)
+    mut ok, write_err = csv.write_file("users.csv", records)
     if write_err != nil {
         println("Write error:", write_err.message)
         return
@@ -250,13 +248,13 @@ do main() {
     println("CSV written successfully")
 
     // Read back headers
-    temp headers, h_err = csv.headers("users.csv")
+    mut headers, h_err = csv.headers("users.csv")
     if h_err == nil {
         println("Columns:", headers)
     }
 
     // Read all data
-    temp data, read_err = csv.read("users.csv")
+    mut data, read_err = csv.read_file("users.csv")
     if read_err != nil {
         println("Read error:", read_err.message)
         return
@@ -268,9 +266,9 @@ do main() {
     }
 
     // Round-trip: parse and stringify
-    temp csv_str string = "a,b\n1,2\n"
-    temp parsed, _ = csv.parse(csv_str)
-    temp back, _ = csv.stringify(parsed)
+    mut csv_str string = "a,b\n1,2\n"
+    mut parsed, _ = csv.decode(csv_str)
+    mut back, _ = csv.encode(parsed)
     println("Round-trip match:", back == csv_str)
 }
 ```

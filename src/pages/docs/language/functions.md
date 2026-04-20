@@ -13,10 +13,8 @@ Functions in EZ are declared with the `do` keyword. They support typed parameter
 Use `do` to declare a function:
 
 ```ez
-import @std
-
 do greet() {
-    std.println("Hello!")
+    println("Hello!")
 }
 
 do main() {
@@ -29,14 +27,12 @@ do main() {
 Parameters require type annotations:
 
 ```ez
-import @std
-
 do greet(name string) {
-    std.println("Hello, ${name}!")
+    println("Hello, ${name}!")
 }
 
 do add(x int, y int) {
-    std.println(x + y)
+    println(x + y)
 }
 
 do main() {
@@ -50,8 +46,6 @@ do main() {
 By default, function parameters are **read-only**. Use the `&` prefix to declare a parameter as mutable, allowing the function to modify it.
 
 ```ez
-import @std
-
 // & means "I will modify this parameter"
 do birthday(&p Person) {
     p.age = p.age + 1  // OK - parameter is mutable
@@ -64,9 +58,9 @@ do get_name(p Person) -> string {
 }
 
 do main() {
-    temp person Person = Person{name: "Alice", age: 30}
+    mut person = Person{name: "Alice", age: 30}
     birthday(person)
-    std.println(person.age)  // 31
+    println(person.age)  // 31
 }
 ```
 
@@ -79,36 +73,30 @@ do main() {
 
 | Caller Variable | To `p Person`  | To `&p Person` |
 |-----------------|----------------|----------------|
-| `temp`          | OK (read-only) | OK (writable)  |
+| `mut`           | OK (read-only) | OK (writable)  |
 | `const`         | OK (read-only) | ERROR          |
 
 Passing a `const` variable to a mutable parameter will produce an error:
 
 ```ez
-const config Config = Config{debug: true}
+const config = Config{debug: true}
 // update_config(config)  // ERROR: cannot pass immutable variable to mutable parameter
 ```
 
-**Related Errors:**
-- [E5015](/EZ-Language-Webapp/errors/E5015): cannot modify read-only parameter
-- [E5016](/EZ-Language-Webapp/errors/E5016): cannot pass immutable variable to mutable parameter
-
-> **Note:** The `&` mutable parameter syntax applies to user-defined functions only. Standard library functions that modify data (like `arrays.append()`) require the variable to be declared with `temp`, not `const`.
+> **Note:** The `&` mutable parameter syntax applies to user-defined functions only. Standard library functions that modify data (like `arrays.append()`) require the variable to be declared with `mut`, not `const`.
 
 ## Default Parameter Values
 
 Parameters can have default values, making them optional when calling the function:
 
 ```ez
-import @std
-
 do greet(name string = "World") -> string {
     return "Hello, ${name}!"
 }
 
 do main() {
-    std.println(greet())        // Hello, World!
-    std.println(greet("Alice")) // Hello, Alice!
+    println(greet())        // Hello, World!
+    println(greet("Alice")) // Hello, Alice!
 }
 ```
 
@@ -117,65 +105,14 @@ do main() {
 Required parameters must come before parameters with defaults:
 
 ```ez
-import @std
-
 do create_player(name string, health int = 100, mana int = 50) -> string {
     return "${name}: HP=${health}, MP=${mana}"
 }
 
 do main() {
-    std.println(create_player("Hero"))           // Hero: HP=100, MP=50
-    std.println(create_player("Boss", 200))      // Boss: HP=200, MP=50
-    std.println(create_player("Wizard", 80, 150)) // Wizard: HP=80, MP=150
-}
-```
-
-### All Parameters with Defaults
-
-```ez
-import @std
-
-do config(debug bool = false, verbose bool = true, level int = 1) -> string {
-    return "debug=${debug}, verbose=${verbose}, level=${level}"
-}
-
-do main() {
-    std.println(config())       // debug=false, verbose=true, level=1
-    std.println(config(true))   // debug=true, verbose=true, level=1
-}
-```
-
-### Expression Defaults
-
-Default values can be expressions:
-
-```ez
-import @std
-
-do calculate(multiplier float = 3.14 * 2.0) -> float {
-    return multiplier
-}
-
-do main() {
-    std.println(calculate())    // 6.28
-    std.println(calculate(2.0)) // 2.0
-}
-```
-
-### Grouped Parameters with Default
-
-When grouping parameters of the same type, only the last can have a default:
-
-```ez
-import @std
-
-do point(x, y int = 0) -> string {
-    return "(${x}, ${y})"
-}
-
-do main() {
-    std.println(point(5))    // (5, 0)
-    std.println(point(3, 4)) // (3, 4)
+    println(create_player("Hero"))           // Hero: HP=100, MP=50
+    println(create_player("Boss", 200))      // Boss: HP=200, MP=50
+    println(create_player("Wizard", 80, 150)) // Wizard: HP=80, MP=150
 }
 ```
 
@@ -185,10 +122,6 @@ do main() {
 - Mutable parameters (`&`) cannot have default values
 - Default values are evaluated at call time
 
-**Related Errors:**
-- [E2039](/EZ-Language-Webapp/errors/E2039): required parameter after parameter with default
-- [E2040](/EZ-Language-Webapp/errors/E2040): mutable parameter cannot have default value
-
 ---
 
 ## Type Sharing
@@ -196,8 +129,6 @@ do main() {
 Parameters of the same type can share a type annotation:
 
 ```ez
-import @std
-
 // x, y, and z all share the int type
 do sum(x, y, z int) -> int {
     return x + y + z
@@ -209,8 +140,8 @@ do calculate(a, b float, divisor int) -> float {
 }
 
 do main() {
-    std.println(sum(1, 2, 3))           // 6
-    std.println(calculate(10.0, 20.0, 3))  // 10.0
+    println(sum(1, 2, 3))              // 6
+    println(calculate(10.0, 20.0, 3))  // 10.0
 }
 ```
 
@@ -219,8 +150,6 @@ do main() {
 Use `->` to specify a return type:
 
 ```ez
-import @std
-
 do add(x, y int) -> int {
     return x + y
 }
@@ -234,15 +163,15 @@ do formatName(first, last string) -> string {
 }
 
 do main() {
-    temp sum int = add(10, 20)
-    std.println(sum)  // 30
+    mut sum = add(10, 20)
+    println(sum)  // 30
 
     if isEven(4) {
-        std.println("4 is even")
+        println("4 is even")
     }
 
-    temp name string = formatName("John", "Doe")
-    std.println(name)  // "John Doe"
+    mut name = formatName("John", "Doe")
+    println(name)  // "John Doe"
 }
 ```
 
@@ -251,22 +180,18 @@ do main() {
 Functions can return multiple values:
 
 ```ez
-import @std
-
 do divmod(dividend, divisor int) -> (int, int) {
-    temp quotient int = dividend / divisor
-    temp remainder int = dividend % divisor
+    mut quotient = dividend / divisor
+    mut remainder = dividend % divisor
     return quotient, remainder
 }
 ```
 
 ### Named Return Variables
 
-You can name your return variables. Named returns are automatically initialized to their zero values (`0` for int, `""` for string, `false` for bool, `0.0` for float) and are available as mutable local variables inside the function body.
+You can name your return variables. Named returns are automatically initialized to their zero values and are available as mutable local variables inside the function body.
 
 ```ez
-import @std
-
 do getUserName() -> (name string) {
     name = "Alice"
     return name
@@ -286,64 +211,46 @@ do getNames() -> (first, last string) {
 }
 
 do main() {
-    std.println(getUserName())  // "Alice"
+    println(getUserName())  // "Alice"
 
-    temp a int, n string = getPersonInfo()
-    std.println(a, n)  // 25 Bob
+    mut a, n = getPersonInfo()
+    println(a, n)  // 25 Bob
 
-    temp f string, l string = getNames()
-    std.println(f, l)  // John Doe
+    mut f, l = getNames()
+    println(f, l)  // John Doe
 }
 ```
 
-Named returns require an explicit `return` statement — bare `return` without values is not supported.
+Named returns support two implicit return patterns:
+
+1. **Bare `return`** — returns the named variables in declaration order
+2. **No `return` statement** — falling off the end of the function returns the named variables
+
+Explicit `return` with values also works. All three forms are equivalent:
 
 ```ez
-// Zero values returned if not assigned
-do getZeroInt() -> (count int) {
-    return count  // returns 0
+do divide(a, b int) -> (quotient int, remainder int) {
+    quotient = a / b
+    remainder = a % b
+    return  // bare return — implicitly returns quotient, remainder
 }
+
+do divide2(a, b int) -> (quotient int, remainder int) {
+    quotient = a / b
+    remainder = a % b
+}  // implicit return — falls off end, returns quotient, remainder
 ```
 
-### Named Return Variable Behavior
-
-Named return variables are **mutable** — they behave like `temp` variables, even though they are declared without the `temp` keyword. This means they can be reassigned and passed to mutable (`&`) parameters:
-
 ```ez
-import @std
-
-do increment(&val int) {
-    val = val + 1
+do divmod(dividend, divisor int) -> (int, int) {
+    mut quotient = dividend / divisor
+    mut remainder = dividend % divisor
+    return quotient, remainder
 }
-
-do compute() -> (count int) {
-    count = 5
-    count = 10       // reassignment is allowed
-    increment(count) // passing to &mutable parameter works
-    return count     // returns 11
-}
-
-do main() {
-    temp result int = compute()
-    std.println(result)  // 11
-}
-```
-
-| Behavior | Named return variables |
-|---|---|
-| Declared with `temp`/`const`? | No — declared implicitly by the return signature |
-| Mutable? | Yes — can be reassigned freely |
-| Passable to `&` params? | Yes — treated as mutable |
-| Zero-initialized? | Yes — `0`, `""`, `false`, `0.0` depending on type |
-
----
-
-```ez
-import @std
 
 do minmax(a, b, c int) -> (int, int) {
-    temp min int = a
-    temp max int = a
+    mut min = a
+    mut max = a
 
     if b < min { min = b }
     if c < min { min = c }
@@ -354,25 +261,59 @@ do minmax(a, b, c int) -> (int, int) {
 }
 
 do main() {
-    temp q, r = divmod(17, 5)
-    std.println("17 / 5 =", q, "remainder", r)  // 3 remainder 2
+    mut q, r = divmod(17, 5)
+    println("17 / 5 =", q, "remainder", r)  // 3 remainder 2
 
-    temp min, max = minmax(5, 2, 8)
-    std.println("min:", min, "max:", max)  // min: 2 max: 8
+    mut min, max = minmax(5, 2, 8)
+    println("min:", min, "max:", max)  // min: 2 max: 8
 
     // Use _ to discard unwanted return values
-    temp quotient, _ = divmod(10, 3)
-    std.println("quotient only:", quotient)  // 3
+    mut quotient, _ = divmod(10, 3)
+    println("quotient only:", quotient)  // 3
 }
 ```
+
+## Error Returns
+
+Functions that may fail conventionally return a tuple with the result and an Error:
+
+```ez
+do parse(s string) -> (int, Error) {
+    if s == "" {
+        return 0, error("empty string")
+    }
+    return 42, nil
+}
+
+mut value, err = parse("test")
+if err != nil {
+    // Handle error
+}
+```
+
+### or_return
+
+The `or_return` keyword provides error propagation shorthand. When a call returns a non-nil error, `or_return` immediately returns from the enclosing function:
+
+```ez
+do load() -> (string, Error) {
+    // Bare or_return: propagates the error with zero values
+    mut content = read_file("data.txt") or_return
+    mut parsed = json.decode(content) or_return
+    return parsed, nil
+}
+
+// With custom fallback values:
+mut content = read_file("data.txt") or_return "", error("failed to load")
+```
+
+The enclosing function must have `Error` as its last return type.
 
 ## Array Parameters
 
 ```ez
-import @std
-
 do sum(numbers [int]) -> int {
-    temp total int = 0
+    mut total = 0
     for_each n in numbers {
         total += n
     }
@@ -389,19 +330,18 @@ do contains(arr [string], target string) -> bool {
 }
 
 do main() {
-    temp nums [int] = {1, 2, 3, 4, 5}
-    std.println("Sum:", sum(nums))  // 15
+    mut nums [int] = {1, 2, 3, 4, 5}
+    println("Sum:", sum(nums))  // 15
 
-    temp names [string] = {"Alice", "Bob", "Charlie"}
-    std.println(contains(names, "Bob"))    // true
-    std.println(contains(names, "David"))  // false
+    mut names [string] = {"Alice", "Bob", "Charlie"}
+    println(contains(names, "Bob"))    // true
+    println(contains(names, "David"))  // false
 }
 ```
 
 ## Struct Parameters
 
 ```ez
-import @std
 import @math
 
 const Point struct {
@@ -410,8 +350,8 @@ const Point struct {
 }
 
 do distance(p1, p2 Point) -> float {
-    temp dx int = p2.x - p1.x
-    temp dy int = p2.y - p1.y
+    mut dx = p2.x - p1.x
+    mut dy = p2.y - p1.y
     return math.sqrt(float(dx * dx + dy * dy))
 }
 
@@ -420,57 +360,132 @@ do translate(p Point, dx, dy int) -> Point {
 }
 
 do main() {
-    temp a Point = Point{x: 0, y: 0}
-    temp b Point = Point{x: 3, y: 4}
+    mut a = Point{x: 0, y: 0}
+    mut b = Point{x: 3, y: 4}
 
-    std.println("Distance:", distance(a, b))  // 5.0
+    println("Distance:", distance(a, b))  // 5.0
 
-    temp moved Point = translate(a, 10, 20)
-    std.println("Moved to:", moved.x, moved.y)  // 10 20
+    mut moved = translate(a, 10, 20)
+    println("Moved to:", moved.x, moved.y)  // 10 20
 }
 ```
+
+## Function References
+
+Functions can be passed as values using the `()` prefix syntax or the `ref()` builtin:
+
+```ez
+do is_positive(n int) -> bool { return n > 0 }
+
+// ()func_name — implicit syntax
+mut check = ()is_positive
+
+// ref(func_name) — explicit syntax
+mut check2 = ref(is_positive)
+
+// Call through the reference
+check(5)  // true
+
+// Pass as argument
+do filter(arr [int], test func) -> [int] {
+    // ...
+}
+mut positives = filter(numbers, ()is_positive)
+```
+
+Function references:
+- `()func_name` is the implicit form (shorter)
+- `ref(func_name)` is the explicit form (more readable)
+- Both produce identical results
+- No anonymous functions or lambdas — every reference points to a named function
+- The `func` type is used for parameters that accept function references
+
+## Struct-Namespaced Functions
+
+Functions can be declared inside struct blocks as namespaced free functions:
+
+```ez
+const Point struct {
+    x int
+    y int
+
+    do create(x int, y int) -> Point {
+        return Point{x: x, y: y}
+    }
+
+    do distance(a Point, b Point) -> float {
+        return math.sqrt(math.pow(float(a.x - b.x), 2) + math.pow(float(a.y - b.y), 2))
+    }
+
+    private do validate(p Point) -> bool {
+        return p.x >= 0 && p.y >= 0
+    }
+}
+
+// Called as Type.func()
+mut p = Point.create(3, 4)
+mut d = Point.distance(p1, p2)
+```
+
+Rules:
+- No implicit `self` or `this` — every parameter is explicit
+- `private` restricts access to other functions in the same struct
+- Called as `StructName.func_name(args...)`
+- Cross-module: `module.StructName.func_name(args...)`
+
+## Wildcard Types (?)
+
+The `?` type is a wildcard placeholder that enables generic-style functions. When used in a function's parameter types, `?` is bound to the concrete type of the argument at each call site:
+
+```ez
+do identity(x ?) -> ? {
+    return x
+}
+
+mut a = identity(42)        // ? binds to int, returns int
+mut b = identity("hello")   // ? binds to string, returns string
+```
+
+All `?` placeholders in a function signature bind to the same concrete type:
+
+```ez
+do pick_first(a ?, b ?) -> ? {
+    return a
+}
+
+pick_first(1, 2)          // OK — both args are int
+pick_first(1, "hello")    // Error — conflicting bindings for ?
+```
+
+Wildcard types also work with composite types:
+
+```ez
+do first(arr [?]) -> ? {
+    return arr[0]
+}
+
+mut x = first({1, 2, 3})      // ? binds to int
+mut y = first({"a", "b"})     // ? binds to string
+```
+
+`?` is **only** valid in function parameter types and return types. It is rejected everywhere else (variable declarations, struct fields, etc.).
 
 ## Guaranteed Cleanup with `ensure`
 
-The `ensure` keyword guarantees a function call runs when the current function exits, regardless of how it exits (normal return, early return, or reaching end of function). This prevents resource leaks by ensuring cleanup code always runs.
-
-### Problem: Resource Leaks
+The `ensure` keyword guarantees a function call runs when the current function exits, regardless of how it exits:
 
 ```ez
-import @io, @db
+import @io
 
 do process_data() {
-    temp store, _ = db.open("mydb.ezdb")
-    temp file, _ = io.open("data.txt", "r")
+    mut content, _ = io.read_file("data.txt")
+    ensure cleanup()
 
-    if something_bad {
-        return  // store and file never closed!
+    if content == "" {
+        return  // cleanup() still runs!
     }
 
-    // If we forget cleanup or return early, resources leak
-
-    db.close(store)
-    io.close(file)
-}
-```
-
-### Solution: `ensure`
-
-```ez
-import @io, @db
-
-do process_data() {
-    temp store, _ = db.open("mydb.ezdb")
-    ensure db.close(store)
-
-    temp file, _ = io.open("data.txt", "r")
-    ensure io.close(file)
-
-    if something_bad {
-        return  // Both close calls still run!
-    }
-
-    // Even if error here, cleanup happens
+    // cleanup() runs when function ends
 }
 ```
 
@@ -479,11 +494,9 @@ do process_data() {
 Multiple `ensure` statements run in reverse order (Last-In, First-Out):
 
 ```ez
-import @std
-
-do cleanup1() { std.println("cleanup 1") }
-do cleanup2() { std.println("cleanup 2") }
-do cleanup3() { std.println("cleanup 3") }
+do cleanup1() { println("cleanup 1") }
+do cleanup2() { println("cleanup 2") }
+do cleanup3() { println("cleanup 3") }
 
 do example() {
     ensure cleanup1()  // runs 3rd
@@ -500,17 +513,11 @@ do main() {
 }
 ```
 
-This LIFO order matches how resources are typically acquired and released - resources acquired first should be released last.
-
 ### Rules
 
-- `ensure` statements trigger on:
-  - Normal return
-  - Early return
-  - Reaching end of function
+- `ensure` statements trigger on normal return, early return, and reaching end of function
 - Only function calls are allowed after `ensure`:
   ```ez
-  ensure db.close(store)     // OK
   ensure cleanup()           // OK
   // ensure { block }        // Not supported
   ```
@@ -530,16 +537,6 @@ do findIndex(arr [int], target int) -> int {
     }
     return -1  // Not found
 }
-
-do validate(age int) -> bool {
-    if age < 0 {
-        return false  // Invalid
-    }
-    if age > 150 {
-        return false  // Invalid
-    }
-    return true
-}
 ```
 
 ## Void Functions
@@ -547,16 +544,30 @@ do validate(age int) -> bool {
 Functions without a return type don't return a value:
 
 ```ez
-import @std
-
 do printHeader(title string) {
-    std.println("===================")
-    std.println(title)
-    std.println("===================")
+    println("===================")
+    println(title)
+    println("===================")
 }
 
 do logError(message string) {
-    std.println("[ERROR]", message)
+    println("[ERROR]", message)
+}
+```
+
+## Visibility
+
+By default, all functions are public. The `private` keyword restricts access to the declaring module:
+
+```ez
+private do validate(n int) -> bool {
+    return n > 0
+}
+
+do factorial(n int) -> int {
+    // Can call private members within the same module
+    if !validate(n) { return 1 }
+    // ...
 }
 ```
 
@@ -565,8 +576,6 @@ do logError(message string) {
 Functions can call themselves:
 
 ```ez
-import @std
-
 do factorial(n int) -> int {
     if n <= 1 {
         return 1
@@ -582,8 +591,8 @@ do fibonacci(n int) -> int {
 }
 
 do main() {
-    std.println("5! =", factorial(5))   // 120
-    std.println("fib(10) =", fibonacci(10))  // 55
+    println("5! =", factorial(5))   // 120
+    println("fib(10) =", fibonacci(10))  // 55
 }
 ```
 
@@ -592,19 +601,16 @@ do main() {
 Every EZ program needs a `main()` function as its entry point:
 
 ```ez
-import @std
-
 do main() {
-    std.println("Program started")
+    println("Program started")
     // Your code here
-    std.println("Program finished")
+    println("Program finished")
 }
 ```
 
 ## Example Program
 
 ```ez
-import @std
 import @math
 
 const Circle struct {
@@ -634,36 +640,36 @@ do scale(c Circle, factor float) -> Circle {
 }
 
 do overlaps(c1, c2 Circle) -> bool {
-    temp dx float = c2.x - c1.x
-    temp dy float = c2.y - c1.y
-    temp distance float = math.sqrt(dx * dx + dy * dy)
+    mut dx = c2.x - c1.x
+    mut dy = c2.y - c1.y
+    mut distance = math.sqrt(dx * dx + dy * dy)
     return distance < (c1.radius + c2.radius)
 }
 
 do main() {
-    temp circle1 Circle = createCircle(0.0, 0.0, 5.0)
-    temp circle2 Circle = createCircle(8.0, 0.0, 4.0)
+    mut circle1 = createCircle(0.0, 0.0, 5.0)
+    mut circle2 = createCircle(8.0, 0.0, 4.0)
 
-    std.println("Circle 1:")
-    std.println("  Area:", area(circle1))
-    std.println("  Circumference:", circumference(circle1))
+    println("Circle 1:")
+    println("  Area:", area(circle1))
+    println("  Circumference:", circumference(circle1))
 
-    std.println("Circle 2:")
-    std.println("  Area:", area(circle2))
+    println("Circle 2:")
+    println("  Area:", area(circle2))
 
     if overlaps(circle1, circle2) {
-        std.println("Circles overlap!")
+        println("Circles overlap!")
     } otherwise {
-        std.println("Circles do not overlap")
+        println("Circles do not overlap")
     }
 
-    temp bigger Circle = scale(circle1, 2.0)
-    std.println("Scaled radius:", bigger.radius)  // 10.0
+    mut bigger = scale(circle1, 2.0)
+    println("Scaled radius:", bigger.radius)  // 10.0
 }
 ```
 
 ## See Also
 - [Control Flow](/EZ-Language-Webapp/docs/language/control-flow) — loops and conditionals used within functions
-- [Variables](/EZ-Language-Webapp/docs/language/variables) — variable declarations, `temp` vs `const`
+- [Variables](/EZ-Language-Webapp/docs/language/variables) — variable declarations, `mut` vs `const`
 - [Structs](/EZ-Language-Webapp/docs/language/structs) — struct types as parameters and return values
 - [Keywords](/EZ-Language-Webapp/docs/language/keywords) — `do`, `return`, `ensure` keyword reference

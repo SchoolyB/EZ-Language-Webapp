@@ -9,6 +9,8 @@ description: 'Map (dictionary/hash) operations and utilities.'
 The `@maps` module provides functions for working with maps (also known as dictionaries or hash tables).
 Maps store key-value pairs where keys must be hashable types (strings, numbers, booleans).
 
+> **Note:** Maps must be declared with `mut` — they cannot be `const`.
+
 ## Import
 
 ```ez
@@ -21,190 +23,31 @@ Maps are created using key-value syntax:
 
 ```ez
 // Empty map
-temp empty map[string:int] = {:}
+mut empty map[string:int] = {:}
 
 // Map with initial values
-temp ages map[string:int] = {
+mut ages map[string:int] = {
     "Alice": 25,
     "Bob": 30,
     "Charlie": 35
 }
 ```
 
-## Basic Operations
-
-### `get()`
-`(m map, key key) -> value`
-
-Retrieves a value by key.
-
-```ez
-import @std, @maps
-
-do get_from_map() {
-    temp ages map[string:int] = {"Alice": 25, "Bob": 30}
-    temp age int = maps.get(ages, "Alice")
-    std.println(age)  // 25
-}
-```
-
-**Parameters:** `m` - The map, `key` - The key.
-
-**Returns:** The value associated with the key.
-
-**Errors:** [E12003](/EZ-Language-Webapp/errors/E12003) if the key is not found.
-
-### `set()`
-`(m map, key key, value value) -> void`
-
-Sets a value for a key (adds or updates).
-
-```ez
-import @maps
-
-do set_in_map() {
-    temp ages map[string:int] = {"Alice": 25}
-    maps.set(ages, "Bob", 30)
-    maps.set(ages, "Alice", 26)  // update existing
-}
-```
-
-**Parameters:** `m`, `key`, `value`.
-
-**Returns:** Nothing (mutates map in place).
-
-**Errors:** [E12002](/EZ-Language-Webapp/errors/E12002) if the map is immutable (const).
-
-### `contains()`
-`(m map, key key) -> bool`
-
-Checks if a key exists in the map.
-
-```ez
-import @std, @maps
-
-do check_key_exists() {
-    temp ages map[string:int] = {"Alice": 25, "Bob": 30}
-    std.println(maps.contains(ages, "Alice"))  // true
-    std.println(maps.contains(ages, "Eve"))    // false
-}
-```
-
-**Parameters:** `m`, `key`.
-
-**Returns:** `bool` - true if key exists.
-
-### `contains_value()`
-`(m map, value value) -> bool`
-
-Checks if a value exists in the map.
-
-```ez
-import @std, @maps
-
-do check_value_exists() {
-    temp ages map[string:int] = {"Alice": 25, "Bob": 30}
-    std.println(maps.contains_value(ages, 25))  // true
-    std.println(maps.contains_value(ages, 99))  // false
-}
-```
-
-**Parameters:** `m`, `value`.
-
-**Returns:** `bool` - true if value exists.
-
-### `remove()`
-`(m map, key key) -> void`
-
-Removes a key-value pair from the map.
-
-```ez
-import @std, @maps
-
-do remove_from_map() {
-    temp ages map[string:int] = {"Alice": 25, "Bob": 30}
-    maps.remove(ages, "Alice")
-    std.println(maps.contains(ages, "Alice"))  // false
-}
-```
-
-**Parameters:** `m`, `key`.
-
-**Returns:** Nothing (mutates map in place).
-
-## Inspection
-
-### `keys()`
-`(m map) -> [key]`
-
-Returns an array of all keys in the map.
-
-```ez
-import @std, @maps
-
-do get_map_keys() {
-    temp ages map[string:int] = {"Alice": 25, "Bob": 30}
-    temp names [string] = maps.keys(ages)
-    std.println(names)  // {"Alice", "Bob"}
-}
-```
-
-**Parameters:** `m` - The map.
-
-**Returns:** `[key]` - Array of keys.
-
-**Errors:** [E7007](/EZ-Language-Webapp/errors/E7007) if the argument is not a map.
-
-### `values()`
-`(m map) -> [value]`
-
-Returns an array of all values in the map.
-
-```ez
-import @std, @maps
-
-do get_map_values() {
-    temp ages map[string:int] = {"Alice": 25, "Bob": 30}
-    temp all_ages [int] = maps.values(ages)
-    std.println(all_ages)  // {25, 30}
-}
-```
-
-**Parameters:** `m` - The map.
-
-**Returns:** `[value]` - Array of values.
-
-### `size()`
-`(m map) -> int`
-
-Returns the number of key-value pairs in the map.
-
-```ez
-import @std, @maps
-
-do get_map_size() {
-    temp ages map[string:int] = {"Alice": 25, "Bob": 30}
-    std.println(maps.size(ages))  // 2
-}
-```
-
-**Parameters:** `m` - The map.
-
-**Returns:** `int` - Number of entries.
+## Query Functions
 
 ### `is_empty()`
-`(m map) -> bool`
+`(m map[K:V]) -> bool`
 
 Checks if the map has no entries.
 
 ```ez
-import @std, @maps
+import @maps
 
-do check_map_empty() {
-    temp empty map[string:int] = {:}
-    temp filled map[string:int] = {"a": 1}
-    std.println(maps.is_empty(empty))   // true
-    std.println(maps.is_empty(filled))  // false
+do main() {
+    mut empty map[string:int] = {:}
+    mut filled map[string:int] = {"a": 1}
+    println(maps.is_empty(empty))   // true
+    println(maps.is_empty(filled))  // false
 }
 ```
 
@@ -212,20 +55,173 @@ do check_map_empty() {
 
 **Returns:** `bool` - true if empty.
 
-## Transformation
+---
 
-### `merge()`
-`(m1 map, m2 map) -> map`
+### `has_key()`
+`(m map[K:V], key K) -> bool`
 
-Merges two maps. Values from the second map override the first.
+Checks if a key exists in the map.
 
 ```ez
 import @maps
 
-do merge_maps() {
-    temp defaults map[string:string] = {"color": "blue", "size": "medium"}
-    temp custom map[string:string] = {"color": "red"}
-    temp result map[string:string] = maps.merge(defaults, custom)
+do main() {
+    mut ages map[string:int] = {"Alice": 25, "Bob": 30}
+    println(maps.has_key(ages, "Alice"))  // true
+    println(maps.has_key(ages, "Eve"))    // false
+}
+```
+
+**Parameters:** `m`, `key`.
+
+**Returns:** `bool` - true if key exists.
+
+---
+
+### `contains_value()`
+`(m map[K:V], value V) -> bool`
+
+Checks if any entry has the given value.
+
+```ez
+import @maps
+
+do main() {
+    mut ages map[string:int] = {"Alice": 25, "Bob": 30}
+    println(maps.contains_value(ages, 25))  // true
+    println(maps.contains_value(ages, 99))  // false
+}
+```
+
+**Parameters:** `m`, `value`.
+
+**Returns:** `bool` - true if value exists.
+
+---
+
+### `get_keys()`
+`(m map[K:V]) -> [K]`
+
+Returns an array of all keys in the map.
+
+```ez
+import @maps
+
+do main() {
+    mut ages map[string:int] = {"Alice": 25, "Bob": 30}
+    mut names = maps.get_keys(ages)
+    println(names)  // {"Alice", "Bob"}
+}
+```
+
+**Parameters:** `m` - The map.
+
+**Returns:** Array of keys.
+
+---
+
+### `get_values()`
+`(m map[K:V]) -> [V]`
+
+Returns an array of all values in the map.
+
+```ez
+import @maps
+
+do main() {
+    mut ages map[string:int] = {"Alice": 25, "Bob": 30}
+    mut all_ages = maps.get_values(ages)
+    println(all_ages)  // {25, 30}
+}
+```
+
+**Parameters:** `m` - The map.
+
+**Returns:** Array of values.
+
+---
+
+## Safe Access
+
+### `get_or_default()`
+`(m map[K:V], key K, default V) -> V`
+
+Gets a value by key, returning a default if the key doesn't exist.
+
+```ez
+import @maps
+
+do main() {
+    mut ages map[string:int] = {"Alice": 25}
+    mut age1 = maps.get_or_default(ages, "Alice", 0)  // 25
+    mut age2 = maps.get_or_default(ages, "Bob", 0)    // 0 (default)
+}
+```
+
+**Parameters:** `m`, `key`, `default`.
+
+**Returns:** The value or the default.
+
+---
+
+## Modification Functions
+
+### `remove_key()`
+`(&m map[K:V], key K) -> bool`
+
+Removes a key-value pair from the map. Returns true if the key was found and removed.
+
+```ez
+import @maps
+
+do main() {
+    mut ages map[string:int] = {"Alice": 25, "Bob": 30}
+    maps.remove_key(ages, "Alice")
+    println(maps.has_key(ages, "Alice"))  // false
+}
+```
+
+**Parameters:** `m`, `key`.
+
+**Returns:** `bool` - true if key was removed.
+
+---
+
+### `clear()`
+`(&m map[K:V]) -> void`
+
+Removes all key-value pairs from a map.
+
+```ez
+import @maps
+
+do main() {
+    mut ages map[string:int] = {"Alice": 25, "Bob": 30}
+    maps.clear(ages)
+    println(len(ages))  // 0
+}
+```
+
+**Parameters:** `m` - The map.
+
+**Returns:** Nothing (mutates map in place).
+
+---
+
+## Transformation
+
+### `merge()`
+`(m1 map[K:V], m2 map[K:V]) -> map[K:V]`
+
+Merges two maps. Values from the second map override the first on conflict.
+
+```ez
+import @maps
+
+do main() {
+    mut defaults map[string:string] = {"color": "blue", "size": "medium"}
+    mut custom map[string:string] = {"color": "red"}
+    mut result = maps.merge(defaults, custom)
     // result: {"color": "red", "size": "medium"}
 }
 ```
@@ -234,66 +230,25 @@ do merge_maps() {
 
 **Returns:** A new merged map.
 
-### `clear()`
-`(m map) -> void`
+---
 
-Removes all key-value pairs from a map.
+## Iteration
 
-```ez
-import @std, @maps
-
-do clear_map() {
-    temp ages map[string:int] = {"Alice": 25, "Bob": 30}
-    maps.clear(ages)
-    std.println(maps.size(ages))  // 0
-}
-```
-
-**Parameters:** `m` - The map.
-
-**Returns:** Nothing (mutates map in place).
-
-## Safe Access
-
-### `get_or()`
-`(m map, key key, default value) -> value`
-
-Gets a value by key, returning a default if the key doesn't exist.
+Maps support built-in iteration with `for_each`:
 
 ```ez
-import @maps
+do main() {
+    mut ages map[string:int] = {"Alice": 25, "Bob": 30}
 
-do get_with_default() {
-    temp ages map[string:int] = {"Alice": 25}
-    temp age1 int = maps.get_or(ages, "Alice", 0)  // 25
-    temp age2 int = maps.get_or(ages, "Bob", 0)    // 0 (default)
-}
-```
-
-**Parameters:** `m`, `key`, `default`.
-
-**Returns:** The value or the default.
-
-### `try_get()`
-`(m map, key key) -> (value, bool)`
-
-Attempts to get a value, returning both the value and a success boolean.
-
-```ez
-import @std, @maps
-
-do try_get_from_map() {
-    temp ages map[string:int] = {"Alice": 25}
-    temp value, ok = maps.try_get(ages, "Alice")
-    if ok {
-        std.println("Found:", value)
+    for_each key, value in ages {
+        println(key, "is", value)
     }
 }
 ```
 
-**Parameters:** `m`, `key`.
+Use `len(m)` to get the number of entries (builtin, no import needed).
 
-**Returns:** `(value, bool)` - Value and success flag.
+---
 
 ## Key Constraints
 
@@ -302,58 +257,55 @@ Arrays, maps, and structs cannot be used as keys.
 
 ```ez
 // Valid keys
-temp stringKey map[string:string] = {"name": "Alice"}
-temp intKey map[int:string] = {42: "answer"}
-temp boolKey map[bool:string] = {true: "yes"}
+mut stringKey map[string:string] = {"name": "Alice"}
+mut intKey map[int:string] = {42: "answer"}
+mut boolKey map[bool:string] = {true: "yes"}
 
 // Invalid - will raise E12001
-temp arr [int] = {1, 2, 3}
-// maps.set(myMap, arr, "value")  // Error: array not hashable
+// mut myMap map[[int]:string] = {}  // Error: array not hashable
 ```
 
-**Error:** [E12001](/EZ-Language-Webapp/errors/E12001) if you try to use a non-hashable key.
+---
 
 ## Example Program
 
 ```ez
-import @std
 import @maps
 import @strings
 
 do main() {
     // Word frequency counter
-    temp text string = "the quick brown fox jumps over the lazy dog"
-    temp words [string] = strings.split(text, " ")
+    mut text = "the quick brown fox jumps over the lazy dog"
+    mut words = strings.split(text, " ")
 
-    temp frequency map[string:int] = {}
+    mut frequency map[string:int] = {:}
 
     for_each word in words {
-        if maps.contains(frequency, word) {
-            temp count int = maps.get(frequency, word)
-            maps.set(frequency, word, count + 1)
+        if maps.has_key(frequency, word) {
+            mut count = frequency[word]
+            frequency[word] = count + 1
         } otherwise {
-            maps.set(frequency, word, 1)
+            frequency[word] = 1
         }
     }
 
-    std.println("Word frequencies:")
-    temp unique_words [string] = maps.keys(frequency)
-    for_each word in unique_words {
-        std.println(word + ":", maps.get(frequency, word))
+    println("Word frequencies:")
+    for_each word, count in frequency {
+        println(word + ":", count)
     }
 
     // Configuration with defaults
-    temp defaults map[string:string] = {
+    mut defaults map[string:string] = {
         "theme": "light",
         "language": "en"
     }
 
-    temp user_config map[string:string] = {
+    mut user_config map[string:string] = {
         "theme": "dark"
     }
 
-    temp config map[string:string] = maps.merge(defaults, user_config)
-    std.println("Theme:", maps.get(config, "theme"))      // "dark"
-    std.println("Language:", maps.get(config, "language")) // "en"
+    mut config = maps.merge(defaults, user_config)
+    println("Theme:", config["theme"])      // "dark"
+    println("Language:", config["language"]) // "en"
 }
 ```

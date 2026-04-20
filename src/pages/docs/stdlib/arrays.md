@@ -14,289 +14,21 @@ The `@arrays` module provides functions for manipulating and working with arrays
 import @arrays
 ```
 
-## Adding and Removing Elements
-
-### `append()`
-`(arr [type], value type) -> void`
-
-Adds an element to the end of an array.
-
-```ez
-import @std, @arrays
-
-do append_to_array(){
-    temp arr [int] = {1, 2, 3}
-    arrays.append(arr, 4)
-    std.println(arr)  // {1, 2, 3, 4}
-}
-```
-
-**Parameters:** `arr` - The array, `value` - Element to add.
-
-**Returns:** Nothing (mutates array in place).
-
----
-
-### `pop()`
-`(arr [type]) -> type`
-
-Removes and returns the last element of an array.
-
-```ez
-import @std, @arrays
-
-do pop_from_array(){
-    temp arr [int] = {1, 2, 3}
-    temp last int = arrays.pop(arr)
-    std.println(last)  // 3
-    std.println(arr)   // {1, 2}
-}
-```
-
-**Parameters:** `arr` - The array.
-
-**Returns:** The removed element.
-
-**Errors:** [E9001](/EZ-Language-Webapp/errors/E9001) if the array is empty.
-
----
-
-### `shift()`
-`(arr [type]) -> type`
-
-Removes and returns the first element of an array.
-
-```ez
-import @std, @arrays
-
-do main(){
-    temp arr [int] = {1, 2, 3}
-    temp first int = arrays.shift(arr)
-    std.println(first)  // 1
-    std.println(arr)    // {2, 3}
-}
-```
-
-**Parameters:** `arr` - The array.
-
-**Returns:** The removed element.
-
-**Errors:** [E9001](/EZ-Language-Webapp/errors/E9001) if the array is empty.
-
----
-
-### `unshift()`
-`(arr [type], value type) -> void`
-
-Adds an element to the beginning of an array.
-
-```ez
-import @std, @arrays
-
-do main(){
-    temp arr [int] = {2, 3, 4}
-    arrays.unshift(arr, 1)
-    std.println(arr)  // {1, 2, 3, 4}
-}
-```
-
-**Parameters:** `arr` - The array, `value` - Element to add.
-
-**Returns:** Nothing (mutates array in place).
-
----
-
-### `insert()`
-`(arr [type], index int, value type) -> void`
-
-Inserts an element at a specific index.
-
-```ez
-import @std, @arrays
-
-do main() {
-    temp arr [int] = {1, 2, 4}
-    arrays.insert(arr, 2, 3)  // insert 3 at index 2
-    std.println(arr)  // {1, 2, 3, 4}
-}
-```
-
-**Parameters:** `arr`, `index`, `value`.
-
-**Returns:** Nothing (mutates array in place).
-
-**Errors:** [E5003](/EZ-Language-Webapp/errors/E5003) if the index is out of bounds.
-
----
-
-### `remove_at()`
-`(arr [type], index int) -> void`
-
-Removes the element at a specific index.
-
-```ez
-import @std, @arrays
-
-do main() {
-    temp arr [int] = {1, 2, 3, 4}
-    arrays.remove_at(arr, 1)
-    std.println(arr)  // {1, 3, 4}
-}
-```
-
-**Parameters:** `arr`, `index`.
-
-**Returns:** Nothing (mutates array in place).
-
-**Errors:** [E5003](/EZ-Language-Webapp/errors/E5003) if the index is out of bounds.
-
----
-
-### `remove_all()`
-`(arr [type], value type) -> void`
-
-Removes all occurrences of a value from an array (in place).
-
-```ez
-import @std, @arrays
-
-do main() {
-    temp arr [int] = {1, 2, 3, 2, 4, 2}
-    arrays.remove_all(arr, 2)
-    std.println(arr)  // {1, 3, 4}
-}
-```
-
-**Parameters:** `arr` - The array, `value` - The value to remove.
-
-**Returns:** Nothing (mutates array in place).
-
----
-
-### `clear()`
-`(arr [type]) -> void`
-
-Removes all elements from an array (in place).
-
-```ez
-import @std, @arrays
-
-do main() {
-    temp arr [int] = {1, 2, 3}
-    arrays.clear(arr)
-    std.println(arr)  // {}
-}
-```
-
-**Parameters:** `arr` - The array.
-
-**Returns:** Nothing (mutates array in place).
-
----
-
-### `fill()`
-`(arr [type], value type) -> void`
-
-Fills all elements of an array with a value (in place).
-
-```ez
-import @std, @arrays
-
-do main() {
-    temp arr [int] = {1, 2, 3, 4, 5}
-    arrays.fill(arr, 0)
-    std.println(arr)  // {0, 0, 0, 0, 0}
-}
-```
-
-**Parameters:** `arr` - The array, `value` - The value to fill with.
-
-**Returns:** Nothing (mutates array in place).
-
----
-
-## Accessing Elements
-
-### `get()`
-`(arr [type], index int) -> type`
-
-Returns the element at a specific index.
-
-```ez
-import @std, @arrays
-
-do main() {
-    temp arr [int] = {10, 20, 30}
-    temp val int = arrays.get(arr, 1)
-    std.println(val)  // 20
-}
-```
-
-**Parameters:** `arr`, `index`.
-
-**Returns:** The element at the index.
-
-**Errors:** [E5003](/EZ-Language-Webapp/errors/E5003) if the index is out of bounds.
-
----
-
-### `set()`
-`(arr [type], index int, value type) -> void`
-
-Sets the element at a specific index.
-
-```ez
-import @std, @arrays
-
-do main() {
-    temp arr [int] = {1, 2, 3}
-    arrays.set(arr, 1, 20)
-    std.println(arr)  // {1, 20, 3}
-}
-```
-
-**Parameters:** `arr`, `index`, `value`.
-
-**Returns:** Nothing (mutates array in place).
-
-**Errors:** [E5003](/EZ-Language-Webapp/errors/E5003) if the index is out of bounds.
-
----
-
-### `first()` / `last()`
-`(arr [type]) -> type`
-
-Returns the first or last element of an array.
-
-```ez
-import @std, @arrays
-
-do main() {
-    temp arr [int] = {10, 20, 30}
-    std.println(arrays.first(arr))  // 10
-    std.println(arrays.last(arr))   // 30
-}
-```
-
-**Parameters:** `arr` - The array.
-
-**Returns:** The first or last element.
-
----
+## Query Functions
 
 ### `is_empty()`
-`(arr [type]) -> bool`
+`(arr [T]) -> bool`
 
 Checks if an array is empty.
 
 ```ez
-import @std, @arrays
+import @arrays
 
 do main() {
-    temp arr [int] = {}
-    std.println(arrays.is_empty(arr))  // true
+    mut arr [int] = {}
+    println(arrays.is_empty(arr))  // true
     arrays.append(arr, 1)
-    std.println(arrays.is_empty(arr))  // false
+    println(arrays.is_empty(arr))  // false
 }
 ```
 
@@ -306,41 +38,18 @@ do main() {
 
 ---
 
-### `remove_value()`
-`(arr [type], value type) -> void`
-
-Removes the first occurrence of a value from an array (in place).
-
-```ez
-import @std, @arrays
-
-do main() {
-    temp arr [int] = {1, 2, 3, 2, 4}
-    arrays.remove_value(arr, 2)
-    std.println(arr)  // {1, 3, 2, 4}
-}
-```
-
-**Parameters:** `arr` - The array, `value` - The value to remove.
-
-**Returns:** Nothing (mutates array in place).
-
----
-
-## Searching
-
 ### `contains()`
-`(arr [type], value type) -> bool`
+`(arr [T], value T) -> bool`
 
 Checks if an array contains a value.
 
 ```ez
-import @std, @arrays
+import @arrays
 
 do main() {
-    temp arr [int] = {1, 2, 3, 4, 5}
-    std.println(arrays.contains(arr, 3))  // true
-    std.println(arrays.contains(arr, 9))  // false
+    mut arr [int] = {1, 2, 3, 4, 5}
+    println(arrays.contains(arr, 3))  // true
+    println(arrays.contains(arr, 9))  // false
 }
 ```
 
@@ -350,39 +59,18 @@ do main() {
 
 ---
 
-### `index()`
-`(arr [type], value type) -> int`
+### `index_of()`
+`(arr [T], value T) -> int`
 
 Returns the index of the first occurrence of a value, or -1 if not found.
 
 ```ez
-import @std, @arrays
+import @arrays
 
 do main() {
-    temp arr [int] = {10, 20, 30, 20}
-    std.println(arrays.index(arr, 20))  // 1
-    std.println(arrays.index(arr, 99))  // -1
-}
-```
-
-**Parameters:** `arr`, `value`.
-
-**Returns:** `int` - Index or -1.
-
----
-
-### `last_index()`
-`(arr [type], value type) -> int`
-
-Returns the index of the last occurrence of a value, or -1 if not found.
-
-```ez
-import @std, @arrays
-
-do main() {
-    temp arr [int] = {10, 20, 30, 20}
-    std.println(arrays.last_index(arr, 20))  // 3
-    std.println(arrays.last_index(arr, 99))  // -1
+    mut arr [int] = {10, 20, 30, 20}
+    println(arrays.index_of(arr, 20))  // 1
+    println(arrays.index_of(arr, 99))  // -1
 }
 ```
 
@@ -393,17 +81,17 @@ do main() {
 ---
 
 ### `count()`
-`(arr [type], value type) -> int`
+`(arr [T], value T) -> int`
 
 Counts the number of occurrences of a value in an array.
 
 ```ez
-import @std, @arrays
+import @arrays
 
 do main() {
-    temp arr [int] = {1, 2, 3, 2, 4, 2}
-    std.println(arrays.count(arr, 2))  // 3
-    std.println(arrays.count(arr, 9))  // 0
+    mut arr [int] = {1, 2, 3, 2, 4, 2}
+    println(arrays.count(arr, 2))  // 3
+    println(arrays.count(arr, 9))  // 0
 }
 ```
 
@@ -413,20 +101,171 @@ do main() {
 
 ---
 
-## Transforming
+## Access Functions
 
-### `reverse()`
-`(arr [type]) -> void`
+### `get_first()` / `get_last()`
+`(arr [T]) -> T`
 
-Reverses an array in place.
+Returns the first or last element of an array. Panics if the array is empty.
 
 ```ez
-import @std, @arrays
+import @arrays
 
 do main() {
-    temp arr [int] = {1, 2, 3, 4, 5}
-    arrays.reverse(arr)
-    std.println(arr)  // {5, 4, 3, 2, 1}
+    mut arr [int] = {10, 20, 30}
+    println(arrays.get_first(arr))  // 10
+    println(arrays.get_last(arr))   // 30
+}
+```
+
+**Parameters:** `arr` - The array.
+
+**Returns:** The first or last element.
+
+---
+
+## Modification Functions
+
+### `append()`
+`(&arr [T], value T) -> void`
+
+Adds an element to the end of an array.
+
+```ez
+import @arrays
+
+do main() {
+    mut arr [int] = {1, 2, 3}
+    arrays.append(arr, 4)
+    println(arr)  // {1, 2, 3, 4}
+}
+```
+
+**Parameters:** `arr` - The array, `value` - Element to add.
+
+**Returns:** Nothing (mutates array in place).
+
+---
+
+### `prepend()`
+`(&arr [T], value T) -> void`
+
+Adds an element to the beginning of an array.
+
+```ez
+import @arrays
+
+do main() {
+    mut arr [int] = {2, 3, 4}
+    arrays.prepend(arr, 1)
+    println(arr)  // {1, 2, 3, 4}
+}
+```
+
+**Parameters:** `arr` - The array, `value` - Element to add.
+
+**Returns:** Nothing (mutates array in place).
+
+---
+
+### `insert_at()`
+`(&arr [T], index int, value T) -> void`
+
+Inserts an element at a specific index.
+
+```ez
+import @arrays
+
+do main() {
+    mut arr [int] = {1, 2, 4}
+    arrays.insert_at(arr, 2, 3)  // insert 3 at index 2
+    println(arr)  // {1, 2, 3, 4}
+}
+```
+
+**Parameters:** `arr`, `index`, `value`.
+
+**Returns:** Nothing (mutates array in place).
+
+---
+
+### `remove_at()`
+`(&arr [T], index int) -> void`
+
+Removes the element at a specific index.
+
+```ez
+import @arrays
+
+do main() {
+    mut arr [int] = {1, 2, 3, 4}
+    arrays.remove_at(arr, 1)
+    println(arr)  // {1, 3, 4}
+}
+```
+
+**Parameters:** `arr`, `index`.
+
+**Returns:** Nothing (mutates array in place).
+
+---
+
+### `remove_first()`
+`(&arr [T]) -> T`
+
+Removes and returns the first element of an array. Panics if the array is empty.
+
+```ez
+import @arrays
+
+do main() {
+    mut arr [int] = {1, 2, 3}
+    mut first = arrays.remove_first(arr)
+    println(first)  // 1
+    println(arr)    // {2, 3}
+}
+```
+
+**Parameters:** `arr` - The array.
+
+**Returns:** The removed element.
+
+---
+
+### `remove_last()`
+`(&arr [T]) -> T`
+
+Removes and returns the last element of an array. Panics if the array is empty.
+
+```ez
+import @arrays
+
+do main() {
+    mut arr [int] = {1, 2, 3}
+    mut last = arrays.remove_last(arr)
+    println(last)  // 3
+    println(arr)   // {1, 2}
+}
+```
+
+**Parameters:** `arr` - The array.
+
+**Returns:** The removed element.
+
+---
+
+### `clear()`
+`(&arr [T]) -> void`
+
+Removes all elements from an array (in place).
+
+```ez
+import @arrays
+
+do main() {
+    mut arr [int] = {1, 2, 3}
+    arrays.clear(arr)
+    println(arr)  // {}
 }
 ```
 
@@ -436,18 +275,39 @@ do main() {
 
 ---
 
-### `sort()`
-`(arr [type]) -> void`
+### `fill()`
+`(&arr [T], value T, count int) -> void`
+
+Fills an array with N copies of a value.
+
+```ez
+import @arrays
+
+do main() {
+    mut arr [int] = {}
+    arrays.fill(arr, 0, 5)
+    println(arr)  // {0, 0, 0, 0, 0}
+}
+```
+
+**Parameters:** `arr` - The array, `value` - The value to fill with, `count` - Number of copies.
+
+**Returns:** Nothing (mutates array in place).
+
+---
+
+### `sort_asc()`
+`(&arr [T]) -> void`
 
 Sorts an array in ascending order (in place).
 
 ```ez
-import @std, @arrays
+import @arrays
 
 do main() {
-    temp arr [int] = {3, 1, 4, 1, 5}
-    arrays.sort(arr)
-    std.println(arr)  // {1, 1, 3, 4, 5}
+    mut arr [int] = {3, 1, 4, 1, 5}
+    arrays.sort_asc(arr)
+    println(arr)  // {1, 1, 3, 4, 5}
 }
 ```
 
@@ -458,386 +318,104 @@ do main() {
 ---
 
 ### `sort_desc()`
-`(arr [type]) -> void`
+`(&arr [T]) -> void`
 
 Sorts an array in descending order (in place).
-
-```ez
-import @std, @arrays
-
-do main() {
-    temp arr [int] = {3, 1, 4, 1, 5}
-    arrays.sort_desc(arr)
-    std.println(arr)  // {5, 4, 3, 1, 1}
-}
-```
-
-**Parameters:** `arr` - The array.
-
-**Returns:** Nothing (mutates array in place).
-
----
-
-### `shuffle()`
-`(arr [type]) -> void`
-
-Randomly shuffles the elements of an array (in place).
-
-```ez
-import @std, @arrays
-
-do main() {
-    temp arr [int] = {1, 2, 3, 4, 5}
-    arrays.shuffle(arr)
-    std.println(arr)  // random order, e.g., {3, 1, 5, 2, 4}
-}
-```
-
-**Parameters:** `arr` - The array.
-
-**Returns:** Nothing (mutates array in place).
-
-> **Note:** [`random.shuffle()`](/EZ-Language-Webapp/docs/stdlib/random) returns a new shuffled array without modifying the original.
-
----
-
-### `slice()`
-`(arr [type], start int, end int) -> [type]`
-
-Returns a portion of an array.
-
-```ez
-import @std, @arrays
-
-do main() {
-    temp arr [int] = {1, 2, 3, 4, 5}
-    temp sub [int] = arrays.slice(arr, 1, 4)
-    std.println(sub)  // {2, 3, 4}
-}
-```
-
-**Parameters:** `arr`, `start`, `end`.
-
-**Returns:** A new array with the slice.
-
-**Errors:** [E7004](/EZ-Language-Webapp/errors/E7004) if indices are not integers.
-
----
-
-### `take()`
-`(arr [type], n int) -> [type]`
-
-Returns a new array with the first n elements.
-
-```ez
-import @std, @arrays
-
-do main() {
-    temp arr [int] = {1, 2, 3, 4, 5}
-    temp first3 [int] = arrays.take(arr, 3)
-    std.println(first3)  // {1, 2, 3}
-}
-```
-
-**Parameters:** `arr`, `n` - Number of elements to take.
-
-**Returns:** A new array.
-
----
-
-### `drop()`
-`(arr [type], n int) -> [type]`
-
-Returns a new array with the first n elements removed.
-
-```ez
-import @std, @arrays
-
-do main() {
-    temp arr [int] = {1, 2, 3, 4, 5}
-    temp rest [int] = arrays.drop(arr, 2)
-    std.println(rest)  // {3, 4, 5}
-}
-```
-
-**Parameters:** `arr`, `n` - Number of elements to drop.
-
-**Returns:** A new array.
-
----
-
-### `concat()`
-`(arr1 [type], arr2 [type]) -> [type]`
-
-Concatenates two or more arrays.
-
-```ez
-import @std, @arrays
-
-do main() {
-    temp a [int] = {1, 2}
-    temp b [int] = {3, 4}
-    temp c [int] = arrays.concat(a, b)
-    std.println(c)  // {1, 2, 3, 4}
-}
-```
-
-**Parameters:** Two or more arrays.
-
-**Returns:** A new concatenated array.
-
-**Errors:** [E7002](/EZ-Language-Webapp/errors/E7002) if arguments are not arrays.
-
----
-
-### `repeat()`
-`(value type, count int) -> [type]`
-
-Creates an array with a value repeated n times.
-
-```ez
-import @std, @arrays
-
-do main() {
-    temp arr [int] = arrays.repeat(0, 5)
-    std.println(arr)  // {0, 0, 0, 0, 0}
-}
-```
-
-**Parameters:** `value`, `count`.
-
-**Returns:** A new array.
-
-**Errors:** [E7004](/EZ-Language-Webapp/errors/E7004) if count is not an integer.
-
----
-
-## Numeric Arrays
-
-### `sum()`
-`(arr [number]) -> number`
-
-Returns the sum of all elements in a numeric array.
-
-```ez
-import @std, @arrays
-
-do main() {
-    temp arr [int] = {1, 2, 3, 4, 5}
-    std.println(arrays.sum(arr))  // 15
-}
-```
-
-**Parameters:** `arr` - A numeric array.
-
-**Returns:** The sum.
-
-**Errors:** [E9002](/EZ-Language-Webapp/errors/E9002) if the array is not numeric.
-
----
-
-### `product()`
-`(arr [number]) -> number`
-
-Returns the product of all elements in a numeric array.
-
-```ez
-import @std, @arrays
-
-do main() {
-    temp arr [int] = {1, 2, 3, 4, 5}
-    std.println(arrays.product(arr))  // 120
-}
-```
-
-**Parameters:** `arr` - A numeric array.
-
-**Returns:** The product.
-
-**Errors:** [E9002](/EZ-Language-Webapp/errors/E9002) if the array is not numeric.
-
----
-
-### `min()` / `max()`
-`(arr [number]) -> number`
-
-Returns the minimum or maximum value in an array.
-
-```ez
-import @std, @arrays
-
-do main() {
-    temp arr [int] = {5, 2, 8, 1, 9}
-    std.println(arrays.min(arr))  // 1
-    std.println(arrays.max(arr))  // 9
-}
-```
-
-**Parameters:** `arr` - A numeric array.
-
-**Returns:** The min or max value.
-
-**Errors:** [E9001](/EZ-Language-Webapp/errors/E9001) if the array is empty.
-
----
-
-### `avg()`
-`(arr [number]) -> float`
-
-Returns the average of a numeric array.
-
-```ez
-import @std, @arrays
-
-do main() {
-    temp arr [int] = {2, 4, 6, 8, 10}
-    std.println(arrays.avg(arr))  // 6.0
-}
-```
-
-**Parameters:** `arr` - A numeric array.
-
-**Returns:** `float` - The average.
-
-**Errors:** [E9001](/EZ-Language-Webapp/errors/E9001) if the array is empty, [E9002](/EZ-Language-Webapp/errors/E9002) if not numeric.
-
----
-
-## Utilities
-
-### `range()`
-`(start int, end int, step? int) -> [int]`
-
-Creates an array of integers in a range.
-
-```ez
-import @std, @arrays
-
-do main() {
-    temp arr [int] = arrays.range(0, 5)
-    std.println(arr)  // {0, 1, 2, 3, 4}
-
-    // With step
-    temp odds [int] = arrays.range(1, 10, 2)
-    std.println(odds)  // {1, 3, 5, 7, 9}
-}
-```
-
-**Parameters:** `start`, `end`, optional `step`.
-
-**Returns:** A new array of integers.
-
-**Errors:** [E9003](/EZ-Language-Webapp/errors/E9003) if step is zero.
-
----
-
-### `join()`
-`(arr [type], separator string) -> string`
-
-Joins array elements into a string with a separator.
-
-```ez
-import @std, @arrays
-
-do main() {
-    temp arr [string] = {"a", "b", "c"}
-    std.println(arrays.join(arr, "-"))  // "a-b-c"
-
-    temp nums [int] = {1, 2, 3}
-    std.println(arrays.join(nums, ", "))  // "1, 2, 3"
-}
-```
-
-**Parameters:** `arr`, `separator`.
-
-**Returns:** `string` - The joined string.
-
-**Errors:** [E7003](/EZ-Language-Webapp/errors/E7003) if separator is not a string.
-
----
-
-### `zip()`
-`(arr1 [type], arr2 [type]) -> [[type]]`
-
-Combines two arrays into an array of pairs.
 
 ```ez
 import @arrays
 
 do main() {
-    temp names [string] = {"Alice", "Bob"}
-    temp ages [int] = {25, 30}
-    temp pairs [[type]] = arrays.zip(names, ages)
-    // {{"Alice", 25}, {"Bob", 30}}
+    mut arr [int] = {3, 1, 4, 1, 5}
+    arrays.sort_desc(arr)
+    println(arr)  // {5, 4, 3, 1, 1}
+}
+```
+
+**Parameters:** `arr` - The array.
+
+**Returns:** Nothing (mutates array in place).
+
+---
+
+## Transformation Functions
+
+### `reverse()`
+`(arr [T]) -> [T]`
+
+Returns a reversed copy of an array.
+
+```ez
+import @arrays
+
+do main() {
+    mut arr [int] = {1, 2, 3, 4, 5}
+    mut rev = arrays.reverse(arr)
+    println(rev)  // {5, 4, 3, 2, 1}
+}
+```
+
+**Parameters:** `arr` - The array.
+
+**Returns:** A new reversed array.
+
+---
+
+### `slice()`
+`(arr [T], start int, end int) -> [T]`
+
+Returns a portion of an array.
+
+```ez
+import @arrays
+
+do main() {
+    mut arr [int] = {1, 2, 3, 4, 5}
+    mut sub = arrays.slice(arr, 1, 4)
+    println(sub)  // {2, 3, 4}
+}
+```
+
+**Parameters:** `arr`, `start`, `end` (exclusive).
+
+**Returns:** A new array with the slice.
+
+---
+
+### `concat()`
+`(a [T], b [T]) -> [T]`
+
+Concatenates two arrays.
+
+```ez
+import @arrays
+
+do main() {
+    mut a [int] = {1, 2}
+    mut b [int] = {3, 4}
+    mut c = arrays.concat(a, b)
+    println(c)  // {1, 2, 3, 4}
 }
 ```
 
 **Parameters:** Two arrays.
 
-**Returns:** `[[type]]` - A 2D array of pairs.
-
-**Errors:** [E7002](/EZ-Language-Webapp/errors/E7002) if arguments are not arrays.
+**Returns:** A new concatenated array.
 
 ---
 
-### `chunk()`
-`(arr [type], size int) -> [[type]]`
-
-Splits an array into chunks of the specified size.
-
-```ez
-import @arrays
-
-do main() {
-    temp nums [int] = {1, 2, 3, 4, 5, 6, 7}
-    temp chunks [[int]] = arrays.chunk(nums, 3)
-    // {{1, 2, 3}, {4, 5, 6}, {7}}
-}
-```
-
-**Parameters:** `arr` - The array to split, `size` - The chunk size.
-
-**Returns:** `[[type]]` - A 2D array of chunks.
-
-**Errors:** [E9004](/EZ-Language-Webapp/errors/E9004) if chunk size is not greater than zero.
-
----
-
-### `flatten()`
-`(arr [[type]]) -> [type]`
-
-Flattens a 2D array into a 1D array.
-
-```ez
-import @arrays
-
-do main() {
-    temp matrix [[int]] = {{1, 2}, {3, 4}, {5, 6}}
-    temp flat [int] = arrays.flatten(matrix)
-    // {1, 2, 3, 4, 5, 6}
-}
-```
-
-**Parameters:** `arr` - A 2D array to flatten.
-
-**Returns:** `[type]` - A flattened 1D array.
-
-**Errors:** [E7002](/EZ-Language-Webapp/errors/E7002) if argument is not a 2D array.
-
----
-
-### `unique()`
-`(arr [type]) -> [type]`
+### `deduplicate()`
+`(arr [T]) -> [T]`
 
 Returns a new array with duplicate elements removed.
 
 ```ez
-import @std, @arrays
+import @arrays
 
 do main() {
-    temp arr [int] = {1, 2, 2, 3, 3, 3}
-    temp uniq [int] = arrays.unique(arr)
-    std.println(uniq)  // {1, 2, 3}
+    mut arr [int] = {1, 2, 2, 3, 3, 3}
+    mut uniq = arrays.deduplicate(arr)
+    println(uniq)  // {1, 2, 3}
 }
 ```
 
@@ -847,104 +425,137 @@ do main() {
 
 ---
 
-### `duplicates()`
-`(arr [type]) -> [type]`
+### `flatten()`
+`(arr [[T]]) -> [T]`
 
-Returns a new array containing only elements that appear more than once.
+Flattens a 2D array into a 1D array (one level of nesting).
 
 ```ez
-import @std, @arrays
+import @arrays
 
 do main() {
-    temp arr [int] = {1, 2, 2, 3, 3, 4}
-    temp dups [int] = arrays.duplicates(arr)
-    std.println(dups)  // {2, 3}
+    mut matrix [[int]] = {{1, 2}, {3, 4}, {5, 6}}
+    mut flat = arrays.flatten(matrix)
+    println(flat)  // {1, 2, 3, 4, 5, 6}
 }
 ```
 
-**Parameters:** `arr` - The array.
+**Parameters:** `arr` - A 2D array to flatten.
 
-**Returns:** A new array of duplicate values.
+**Returns:** A flattened 1D array.
 
 ---
 
-### `all_equal()`
-`(arr [type]) -> bool`
+### `split_every()`
+`(arr [T], size int) -> [[T]]`
 
-Checks if all elements in an array are equal.
+Splits an array into sub-arrays of the given size.
 
 ```ez
-import @std, @arrays
+import @arrays
 
 do main() {
-    temp same [int] = {5, 5, 5, 5}
-    temp diff [int] = {5, 5, 3, 5}
-    std.println(arrays.all_equal(same))  // true
-    std.println(arrays.all_equal(diff))  // false
+    mut nums [int] = {1, 2, 3, 4, 5, 6, 7}
+    mut chunks = arrays.split_every(nums, 3)
+    // {{1, 2, 3}, {4, 5, 6}, {7}}
 }
 ```
 
-**Parameters:** `arr` - The array.
+**Parameters:** `arr` - The array to split, `size` - The chunk size.
 
-**Returns:** `bool` - `true` if all elements are equal.
+**Returns:** A 2D array of chunks.
 
 ---
 
-### `equals()`
-`(arr1 [type], arr2 [type]) -> bool`
+### `pair()`
+`(a [T], b [T]) -> [[T]]`
 
-Checks if two arrays have the same elements in the same order.
+Pairs elements from two arrays into an array of pairs.
 
 ```ez
-import @std, @arrays
+import @arrays
 
 do main() {
-    temp a [int] = {1, 2, 3}
-    temp b [int] = {1, 2, 3}
-    temp c [int] = {3, 2, 1}
-
-    std.println(arrays.equals(a, b))  // true
-    std.println(arrays.equals(a, c))  // false
+    mut names [string] = {"Alice", "Bob"}
+    mut ages [int] = {25, 30}
+    mut pairs = arrays.pair(names, ages)
+    // {{"Alice", 25}, {"Bob", 30}}
 }
 ```
 
-**Parameters:**
-- `arr1` - First array.
-- `arr2` - Second array.
+**Parameters:** Two arrays.
 
-**Returns:** `bool` - `true` if both arrays have equal elements in the same order.
+**Returns:** A 2D array of pairs.
 
-**Errors:** [E7002](/EZ-Language-Webapp/errors/E7002) if arguments are not arrays.
+---
+
+## Computation Functions
+
+### `get_sum()`
+`(arr [T]) -> T`
+
+Returns the sum of all elements in a numeric array.
+
+```ez
+import @arrays
+
+do main() {
+    mut arr [int] = {1, 2, 3, 4, 5}
+    println(arrays.get_sum(arr))  // 15
+}
+```
+
+**Parameters:** `arr` - A numeric array.
+
+**Returns:** The sum.
+
+---
+
+### `get_min()` / `get_max()`
+`(arr [T]) -> T`
+
+Returns the minimum or maximum value in an array.
+
+```ez
+import @arrays
+
+do main() {
+    mut arr [int] = {5, 2, 8, 1, 9}
+    println(arrays.get_min(arr))  // 1
+    println(arrays.get_max(arr))  // 9
+}
+```
+
+**Parameters:** `arr` - A numeric array.
+
+**Returns:** The min or max value.
 
 ---
 
 ## Example Program
 
 ```ez
-import @std
 import @arrays
 
 do main() {
     // Build a list dynamically
-    temp scores [int] = {}
+    mut scores [int] = {}
     arrays.append(scores, 85)
     arrays.append(scores, 92)
     arrays.append(scores, 78)
     arrays.append(scores, 95)
     arrays.append(scores, 88)
 
-    std.println("Scores:", scores)
-    std.println("Count:", len(scores))
-    std.println("Sum:", arrays.sum(scores))
-    std.println("Average:", arrays.avg(scores))
-    std.println("Highest:", arrays.max(scores))
-    std.println("Lowest:", arrays.min(scores))
+    println("Scores:", scores)
+    println("Count:", len(scores))
+    println("Sum:", arrays.get_sum(scores))
+    println("Highest:", arrays.get_max(scores))
+    println("Lowest:", arrays.get_min(scores))
 
     // Remove lowest score
-    temp lowest_idx int = arrays.index(scores, arrays.min(scores))
+    mut lowest_idx = arrays.index_of(scores, arrays.get_min(scores))
     arrays.remove_at(scores, lowest_idx)
 
-    std.println("After dropping lowest:", scores)
-    std.println("New average:", arrays.avg(scores))
+    println("After dropping lowest:", scores)
 }
 ```

@@ -22,21 +22,21 @@ import @json
 Serializes an EZ value to a JSON string.
 
 ```ez
-import @std, @json
+import @json
 
 do encode_demo() {
-    temp data map[string:string] = {
+    mut data map[string:string] = {
         "name": "Alice",
         "role": "admin"
     }
 
-    temp json_str string, err Error = json.encode(data)
+    mut json_str string, err Error = json.encode(data)
     if err != nil {
-        std.println("Error:", err.message)
+        println("Error:", err.message)
         return
     }
 
-    std.println(json_str)  // {"name":"Alice","role":"admin"}
+    println(json_str)  // {"name":"Alice","role":"admin"}
 }
 ```
 
@@ -61,7 +61,7 @@ do encode_demo() {
 Serializes an EZ value to a formatted JSON string with custom indentation.
 
 ```ez
-import @std, @json
+import @json
 
 const User struct {
     name string
@@ -70,19 +70,19 @@ const User struct {
 }
 
 do pretty_demo() {
-    temp user User = User{
+    mut user User = User{
         name: "Alice",
         email: "alice@example.com",
         roles: {"admin", "user"}
     }
 
-    temp pretty_json string, err Error = json.pretty(user, "    ")
+    mut pretty_json string, err Error = json.pretty(user, "    ")
     if err != nil {
-        std.println("Error:", err.message)
+        println("Error:", err.message)
         return
     }
 
-    std.println(pretty_json)
+    println(pretty_json)
     // {
     //     "email": "alice@example.com",
     //     "name": "Alice",
@@ -114,18 +114,18 @@ do pretty_demo() {
 Parses a JSON string into dynamic EZ types.
 
 ```ez
-import @std, @json
+import @json
 
 do decode_demo() {
-    temp json_str string = `{"name": "Alice", "age": 30, "active": true}`
+    mut json_str string = `{"name": "Alice", "age": 30, "active": true}`
 
-    temp data, err Error = json.decode(json_str)
+    mut data, err Error = json.decode(json_str)
     if err != nil {
-        std.println("Error:", err.message)
+        println("Error:", err.message)
         return
     }
 
-    std.println(data)  // {active: true, age: 30, name: Alice}
+    println(data)  // {active: true, age: 30, name: Alice}
 }
 ```
 
@@ -156,7 +156,7 @@ do decode_demo() {
 Parses a JSON string into a typed struct instance.
 
 ```ez
-import @std, @json
+import @json
 
 const User struct {
     name string
@@ -165,17 +165,17 @@ const User struct {
 }
 
 do decode_typed_demo() {
-    temp json_str string = `{"name": "Alice", "email": "alice@example.com", "age": 30}`
+    mut json_str string = `{"name": "Alice", "email": "alice@example.com", "age": 30}`
 
-    temp user User, err Error = json.decode(json_str, User)
+    mut user User, err Error = json.decode(json_str, User)
     if err != nil {
-        std.println("Error:", err.message)
+        println("Error:", err.message)
         return
     }
 
-    std.println("Name:", user.name)   // Name: Alice
-    std.println("Email:", user.email) // Email: alice@example.com
-    std.println("Age:", user.age)     // Age: 30
+    println("Name:", user.name)   // Name: Alice
+    println("Email:", user.email) // Email: alice@example.com
+    println("Age:", user.age)     // Age: 30
 }
 ```
 
@@ -206,13 +206,13 @@ do decode_typed_demo() {
 Checks if a string is valid JSON. This is a pure function that returns a boolean directly (not an error tuple).
 
 ```ez
-import @std, @json
+import @json
 
 do validate_demo() {
-    std.println(json.is_valid(`{"name": "Alice"}`))  // true
-    std.println(json.is_valid(`{invalid json}`))     // false
-    std.println(json.is_valid(`null`))               // true
-    std.println(json.is_valid(`"hello"`))            // true
+    println(json.is_valid(`{"name": "Alice"}`))  // true
+    println(json.is_valid(`{invalid json}`))     // false
+    println(json.is_valid(`null`))               // true
+    println(json.is_valid(`"hello"`))            // true
 }
 ```
 
@@ -231,11 +231,11 @@ do validate_demo() {
 All `@json` functions (except `is_valid()`) return error tuples following EZ's standard error handling pattern:
 
 ```ez
-temp result Type, err Error = json.function(args)
+mut result Type, err Error = json.function(args)
 if err != nil {
     // Handle error
-    std.println("Error code:", err.code)
-    std.println("Error message:", err.message)
+    println("Error code:", err.code)
+    println("Error message:", err.message)
     return
 }
 // Use result
@@ -255,7 +255,6 @@ if err != nil {
 ## Example Program
 
 ```ez
-import @std
 import @json
 import @io
 
@@ -267,7 +266,7 @@ const Person struct {
 
 do main() {
     // Read JSON from file (using raw string for inline JSON)
-    temp content string = `{
+    mut content string = `{
         "name": "Alice Smith",
         "email": "alice@example.com",
         "role": "admin"
@@ -275,36 +274,36 @@ do main() {
 
     // Validate first
     if !json.is_valid(content) {
-        std.println("Invalid JSON!")
+        println("Invalid JSON!")
         return
     }
 
     // Decode into typed struct
-    temp person Person, decode_err Error = json.decode(content, Person)
+    mut person Person, decode_err Error = json.decode(content, Person)
     if decode_err != nil {
-        std.println("Decode error:", decode_err.message)
+        println("Decode error:", decode_err.message)
         return
     }
 
-    std.println("Welcome,", person.name)
-    std.println("Email:", person.email)
-    std.println("Role:", person.role)
+    println("Welcome,", person.name)
+    println("Email:", person.email)
+    println("Role:", person.role)
 
     // Modify and re-encode
-    temp updated Person = Person{
+    mut updated Person = Person{
         name: person.name,
         email: "newemail@example.com",
         role: person.role
     }
 
-    temp json_out string, encode_err Error = json.pretty(updated, "  ")
+    mut json_out string, encode_err Error = json.pretty(updated, "  ")
     if encode_err != nil {
-        std.println("Encode error:", encode_err.message)
+        println("Encode error:", encode_err.message)
         return
     }
 
-    std.println("\nUpdated JSON:")
-    std.println(json_out)
+    println("\nUpdated JSON:")
+    println(json_out)
 }
 ```
 
@@ -314,10 +313,10 @@ do main() {
 
 ```ez
 // With raw string (clean)
-temp data string = `{"name": "Alice", "age": 30}`
+mut data string = `{"name": "Alice", "age": 30}`
 
 // Without raw string (requires escaping)
-temp data string = "{\"name\": \"Alice\", \"age\": 30}"
+mut data string = "{\"name\": \"Alice\", \"age\": 30}"
 ```
 
 **Validate before decoding** - Use `json.is_valid()` to check JSON before attempting to decode, especially when dealing with user input or external data.

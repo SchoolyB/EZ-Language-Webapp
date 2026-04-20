@@ -4,6 +4,11 @@ on:
   push:
     branches: [main]
   workflow_dispatch:
+  repository_dispatch:
+    types: [upstream-update]
+  schedule:
+    # Rebuild daily at 6am UTC to pick up any upstream ERRORS.md changes
+    - cron: '0 6 * * *'
 
 permissions:
   contents: read

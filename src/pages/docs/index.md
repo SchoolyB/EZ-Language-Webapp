@@ -6,7 +6,7 @@ description: 'Learn the EZ programming language from the ground up.'
 
 # EZ Documentation
 
-Welcome to the EZ documentation. EZ is a simple programming language designed to teach real programming fundamentals without unnecessary complexity.
+Welcome to the EZ documentation. EZ is a statically-typed programming language that compiles to native binaries. It's designed to be simple, clear, and safe — without unnecessary complexity.
 
 ## Quick Start
 
@@ -15,10 +15,8 @@ Welcome to the EZ documentation. EZ is a simple programming language designed to
 3. Create a file called `hello.ez`:
 
 ```ez
-import @std
-
 do main() {
-    std.println("Hello, EZ!")
+    println("Hello, EZ!")
 }
 ```
 

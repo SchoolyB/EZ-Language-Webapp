@@ -6,38 +6,50 @@ description: 'The EZ type system.'
 
 # Types
 
-EZ is a statically-typed language with strong typing. Types are checked at checktime (before execution), and there is no implicit type coercion.
+EZ is a statically-typed language with full type inference. Types are checked at checktime (before execution), and there is no implicit type coercion.
 
 ## Primitive Types
 
 ### int
 
-Integer numbers (whole numbers) with arbitrary precision (no fixed limit):
+64-bit signed integer (`int64_t` in C). Arithmetic operations use checked arithmetic — overflow or underflow produces a runtime panic rather than silent wrapping.
 
 ```ez
-temp age int = 25
-temp count int = -100
-temp zero int = 0
+mut age = 25
+mut count = -100
+mut zero = 0
+mut large = 9223372036854775807  // Max 64-bit signed value
 ```
+
+### uint
+
+64-bit unsigned integer (`uint64_t` in C). Like `int`, arithmetic is overflow-checked with a runtime panic on overflow.
+
+```ez
+mut count uint = 100
+mut big uint = 18446744073709551615  // Max 64-bit unsigned value
+```
+
+Assigning a negative value to a `uint` produces a check-time error.
 
 ### float
 
-Floating-point numbers (decimals):
+Floating-point numbers (64-bit IEEE 754 double-precision):
 
 ```ez
-temp pi float = 3.14159
-temp temperature float = -40.5
-temp percentage float = 0.85
+mut pi = 3.14159
+mut temperature = -40.5
+mut percentage = 0.85
 ```
 
 ### string
 
-Text values:
+Text values (UTF-8 encoded):
 
 ```ez
-temp name string = "Alice"
-temp empty string = ""
-temp sentence string = "Hello, World!"
+mut name = "Alice"
+mut empty = ""
+mut sentence = "Hello, World!"
 ```
 
 #### Regular Strings
@@ -45,9 +57,9 @@ temp sentence string = "Hello, World!"
 Regular strings use double quotes and support escape sequences and string interpolation:
 
 ```ez
-temp greeting string = "Hello\nWorld"     // Contains newline
-temp path string = "C:\\Users\\Alice"     // Escaped backslashes
-temp message string = "Hello, ${name}!"   // String interpolation
+mut greeting = "Hello\nWorld"          // Contains newline
+mut path = "C:\\Users\\Alice"          // Escaped backslashes
+mut message = "Hello, ${name}!"        // String interpolation
 ```
 
 **Escape Sequences:**
@@ -66,9 +78,9 @@ temp message string = "Hello, ${name}!"   // String interpolation
 Raw strings use backticks and preserve content exactly as written:
 
 ```ez
-temp json string = `{"name": "Alice", "age": 30}`
-temp regex string = `\d+\.\d+`
-temp path string = `C:\Users\Alice\Documents`
+mut json_str = `{"name": "Alice", "age": 30}`
+mut regex_pat = `\d+\.\d+`
+mut win_path = `C:\Users\Alice\Documents`
 ```
 
 **Key differences from regular strings:**
@@ -83,30 +95,10 @@ temp path string = `C:\Users\Alice\Documents`
 **Multiline raw strings:**
 
 ```ez
-temp poem string = `Roses are red,
+mut poem = `Roses are red,
 Violets are blue,
 EZ is great,
 And so are you.`
-```
-
-**When to use raw strings:**
-
-- JSON content (no need to escape quotes)
-- File paths (especially on Windows)
-- Regular expressions
-- Multiline text blocks
-- Any content with many special characters
-
-```ez
-// JSON is much cleaner with raw strings
-temp config string = `{
-    "server": "localhost",
-    "port": 8080,
-    "debug": true
-}`
-
-// Compare to regular strings (requires escaping)
-temp config2 string = "{\"server\": \"localhost\", \"port\": 8080}"
 ```
 
 ### char
@@ -114,9 +106,9 @@ temp config2 string = "{\"server\": \"localhost\", \"port\": 8080}"
 Single characters:
 
 ```ez
-temp letter char = 'A'
-temp digit char = '5'
-temp newline char = '\n'
+mut letter = 'A'
+mut digit = '5'
+mut newline = '\n'
 ```
 
 ### bool
@@ -124,8 +116,8 @@ temp newline char = '\n'
 Boolean values (can only be true or false):
 
 ```ez
-temp isActive bool = true
-temp hasError bool = false
+mut isActive = true
+mut hasError = false
 ```
 
 ### byte
@@ -133,9 +125,20 @@ temp hasError bool = false
 A single unsigned 8-bit value representing raw binary data (0-255):
 
 ```ez
-temp myByte byte = 255
-temp zeroByte byte = 0
-temp asciiA byte = 65  // ASCII value for 'A'
+mut myByte byte = 0xFF  // 255
+mut zeroByte byte = 0
+mut asciiA byte = 65     // ASCII value for 'A'
+```
+
+### nil
+
+The `nil` type has a single value, also written `nil`. It represents the absence of a value and is used primarily in error handling:
+
+```ez
+mut value, err = parse("test")
+if err != nil {
+    println("Error:", err)
+}
 ```
 
 ## Sized Integers
@@ -156,9 +159,9 @@ Can hold positive and negative values:
 | `i256` | 256 bits | Extremely large range |
 
 ```ez
-temp small i8 = -128
-temp medium i32 = -100000
-temp large i64 = -9223372036854775808
+mut small i8 = -128
+mut medium i32 = -100000
+mut large i64 = -9223372036854775808
 ```
 
 ### Unsigned Integers
@@ -173,13 +176,56 @@ Only positive values (and zero):
 | `u64` | 64 bits | 0 to 18.4 quintillion |
 | `u128` | 128 bits | Very large range |
 | `u256` | 256 bits | Extremely large range |
-| `uint` | Arbitrary precision | No fixed limit |
 
 ```ez
-temp byte u8 = 255
-temp word u32 = 4294967295
-temp big u64 = 18446744073709551615
+mut byte_val u8 = 255
+mut word u32 = 4294967295
+mut big u64 = 18446744073709551615
 ```
+
+### Wide Integers (i128, u128, i256, u256)
+
+Wide integers are backed by struct-based arithmetic (no compiler extensions required). Values are constructed using the type name as a function:
+
+```ez
+mut a = i128(42)
+mut b = i128(100)
+mut c = a + b          // i128 addition
+println(c)             // prints "142"
+println(type_of(c))    // "i128"
+println(size_of(i128)) // 16
+
+mut x = int(c)         // cast back to int
+mut s = string(c)      // convert to string
+```
+
+### Sized Floats
+
+| Type | Size | Description |
+|------|------|-------------|
+| `f32` | 32 bits | Single-precision float |
+| `f64` | 64 bits | Double-precision float (same as `float`) |
+
+## Pointer Type (^T)
+
+The pointer type `^Type` represents a memory address pointing to a value of `Type`.
+
+| Syntax | Meaning |
+|--------|---------|
+| `^int` | Pointer to an `int` |
+| `^MyStruct` | Pointer to a `MyStruct` |
+| `addr(x)` | Get the address of `x` |
+| `p^` | Dereference pointer `p` |
+
+```ez
+mut x int = 42
+mut p ^int = addr(x)
+println(p^)  // 42
+p^ = 100
+println(x)   // 100
+```
+
+Dereferencing a `nil` pointer causes a runtime panic.
 
 ## Arrays
 
@@ -188,9 +234,9 @@ Ordered collections of values of the same type:
 ### Dynamic Arrays
 
 ```ez
-temp numbers [int] = {1, 2, 3, 4, 5}
-temp names [string] = {"Alice", "Bob"}
-temp empty [float] = {}
+mut numbers [int] = {1, 2, 3, 4, 5}
+mut names [string] = {"Alice", "Bob"}
+mut empty [float] = {}
 ```
 
 ### Fixed-Size Arrays
@@ -211,9 +257,8 @@ Byte arrays are specialized arrays for binary data, buffers, or raw file content
 ### Dynamic Byte Arrays
 
 ```ez
-temp buffer [byte] = {0, 128, 255}
-temp empty [byte] = {}
-temp fileData [byte] = io.read_bytes("image.png")
+mut buffer [byte] = {0, 128, 255}
+mut empty [byte] = {}
 ```
 
 ### Fixed-Size Byte Arrays
@@ -222,12 +267,7 @@ Fixed-size byte arrays must use `const`:
 
 ```ez
 const HEADER [byte, 4] = {137, 80, 78, 71}  // PNG magic bytes
-const SMALL_BUFFER [byte, 4] = {0, 0, 0, 0}  // 4 zero-initialized bytes
 ```
-
-> **Note:** Byte values can be written as decimal (0-255) or hexadecimal (0x00-0xFF). Negative values are never valid for bytes.
-
-> **Note:** Fixed-size byte arrays require careful memory management and bounds awareness. For most use cases, the dynamic `[byte]` type is recommended as it handles resizing automatically and reduces the risk of buffer-related errors.
 
 | Type | Size | Range |
 |------|------|-------|
@@ -238,89 +278,33 @@ See [@bytes](/EZ-Language-Webapp/docs/stdlib/bytes) for byte manipulation functi
 
 ## Multi-dimensional Arrays
 
-EZ supports multi-dimensional arrays (matrices) through nested array syntax.
-
-> **Note:** Fixed-size multi-dimensional arrays are not currently supported. Use `temp` for all multi-dimensional array declarations.
-
-### Syntax
+EZ supports multi-dimensional arrays through nested array syntax.
 
 ```ez
 [[type]]    // 2D array (matrix)
 [[[type]]]  // 3D array
 ```
 
-EZ supports any number of dimensions (tested up to 10D).
-
-### Declaration
-
 ```ez
 // 2D array (3x2 matrix)
-temp matrix [[int]] = {{1, 2}, {3, 4}, {5, 6}}
-
-// 2D string array
-temp grid [[string]] = {{"a", "b", "c"}, {"d", "e", "f"}}
+mut matrix [[int]] = {{1, 2}, {3, 4}, {5, 6}}
 
 // 3D array
-temp cube [[[int]]] = {{{1, 2}, {3, 4}}, {{5, 6}, {7, 8}}}
-
-// Empty 2D array
-temp empty [[int]] = {}
+mut cube [[[int]]] = {{{1, 2}, {3, 4}}, {{5, 6}, {7, 8}}}
 ```
 
-### Accessing Elements
-
-```ez
-temp matrix [[int]] = {{1, 2, 3}, {4, 5, 6}}
-
-temp row [int] = matrix[0]       // {1, 2, 3}
-temp value int = matrix[1][2]    // 6
-matrix[0][1] = 99                // modify element
-```
-
-### Iteration
-
-```ez
-temp matrix [[int]] = {{1, 2}, {3, 4}, {5, 6}}
-
-// Iterate over rows
-for_each row in matrix {
-    std.println(row)
-}
-
-// Iterate over all elements
-for_each row in matrix {
-    for_each value in row {
-        std.println(value)
-    }
-}
-```
-
-### Jagged Arrays
-
-Inner arrays can have different lengths:
-
-```ez
-temp jagged [[int]] = {{1, 2, 3}, {4, 5}, {6}}
-// jagged[0] has 3 elements
-// jagged[1] has 2 elements
-// jagged[2] has 1 element
-```
+> **Note:** Fixed-size multi-dimensional arrays are not currently supported. Use `mut` for all multi-dimensional array declarations.
 
 ## Maps
 
 Key-value pairs:
 
 ```ez
-temp ages map = {
-    {"Alice", 25},
-    {"Bob", 30}
-}
-
-// With explicit types
-temp scores map[string:int] = {"math": 95, "english": 88}
+mut scores map[string:int] = {"math": 95, "english": 88}
+mut empty map[string:int] = {:}
 ```
 
-See [@maps](/EZ-Language-Webapp/docs/stdlib/maps) for map manipulation functions.
+Maps must be declared with `mut`. See [@maps](/EZ-Language-Webapp/docs/stdlib/maps) for map manipulation functions.
 
 ## Structs
 
@@ -332,7 +316,7 @@ const Person struct {
     age int
 }
 
-temp p Person = Person{name: "Alice", age: 30}
+mut p = Person{name: "Alice", age: 30}
 ```
 
 See [Structs](/EZ-Language-Webapp/docs/language/structs) for more details.
@@ -348,7 +332,7 @@ const Status enum {
     DONE
 }
 
-temp s int = Status.ACTIVE
+mut s = Status.ACTIVE
 ```
 
 See [Enums](/EZ-Language-Webapp/docs/language/enums) for more details.
@@ -358,11 +342,11 @@ See [Enums](/EZ-Language-Webapp/docs/language/enums) for more details.
 EZ enforces types at checktime:
 
 ```ez
-temp x int = 10
+mut x int = 10
 // x = "hello"  // Error! Cannot assign string to int
 
-temp name string = "Alice"
-// temp age int = name  // Error! Type mismatch
+mut name = "Alice"
+// mut age int = name  // Error! Type mismatch
 ```
 
 ## Type Conversion
@@ -372,34 +356,34 @@ Explicit conversion between compatible types:
 ### int()
 
 ```ez
-temp s string = "42"
-temp n int = int(s)  // 42
+mut s = "42"
+mut n = int(s)  // 42
 
-temp f float = 3.14
-temp i int = int(f)  // 3 (truncates)
+mut f = 3.14
+mut i = int(f)  // 3 (truncates)
 ```
 
 ### float()
 
 ```ez
-temp s string = "3.14"
-temp f float = float(s)  // 3.14
+mut s = "3.14"
+mut f = float(s)  // 3.14
 
-temp i int = 42
-temp f2 float = float(i)  // 42.0
+mut i = 42
+mut f2 = float(i)  // 42.0
 ```
 
 ### string()
 
 ```ez
-temp n int = 42
-temp s string = string(n)  // "42"
+mut n = 42
+mut s = string(n)  // "42"
 
-temp f float = 3.14
-temp s2 string = string(f)  // "3.14"
+mut f = 3.14
+mut s2 = string(f)  // "3.14"
 
-temp b bool = true
-temp s3 string = string(b)  // "true"
+mut b = true
+mut s3 = string(b)  // "true"
 ```
 
 ### byte()
@@ -407,17 +391,11 @@ temp s3 string = string(b)  // "true"
 Explicit conversion to the byte type (unsigned 8-bit integer, range 0-255).
 
 ```ez
-temp n int = 65
-temp b byte = byte(n)  // 65
+mut n = 65
+mut b = byte(n)  // 65
 
-temp f float = 97.8
-temp b2 byte = byte(f)  // 97 (truncates)
-
-temp s string = "200"
-temp b3 byte = byte(s)  // 200
-
-temp c char = 'A'
-temp b4 byte = byte(c)  // 65 (ASCII value)
+mut c = 'A'
+mut b2 = byte(c)  // 65 (ASCII value)
 ```
 
 ### char()
@@ -425,121 +403,129 @@ temp b4 byte = byte(c)  // 65 (ASCII value)
 Converts an integer (ASCII/Unicode code point) to a character.
 
 ```ez
-temp x int = 65
-temp y char = char(x)  // 'A' (ASCII value 65)
-println(y)             // Output: A
-
-temp emoji int = 128512
-temp face char = char(emoji)  // Unicode smiley
+mut x = 65
+mut y = char(x)  // 'A' (ASCII value 65)
+println(y)        // Output: A
 ```
 
-## typeof()
+### cast
+
+The `cast` keyword provides explicit type conversion for values and arrays:
+
+```ez
+mut small = cast(42, u8)
+mut truncated = cast(3.7, int)     // 3
+mut text = cast(123, string)       // "123"
+
+// Array conversions
+mut ints [int] = {1, 2, 3}
+mut bytes [u8] = cast(ints, [u8])
+```
+
+## type_of()
 
 Get the type of a value at runtime:
 
 ```ez
-temp x int = 42
-std.println(typeof(x))  // "int"
+mut x = 42
+println(type_of(x))  // "int"
 
-temp arr [string] = {"a", "b"}
-std.println(typeof(arr))  // "array"
-
-temp m map = {{"key", "value"}}
-std.println(typeof(m))  // "map"
+mut arr [string] = {"a", "b"}
+println(type_of(arr))  // "[string]"
 ```
 
-## Default Values
+## size_of()
 
-Uninitialized `temp` variables get default values:
+Get the size of a type in bytes:
+
+```ez
+println(size_of(int))    // 8
+println(size_of(i128))   // 16
+println(size_of(u256))   // 32
+```
+
+## Type Inference
+
+EZ has **full type inference**. The type of every variable is known at compile time, but explicit annotations are optional:
+
+```ez
+// Inferred from literals
+mut x = 42                    // int
+mut name = "Alice"            // string
+mut pi = 3.14                 // float
+mut flag = true               // bool
+
+// Inferred from function returns
+mut result = sum(1, 2)        // int (from function signature)
+
+// Inferred from struct literals
+const p = Point{x: 1, y: 2}  // Point
+
+// Inferred from constructors
+mut val = new(Person)         // ^Person (pointer)
+
+// Explicit annotations always accepted
+mut y int = 42
+```
+
+## Default Zero Values
+
+When structs are created with `new()` or `Point{}`, fields get zero values:
 
 | Type | Default |
 |------|---------|
 | `int` | `0` |
+| `uint` | `0` |
 | `float` | `0.0` |
 | `string` | `""` |
 | `char` | `'\0'` |
 | `bool` | `false` |
 | `byte` | `0` |
-| `[T]` | `{}` |
-| `[byte]` | `{}` |
-
-```ez
-temp count int      // 0
-temp price float    // 0.0
-temp name string    // ""
-temp flag bool      // false
-temp items [int]    // {}
-```
 
 ## Numeric Separators
 
 Use underscores for readability:
 
 ```ez
-temp million int = 1_000_000
-temp binary int = 0b1010_1010
-temp hex int = 0xFF_FF
-temp octal int = 0o777
-temp pi float = 3.141_592_653
+mut million = 1_000_000
+mut hex = 0xFF_FF
+mut octal = 0o777
+mut binary = 0b1111_0000
+mut pi = 3.141_592_653
 ```
-
-## Type Inference
-
-EZ supports **partial type inference**. When assigning a function's return value to a variable, the type can be inferred:
-
-```ez
-// Type inferred from function return type
-temp content = io.read_file("config.txt")  // inferred as string
-const size = io.file_size("data.bin")      // inferred as int
-```
-
-However, literal values require explicit type annotations:
-
-```ez
-// Explicit types required for literals
-temp x int = 10
-temp name string = "hello"
-
-// This won't work:
-// temp x = 10  // Error! Missing type for literal
-```
-
-**Why this design?** Function return types are already defined in their signatures, so inference is unambiguous. For literals, explicit types keep code clear and prevent ambiguity (e.g., is `10` an `int`, `i8`, or `u32`?).
 
 ## Example Program
 
 ```ez
-import @std
-
 do main() {
     // Primitives
-    temp count int = 0
-    temp price float = 19.99
-    temp name string = "Product"
-    temp inStock bool = true
+    mut count = 0
+    mut price = 19.99
+    mut name = "Product"
+    mut inStock = true
 
     // Sized integers
-    temp smallNum i8 = 127
-    temp largeNum u64 = 1_000_000_000_000
+    mut smallNum i8 = 127
+    mut largeNum u64 = 1_000_000_000_000
 
     // Arrays
-    temp scores [int] = {85, 92, 78, 95}
+    mut scores [int] = {85, 92, 78, 95}
     const GRADES [string, 5] = {"A", "B", "C", "D", "F"}
 
     // Type checking
-    std.println("count type:", typeof(count))   // int
-    std.println("price type:", typeof(price))   // float
-    std.println("scores type:", typeof(scores)) // array
+    println("count type:", type_of(count))   // int
+    println("price type:", type_of(price))   // float
+    println("scores type:", type_of(scores)) // [int]
 
     // Type conversion
-    temp priceStr string = string(price)
-    temp scoreSum int = 0
+    mut priceStr = string(price)
+    mut scoreSum = 0
     for_each s in scores {
         scoreSum += s
     }
-    temp average float = float(scoreSum) / float(len(scores))
+    mut average = float(scoreSum) / float(len(scores))
 
-    std.println("Average score:", average)
+    println("Average score:", average)
 }
 ```
 

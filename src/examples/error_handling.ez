@@ -1,0 +1,62 @@
+/*
+ * error_handling.ez - Errors as values
+ *
+ * EZ uses explicit error handling:
+ *   - Functions return (T, Error) tuples
+ *   - Check errors by comparing to nil
+ *   - Use or_return for concise error propagation
+ *
+ * No exceptions. No try/catch. Errors are just values.
+ */
+
+do main() {
+    // Calling a function that may fail
+    println("-- Basic error handling --")
+    mut result, err = divide(10, 3)
+    if err != nil {
+        println("Error: ${err}")
+    } otherwise {
+        println("10 / 3 = ${result}")
+    }
+
+    // Handling the error case
+    mut result2, err2 = divide(10, 0)
+    if err2 != nil {
+        println("10 / 0 failed: ${err2}")
+    } otherwise {
+        println("10 / 0 = ${result2}")
+    }
+    println("")
+
+    // or_return — propagate errors concisely
+    println("-- or_return --")
+    mut final, final_err = process(20, 4)
+    if final_err != nil {
+        println("process failed: ${final_err}")
+    } otherwise {
+        println("process(20, 4) = ${final}")
+    }
+
+    mut final2, final_err2 = process(20, 0)
+    if final_err2 != nil {
+        println("process(20, 0) failed: ${final_err2}")
+    } otherwise {
+        println("process(20, 0) = ${final2}")
+    }
+}
+
+// A function that returns a result or an error
+do divide(a int, b int) -> (int, Error) {
+    if b == 0 {
+        return 0, error("division by zero")
+    }
+    return a / b, nil
+}
+
+// or_return propagates the error automatically
+// If divide() returns a non-nil error, process() immediately
+// returns that error to its caller.
+do process(a int, b int) -> (int, Error) {
+    mut quotient = divide(a, b) or_return
+    return quotient * 2, nil
+}

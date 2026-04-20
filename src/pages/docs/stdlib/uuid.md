@@ -16,41 +16,41 @@ import @uuid
 
 ## Functions
 
-### `create()`
-`() -> string`
-
-Generates a new random UUID v4.
-
-```ez
-import @std, @uuid
-
-do main() {
-    temp id string = uuid.create()
-    std.println(id)  // e.g., "550e8400-e29b-41d4-a716-446655440000"
-}
-```
-
-**Returns:** `string` - A UUID v4 in standard format (8-4-4-4-12 hex digits with hyphens).
-
-**Errors:** [E7001](/EZ-Language-Webapp/errors/E7001) if called with arguments.
-
----
-
-### `create_compact()`
+### `generate()`
 `() -> string`
 
 Generates a new random UUID v4 without hyphens.
 
 ```ez
-import @std, @uuid
+import @uuid
 
 do main() {
-    temp id string = uuid.create_compact()
-    std.println(id)  // e.g., "550e8400e29b41d4a716446655440000"
+    mut id string = uuid.generate()
+    println(id)  // e.g., "550e8400e29b41d4a716446655440000"
 }
 ```
 
 **Returns:** `string` - A UUID v4 as a 32-character hex string (no hyphens).
+
+**Errors:** [E7001](/EZ-Language-Webapp/errors/E7001) if called with arguments.
+
+---
+
+### `generate_hyphenated()`
+`() -> string`
+
+Generates a new random UUID v4 with hyphens.
+
+```ez
+import @uuid
+
+do main() {
+    mut id string = uuid.generate_hyphenated()
+    println(id)  // e.g., "550e8400-e29b-41d4-a716-446655440000"
+}
+```
+
+**Returns:** `string` - A UUID v4 in standard format (8-4-4-4-12 hex digits with hyphens).
 
 **Errors:** [E7001](/EZ-Language-Webapp/errors/E7001) if called with arguments.
 
@@ -62,14 +62,14 @@ do main() {
 Checks if a string is a valid UUID in standard format.
 
 ```ez
-import @std, @uuid
+import @uuid
 
 do main() {
-    temp valid bool = uuid.is_valid("550e8400-e29b-41d4-a716-446655440000")
-    std.println(valid)  // true
+    mut valid bool = uuid.is_valid("550e8400-e29b-41d4-a716-446655440000")
+    println(valid)  // true
 
-    temp invalid bool = uuid.is_valid("not-a-uuid")
-    std.println(invalid)  // false
+    mut invalid bool = uuid.is_valid("not-a-uuid")
+    println(invalid)  // false
 }
 ```
 
@@ -87,11 +87,11 @@ do main() {
 Returns the nil UUID (all zeros).
 
 ```ez
-import @std, @uuid
+import @uuid
 
 do main() {
-    temp nil_id string = uuid.NIL()
-    std.println(nil_id)  // "00000000-0000-0000-0000-000000000000"
+    mut nil_id string = uuid.NIL()
+    println(nil_id)  // "00000000-0000-0000-0000-000000000000"
 }
 ```
 
@@ -104,26 +104,25 @@ do main() {
 ## Example Program
 
 ```ez
-import @std
 import @uuid
 
 do main() {
-    std.println("=== UUID Demo ===")
+    println("=== UUID Demo ===")
 
-    // Generate a new UUID
-    temp id string = uuid.create()
-    std.println("Generated UUID:", id)
+    // Generate a UUID without hyphens
+    mut id string = uuid.generate()
+    println("Generated UUID:", id)
 
-    // Generate compact version
-    temp compact string = uuid.create_compact()
-    std.println("Compact UUID:", compact)
+    // Generate with hyphens
+    mut hyphenated string = uuid.generate_hyphenated()
+    println("Hyphenated UUID:", hyphenated)
 
     // Validate UUIDs
-    std.println("\nValidation:")
-    std.println("Is '${id}' valid?", uuid.is_valid(id))
-    std.println("Is 'hello' valid?", uuid.is_valid("hello"))
+    println("\nValidation:")
+    println("Is '${id}' valid?", uuid.is_valid(id))
+    println("Is 'hello' valid?", uuid.is_valid("hello"))
 
     // Nil UUID
-    std.println("\nNil UUID:", uuid.NIL())
+    println("\nNil UUID:", uuid.NIL())
 }
 ```

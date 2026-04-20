@@ -23,12 +23,12 @@ import @os
 Gets an environment variable by name.
 
 ```ez
-import @std, @os
+import @os
 
 do get_home_dir() {
-    temp home string = os.get_env("HOME")
+    mut home string = os.get_env("HOME")
     if home != nil {
-        std.println("Home is: ", home)
+        println("Home is: ", home)
     }
 }
 ```
@@ -48,7 +48,7 @@ Sets an environment variable (process-scoped only).
 import @os
 
 do set_env_var() {
-    temp ok, err = os.set_env("MY_VAR", "my_value")
+    mut ok, err = os.set_env("MY_VAR", "my_value")
 }
 ```
 
@@ -71,7 +71,7 @@ Unsets an environment variable.
 import @os
 
 do unset_env_var() {
-    temp ok, err = os.unset_env("MY_VAR")
+    mut ok, err = os.unset_env("MY_VAR")
 }
 ```
 
@@ -89,13 +89,13 @@ do unset_env_var() {
 Returns all environment variables as an immutable map.
 
 ```ez
-import @std, @os, @maps
+import @os, @maps
 
 do print_all_env() {
-    temp env map[string:string] = os.env()
-    temp env_keys [string] = maps.keys(env)
+    mut env map[string:string] = os.env()
+    mut env_keys [string] = maps.keys(env)
     for_each key in env_keys {
-        std.println(key, "=", maps.get(env, key))
+        println(key, "=", maps.get(env, key))
     }
 }
 ```
@@ -110,12 +110,12 @@ do print_all_env() {
 Returns command-line arguments as an immutable array.
 
 ```ez
-import @std, @os
+import @os
 
 do get_cli_args() {
-    temp args [string] = os.args()
+    mut args [string] = os.args()
     if len(args) > 1 {
-        std.println("First argument: ", args[1])
+        println("First argument: ", args[1])
     }
 }
 ```
@@ -135,7 +135,7 @@ Exits the program with the given status code.
 import @os
 
 do exit_on_error() {
-    temp errorOccurred bool = true
+    mut errorOccurred bool = true
     if errorOccurred {
         os.exit(1)
     }
@@ -155,11 +155,11 @@ do exit_on_error() {
 Returns the current working directory.
 
 ```ez
-import @std, @os
+import @os
 
 do get_working_dir() {
-    temp dir, err = os.cwd()
-    std.println("Current directory: ", dir)
+    mut dir, err = os.cwd()
+    println("Current directory: ", dir)
 }
 ```
 
@@ -178,7 +178,7 @@ Changes the current working directory.
 import @os
 
 do change_directory() {
-    temp ok, err = os.chdir("/home/user")
+    mut ok, err = os.chdir("/home/user")
 }
 ```
 
@@ -196,11 +196,11 @@ do change_directory() {
 Returns the hostname of the machine.
 
 ```ez
-import @std, @os
+import @os
 
 do get_hostname() {
-    temp name, err = os.hostname()
-    std.println("Running on: ", name)
+    mut name, err = os.hostname()
+    println("Running on: ", name)
 }
 ```
 
@@ -216,11 +216,11 @@ do get_hostname() {
 Returns the current user's username.
 
 ```ez
-import @std, @os
+import @os
 
 do get_username() {
-    temp user, err = os.username()
-    std.println("Logged in as: ", user)
+    mut user, err = os.username()
+    println("Logged in as: ", user)
 }
 ```
 
@@ -239,7 +239,7 @@ Returns the current user's home directory.
 import @os
 
 do get_user_home() {
-    temp home, err = os.home_dir()
+    mut home, err = os.home_dir()
 }
 ```
 
@@ -258,7 +258,7 @@ Returns the system's temporary directory.
 import @os
 
 do get_temp_dir() {
-    temp tmp string = os.temp_dir()
+    mut tmp string = os.temp_dir()
     // "/tmp" on Unix, or temp folder on Windows
 }
 ```
@@ -273,11 +273,11 @@ do get_temp_dir() {
 Returns the process ID of the current process.
 
 ```ez
-import @std, @os
+import @os
 
 do get_process_id() {
-    temp pid int = os.pid()
-    std.println("Process ID: ", pid)
+    mut pid int = os.pid()
+    println("Process ID: ", pid)
 }
 ```
 
@@ -294,7 +294,7 @@ Returns the parent process ID.
 import @os
 
 do get_parent_pid() {
-    temp ppid int = os.ppid()
+    mut ppid int = os.ppid()
 }
 ```
 
@@ -310,20 +310,20 @@ do get_parent_pid() {
 Executes a shell command and returns the exit code.
 
 ```ez
-import @std, @os
+import @os
 
 do run_command() {
     // Run a command - returns exit code
-    temp exitCode, err = os.exec("echo hello")
+    mut exitCode, err = os.exec("echo hello")
     if err != nil {
-        std.println("Command failed to start:", err.message)
+        println("Command failed to start:", err.message)
     } otherwise {
-        std.println("Exit code:", exitCode)  // 0
+        println("Exit code:", exitCode)  // 0
     }
 
     // Commands with non-zero exit codes
-    temp code, _ = os.exec("exit 42")
-    std.println("Exit code:", code)  // 42
+    mut code, _ = os.exec("exit 42")
+    println("Exit code:", code)  // 42
 }
 ```
 
@@ -343,22 +343,22 @@ do run_command() {
 Executes a shell command and returns its output (stdout and stderr combined).
 
 ```ez
-import @std, @os
+import @os
 
 do capture_output() {
     // Capture command output
-    temp output, err = os.exec_output("echo test_output")
+    mut output, err = os.exec_output("echo test_output")
     if err == nil {
-        std.println("Output:", output)  // "test_output"
+        println("Output:", output)  // "test_output"
     }
 
     // Output is trimmed of trailing whitespace
-    temp output2, _ = os.exec_output("printf 'hello\\n\\n'")
-    std.println(output2)  // "hello" (trimmed)
+    mut output2, _ = os.exec_output("printf 'hello\\n\\n'")
+    println(output2)  // "hello" (trimmed)
 
     // Multi-line output is preserved
-    temp lines, _ = os.exec_output("printf 'line1\\nline2'")
-    std.println(lines)  // "line1\nline2"
+    mut lines, _ = os.exec_output("printf 'line1\\nline2'")
+    println(lines)  // "line1\nline2"
 }
 ```
 
@@ -380,12 +380,12 @@ do capture_output() {
 Returns the operating system name as a string.
 
 ```ez
-import @std, @os
+import @os
 
 do check_platform() {
-    temp platform string = os.platform()
+    mut platform string = os.platform()
     if platform == "darwin" {
-        std.println("Running on macOS")
+        println("Running on macOS")
     }
 }
 ```
@@ -400,11 +400,11 @@ do check_platform() {
 Returns the CPU architecture.
 
 ```ez
-import @std, @os
+import @os
 
 do get_architecture() {
-    temp arch string = os.arch()
-    std.println("Architecture: ", arch)
+    mut arch string = os.arch()
+    println("Architecture: ", arch)
 }
 ```
 
@@ -418,11 +418,11 @@ do get_architecture() {
 Returns true if running on Windows.
 
 ```ez
-import @std, @os
+import @os
 
 do detect_windows() {
     if os.is_windows() {
-        std.println("Windows detected")
+        println("Windows detected")
     }
 }
 ```
@@ -437,11 +437,11 @@ do detect_windows() {
 Returns true if running on Linux.
 
 ```ez
-import @std, @os
+import @os
 
 do detect_linux() {
     if os.is_linux() {
-        std.println("Linux detected")
+        println("Linux detected")
     }
 }
 ```
@@ -456,11 +456,11 @@ do detect_linux() {
 Returns true if running on macOS.
 
 ```ez
-import @std, @os
+import @os
 
 do detect_macos() {
     if os.is_macos() {
-        std.println("macOS detected")
+        println("macOS detected")
     }
 }
 ```
@@ -475,11 +475,11 @@ do detect_macos() {
 Returns the number of CPUs available.
 
 ```ez
-import @std, @os
+import @os
 
 do get_cpu_count() {
-    temp cpus int = os.num_cpu()
-    std.println("Available CPUs: ", cpus)
+    mut cpus int = os.num_cpu()
+    println("Available CPUs: ", cpus)
 }
 ```
 
@@ -496,7 +496,7 @@ Constant representing macOS (value: 0).
 
 ```ez
 if os.CURRENT_OS == os.MAC_OS {
-    std.println("Running on macOS")
+    println("Running on macOS")
 }
 ```
 
@@ -509,7 +509,7 @@ Constant representing Linux (value: 1).
 
 ```ez
 if os.CURRENT_OS == os.LINUX {
-    std.println("Running on Linux")
+    println("Running on Linux")
 }
 ```
 
@@ -522,7 +522,7 @@ Constant representing Windows (value: 2).
 
 ```ez
 if os.CURRENT_OS == os.WINDOWS {
-    std.println("Running on Windows")
+    println("Running on Windows")
 }
 ```
 
@@ -535,11 +535,11 @@ Returns the constant matching the current operating system.
 
 ```ez
 if os.CURRENT_OS == os.MAC_OS {
-    std.println("Running on macOS")
+    println("Running on macOS")
 } or os.CURRENT_OS == os.LINUX {
-    std.println("Running on Linux")
+    println("Running on Linux")
 } or os.CURRENT_OS == os.WINDOWS {
-    std.println("Running on Windows")
+    println("Running on Windows")
 }
 ```
 
@@ -556,8 +556,8 @@ Returns the line separator for the current platform.
 import @os
 
 do get_line_separator() {
-    temp nl string = os.line_separator()
-    temp content string = "line1" + nl + "line2"
+    mut nl string = os.line_separator()
+    mut content string = "line1" + nl + "line2"
 }
 ```
 
@@ -574,7 +574,7 @@ Returns the null device path for the current platform.
 import @os
 
 do get_null_device() {
-    temp nullPath string = os.dev_null()
+    mut nullPath string = os.dev_null()
 }
 ```
 
@@ -585,45 +585,44 @@ do get_null_device() {
 ## Example Program
 
 ```ez
-import @std
 import @os
 
 do main() {
     // System info
-    std.println("Platform:", os.platform())
-    std.println("Architecture:", os.arch())
-    std.println("CPUs:", os.num_cpu())
+    println("Platform:", os.platform())
+    println("Architecture:", os.arch())
+    println("CPUs:", os.num_cpu())
 
     // User info
-    temp user, _ = os.username()
-    temp home, _ = os.home_dir()
-    std.println("User:", user)
-    std.println("Home:", home)
+    mut user, _ = os.username()
+    mut home, _ = os.home_dir()
+    println("User:", user)
+    println("Home:", home)
 
     // Current directory
-    temp cwd, _ = os.cwd()
-    std.println("Working directory:", cwd)
+    mut cwd, _ = os.cwd()
+    println("Working directory:", cwd)
 
     // Environment
-    temp path string = os.get_env("PATH")
+    mut path string = os.get_env("PATH")
     if path != nil {
-        std.println("PATH is set")
+        println("PATH is set")
     }
 
     // Command-line arguments
-    temp args [string] = os.args()
-    std.println("Program:", args[0])
+    mut args [string] = os.args()
+    println("Program:", args[0])
     if len(args) > 1 {
-        std.println("Arguments:", len(args) - 1)
+        println("Arguments:", len(args) - 1)
     }
 
     // Platform-specific behavior
     if os.is_macos() {
-        std.println("Running on macOS")
+        println("Running on macOS")
     } or os.is_linux() {
-        std.println("Running on Linux")
+        println("Running on Linux")
     } or os.is_windows() {
-        std.println("Running on Windows")
+        println("Running on Windows")
     }
 }
 ```

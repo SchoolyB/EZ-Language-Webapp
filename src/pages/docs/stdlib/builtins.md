@@ -8,6 +8,70 @@ description: 'Functions built into EZ that are always available without imports.
 
 These functions are built into the language and always available — no imports needed.
 
+## Output Functions
+
+### println()
+
+`(values ...type) -> void`
+
+Prints one or more values to stdout, followed by a newline.
+
+```ez
+println("Hello, World!")
+println("The answer is:", 42)
+println("x =", x, "y =", y)
+```
+
+**Parameters:** Any number of values of any type.
+
+**Returns:** Nothing.
+
+### print()
+
+`(values ...type) -> void`
+
+Prints one or more values to stdout without a trailing newline.
+
+```ez
+print("Enter your name: ")
+mut name = input()
+println("Hello, " + name)
+```
+
+**Parameters:** Any number of values of any type.
+
+**Returns:** Nothing.
+
+### eprintln()
+
+`(values ...type) -> void`
+
+Prints one or more values to stderr, followed by a newline.
+
+```ez
+eprintln("Error:", "something failed")
+eprintln("Warning: invalid input")
+```
+
+**Parameters:** Any number of values of any type.
+
+**Returns:** Nothing.
+
+### eprint()
+
+`(values ...type) -> void`
+
+Prints one or more values to stderr without a trailing newline.
+
+```ez
+eprint("Error: ")
+eprintln("connection failed")
+```
+
+**Parameters:** Any number of values of any type.
+
+**Returns:** Nothing.
+
 ## Program Control
 
 ### exit()
@@ -18,10 +82,10 @@ Exits the program with the specified status code.
 
 ```ez
 // Exit with success
-exit(EXIT_SUCCESS)
+exit(0)
 
 // Exit with failure
-exit(EXIT_FAILURE)
+exit(1)
 
 // Exit with custom code
 exit(42)
@@ -57,10 +121,10 @@ panic("something went wrong")
 Checks that a condition is true. If the condition is false, terminates the program with an assertion failure message prefixed with `[ASSERT]`.
 
 ```ez
-temp x int = 5
+mut x = 5
 assert(x > 0, "x must be positive")  // Passes
 
-temp y int = -1
+mut y = -1
 assert(y > 0, "y must be positive")  // Fails: [ASSERT] y must be positive
 ```
 
@@ -74,29 +138,7 @@ assert(y > 0, "y must be positive")  // Fails: [ASSERT] y must be positive
 |------------|-----------|
 | E5022 | Assertion failed |
 
-## Constants
-
-### EXIT_SUCCESS
-
-`int` constant with value `0`
-
-Represents a successful program exit.
-
-```ez
-exit(EXIT_SUCCESS)  // Exit with code 0
-```
-
-### EXIT_FAILURE
-
-`int` constant with value `1`
-
-Represents a failed program exit.
-
-```ez
-exit(EXIT_FAILURE)  // Exit with code 1
-```
-
-## Utility Functions
+## Input Functions
 
 ### input()
 
@@ -105,31 +147,12 @@ exit(EXIT_FAILURE)  // Exit with code 1
 Reads a line of text from stdin.
 
 ```ez
-import @std
-
-std.print("Enter your name: ")
-temp name string = input()
-std.println("Hello, " + name)
+print("Enter your name: ")
+mut name = input()
+println("Hello, " + name)
 ```
 
-### read_int()
-
-`() -> (int, Error)`
-
-Reads an integer from stdin. Returns a tuple of the parsed integer and an error (if the input cannot be parsed).
-
-```ez
-import @std
-
-std.print("Enter a number: ")
-temp num, err = read_int()
-
-if err != nil {
-    std.println("Invalid input: " + err.message)
-} otherwise {
-    std.println("You entered: " + string(num))
-}
-```
+## Utility Functions
 
 ### len()
 
@@ -138,50 +161,68 @@ if err != nil {
 Returns the length of a string, array, or map.
 
 ```ez
-import @std
+mut name = "Hello"
+println(len(name))  // 5
 
-temp name string = "Hello"
-std.println(len(name))  // 5
+mut nums [int] = {1, 2, 3}
+println(len(nums))  // 3
 
-temp nums [int] = {1, 2, 3}
-std.println(len(nums))  // 3
-
-temp ages map[string:int] = {"Alice": 30, "Bob": 25}
-std.println(len(ages))  // 2
+mut ages map[string:int] = {"Alice": 30, "Bob": 25}
+println(len(ages))  // 2
 ```
 
 ### range()
 
-Generates a sequence of numbers for `for` loops.
+Generates a sequence of numbers for `for` loops. Requires at least 2 arguments.
 
 ```ez
-import @std
-
 // range(start, end) - end is exclusive
 for i in range(0, 5) {
-    std.println(i)  // 0, 1, 2, 3, 4
+    println(i)  // 0, 1, 2, 3, 4
 }
 
 // range(start, end, step)
 for i in range(0, 10, 2) {
-    std.println(i)  // 0, 2, 4, 6, 8
+    println(i)  // 0, 2, 4, 6, 8
 }
 ```
 
-### typeof()
+### type_of()
 
 `(value) -> string`
 
 Returns the type of a value as a string.
 
 ```ez
-import @std
+mut x = 42
+println(type_of(x))  // "int"
 
-temp x int = 42
-std.println(typeof(x))  // "int"
+mut arr [string] = {"a", "b"}
+println(type_of(arr))  // "array"
+```
 
-temp arr [string] = {"a", "b"}
-std.println(typeof(arr))  // "array"
+### size_of()
+
+`(Type) -> int`
+
+Returns the size of a type in bytes.
+
+```ez
+println(size_of(int))     // 8
+println(size_of(bool))    // 1
+println(size_of(float))   // 8
+```
+
+### addr()
+
+`(variable) -> ^T`
+
+Returns a pointer to a variable's memory address.
+
+```ez
+mut x = 42
+mut ptr = addr(x)
+println(ptr)  // memory address
 ```
 
 ### copy()
@@ -196,13 +237,13 @@ const Person struct {
     age int
 }
 
-temp a Person = Person{name: "Alice", age: 30}
-temp b Person = copy(a)  // Explicit copy (same as just `temp b = a`)
+mut a = Person{name: "Alice", age: 30}
+mut b = copy(a)  // Explicit copy (same as just `mut b = a`)
 b.age = 31
 // a.age is still 30 - b is an independent copy
 ```
 
-**Note:** With copy-by-default behavior, `temp b = a` already creates an independent copy. Use `copy()` when you want to be explicit about your intent, or use `ref()` when you need shared data.
+**Note:** With copy-by-default behavior, `mut b = a` already creates an independent copy. Use `copy()` when you want to be explicit about your intent, or use `ref()` when you need shared data.
 
 **Deep copy behavior:**
 - Primitives return themselves
@@ -214,7 +255,7 @@ b.age = 31
 
 `(value) -> reference`
 
-Creates a reference to a value, enabling shared data between variables. Use this when multiple variables need to point to the same underlying data.
+Creates a reference to a value, enabling shared data between variables. The mutability of the reference depends on the variable declaration.
 
 ```ez
 const Person struct {
@@ -222,31 +263,31 @@ const Person struct {
     age int
 }
 
-temp a Person = Person{name: "Alice", age: 30}
-temp b Person = ref(a)  // b references the same data as a
+mut a = Person{name: "Alice", age: 30}
+
+// mut ref is mutable - can modify through the reference
+mut b = ref(a)
 b.age = 31
 // a.age is now 31 - both variables share the same data
+
+// const ref is read-only - can read but not modify
+const c = ref(a)
+mut val = c.age    // OK - can read
+// c.age = 32      // ERROR - cannot modify through const ref
 ```
 
-**When to use `ref()`:**
-- When multiple variables need to share and modify the same data
-- When passing large data structures without copying overhead
-- When you need changes in one place to be visible everywhere
-
 **Works with all types:**
-- Primitives (int, float, string, bool, char)
-- Complex types (structs, arrays, maps)
 
 ```ez
 // Reference to an array
-temp original [int] = {1, 2, 3}
-temp shared [int] = ref(original)
+mut original [int] = {1, 2, 3}
+mut shared = ref(original)
 shared[0] = 100
 // original[0] is now 100
 
 // Reference to a primitive
-temp count int = 0
-temp counter int = ref(count)
+mut count = 0
+mut counter = ref(count)
 counter++
 // count is now 1
 ```
@@ -255,9 +296,9 @@ counter++
 
 ### new()
 
-`(StructType) -> StructType`
+`(StructType) -> ^Type`
 
-Creates a new instance of a struct with all fields set to their zero values.
+Allocates a new instance of a struct with all fields set to their zero values. Returns a pointer to the struct.
 
 ```ez
 const Person struct {
@@ -266,19 +307,75 @@ const Person struct {
     active bool
 }
 
-temp p Person = new(Person)
-// p.name = ""
-// p.age = 0
-// p.active = false
+mut p = new(Person)
+// p is ^Person (pointer to Person)
+// p^.name = ""
+// p^.age = 0
+// p^.active = false
 ```
 
 **Zero values by type:**
 - `string` → `""`
-- `int`, `float` → `0`
+- `int`, `uint`, `float` → `0`
 - `bool` → `false`
 - `char` → `'\0'`
 - Arrays → empty array
 - Maps → empty map
+
+### c_string()
+
+`(ptr ^u8) -> string`
+
+Converts a C `char*` return value to an EZ string. Used with C interop.
+
+```ez
+import c"stdlib.h"
+
+do main() {
+    mut home = c_string(c.getenv("HOME"))
+    println(home)
+}
+```
+
+## Sleep Functions
+
+### sleep_s()
+
+`(int) -> void`
+
+Pauses execution for the specified number of seconds.
+
+```ez
+println("Starting...")
+sleep_s(2)
+println("Done!")  // Printed 2 seconds later
+```
+
+**Parameters:** Number of seconds to sleep (must be non-negative).
+
+### sleep_ms()
+
+`(int) -> void`
+
+Pauses execution for the specified number of milliseconds.
+
+```ez
+sleep_ms(500)  // Sleep for half a second
+```
+
+**Parameters:** Number of milliseconds to sleep (must be non-negative).
+
+### sleep_ns()
+
+`(int) -> void`
+
+Pauses execution for the specified number of nanoseconds.
+
+```ez
+sleep_ns(1000000)  // Sleep for 1 millisecond
+```
+
+**Parameters:** Number of nanoseconds to sleep (must be non-negative).
 
 ## Type Conversion Functions
 
@@ -292,16 +389,16 @@ Converts a value to the specified type. Unlike other conversion functions, `cast
 
 ```ez
 // Single value conversion
-temp x = cast(42, u8)        // int -> u8
-temp y = cast(3.14, int)     // float -> int
-temp z = cast(65, char)      // int -> char
+mut x = cast(42, u8)        // int -> u8
+mut y = cast(3.14, int)     // float -> int
+mut z = cast(65, char)      // int -> char
 
 // Array element-wise conversion
-temp bytes [byte] = {65, 66, 67}
-temp u8_arr = cast(bytes, [u8])  // [byte] -> [u8]
+mut bytes [byte] = {65, 66, 67}
+mut u8_arr = cast(bytes, [u8])  // [byte] -> [u8]
 
-temp nums [int] = {1, 2, 3}
-temp strs = cast(nums, [string])  // ["1", "2", "3"]
+mut nums [int] = {1, 2, 3}
+mut strs = cast(nums, [string])  // ["1", "2", "3"]
 ```
 
 **Parameters:**
@@ -325,7 +422,7 @@ temp strs = cast(nums, [string])  // ["1", "2", "3"]
 **Error handling:** Invalid conversions produce errors with details:
 
 ```ez
-temp result = cast([-1, 2, 3], [u8])
+mut result = cast([-1, 2, 3], [u8])
 // Error: "cast failed at index 0: value -1 out of u8 range (0 to 255)"
 ```
 
@@ -338,11 +435,11 @@ temp result = cast([-1, 2, 3], [u8])
 Converts a value to an integer.
 
 ```ez
-temp s string = "42"
-temp n int = int(s)  // 42
+mut s = "42"
+mut n = int(s)  // 42
 
-temp f float = 3.9
-temp i int = int(f)  // 3 (truncates)
+mut f = 3.9
+mut i = int(f)  // 3 (truncates)
 ```
 
 ### float()
@@ -352,11 +449,11 @@ temp i int = int(f)  // 3 (truncates)
 Converts a value to a float.
 
 ```ez
-temp n int = 42
-temp f float = float(n)  // 42.0
+mut n = 42
+mut f = float(n)  // 42.0
 
-temp s string = "3.14"
-temp pi float = float(s)  // 3.14
+mut s = "3.14"
+mut pi = float(s)  // 3.14
 ```
 
 ### string()
@@ -366,11 +463,11 @@ temp pi float = float(s)  // 3.14
 Converts a value to a string.
 
 ```ez
-temp n int = 42
-temp s string = string(n)  // "42"
+mut n = 42
+mut s = string(n)  // "42"
 
-temp b bool = true
-temp bs string = string(b)  // "true"
+mut b = true
+mut bs = string(b)  // "true"
 ```
 
 ### char()
@@ -380,10 +477,10 @@ temp bs string = string(b)  // "true"
 Converts an integer (ASCII/Unicode value) to a character.
 
 ```ez
-temp x int = 65
-temp c char = char(x)  // 'A'
+mut x = 65
+mut c = char(x)  // 'A'
 
-temp newline char = char(10)  // newline character
+mut newline = char(10)  // newline character
 ```
 
 ### byte()
@@ -393,17 +490,49 @@ temp newline char = char(10)  // newline character
 Converts an integer to a byte (constrained to 0-255).
 
 ```ez
-temp n int = 65
-temp b byte = byte(n)  // 65
+mut n = 65
+mut b = byte(n)  // 65
 
-temp max byte = byte(255)  // 255
-temp wrapped byte = byte(256)  // Error: value out of range
+mut max = byte(255)  // 255
+mut wrapped = byte(256)  // Error: value out of range
 ```
 
 **Behavior:**
 - Values 0-255 convert directly
 - Values outside 0-255 range produce an error
 - Useful when working with the `@bytes` module
+
+### to_char()
+
+`(s string, index int) -> int`
+
+Returns the Unicode codepoint at character position `index` (not byte position). Panics if index is out of bounds.
+
+```ez
+mut s = "日本語"
+mut cp = to_char(s, 0)   // 26085 (codepoint for '日')
+mut cp2 = to_char(s, 1)  // 26412 (codepoint for '本')
+```
+
+---
+
+### char_count()
+
+`(s string) -> int`
+
+Returns the number of Unicode characters (codepoints) in a string. Unlike `len()`, which returns byte count, `char_count()` counts decoded UTF-8 characters.
+
+```ez
+mut s = "日本語"
+println(len(s))         // 9 (byte length)
+println(char_count(s))  // 3 (character count)
+
+mut ascii = "hello"
+println(len(ascii))        // 5
+println(char_count(ascii)) // 5 (same for ASCII)
+```
+
+---
 
 ### Sized Integer Conversions
 
@@ -416,9 +545,9 @@ These functions convert values to explicitly sized integer types with range vali
 Converts to a signed 8-bit integer. Range: -128 to 127.
 
 ```ez
-temp small i8 = i8(42)       // 42
-temp neg i8 = i8(-100)       // -100
-temp from_str i8 = i8("50")  // 50
+mut small = i8(42)       // 42
+mut neg = i8(-100)       // -100
+mut from_str = i8("50")  // 50
 // i8(200)  // Error E3022: value 200 out of i8 range (-128 to 127)
 ```
 
@@ -429,8 +558,8 @@ temp from_str i8 = i8("50")  // 50
 Converts to a signed 16-bit integer. Range: -32,768 to 32,767.
 
 ```ez
-temp val i16 = i16(1000)      // 1000
-temp neg i16 = i16(-30000)    // -30000
+mut val = i16(1000)      // 1000
+mut neg = i16(-30000)    // -30000
 // i16(40000)  // Error E3022: out of i16 range
 ```
 
@@ -441,8 +570,8 @@ temp neg i16 = i16(-30000)    // -30000
 Converts to a signed 32-bit integer. Range: -2,147,483,648 to 2,147,483,647.
 
 ```ez
-temp val i32 = i32(100000)    // 100000
-temp neg i32 = i32(-100000)   // -100000
+mut val = i32(100000)    // 100000
+mut neg = i32(-100000)   // -100000
 ```
 
 #### i64()
@@ -452,7 +581,7 @@ temp neg i32 = i32(-100000)   // -100000
 Converts to a signed 64-bit integer. Range: -9.2 quintillion to 9.2 quintillion.
 
 ```ez
-temp val i64 = i64(1000000000)  // 1000000000
+mut val = i64(1000000000)  // 1000000000
 ```
 
 #### i128()
@@ -462,7 +591,7 @@ temp val i64 = i64(1000000000)  // 1000000000
 Converts to a signed 128-bit integer. Range: -2^127 to 2^127-1.
 
 ```ez
-temp val i128 = i128(1000000000000)  // 1000000000000
+mut val = i128(1000000000000)  // 1000000000000
 ```
 
 #### i256()
@@ -472,7 +601,7 @@ temp val i128 = i128(1000000000000)  // 1000000000000
 Converts to a signed 256-bit integer. Range: -2^255 to 2^255-1.
 
 ```ez
-temp val i256 = i256(1000000000000)  // 1000000000000
+mut val = i256(1000000000000)  // 1000000000000
 ```
 
 #### u8()
@@ -482,8 +611,8 @@ temp val i256 = i256(1000000000000)  // 1000000000000
 Converts to an unsigned 8-bit integer. Range: 0 to 255.
 
 ```ez
-temp val u8 = u8(200)          // 200
-temp from_char u8 = u8('A')   // 65
+mut val = u8(200)          // 200
+mut from_char = u8('A')   // 65
 // u8(-1)   // Error E3022: value -1 out of u8 range (0 to 255)
 // u8(256)  // Error E3022: value 256 out of u8 range (0 to 255)
 ```
@@ -495,7 +624,7 @@ temp from_char u8 = u8('A')   // 65
 Converts to an unsigned 16-bit integer. Range: 0 to 65,535.
 
 ```ez
-temp val u16 = u16(50000)  // 50000
+mut val = u16(50000)  // 50000
 // u16(-1)  // Error E3022: out of u16 range
 ```
 
@@ -506,7 +635,7 @@ temp val u16 = u16(50000)  // 50000
 Converts to an unsigned 32-bit integer. Range: 0 to 4,294,967,295.
 
 ```ez
-temp val u32 = u32(3000000000)  // 3000000000
+mut val = u32(3000000000)  // 3000000000
 ```
 
 #### u64()
@@ -516,7 +645,7 @@ temp val u32 = u32(3000000000)  // 3000000000
 Converts to an unsigned 64-bit integer. Range: 0 to 18,446,744,073,709,551,615.
 
 ```ez
-temp val u64 = u64(10000000000)  // 10000000000
+mut val = u64(10000000000)  // 10000000000
 ```
 
 #### u128()
@@ -526,7 +655,7 @@ temp val u64 = u64(10000000000)  // 10000000000
 Converts to an unsigned 128-bit integer. Range: 0 to 2^128-1.
 
 ```ez
-temp val u128 = u128(1000000000000)  // 1000000000000
+mut val = u128(1000000000000)  // 1000000000000
 ```
 
 #### u256()
@@ -536,7 +665,7 @@ temp val u128 = u128(1000000000000)  // 1000000000000
 Converts to an unsigned 256-bit integer. Range: 0 to 2^256-1.
 
 ```ez
-temp val u256 = u256(1000000000000)  // 1000000000000
+mut val = u256(1000000000000)  // 1000000000000
 ```
 
 #### Accepted Source Types (all sized integers)
@@ -558,9 +687,9 @@ temp val u256 = u256(1000000000000)  // 1000000000000
 Converts to a 32-bit floating-point number. Truncates precision to float32 range.
 
 ```ez
-temp val f32 = f32(3.14159265358979)  // 3.1415927 (reduced precision)
-temp from_int f32 = f32(42)           // 42.0
-temp from_str f32 = f32("2.5")       // 2.5
+mut val = f32(3.14159265358979)  // 3.1415927 (reduced precision)
+mut from_int = f32(42)           // 42.0
+mut from_str = f32("2.5")       // 2.5
 ```
 
 #### f64()
@@ -570,9 +699,9 @@ temp from_str f32 = f32("2.5")       // 2.5
 Converts to a 64-bit floating-point number. Full double-precision range.
 
 ```ez
-temp val f64 = f64(3.14159265358979)  // 3.14159265358979 (full precision)
-temp from_int f64 = f64(42)           // 42.0
-temp from_str f64 = f64("2.5")       // 2.5
+mut val = f64(3.14159265358979)  // 3.14159265358979 (full precision)
+mut from_int = f64(42)           // 42.0
+mut from_str = f64("2.5")       // 2.5
 ```
 
 #### Accepted Source Types (f32/f64)
@@ -599,10 +728,7 @@ The `Error` type represents an error value that can be returned from functions.
 **Checking for errors:**
 
 ```ez
-import @std
-using std
-
-temp err = validate("")
+mut err = validate("")
 if err != nil {
     println("Error: ${err.message}")
 }
@@ -617,9 +743,6 @@ Creates a user-defined error. Returns an `Error` with `.message` set to the argu
 **Single error return:**
 
 ```ez
-import @std
-using std
-
 do validate(name string) -> Error {
     if len(name) == 0 {
         return error("name cannot be empty")
@@ -628,7 +751,7 @@ do validate(name string) -> Error {
 }
 
 do main() {
-    temp err = validate("")
+    mut err = validate("")
     if err != nil {
         println(err.message)  // "name cannot be empty"
     }
@@ -638,9 +761,6 @@ do main() {
 **Tuple return (value + error):**
 
 ```ez
-import @std
-using std
-
 do divide(a int, b int) -> (int, Error) {
     if b == 0 {
         return 0, error("division by zero")
@@ -649,7 +769,7 @@ do divide(a int, b int) -> (int, Error) {
 }
 
 do main() {
-    temp result, err = divide(10, 0)
+    mut result, err = divide(10, 0)
     if err != nil {
         println("Failed: ${err.message}")
     } otherwise {
@@ -669,18 +789,27 @@ do main() {
 
 | Function | Description | Example |
 |----------|-------------|---------|
-| `exit(code)` | Exit program with status code | `exit(EXIT_SUCCESS)` |
+| `println(values...)` | Print with newline | `println("Hello", 42)` |
+| `print(values...)` | Print without newline | `print("Name: ")` |
+| `eprintln(values...)` | Print to stderr with newline | `eprintln("Error:", msg)` |
+| `eprint(values...)` | Print to stderr without newline | `eprint("Error: ")` |
+| `exit(code)` | Exit program with status code | `exit(0)` |
 | `panic(msg)` | Terminate with panic message | `panic("error")` |
 | `assert(cond, msg)` | Assert condition is true | `assert(x > 0, "must be positive")` |
-| `input()` | Read line from stdin | `temp name = input()` |
-| `read_int()` | Read integer from stdin | `temp num, err = read_int()` |
+| `input()` | Read line from stdin | `mut name = input()` |
 | `len(x)` | Length of string, array, or map | `len("hello")` → `5` |
 | `range(start, end)` | Number sequence for loops | `range(0, 5)` → `0,1,2,3,4` |
 | `range(start, end, step)` | Number sequence with step | `range(0, 10, 2)` → `0,2,4,6,8` |
-| `typeof(x)` | Type name as string | `typeof(42)` → `"int"` |
+| `type_of(x)` | Type name as string | `type_of(42)` → `"int"` |
+| `size_of(Type)` | Size of type in bytes | `size_of(int)` → `8` |
+| `addr(x)` | Pointer to variable | `addr(myVar)` → `^T` |
 | `copy(x)` | Explicit deep copy of a value | `copy(myStruct)` → independent copy |
 | `ref(x)` | Create reference for shared data | `ref(myStruct)` → shared reference |
-| `new(Type)` | Create zero-initialized struct | `new(Person)` → struct with zero values |
+| `new(Type)` | Allocate zero-initialized struct | `new(Person)` → `^Person` |
+| `c_string(ptr)` | Convert C char* to string | `c_string(c.getenv("HOME"))` |
+| `sleep_s(n)` | Sleep for n seconds | `sleep_s(2)` |
+| `sleep_ms(n)` | Sleep for n milliseconds | `sleep_ms(500)` |
+| `sleep_ns(n)` | Sleep for n nanoseconds | `sleep_ns(1000000)` |
 | `cast(x, type)` | Convert to any type | `cast(42, u8)` → `42` as u8 |
 | `int(x)` | Convert to integer | `int("42")` → `42` |
 | `float(x)` | Convert to float | `float(42)` → `42.0` |
@@ -702,10 +831,3 @@ do main() {
 | `f32(x)` | Convert to 32-bit float | `f32(3.14)` → reduced precision |
 | `f64(x)` | Convert to 64-bit float | `f64(42)` → `42.0` as f64 |
 | `error(msg)` | Create user-defined error | `error("invalid input")` → `Error` |
-
-### Constants
-
-| Constant | Value | Description |
-|----------|-------|-------------|
-| `EXIT_SUCCESS` | `0` | Successful program exit |
-| `EXIT_FAILURE` | `1` | Failed program exit |

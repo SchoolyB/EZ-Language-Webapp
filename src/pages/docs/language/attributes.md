@@ -6,61 +6,7 @@ description: 'Attributes that modify declarations and behavior in EZ.'
 
 # Attributes
 
-Attributes are prefixed with `#` and modify the behavior of declarations. They provide checktime directives that affect how code is interpreted or checked.
-
-## #enum
-
-Specifies the underlying type for an enum. By default, enums use `int` with auto-incrementing values starting at 0.
-
-```ez
-#enum(int)    // Integer enum (default)
-#enum(float)  // Float enum (requires explicit values)
-#enum(string) // String enum (requires explicit values)
-```
-
-### Integer Enums
-
-```ez
-// Explicit integer type (same as default)
-#enum(int)
-const Priority enum {
-    LOW       // 0
-    MEDIUM    // 1
-    HIGH      // 2
-}
-```
-
-### Float Enums
-
-Float enums require explicit values for all members:
-
-```ez
-#enum(float)
-const Grade enum {
-    A = 4.0
-    B = 3.0
-    C = 2.0
-    D = 1.0
-    F = 0.0
-}
-```
-
-### String Enums
-
-String enums require explicit values for all members:
-
-```ez
-#enum(string)
-const Color enum {
-    RED = "red"
-    GREEN = "green"
-    BLUE = "blue"
-}
-```
-
-See [Enums](/EZ-Language-Webapp/docs/language/enums) for complete documentation.
-
----
+Attributes are prefixed with `#` and modify the behavior of declarations. They provide checktime directives that affect how code is compiled or checked.
 
 ## #flags
 
@@ -77,11 +23,11 @@ const Permissions enum {
 
 do main() {
     // Combine flags with bitwise OR
-    temp userPerms int = Permissions.READ || Permissions.WRITE
+    mut userPerms = Permissions.READ || Permissions.WRITE
 
     // Check individual flags with bitwise AND
     if (userPerms && Permissions.READ) != 0 {
-        std.println("User can read")
+        println("User can read")
     }
 }
 ```
@@ -117,13 +63,13 @@ const Status enum {
     DONE
 }
 
-temp status = Status.ACTIVE
+mut status = Status.ACTIVE
 
 #strict
 when status {
-    is Status.PENDING { std.println("waiting") }
-    is Status.ACTIVE { std.println("working") }
-    is Status.DONE { std.println("finished") }
+    is Status.PENDING { println("waiting") }
+    is Status.ACTIVE { println("working") }
+    is Status.DONE { println("finished") }
 }
 // No default needed - typechecker ensures all cases are covered
 ```
@@ -189,7 +135,7 @@ Apply `#suppress` directly before a function to suppress warnings from that func
 do myFunction() {
     // Code that would normally trigger W2001 (unreachable code)
     return 42
-    temp x = 10  // Unreachable, but warning suppressed
+    mut x = 10  // Unreachable, but warning suppressed
 }
 ```
 
@@ -240,18 +186,47 @@ This is useful when you have many functions that would otherwise need individual
 
 ---
 
+## #json
+
+Marks a struct for JSON serialization and deserialization. It enables `json.parse()` to decode JSON strings into the struct type and `json.stringify()` to encode struct values as JSON.
+
+```ez
+import @json
+
+#json
+const User struct {
+    name string
+    age int
+    active bool
+}
+
+do main() {
+    mut u User = json.parse("{\"name\": \"Alice\", \"age\": 25, \"active\": true}")
+    println(u.name)            // Alice
+    println(json.stringify(u)) // {"name":"Alice","age":25,"active":true}
+}
+```
+
+### Rules
+
+- Can only be applied to struct declarations
+- Field names in the JSON must match the struct field names exactly
+- Without `#json`, the struct has no serialization machinery and `json.parse()` into it will fail
+
+---
+
 ## Quick Reference
 
 | Attribute | Target | Description |
 |-----------|--------|-------------|
 | `#doc(desc)` | Function, struct, enum | Mark for documentation generation |
-| `#enum(type)` | Enum declaration | Specify underlying type (int, float, string) |
+| `#json` | Struct declaration | Enable JSON serialization/deserialization |
 | `#flags` | Enum declaration | Create bitwise flag enum with power-of-2 values |
 | `#strict` | When statement | Enforce exhaustive enum case coverage |
 | `#suppress(code)` | Function | Suppress specific warning |
 | `#suppress(ALL)` | File (top) | Suppress all warnings in file |
 
 ## See Also
-- [Enums](/EZ-Language-Webapp/docs/language/enums) — `#enum` and `#flags` usage with enums
+- [Enums](/EZ-Language-Webapp/docs/language/enums) — `#flags` usage with enums
 - [Control Flow](/EZ-Language-Webapp/docs/language/control-flow) — `#strict` with `when/is` matching
 - [Functions](/EZ-Language-Webapp/docs/language/functions) — `#doc` for documenting functions

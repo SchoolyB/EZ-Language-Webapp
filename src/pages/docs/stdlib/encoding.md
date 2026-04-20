@@ -22,11 +22,11 @@ import @encoding
 Encodes a string to Base64.
 
 ```ez
-import @std, @encoding
+import @encoding
 
 do main() {
-    temp encoded string = encoding.base64_encode("Hello, World!")
-    std.println(encoded)  // "SGVsbG8sIFdvcmxkIQ=="
+    mut encoded string = encoding.base64_encode("Hello, World!")
+    println(encoded)  // "SGVsbG8sIFdvcmxkIQ=="
 }
 ```
 
@@ -44,14 +44,14 @@ do main() {
 Decodes a Base64 string.
 
 ```ez
-import @std, @encoding
+import @encoding
 
 do main() {
-    temp decoded string, err Error = encoding.base64_decode("SGVsbG8sIFdvcmxkIQ==")
+    mut decoded string, err Error = encoding.base64_decode("SGVsbG8sIFdvcmxkIQ==")
     if err == nil {
-        std.println(decoded)  // "Hello, World!"
+        println(decoded)  // "Hello, World!"
     } otherwise {
-        std.println("Error:", err.message)
+        println("Error:", err.message)
     }
 }
 ```
@@ -74,11 +74,11 @@ do main() {
 Encodes a string to lowercase hexadecimal.
 
 ```ez
-import @std, @encoding
+import @encoding
 
 do main() {
-    temp encoded string = encoding.hex_encode("Hello")
-    std.println(encoded)  // "48656c6c6f"
+    mut encoded string = encoding.hex_encode("Hello")
+    println(encoded)  // "48656c6c6f"
 }
 ```
 
@@ -96,14 +96,14 @@ do main() {
 Decodes a hexadecimal string.
 
 ```ez
-import @std, @encoding
+import @encoding
 
 do main() {
-    temp decoded string, err Error = encoding.hex_decode("48656c6c6f")
+    mut decoded string, err Error = encoding.hex_decode("48656c6c6f")
     if err == nil {
-        std.println(decoded)  // "Hello"
+        println(decoded)  // "Hello"
     } otherwise {
-        std.println("Error:", err.message)
+        println("Error:", err.message)
     }
 }
 ```
@@ -126,11 +126,11 @@ do main() {
 URL percent-encodes a string for use in query parameters.
 
 ```ez
-import @std, @encoding
+import @encoding
 
 do main() {
-    temp encoded string = encoding.url_encode("hello world?foo=bar")
-    std.println(encoded)  // "hello+world%3Ffoo%3Dbar"
+    mut encoded string = encoding.url_encode("hello world?foo=bar")
+    println(encoded)  // "hello+world%3Ffoo%3Dbar"
 }
 ```
 
@@ -148,14 +148,14 @@ do main() {
 Decodes a URL percent-encoded string.
 
 ```ez
-import @std, @encoding
+import @encoding
 
 do main() {
-    temp decoded string, err Error = encoding.url_decode("hello+world%3Ffoo%3Dbar")
+    mut decoded string, err Error = encoding.url_decode("hello+world%3Ffoo%3Dbar")
     if err == nil {
-        std.println(decoded)  // "hello world?foo=bar"
+        println(decoded)  // "hello world?foo=bar"
     } otherwise {
-        std.println("Error:", err.message)
+        println("Error:", err.message)
     }
 }
 ```
@@ -173,43 +173,42 @@ do main() {
 ## Example Program
 
 ```ez
-import @std
 import @encoding
 
 do main() {
-    std.println("=== Encoding Demo ===")
+    println("=== Encoding Demo ===")
 
-    temp original string = "Hello, World!"
+    mut original string = "Hello, World!"
 
     // Base64
-    std.println("\n-- Base64 --")
-    temp b64 string = encoding.base64_encode(original)
-    std.println("Encoded:", b64)
+    println("\n-- Base64 --")
+    mut b64 string = encoding.base64_encode(original)
+    println("Encoded:", b64)
 
-    temp b64_decoded string, b64_err Error = encoding.base64_decode(b64)
+    mut b64_decoded string, b64_err Error = encoding.base64_decode(b64)
     if b64_err == nil {
-        std.println("Decoded:", b64_decoded)
+        println("Decoded:", b64_decoded)
     }
 
     // Hex
-    std.println("\n-- Hexadecimal --")
-    temp hex string = encoding.hex_encode(original)
-    std.println("Encoded:", hex)
+    println("\n-- Hexadecimal --")
+    mut hex string = encoding.hex_encode(original)
+    println("Encoded:", hex)
 
-    temp hex_decoded string, hex_err Error = encoding.hex_decode(hex)
+    mut hex_decoded string, hex_err Error = encoding.hex_decode(hex)
     if hex_err == nil {
-        std.println("Decoded:", hex_decoded)
+        println("Decoded:", hex_decoded)
     }
 
     // URL
-    std.println("\n-- URL Encoding --")
-    temp query string = "name=John Doe&city=New York"
-    temp url_enc string = encoding.url_encode(query)
-    std.println("Encoded:", url_enc)
+    println("\n-- URL Encoding --")
+    mut query string = "name=John Doe&city=New York"
+    mut url_enc string = encoding.url_encode(query)
+    println("Encoded:", url_enc)
 
-    temp url_decoded string, url_err Error = encoding.url_decode(url_enc)
+    mut url_decoded string, url_err Error = encoding.url_decode(url_enc)
     if url_err == nil {
-        std.println("Decoded:", url_decoded)
+        println("Decoded:", url_decoded)
     }
 }
 ```

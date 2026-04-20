@@ -58,7 +58,7 @@ const ways = [
   },
   {
     title: 'Improve Stdlib',
-    description: 'Add functions to @math, @random, @strings, @arrays, @maps, and more.',
+    description: 'Add functions to @math, @strings, @arrays, @maps, @crypto, and more.',
     icon: 'package',
   },
   {
@@ -82,9 +82,25 @@ const ways = [
     <div class="flex gap-12">
       <main class="flex-1 min-w-0">
         <h1 class="text-3xl font-bold mb-4">Contribute to EZ</h1>
-        <p class="opacity-70 mb-12 text-lg">
+        <p class="opacity-70 mb-8 text-lg">
           EZ is open source and welcomes contributions of all kinds. Whether you're fixing a typo or implementing a new stdlib module, every contribution helps.
         </p>
+
+        <!-- Platform & Prerequisites -->
+        <div class="mb-12 p-5 border border-[#e5e5e5] dark:border-[#333333] rounded-lg space-y-4">
+          <div>
+            <h3 class="font-semibold mb-1">Platform Support</h3>
+            <p class="text-base opacity-70">EZ v3.0 supports <strong>macOS</strong> and <strong>Linux</strong> only. Windows is not currently supported for development.</p>
+          </div>
+          <div>
+            <h3 class="font-semibold mb-1">Prerequisites</h3>
+            <ul class="text-base opacity-70 space-y-1">
+              <li><strong>Go 1.23+</strong> &mdash; for the CLI tooling</li>
+              <li><strong>C compiler</strong> &mdash; gcc or clang (for the compiler itself)</li>
+              <li><strong>Git</strong></li>
+            </ul>
+          </div>
+        </div>
 
         <!-- Ways to Contribute -->
         <section id="ways-to-contribute" class="mb-16">
@@ -131,13 +147,13 @@ const ways = [
 
             <div>
               <h3 class="font-semibold mb-3">Bug Reports</h3>
-              <p class="text-base opacity-70 mb-3">Include these sections in every bug report:</p>
+              <p class="text-base opacity-70 mb-3">Every bug report <strong>must</strong> include the full output of <code class="text-sm px-1.5 py-0.5 bg-[#f5f5f5] dark:bg-[#1a1a1a] rounded">ez report</code>. This command prints your version, OS, CPU, RAM, and C compiler info &mdash; all essential for triage. Then include:</p>
               <ul class="text-base space-y-2 opacity-70">
-                <li><strong>Description</strong> &mdash; 1-3 sentences describing the bug</li>
-                <li><strong>Severity</strong> &mdash; High, Medium, or Low with justification</li>
-                <li><strong>Reproduction</strong> &mdash; Minimal EZ code that reproduces the bug</li>
+                <li><strong>Severity</strong> &mdash; Critical, High, Medium, or Low with justification</li>
+                <li><strong>Summary</strong> &mdash; What's broken, in plain language</li>
+                <li><strong>Reproduction</strong> &mdash; Minimal <code class="text-sm px-1.5 py-0.5 bg-[#f5f5f5] dark:bg-[#1a1a1a] rounded">.ez</code> program that triggers the bug</li>
                 <li><strong>Expected Behavior</strong> &mdash; What should happen</li>
-                <li><strong>Actual Behavior</strong> &mdash; What actually happens</li>
+                <li><strong>Actual Behavior</strong> &mdash; What actually happens (include error message verbatim)</li>
               </ul>
             </div>
 
@@ -154,10 +170,12 @@ const ways = [
 
             <div class="pt-4">
               <a
-                href={`${base}ISSUE_TEMPLATE.md`}
+                href="https://github.com/SchoolyB/EZ/blob/main/CONTRIBUTING.md"
+                target="_blank"
+                rel="noopener noreferrer"
                 class="inline-flex items-center gap-2 text-base font-medium underline underline-offset-4 hover:opacity-70 transition-opacity"
               >
-                View full issue template &rarr;
+                View full contributing guide &rarr;
               </a>
             </div>
           </div>
@@ -191,7 +209,7 @@ const ways = [
               <div class="flex-shrink-0 w-8 h-8 rounded-full bg-black dark:bg-white text-white dark:text-black flex items-center justify-center text-sm font-bold">3</div>
               <div>
                 <h3 class="font-semibold">Make Changes</h3>
-                <p class="text-base opacity-70">Write your code. Follow existing patterns and style.</p>
+                <p class="text-base opacity-70">Write your code. The compiler is written in C; CLI tooling is written in Go. Follow existing patterns and style.</p>
               </div>
             </div>
 
@@ -239,24 +257,30 @@ const ways = [
             <div class="mb-8">
               <h3 class="font-semibold mb-3">Available Modules</h3>
               <div class="flex flex-wrap gap-3">
-                <a href={`${base}docs/stdlib/std`} class="text-base font-semibold px-3 py-1.5 border border-[#e5e5e5] dark:border-[#333333] rounded-lg hover:bg-[#f5f5f5] dark:hover:bg-[#1a1a1a] transition-colors">@std</a>
                 <a href={`${base}docs/stdlib/arrays`} class="text-base font-semibold px-3 py-1.5 border border-[#e5e5e5] dark:border-[#333333] rounded-lg hover:bg-[#f5f5f5] dark:hover:bg-[#1a1a1a] transition-colors">@arrays</a>
+                <a href={`${base}docs/stdlib/atomic`} class="text-base font-semibold px-3 py-1.5 border border-[#e5e5e5] dark:border-[#333333] rounded-lg hover:bg-[#f5f5f5] dark:hover:bg-[#1a1a1a] transition-colors">@atomic</a>
                 <a href={`${base}docs/stdlib/binary`} class="text-base font-semibold px-3 py-1.5 border border-[#e5e5e5] dark:border-[#333333] rounded-lg hover:bg-[#f5f5f5] dark:hover:bg-[#1a1a1a] transition-colors">@binary</a>
                 <a href={`${base}docs/stdlib/bytes`} class="text-base font-semibold px-3 py-1.5 border border-[#e5e5e5] dark:border-[#333333] rounded-lg hover:bg-[#f5f5f5] dark:hover:bg-[#1a1a1a] transition-colors">@bytes</a>
+                <a href={`${base}docs/stdlib/channels`} class="text-base font-semibold px-3 py-1.5 border border-[#e5e5e5] dark:border-[#333333] rounded-lg hover:bg-[#f5f5f5] dark:hover:bg-[#1a1a1a] transition-colors">@channels</a>
                 <a href={`${base}docs/stdlib/crypto`} class="text-base font-semibold px-3 py-1.5 border border-[#e5e5e5] dark:border-[#333333] rounded-lg hover:bg-[#f5f5f5] dark:hover:bg-[#1a1a1a] transition-colors">@crypto</a>
                 <a href={`${base}docs/stdlib/csv`} class="text-base font-semibold px-3 py-1.5 border border-[#e5e5e5] dark:border-[#333333] rounded-lg hover:bg-[#f5f5f5] dark:hover:bg-[#1a1a1a] transition-colors">@csv</a>
-                <a href={`${base}docs/stdlib/db`} class="text-base font-semibold px-3 py-1.5 border border-[#e5e5e5] dark:border-[#333333] rounded-lg hover:bg-[#f5f5f5] dark:hover:bg-[#1a1a1a] transition-colors">@db</a>
                 <a href={`${base}docs/stdlib/encoding`} class="text-base font-semibold px-3 py-1.5 border border-[#e5e5e5] dark:border-[#333333] rounded-lg hover:bg-[#f5f5f5] dark:hover:bg-[#1a1a1a] transition-colors">@encoding</a>
+                <a href={`${base}docs/stdlib/fmt`} class="text-base font-semibold px-3 py-1.5 border border-[#e5e5e5] dark:border-[#333333] rounded-lg hover:bg-[#f5f5f5] dark:hover:bg-[#1a1a1a] transition-colors">@fmt</a>
                 <a href={`${base}docs/stdlib/http`} class="text-base font-semibold px-3 py-1.5 border border-[#e5e5e5] dark:border-[#333333] rounded-lg hover:bg-[#f5f5f5] dark:hover:bg-[#1a1a1a] transition-colors">@http</a>
                 <a href={`${base}docs/stdlib/io`} class="text-base font-semibold px-3 py-1.5 border border-[#e5e5e5] dark:border-[#333333] rounded-lg hover:bg-[#f5f5f5] dark:hover:bg-[#1a1a1a] transition-colors">@io</a>
                 <a href={`${base}docs/stdlib/json`} class="text-base font-semibold px-3 py-1.5 border border-[#e5e5e5] dark:border-[#333333] rounded-lg hover:bg-[#f5f5f5] dark:hover:bg-[#1a1a1a] transition-colors">@json</a>
                 <a href={`${base}docs/stdlib/maps`} class="text-base font-semibold px-3 py-1.5 border border-[#e5e5e5] dark:border-[#333333] rounded-lg hover:bg-[#f5f5f5] dark:hover:bg-[#1a1a1a] transition-colors">@maps</a>
                 <a href={`${base}docs/stdlib/math`} class="text-base font-semibold px-3 py-1.5 border border-[#e5e5e5] dark:border-[#333333] rounded-lg hover:bg-[#f5f5f5] dark:hover:bg-[#1a1a1a] transition-colors">@math</a>
+                <a href={`${base}docs/stdlib/mem`} class="text-base font-semibold px-3 py-1.5 border border-[#e5e5e5] dark:border-[#333333] rounded-lg hover:bg-[#f5f5f5] dark:hover:bg-[#1a1a1a] transition-colors">@mem</a>
+                <a href={`${base}docs/stdlib/net`} class="text-base font-semibold px-3 py-1.5 border border-[#e5e5e5] dark:border-[#333333] rounded-lg hover:bg-[#f5f5f5] dark:hover:bg-[#1a1a1a] transition-colors">@net</a>
                 <a href={`${base}docs/stdlib/os`} class="text-base font-semibold px-3 py-1.5 border border-[#e5e5e5] dark:border-[#333333] rounded-lg hover:bg-[#f5f5f5] dark:hover:bg-[#1a1a1a] transition-colors">@os</a>
                 <a href={`${base}docs/stdlib/random`} class="text-base font-semibold px-3 py-1.5 border border-[#e5e5e5] dark:border-[#333333] rounded-lg hover:bg-[#f5f5f5] dark:hover:bg-[#1a1a1a] transition-colors">@random</a>
                 <a href={`${base}docs/stdlib/regex`} class="text-base font-semibold px-3 py-1.5 border border-[#e5e5e5] dark:border-[#333333] rounded-lg hover:bg-[#f5f5f5] dark:hover:bg-[#1a1a1a] transition-colors">@regex</a>
                 <a href={`${base}docs/stdlib/server`} class="text-base font-semibold px-3 py-1.5 border border-[#e5e5e5] dark:border-[#333333] rounded-lg hover:bg-[#f5f5f5] dark:hover:bg-[#1a1a1a] transition-colors">@server</a>
+                <a href={`${base}docs/stdlib/sqlite`} class="text-base font-semibold px-3 py-1.5 border border-[#e5e5e5] dark:border-[#333333] rounded-lg hover:bg-[#f5f5f5] dark:hover:bg-[#1a1a1a] transition-colors">@sqlite</a>
                 <a href={`${base}docs/stdlib/strings`} class="text-base font-semibold px-3 py-1.5 border border-[#e5e5e5] dark:border-[#333333] rounded-lg hover:bg-[#f5f5f5] dark:hover:bg-[#1a1a1a] transition-colors">@strings</a>
+                <a href={`${base}docs/stdlib/sync`} class="text-base font-semibold px-3 py-1.5 border border-[#e5e5e5] dark:border-[#333333] rounded-lg hover:bg-[#f5f5f5] dark:hover:bg-[#1a1a1a] transition-colors">@sync</a>
+                <a href={`${base}docs/stdlib/threads`} class="text-base font-semibold px-3 py-1.5 border border-[#e5e5e5] dark:border-[#333333] rounded-lg hover:bg-[#f5f5f5] dark:hover:bg-[#1a1a1a] transition-colors">@threads</a>
                 <a href={`${base}docs/stdlib/time`} class="text-base font-semibold px-3 py-1.5 border border-[#e5e5e5] dark:border-[#333333] rounded-lg hover:bg-[#f5f5f5] dark:hover:bg-[#1a1a1a] transition-colors">@time</a>
                 <a href={`${base}docs/stdlib/uuid`} class="text-base font-semibold px-3 py-1.5 border border-[#e5e5e5] dark:border-[#333333] rounded-lg hover:bg-[#f5f5f5] dark:hover:bg-[#1a1a1a] transition-colors">@uuid</a>
               </div>
@@ -341,6 +365,17 @@ const ways = [
           </a>
         </section>
 
+        <!-- AI-Assisted Contributions -->
+        <section id="ai-contributions" class="mb-16">
+          <h2 class="text-2xl font-bold mb-6">AI-Assisted Contributions</h2>
+          <p class="opacity-70 mb-4">
+            EZ was built with heavy use of AI tooling from day one, and AI-assisted contributions are welcome. Whether you're using Claude, Copilot, ChatGPT, or any other tool &mdash; that's fine. What matters is the end result.
+          </p>
+          <p class="opacity-70">
+            That said, you're responsible for what you submit. Don't just paste AI output into a PR &mdash; build it, run it, and make sure it works. If you can't explain what your code does and why, it's not ready. The bar is the same as any other contribution: does it work, is it tested, and does it solve the problem?
+          </p>
+        </section>
+
         <!-- Get Started -->
         <section id="get-started" class="border-t border-[#e5e5e5] dark:border-[#333333] pt-12">
           <div class="text-center">
@@ -348,20 +383,20 @@ const ways = [
             <p class="opacity-70 mb-6">Check out open issues or start a discussion.</p>
             <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
               <a
-                href="https://github.com/SchoolyB/EZ/issues"
+                href="https://github.com/SchoolyB/EZ/labels/good%20first%20issue"
                 target="_blank"
                 rel="noopener noreferrer"
                 class="w-full sm:w-auto px-6 py-3 bg-black dark:bg-white text-white dark:text-black font-semibold rounded-lg hover:opacity-80 transition-opacity text-center"
               >
-                View Open Issues
+                Good First Issues
               </a>
               <a
-                href="https://github.com/SchoolyB/EZ"
+                href="https://github.com/SchoolyB/EZ/issues"
                 target="_blank"
                 rel="noopener noreferrer"
                 class="w-full sm:w-auto px-6 py-3 border-2 border-black dark:border-white font-semibold rounded-lg hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition-colors text-center"
               >
-                GitHub Repository
+                All Open Issues
               </a>
             </div>
           </div>
@@ -380,6 +415,7 @@ const ways = [
             <li><a href="#contributing-to-stdlib" class="opacity-60 hover:opacity-100 transition-opacity">Contributing to Stdlib</a></li>
             <li><a href="#building-tooling" class="opacity-60 hover:opacity-100 transition-opacity">Building Tooling</a></li>
             <li><a href="#contributors" class="opacity-60 hover:opacity-100 transition-opacity">Contributors</a></li>
+            <li><a href="#ai-contributions" class="opacity-60 hover:opacity-100 transition-opacity">AI Contributions</a></li>
           </ul>
         </nav>
       </aside>
