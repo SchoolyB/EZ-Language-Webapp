@@ -17,11 +17,11 @@ import @server
 ## Quick Start
 
 ```ez
-import @std, @server
+@server
 using std
 
 do main() {
-    temp router Router = server.router()
+    mut router Router = server.router()
     server.route(router, "GET", "/", server.text(200, "Hello, World!"))
     server.route(router, "GET", "/api/health", server.json(200, {"status": "ok"}))
     println("Server running on http://localhost:8080")
@@ -39,7 +39,7 @@ do main() {
 Creates a Response with `text/plain` Content-Type.
 
 ```ez
-temp resp = server.text(200, "Hello, World!")
+mut resp = server.text(200, "Hello, World!")
 ```
 
 **Parameters:**
@@ -57,19 +57,19 @@ Creates a Response with `application/json` Content-Type. Automatically encodes t
 
 ```ez
 // Map → JSON object
-temp resp = server.json(200, {"name": "Alice", "age": 30})
+mut resp = server.json(200, {"name": "Alice", "age": 30})
 
 // Struct → JSON object (respects `json:` field tags)
-temp user User = User{name: "Alice", age: 30}
-temp resp2 = server.json(200, user)
+mut user User = User{name: "Alice", age: 30}
+mut resp2 = server.json(200, user)
 
 // Array → JSON array
-temp resp3 = server.json(200, {1, 2, 3})
+mut resp3 = server.json(200, {1, 2, 3})
 
 // Primitives
-temp resp4 = server.json(200, "hello")  // JSON string
-temp resp5 = server.json(200, 42)       // JSON number
-temp resp6 = server.json(200, true)     // JSON boolean
+mut resp4 = server.json(200, "hello")  // JSON string
+mut resp5 = server.json(200, 42)       // JSON number
+mut resp6 = server.json(200, true)     // JSON boolean
 ```
 
 **Parameters:**
@@ -98,7 +98,7 @@ temp resp6 = server.json(200, true)     // JSON boolean
 Creates a Response with `text/html` Content-Type.
 
 ```ez
-temp resp = server.html(200, "<h1>Welcome</h1><p>Hello from EZ!</p>")
+mut resp = server.html(200, "<h1>Welcome</h1><p>Hello from EZ!</p>")
 ```
 
 **Parameters:**
@@ -117,7 +117,7 @@ temp resp = server.html(200, "<h1>Welcome</h1><p>Hello from EZ!</p>")
 Creates a new empty Router. The Router struct contains an empty routes array that is populated by calling `server.route()`.
 
 ```ez
-temp router Router = server.router()
+mut router Router = server.router()
 ```
 
 **Parameters:** None.
@@ -132,7 +132,7 @@ temp router Router = server.router()
 Adds a route to an existing Router. Mutates the router's routes array in place.
 
 ```ez
-temp router Router = server.router()
+mut router Router = server.router()
 server.route(router, "GET", "/", server.text(200, "Home"))
 server.route(router, "POST", "/api/users", server.json(201, {"created": true}))
 server.route(router, "GET", "/about", server.html(200, "<h1>About</h1>"))
@@ -156,11 +156,11 @@ server.route(router, "GET", "/about", server.html(200, "<h1>About</h1>"))
 Starts an HTTP server on the given port using the given router. This function blocks until the server encounters an error. The port must be between 1 and 65535.
 
 ```ez
-import @std, @server
+@server
 using std
 
 do main() {
-    temp router Router = server.router()
+    mut router Router = server.router()
     server.route(router, "GET", "/", server.text(200, "Hello!"))
     println("Listening on port 3000...")
     server.listen(3000, router)
@@ -178,12 +178,12 @@ do main() {
 ## Example Program
 
 ```ez
-import @std, @server
+@server
 using std
 
 do main() {
     // Create a new router
-    temp router Router = server.router()
+    mut router Router = server.router()
 
     // Plain text response
     server.route(router, "GET", "/", server.text(200, "Welcome to the API"))

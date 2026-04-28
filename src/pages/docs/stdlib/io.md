@@ -23,12 +23,12 @@ import @io
 Reads the entire contents of a file as a string.
 
 ```ez
-import @std, @io
+import @io
 
 do read_text_file() {
-    temp content, err = io.read_file("config.txt")
+    mut content, err = io.read_file("config.txt")
     if err != nil {
-        std.println("Error: ", err.message)
+        println("Error: ", err.message)
     }
 }
 ```
@@ -50,7 +50,7 @@ Reads the entire contents of a file as a byte array.
 import @io
 
 do read_binary_file() {
-    temp data, err = io.read_bytes("image.png")
+    mut data, err = io.read_bytes("image.png")
 }
 ```
 
@@ -68,12 +68,12 @@ do read_binary_file() {
 Reads a file and returns its content as an array of lines.
 
 ```ez
-import @std, @io
+import @io
 
 do read_file_lines() {
-    temp lines, err = io.read_lines("data.txt")
+    mut lines, err = io.read_lines("data.txt")
     for_each line in lines {
-        std.println(line)
+        println(line)
     }
 }
 ```
@@ -97,8 +97,8 @@ Writes content to a file atomically (creates or overwrites).
 import @io
 
 do write_text_file() {
-    temp ok, err = io.write_file("output.txt", "Hello World")
-    temp ok2, err2 = io.write_file("script.sh", "#!/bin/bash", 0755)
+    mut ok, err = io.write_file("output.txt", "Hello World")
+    mut ok2, err2 = io.write_file("script.sh", "#!/bin/bash", 0755)
 }
 ```
 
@@ -122,8 +122,8 @@ Writes bytes to a file atomically (creates or overwrites).
 import @io, @bytes
 
 do write_binary_file() {
-    temp data [byte] = bytes.from_string("binary content")
-    temp ok bool, err Error = io.write_bytes("data.bin", data)
+    mut data [byte] = bytes.from_string("binary content")
+    mut ok bool, err Error = io.write_bytes("data.bin", data)
 }
 ```
 
@@ -147,7 +147,7 @@ Appends content to a file (creates if doesn't exist).
 import @io
 
 do append_to_file() {
-    temp ok, err = io.append_file("log.txt", "New log entry\n")
+    mut ok, err = io.append_file("log.txt", "New log entry\n")
 }
 ```
 
@@ -171,7 +171,7 @@ Appends a line to a file (automatically adds newline).
 import @io
 
 do append_log_line() {
-    temp ok, err = io.append_line("log.txt", "Log entry")
+    mut ok, err = io.append_line("log.txt", "Log entry")
 }
 ```
 
@@ -194,11 +194,11 @@ do append_log_line() {
 Checks if a path exists (file or directory).
 
 ```ez
-import @std, @io
+import @io
 
 do check_file_exists() {
     if io.exists("config.txt") {
-        std.println("Config found")
+        println("Config found")
     }
 }
 ```
@@ -219,7 +219,7 @@ import @io
 
 do check_is_file() {
     if io.is_file("data.txt") {
-        temp content, _ = io.read_file("data.txt")
+        mut content, _ = io.read_file("data.txt")
     }
 }
 ```
@@ -240,7 +240,7 @@ import @io
 
 do check_is_directory() {
     if io.is_dir("src") {
-        temp files, _ = io.read_dir("src")
+        mut files, _ = io.read_dir("src")
     }
 }
 ```
@@ -262,7 +262,7 @@ Removes a file (not directories).
 import @io
 
 do remove_file() {
-    temp ok, err = io.remove("temp.txt")
+    mut ok, err = io.remove("temp.txt")
 }
 ```
 
@@ -283,7 +283,7 @@ Removes an empty directory.
 import @io
 
 do remove_empty_dir() {
-    temp ok, err = io.remove_dir("empty_folder")
+    mut ok, err = io.remove_dir("empty_folder")
 }
 ```
 
@@ -304,7 +304,7 @@ Recursively removes a file or directory. **Use with caution!**
 import @io
 
 do remove_recursively() {
-    temp ok, err = io.remove_all("build_output")
+    mut ok, err = io.remove_all("build_output")
 }
 ```
 
@@ -325,8 +325,8 @@ Renames or moves a file or directory.
 import @io
 
 do rename_file() {
-    temp ok, err = io.rename("old.txt", "new.txt")
-    temp ok2, err2 = io.rename("file.txt", "subdir/file.txt")
+    mut ok, err = io.rename("old.txt", "new.txt")
+    mut ok2, err2 = io.rename("file.txt", "subdir/file.txt")
 }
 ```
 
@@ -349,7 +349,7 @@ Copies a file (not directories).
 import @io
 
 do copy_file() {
-    temp ok, err = io.copy("original.txt", "backup.txt")
+    mut ok, err = io.copy("original.txt", "backup.txt")
 }
 ```
 
@@ -375,8 +375,8 @@ Creates a directory (parent must exist).
 import @io
 
 do make_directory() {
-    temp ok, err = io.mkdir("new_folder")
-    temp ok2, err2 = io.mkdir("private", 0700)
+    mut ok, err = io.mkdir("new_folder")
+    mut ok2, err2 = io.mkdir("private", 0700)
 }
 ```
 
@@ -399,7 +399,7 @@ Creates a directory and all parent directories as needed.
 import @io
 
 do make_nested_dirs() {
-    temp ok, err = io.mkdir_all("path/to/nested/folder")
+    mut ok, err = io.mkdir_all("path/to/nested/folder")
 }
 ```
 
@@ -419,12 +419,12 @@ do make_nested_dirs() {
 Lists the contents of a directory.
 
 ```ez
-import @std, @io
+import @io
 
 do list_directory() {
-    temp entries, err = io.read_dir("src")
+    mut entries, err = io.read_dir("src")
     for_each entry in entries {
-        std.println(entry)
+        println(entry)
     }
 }
 ```
@@ -445,11 +445,11 @@ do list_directory() {
 Returns the size of a file in bytes.
 
 ```ez
-import @std, @io
+import @io
 
 do get_file_size() {
-    temp size, err = io.file_size("data.bin")
-    std.println("File is ", size, " bytes")
+    mut size, err = io.file_size("data.bin")
+    println("File is ", size, " bytes")
 }
 ```
 
@@ -470,7 +470,7 @@ Returns the modification time as a Unix timestamp.
 import @io
 
 do get_mod_time() {
-    temp mtime, err = io.file_mod_time("file.txt")
+    mut mtime, err = io.file_mod_time("file.txt")
 }
 ```
 
@@ -490,19 +490,19 @@ do get_mod_time() {
 Finds all files matching a glob pattern.
 
 ```ez
-import @std, @io
+import @io
 
 do find_files() {
     // Find all .ez files in src directory
-    temp matches, err = io.glob("src/*.ez")
+    mut matches, err = io.glob("src/*.ez")
     if err == nil {
         for_each file in matches {
-            std.println(file)
+            println(file)
         }
     }
 
     // Find all Go files in subdirectories
-    temp goFiles, _ = io.glob("pkg/**/*.go")
+    mut goFiles, _ = io.glob("pkg/**/*.go")
 }
 ```
 
@@ -520,14 +520,14 @@ do find_files() {
 Recursively walks a directory tree and returns all files (not directories).
 
 ```ez
-import @std, @io
+import @io
 
 do list_all_files() {
-    temp files, err = io.walk("src")
+    mut files, err = io.walk("src")
     if err == nil {
-        std.println("Found", len(files), "files")
+        println("Found", len(files), "files")
         for_each file in files {
-            std.println(file)
+            println(file)
         }
     }
 }
@@ -547,13 +547,13 @@ do list_all_files() {
 Checks if a path is a symbolic link.
 
 ```ez
-import @std, @io
+import @io
 
 do check_symlink() {
     if io.is_symlink("my_link") {
-        std.println("It's a symlink!")
+        println("It's a symlink!")
     } otherwise {
-        std.println("Regular file or directory")
+        println("Regular file or directory")
     }
 }
 ```
@@ -575,7 +575,7 @@ Joins path components using the OS-specific separator.
 import @io
 
 do join_paths() {
-    temp path string = io.path_join("home", "user", "file.txt")
+    mut path string = io.path_join("home", "user", "file.txt")
     // "home/user/file.txt" on Unix
 }
 ```
@@ -597,7 +597,7 @@ Returns the last element of a path (filename or directory name).
 import @io
 
 do get_base_name() {
-    temp name string = io.path_base("/home/user/file.txt")  // "file.txt"
+    mut name string = io.path_base("/home/user/file.txt")  // "file.txt"
 }
 ```
 
@@ -618,7 +618,7 @@ Returns the directory portion of a path.
 import @io
 
 do get_directory_path() {
-    temp dir string = io.path_dir("/home/user/file.txt")  // "/home/user"
+    mut dir string = io.path_dir("/home/user/file.txt")  // "/home/user"
 }
 ```
 
@@ -639,7 +639,7 @@ Returns the file extension (including the dot).
 import @io
 
 do get_file_extension() {
-    temp ext string = io.path_ext("document.pdf")  // ".pdf"
+    mut ext string = io.path_ext("document.pdf")  // ".pdf"
 }
 ```
 
@@ -660,7 +660,7 @@ Returns the absolute path.
 import @io
 
 do get_absolute_path() {
-    temp abs, err = io.path_abs("./file.txt")
+    mut abs, err = io.path_abs("./file.txt")
 }
 ```
 
@@ -681,7 +681,7 @@ Cleans a path (removes redundant separators, . and ..).
 import @io
 
 do clean_path() {
-    temp clean string = io.path_clean("a/b/../c/./d")  // "a/c/d"
+    mut clean string = io.path_clean("a/b/../c/./d")  // "a/c/d"
 }
 ```
 
@@ -702,7 +702,7 @@ Returns the OS-specific path separator.
 import @io
 
 do get_path_separator() {
-    temp sep string = io.path_separator()
+    mut sep string = io.path_separator()
 }
 ```
 
@@ -719,7 +719,7 @@ Expands ~ to home directory and cleans the path.
 import @io
 
 do expand_home_path() {
-    temp path string = io.expand_path("~/Documents")
+    mut path string = io.expand_path("~/Documents")
     // "/home/user/Documents" on Unix
 }
 ```
@@ -743,7 +743,7 @@ Open a file for reading only.
 import @io
 
 do open_read_only() {
-    temp handle, err = io.open("file.txt", io.READ_ONLY)
+    mut handle, err = io.open("file.txt", io.READ_ONLY)
 }
 ```
 
@@ -758,7 +758,7 @@ Open a file for writing only.
 import @io
 
 do open_write_only() {
-    temp handle, err = io.open("file.txt", io.WRITE_ONLY)
+    mut handle, err = io.open("file.txt", io.WRITE_ONLY)
 }
 ```
 
@@ -773,7 +773,7 @@ Open a file for reading and writing.
 import @io
 
 do open_read_write() {
-    temp handle, err = io.open("file.txt", io.READ_WRITE)
+    mut handle, err = io.open("file.txt", io.READ_WRITE)
 }
 ```
 
@@ -788,7 +788,7 @@ Open a file in append mode (writes go to end of file).
 import @io
 
 do open_append_mode() {
-    temp handle, err = io.open("log.txt", io.WRITE_ONLY | io.APPEND)
+    mut handle, err = io.open("log.txt", io.WRITE_ONLY | io.APPEND)
 }
 ```
 
@@ -803,7 +803,7 @@ Create the file if it doesn't exist.
 import @io
 
 do open_create_file() {
-    temp handle, err = io.open("new.txt", io.WRITE_ONLY | io.CREATE)
+    mut handle, err = io.open("new.txt", io.WRITE_ONLY | io.CREATE)
 }
 ```
 
@@ -818,7 +818,7 @@ Truncate the file to zero length when opened.
 import @io
 
 do open_truncate_file() {
-    temp handle, err = io.open("file.txt", io.WRITE_ONLY | io.TRUNCATE)
+    mut handle, err = io.open("file.txt", io.WRITE_ONLY | io.TRUNCATE)
 }
 ```
 
@@ -833,7 +833,7 @@ Used with CREATE; error if file already exists.
 import @io
 
 do open_exclusive() {
-    temp handle, err = io.open("new.txt", io.WRITE_ONLY | io.CREATE | io.EXCLUSIVE)
+    mut handle, err = io.open("new.txt", io.WRITE_ONLY | io.CREATE | io.EXCLUSIVE)
 }
 ```
 
@@ -848,8 +848,8 @@ Seek relative to the start of the file.
 import @io
 
 do seek_to_start() {
-    temp handle, _ = io.open("file.txt", io.READ_ONLY)
-    temp pos, err = io.seek(handle, 0, io.SEEK_START)  // Go to beginning
+    mut handle, _ = io.open("file.txt", io.READ_ONLY)
+    mut pos, err = io.seek(handle, 0, io.SEEK_START)  // Go to beginning
 }
 ```
 
@@ -864,8 +864,8 @@ Seek relative to the current position.
 import @io
 
 do seek_forward() {
-    temp handle, _ = io.open("file.txt", io.READ_ONLY)
-    temp pos, err = io.seek(handle, 10, io.SEEK_CURRENT)  // Move 10 bytes forward
+    mut handle, _ = io.open("file.txt", io.READ_ONLY)
+    mut pos, err = io.seek(handle, 10, io.SEEK_CURRENT)  // Move 10 bytes forward
 }
 ```
 
@@ -880,8 +880,8 @@ Seek relative to the end of the file.
 import @io
 
 do seek_from_end() {
-    temp handle, _ = io.open("file.txt", io.READ_ONLY)
-    temp pos, err = io.seek(handle, -10, io.SEEK_END)  // 10 bytes before end
+    mut handle, _ = io.open("file.txt", io.READ_ONLY)
+    mut pos, err = io.seek(handle, -10, io.SEEK_END)  // 10 bytes before end
 }
 ```
 
@@ -895,8 +895,8 @@ File mode flags can be combined using the bitwise OR operator:
 import @io
 
 do combine_file_flags() {
-    temp mode int = io.WRITE_ONLY | io.CREATE | io.TRUNCATE
-    temp handle, err = io.open("file.txt", mode)
+    mut mode int = io.WRITE_ONLY | io.CREATE | io.TRUNCATE
+    mut handle, err = io.open("file.txt", mode)
 }
 ```
 
@@ -912,9 +912,9 @@ A handle to an open file. Returned by `open()` and used with `read()`, `write()`
 import @io
 
 do use_file_handle() {
-    temp handle, err = io.open("data.txt")
+    mut handle, err = io.open("data.txt")
     if err == nil {
-        temp content, _ = io.read_all(handle)
+        mut content, _ = io.read_all(handle)
         io.close(handle)
     }
 }
@@ -933,8 +933,8 @@ Opens a file and returns a file handle.
 import @io
 
 do open_file() {
-    temp handle, err = io.open("data.txt")
-    temp handle2, err2 = io.open("log.txt", io.WRITE_ONLY | io.CREATE | io.APPEND)
+    mut handle, err = io.open("data.txt")
+    mut handle2, err2 = io.open("log.txt", io.WRITE_ONLY | io.CREATE | io.APPEND)
 }
 ```
 
@@ -958,8 +958,8 @@ Reads up to n bytes from a file handle.
 import @io
 
 do read_bytes_from_handle() {
-    temp handle, _ = io.open("data.txt", io.READ_ONLY)
-    temp data, err = io.read(handle, 1024)
+    mut handle, _ = io.open("data.txt", io.READ_ONLY)
+    mut data, err = io.read(handle, 1024)
 }
 ```
 
@@ -982,8 +982,8 @@ Reads all remaining bytes from a file handle.
 import @io
 
 do read_entire_file() {
-    temp handle, _ = io.open("data.txt", io.READ_ONLY)
-    temp content, err = io.read_all(handle)
+    mut handle, _ = io.open("data.txt", io.READ_ONLY)
+    mut content, err = io.read_all(handle)
 }
 ```
 
@@ -1004,8 +1004,8 @@ Reads up to n bytes from a file handle as a string.
 import @io
 
 do read_string_from_handle() {
-    temp handle, _ = io.open("data.txt", io.READ_ONLY)
-    temp text, err = io.read_string(handle, 100)
+    mut handle, _ = io.open("data.txt", io.READ_ONLY)
+    mut text, err = io.read_string(handle, 100)
 }
 ```
 
@@ -1028,9 +1028,9 @@ Writes data to a file handle.
 import @io, @bytes
 
 do write_to_handle() {
-    temp handle, _ = io.open("output.txt", io.WRITE_ONLY | io.CREATE)
-    temp n, err = io.write(handle, "Hello World")
-    temp n2, err2 = io.write(handle, bytes.from_string("binary"))
+    mut handle, _ = io.open("output.txt", io.WRITE_ONLY | io.CREATE)
+    mut n, err = io.write(handle, "Hello World")
+    mut n2, err2 = io.write(handle, bytes.from_string("binary"))
 }
 ```
 
@@ -1053,9 +1053,9 @@ Seeks to a position in the file.
 import @io
 
 do seek_in_file() {
-    temp handle, _ = io.open("data.txt", io.READ_ONLY)
-    temp pos, err = io.seek(handle, 0, io.SEEK_START)   // Go to beginning
-    temp pos2, err2 = io.seek(handle, -10, io.SEEK_END) // 10 bytes before end
+    mut handle, _ = io.open("data.txt", io.READ_ONLY)
+    mut pos, err = io.seek(handle, 0, io.SEEK_START)   // Go to beginning
+    mut pos2, err2 = io.seek(handle, -10, io.SEEK_END) // 10 bytes before end
 }
 ```
 
@@ -1079,8 +1079,8 @@ Returns the current position in the file.
 import @io
 
 do get_file_position() {
-    temp handle, _ = io.open("data.txt", io.READ_ONLY)
-    temp pos, err = io.tell(handle)
+    mut handle, _ = io.open("data.txt", io.READ_ONLY)
+    mut pos, err = io.tell(handle)
 }
 ```
 
@@ -1101,9 +1101,9 @@ Flushes any buffered data to the file.
 import @io
 
 do flush_file_buffer() {
-    temp handle, _ = io.open("log.txt", io.WRITE_ONLY | io.CREATE)
+    mut handle, _ = io.open("log.txt", io.WRITE_ONLY | io.CREATE)
     io.write(handle, "Data")
-    temp ok, err = io.flush(handle)
+    mut ok, err = io.flush(handle)
 }
 ```
 
@@ -1124,9 +1124,9 @@ Closes a file handle.
 import @io
 
 do close_file_handle() {
-    temp handle, _ = io.open("data.txt", io.READ_ONLY)
+    mut handle, _ = io.open("data.txt", io.READ_ONLY)
     // ... use the file ...
-    temp ok, err = io.close(handle)
+    mut ok, err = io.close(handle)
 }
 ```
 
@@ -1139,31 +1139,30 @@ do close_file_handle() {
 ## Example Program
 
 ```ez
-import @std
 import @io
 
 do main() {
     // Write a file
-    temp ok, err = io.write_file("hello.txt", "Hello, World!")
+    mut ok, err = io.write_file("hello.txt", "Hello, World!")
     if err != nil {
-        std.println("Write error:", err.message)
+        println("Write error:", err.message)
         return
     }
 
     // Read it back
-    temp content, err = io.read_file("hello.txt")
+    mut content, err = io.read_file("hello.txt")
     if err == nil {
-        std.println("Content:", content)
+        println("Content:", content)
     }
 
     // Check file info
-    temp size, _ = io.file_size("hello.txt")
-    std.println("Size:", size, "bytes")
+    mut size, _ = io.file_size("hello.txt")
+    println("Size:", size, "bytes")
 
     // Work with paths
-    temp abs, _ = io.path_abs("hello.txt")
-    std.println("Absolute path:", abs)
-    std.println("Extension:", io.path_ext("hello.txt"))
+    mut abs, _ = io.path_abs("hello.txt")
+    println("Absolute path:", abs)
+    println("Extension:", io.path_ext("hello.txt"))
 
     // Clean up
     io.remove("hello.txt")

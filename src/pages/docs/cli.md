@@ -221,7 +221,7 @@ Running `ez doc ./...` on the above generates a `DOCS.md` with sections for Func
 
 ## Diagnostic Tools
 
-These commands expose the internals of the EZ interpreter pipeline. They're useful for debugging language behavior, understanding how your code is processed, or contributing to EZ itself.
+These commands expose the internals of the EZ compiler pipeline. They're useful for debugging language behavior, understanding how your code is processed, or contributing to EZ itself.
 
 ### `ez lex`
 
@@ -231,7 +231,7 @@ Tokenizes a file and prints the raw token stream produced by the lexer.
 ez lex main.ez
 ```
 
-Shows each token with its type and literal value — useful for debugging how the lexer interprets your source code.
+Shows each token with its type and literal value — useful for debugging how the lexer processes your source code.
 
 ### `ez parse`
 

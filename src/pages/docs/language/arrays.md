@@ -13,9 +13,16 @@ Arrays are ordered collections of elements of the same type. They use square bra
 Use the `[type]` syntax to declare an array:
 
 ```ez
-temp numbers [int] = {1, 2, 3, 4, 5}
-temp names [string] = {"Alice", "Bob", "Charlie"}
-temp flags [bool] = {true, false, true}
+mut numbers [int] = {1, 2, 3, 4, 5}
+mut names [string] = {"Alice", "Bob", "Charlie"}
+mut flags [bool] = {true, false, true}
+```
+
+With type inference, the type can be omitted:
+
+```ez
+mut numbers = {1, 2, 3, 4, 5}       // Inferred: [int]
+mut names = {"Alice", "Bob", "Charlie"}  // Inferred: [string]
 ```
 
 ## Empty Arrays
@@ -23,8 +30,8 @@ temp flags [bool] = {true, false, true}
 Use `{}` to create an empty array:
 
 ```ez
-temp empty [int] = {}
-temp noNames [string] = {}
+mut empty [int] = {}
+mut noNames [string] = {}
 ```
 
 ## Accessing Elements
@@ -32,23 +39,23 @@ temp noNames [string] = {}
 Arrays are zero-indexed. Use `arr[index]` to access elements:
 
 ```ez
-temp numbers [int] = {1, 2, 3, 4, 5}
+mut numbers [int] = {1, 2, 3, 4, 5}
 
-std.println(numbers[0])  // 1
-std.println(numbers[2])  // 3
-std.println(numbers[4])  // 5
+println(numbers[0])  // 1
+println(numbers[2])  // 3
+println(numbers[4])  // 5
 ```
 
 > **Note:** Accessing an index outside the valid range produces a runtime error.
 
 ## Modifying Elements
 
-Assign to an index to modify an element (only for `temp` arrays):
+Assign to an index to modify an element (only for `mut` arrays):
 
 ```ez
-temp numbers [int] = {1, 2, 3}
+mut numbers [int] = {1, 2, 3}
 numbers[0] = 100
-std.println(numbers)  // {100, 2, 3}
+println(numbers)  // {100, 2, 3}
 ```
 
 ## Array Length
@@ -56,13 +63,13 @@ std.println(numbers)  // {100, 2, 3}
 Use `len()` to get the number of elements:
 
 ```ez
-temp numbers [int] = {1, 2, 3, 4, 5}
-temp names [string] = {"Alice", "Bob"}
-temp empty [int] = {}
+mut numbers [int] = {1, 2, 3, 4, 5}
+mut names [string] = {"Alice", "Bob"}
+mut empty [int] = {}
 
-std.println(len(numbers))  // 5
-std.println(len(names))    // 2
-std.println(len(empty))    // 0
+println(len(numbers))  // 5
+println(len(names))    // 2
+println(len(empty))    // 0
 ```
 
 ## Fixed-Size Arrays
@@ -75,7 +82,7 @@ const PRIMES [int, 5] = {2, 3, 5, 7, 11}
 const MATRIX [int, 9] = {1, 2, 3, 4, 5, 6, 7, 8, 9}
 ```
 
-You can provide **fewer** values than the declared size — a warning is issued but it's not an error. This is useful when you want to hard-code additional values later:
+You can provide **fewer** values than the declared size — a warning is issued but it's not an error:
 
 ```ez
 const SLOTS [int, 5] = {0, 1, 2}  // OK - warning, but valid (3 of 5 slots used)
@@ -95,15 +102,15 @@ Use nested bracket syntax for multi-dimensional arrays:
 
 ```ez
 // 2D array (matrix)
-temp matrix [[int]] = {{1, 2}, {3, 4}, {5, 6}}
+mut matrix [[int]] = {{1, 2}, {3, 4}, {5, 6}}
 
 // 3D array
-temp cube [[[int]]] = {{{1, 2}, {3, 4}}, {{5, 6}, {7, 8}}}
+mut cube [[[int]]] = {{{1, 2}, {3, 4}}, {{5, 6}, {7, 8}}}
 
 // Accessing elements
-temp row [int] = matrix[0]       // {1, 2}
-temp value int = matrix[1][1]    // 4
-matrix[0][1] = 99                // modify element
+mut row [int] = matrix[0]       // {1, 2}
+mut value int = matrix[1][1]    // 4
+matrix[0][1] = 99               // modify element
 ```
 
 ### Jagged Arrays
@@ -111,7 +118,7 @@ matrix[0][1] = 99                // modify element
 Inner arrays can have different lengths:
 
 ```ez
-temp jagged [[int]] = {{1, 2, 3}, {4, 5}, {6}}
+mut jagged [[int]] = {{1, 2, 3}, {4, 5}, {6}}
 // jagged[0] has 3 elements
 // jagged[1] has 2 elements
 // jagged[2] has 1 element
@@ -120,22 +127,22 @@ temp jagged [[int]] = {{1, 2, 3}, {4, 5}, {6}}
 ### Iterating Multi-Dimensional Arrays
 
 ```ez
-temp matrix [[int]] = {{1, 2}, {3, 4}, {5, 6}}
+mut matrix [[int]] = {{1, 2}, {3, 4}, {5, 6}}
 
 // Iterate over rows
 for_each row in matrix {
-    std.println(row)
+    println(row)
 }
 
 // Iterate over all elements
 for_each row in matrix {
     for_each value in row {
-        std.println(value)
+        println(value)
     }
 }
 ```
 
-> **Note:** Fixed-size multi-dimensional arrays are not currently supported. Use `temp` for all multi-dimensional array declarations.
+> **Note:** Fixed-size multi-dimensional arrays are not currently supported. Use `mut` for all multi-dimensional array declarations.
 
 ## Byte Arrays
 
@@ -143,8 +150,8 @@ Byte arrays are specialized arrays for binary data, buffers, or raw file content
 
 ```ez
 // Dynamic byte array
-temp buffer [byte] = {0, 128, 255}
-temp empty [byte] = {}
+mut buffer [byte] = {0, 128, 255}
+mut empty [byte] = {}
 
 // Fixed-size byte array (must use const)
 const HEADER [byte, 4] = {137, 80, 78, 71}  // PNG magic bytes
@@ -159,10 +166,10 @@ const HEADER [byte, 4] = {137, 80, 78, 71}  // PNG magic bytes
 Iterate over every element:
 
 ```ez
-temp names [string] = {"Alice", "Bob", "Charlie"}
+mut names [string] = {"Alice", "Bob", "Charlie"}
 
 for_each name in names {
-    std.println(name)
+    println(name)
 }
 ```
 
@@ -171,10 +178,10 @@ for_each name in names {
 Use a comma-separated pair to get the index (starting at 0):
 
 ```ez
-temp fruits [string] = {"apple", "banana", "cherry"}
+mut fruits [string] = {"apple", "banana", "cherry"}
 
 for_each i, fruit in fruits {
-    std.println("${i}: ${fruit}")
+    println("${i}: ${fruit}")
 }
 // 0: apple
 // 1: banana
@@ -186,26 +193,31 @@ for_each i, fruit in fruits {
 Use `for` with `range()` and `len()` for index-based iteration:
 
 ```ez
-temp numbers [int] = {10, 20, 30, 40, 50}
+mut numbers [int] = {10, 20, 30, 40, 50}
 
 for i in range(0, len(numbers)) {
-    std.println("numbers[${i}] = ${numbers[i]}")
+    println("numbers[${i}] = ${numbers[i]}")
 }
 ```
 
 ## Membership
 
-Use `in` and `not_in` to check if a value exists in an array:
+Use `in` and `not_in` (or `!in`) to check if a value exists in an array:
 
 ```ez
-temp numbers [int] = {1, 2, 3, 4, 5}
+mut numbers [int] = {1, 2, 3, 4, 5}
 
 if 3 in numbers {
-    std.println("Found 3!")
+    println("Found 3!")
 }
 
 if 10 not_in numbers {
-    std.println("10 is not in the array")
+    println("10 is not in the array")
+}
+
+// !in is shorthand for not_in
+if 10 !in numbers {
+    println("10 is not in the array")
 }
 ```
 
@@ -216,12 +228,12 @@ Arrays can be passed to functions like any other type:
 ```ez
 do printAll(items [string]) {
     for_each item in items {
-        std.println("  - ${item}")
+        println("  - ${item}")
     }
 }
 
 do main() {
-    temp names [string] = {"Alice", "Bob", "Charlie"}
+    mut names [string] = {"Alice", "Bob", "Charlie"}
     printAll(names)
 }
 ```
@@ -236,21 +248,21 @@ do addDefaults(&items [int]) {
 }
 
 do main() {
-    temp numbers [int] = {1, 2, 3}
+    mut numbers [int] = {1, 2, 3}
     addDefaults(numbers)
-    std.println(numbers)  // {0, 2, 3}
+    println(numbers)  // {0, 2, 3}
 }
 ```
 
-> **Note:** Only `temp` variables can be passed to mutable (`&`) parameters. Passing a `const` variable to a `&` parameter will produce an error.
+> **Note:** Only `mut` variables can be passed to mutable (`&`) parameters. Passing a `const` variable to a `&` parameter will produce an error.
 
-## Const vs Temp Arrays
+## Const vs Mut Arrays
 
-`temp` arrays can be modified; `const` arrays cannot:
+`mut` arrays can be modified; `const` arrays cannot:
 
 ```ez
 // Mutable - elements can be changed
-temp numbers [int] = {1, 2, 3}
+mut numbers [int] = {1, 2, 3}
 numbers[0] = 100  // OK
 
 // Immutable - elements cannot be changed
@@ -267,17 +279,14 @@ const DAYS [string, 7] = {"Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"}
 ## Example Program
 
 ```ez
-import @std
 import @arrays
-
-using std
 
 do main() {
     println("=== Arrays in EZ ===")
 
     // Declaring arrays
-    temp numbers [int] = {1, 2, 3, 4, 5}
-    temp names [string] = {"Alice", "Bob", "Charlie"}
+    mut numbers [int] = {1, 2, 3, 4, 5}
+    mut names [string] = {"Alice", "Bob", "Charlie"}
 
     println("numbers: ${numbers}")
     println("names: ${names}")
@@ -306,7 +315,7 @@ do main() {
     }
 
     // Empty array
-    temp empty [int] = {}
+    mut empty [int] = {}
     println("Empty array length: ${len(empty)}")
 }
 ```

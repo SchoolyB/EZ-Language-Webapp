@@ -22,11 +22,11 @@ import @regex
 Checks if a string is a valid regex pattern.
 
 ```ez
-import @std, @regex
+@regex
 
 do main() {
-    std.println(regex.is_valid("[a-z]+"))  // true
-    std.println(regex.is_valid("["))       // false
+    println(regex.is_valid("[a-z]+"))  // true
+    println(regex.is_valid("["))       // false
 }
 ```
 
@@ -46,15 +46,15 @@ do main() {
 Checks if a pattern matches anywhere in the text.
 
 ```ez
-import @std, @regex
+@regex
 
 do main() {
-    temp found, err = regex.match("[0-9]+", "abc123def")
+    mut found, err = regex.match("[0-9]+", "abc123def")
     if err != nil {
-        std.println("Error:", err.message)
+        println("Error:", err.message)
         return
     }
-    std.println(found)  // true
+    println(found)  // true
 }
 ```
 
@@ -78,12 +78,12 @@ do main() {
 Returns the first match of the pattern in the text.
 
 ```ez
-import @std, @regex
+@regex
 
 do main() {
-    temp result, err = regex.find("[0-9]+", "abc123def456")
+    mut result, err = regex.find("[0-9]+", "abc123def456")
     if err == nil && result != nil {
-        std.println(result)  // "123"
+        println(result)  // "123"
     }
 }
 ```
@@ -104,13 +104,13 @@ do main() {
 Returns all matches of the pattern in the text.
 
 ```ez
-import @std, @regex
+@regex
 
 do main() {
-    temp matches, err = regex.find_all("[0-9]+", "a1b22c333")
+    mut matches, err = regex.find_all("[0-9]+", "a1b22c333")
     if err == nil {
-        std.println(matches)  // {"1", "22", "333"}
-        std.println(len(matches))  // 3
+        println(matches)  // {"1", "22", "333"}
+        println(len(matches))  // 3
     }
 }
 ```
@@ -131,12 +131,12 @@ do main() {
 Returns the first `n` matches of the pattern in the text.
 
 ```ez
-import @std, @regex
+@regex
 
 do main() {
-    temp matches, err = regex.find_all_n("[0-9]+", "a1b2c3d4e5", 3)
+    mut matches, err = regex.find_all_n("[0-9]+", "a1b2c3d4e5", 3)
     if err == nil {
-        std.println(matches)  // {"1", "2", "3"}
+        println(matches)  // {"1", "2", "3"}
     }
 }
 ```
@@ -160,12 +160,12 @@ do main() {
 Replaces the first match of the pattern with the replacement string.
 
 ```ez
-import @std, @regex
+@regex
 
 do main() {
-    temp result, err = regex.replace("[0-9]+", "abc123def456", "NUM")
+    mut result, err = regex.replace("[0-9]+", "abc123def456", "NUM")
     if err == nil {
-        std.println(result)  // "abcNUMdef456"
+        println(result)  // "abcNUMdef456"
     }
 }
 ```
@@ -187,12 +187,12 @@ do main() {
 Replaces all matches of the pattern with the replacement string.
 
 ```ez
-import @std, @regex
+@regex
 
 do main() {
-    temp result, err = regex.replace_all("[0-9]", "a1b2c3", "X")
+    mut result, err = regex.replace_all("[0-9]", "a1b2c3", "X")
     if err == nil {
-        std.println(result)  // "aXbXcX"
+        println(result)  // "aXbXcX"
     }
 }
 ```
@@ -216,12 +216,12 @@ do main() {
 Splits the text by the pattern.
 
 ```ez
-import @std, @regex
+@regex
 
 do main() {
-    temp parts, err = regex.split("\\s+", "hello   world  foo")
+    mut parts, err = regex.split("\\s+", "hello   world  foo")
     if err == nil {
-        std.println(parts)  // {"hello", "world", "foo"}
+        println(parts)  // {"hello", "world", "foo"}
     }
 }
 ```
@@ -244,15 +244,15 @@ do main() {
 Returns the capture groups from the first match. The first element is the full match, followed by each capture group.
 
 ```ez
-import @std, @regex
+@regex
 
 do main() {
-    temp groups, err = regex.groups("([a-z]+)@([a-z]+)\\.([a-z]+)", "test@example.com")
+    mut groups, err = regex.groups("([a-z]+)@([a-z]+)\\.([a-z]+)", "test@example.com")
     if err == nil {
-        std.println(groups[0])  // "test@example.com" (full match)
-        std.println(groups[1])  // "test"
-        std.println(groups[2])  // "example"
-        std.println(groups[3])  // "com"
+        println(groups[0])  // "test@example.com" (full match)
+        println(groups[1])  // "test"
+        println(groups[2])  // "example"
+        println(groups[3])  // "com"
     }
 }
 ```
@@ -273,12 +273,12 @@ do main() {
 Returns the capture groups from all matches.
 
 ```ez
-import @std, @regex
+@regex
 
 do main() {
-    temp all, err = regex.groups_all("([0-9]+)-([0-9]+)", "1-2 and 3-4")
+    mut all, err = regex.groups_all("([0-9]+)-([0-9]+)", "1-2 and 3-4")
     if err == nil {
-        std.println(len(all))  // 2
+        println(len(all))  // 2
         // all[0] = {"1-2", "1", "2"}
         // all[1] = {"3-4", "3", "4"}
     }
@@ -300,9 +300,9 @@ do main() {
 All functions except `is_valid()` return error tuples:
 
 ```ez
-temp result, err = regex.find(pattern, text)
+mut result, err = regex.find(pattern, text)
 if err != nil {
-    std.println("Error:", err.message)
+    println("Error:", err.message)
     return
 }
 ```
@@ -321,7 +321,6 @@ if err != nil {
 ## Example Program
 
 ```ez
-import @std
 import @regex
 using std
 
@@ -329,18 +328,18 @@ do main() {
     println("=== Regex Demo ===")
 
     // Validate a pattern
-    temp pattern string = "[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}"
+    mut pattern string = "[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}"
     println("Valid email pattern:", regex.is_valid(pattern))
 
     // Match an email
-    temp text string = "Contact us at support@example.com or sales@example.org"
-    temp found, err = regex.match(pattern, text)
+    mut text string = "Contact us at support@example.com or sales@example.org"
+    mut found, err = regex.match(pattern, text)
     if found {
         println("Email found in text!")
     }
 
     // Find all emails
-    temp emails, find_err = regex.find_all(pattern, text)
+    mut emails, find_err = regex.find_all(pattern, text)
     if find_err == nil {
         println("Emails found:", len(emails))
         for_each email in emails {
@@ -349,13 +348,13 @@ do main() {
     }
 
     // Replace sensitive data
-    temp redacted, repl_err = regex.replace_all("[0-9]{3}-[0-9]{4}", "Call 555-1234 or 555-5678", "***-****")
+    mut redacted, repl_err = regex.replace_all("[0-9]{3}-[0-9]{4}", "Call 555-1234 or 555-5678", "***-****")
     if repl_err == nil {
         println("Redacted:", redacted)
     }
 
     // Split by multiple delimiters
-    temp parts, split_err = regex.split("[,;\\s]+", "one, two; three four")
+    mut parts, split_err = regex.split("[,;\\s]+", "one, two; three four")
     if split_err == nil {
         println("Parts:", parts)
     }

@@ -6,7 +6,7 @@ description: 'Enumerated types in EZ.'
 
 # Enums
 
-Enums (enumerations) define a type with a fixed set of named values. EZ supports integer, float, and string enums.
+Enums (enumerations) define a type with a fixed set of named values. EZ supports integer and string enums.
 
 ## Basic Integer Enums
 
@@ -21,57 +21,22 @@ const Status enum {
 }
 
 do main() {
-    temp status int = Status.ACTIVE
-    std.println(status)  // 1
+    mut status = Status.ACTIVE
+    println(status)  // 1
 
     if status == Status.ACTIVE {
-        std.println("Task is active")
+        println("Task is active")
     }
 }
 ```
 
-## Enum Type Attributes
+> **Note:** Enum variants must be on separate lines. Inline declarations like `const Color enum { RED; GREEN; BLUE }` are not allowed.
 
-Use `#enum(type)` to specify the enum's underlying type.
+## String Enums
 
-### Integer Enums
-
-```ez
-// Explicit integer type (same as default)
-#enum(int)
-const Priority enum {
-    LOW       // 0
-    MEDIUM    // 1
-    HIGH      // 2
-}
-```
-
-### Float Enums
-
-Float enums require explicit values for all members:
+String enums use explicit string values assigned directly to members:
 
 ```ez
-#enum(float)
-const Grade enum {
-    A = 4.0
-    B = 3.0
-    C = 2.0
-    D = 1.0
-    F = 0.0
-}
-
-do main() {
-    temp grade float = Grade.A
-    std.println("GPA:", grade)  // 4.0
-}
-```
-
-### String Enums
-
-String enums require explicit values for all members:
-
-```ez
-#enum(string)
 const Color enum {
     RED = "red"
     GREEN = "green"
@@ -79,7 +44,6 @@ const Color enum {
     YELLOW = "yellow"
 }
 
-#enum(string)
 const Direction enum {
     NORTH = "N"
     SOUTH = "S"
@@ -88,12 +52,12 @@ const Direction enum {
 }
 
 do main() {
-    temp color string = Color.RED
-    std.println("Selected color:", color)  // "red"
+    mut color = Color.RED
+    println("Selected color:", color)  // "red"
 
-    temp dir string = Direction.NORTH
+    mut dir = Direction.NORTH
     if dir == Direction.NORTH {
-        std.println("Going north!")
+        println("Going north!")
     }
 }
 ```
@@ -113,16 +77,16 @@ const Permissions enum {
 
 do main() {
     // Combine flags with bitwise OR
-    temp userPerms int = Permissions.READ || Permissions.WRITE
-    std.println("User permissions:", userPerms)  // 3
+    mut userPerms = Permissions.READ || Permissions.WRITE
+    println("User permissions:", userPerms)  // 3
 
     // Check individual flags with bitwise AND
     if (userPerms && Permissions.READ) != 0 {
-        std.println("User can read")
+        println("User can read")
     }
 
     if (userPerms && Permissions.DELETE) == 0 {
-        std.println("User cannot delete")
+        println("User cannot delete")
     }
 }
 ```
@@ -171,8 +135,8 @@ const HttpStatus enum {
 }
 
 do main() {
-    temp status int = HttpStatus.NOT_FOUND
-    std.println("Status code:", status)  // 404
+    mut status = HttpStatus.NOT_FOUND
+    println("Status code:", status)  // 404
 }
 ```
 
@@ -198,34 +162,34 @@ const Status enum {
     DONE
 }
 
-temp currentStatus int = Status.PENDING
+mut currentStatus = Status.PENDING
 currentStatus = Status.ACTIVE
 ```
 
 ### In Conditionals
 
 ```ez
-temp status int = Status.ACTIVE
+mut status = Status.ACTIVE
 
 if status == Status.PENDING {
-    std.println("Waiting...")
+    println("Waiting...")
 } or status == Status.ACTIVE {
-    std.println("In progress...")
+    println("In progress...")
 } or status == Status.DONE {
-    std.println("Completed!")
+    println("Completed!")
 }
 ```
 
 ### With when/is Statements
 
 ```ez
-temp status int = Status.ACTIVE
+mut status = Status.ACTIVE
 
 when status {
-    is Status.PENDING { std.println("Waiting...") }
-    is Status.ACTIVE { std.println("In progress...") }
-    is Status.DONE { std.println("Completed!") }
-    default { std.println("Unknown status") }
+    is Status.PENDING { println("Waiting...") }
+    is Status.ACTIVE { println("In progress...") }
+    is Status.DONE { println("Completed!") }
+    default { println("Unknown status") }
 }
 ```
 
@@ -234,9 +198,9 @@ Use `#strict` to ensure all enum cases are handled:
 ```ez
 #strict
 when status {
-    is Status.PENDING { std.println("Waiting...") }
-    is Status.ACTIVE { std.println("In progress...") }
-    is Status.DONE { std.println("Completed!") }
+    is Status.PENDING { println("Waiting...") }
+    is Status.ACTIVE { println("In progress...") }
+    is Status.DONE { println("Completed!") }
 }
 // No default needed - typechecker ensures all cases are covered
 ```
@@ -254,7 +218,7 @@ const Day enum {
     SATURDAY
 }
 
-temp workdays [int] = {
+mut workdays [int] = {
     Day.MONDAY,
     Day.TUESDAY,
     Day.WEDNESDAY,
@@ -262,9 +226,9 @@ temp workdays [int] = {
     Day.FRIDAY
 }
 
-temp today int = Day.WEDNESDAY
+mut today = Day.WEDNESDAY
 if today in workdays {
-    std.println("It's a workday")
+    println("It's a workday")
 }
 ```
 
@@ -280,10 +244,10 @@ const LogLevel enum {
 
 do log(level int, message string) {
     when level {
-        is LogLevel.ERROR { std.println("[ERROR]", message) }
-        is LogLevel.WARNING { std.println("[WARN]", message) }
-        is LogLevel.INFO { std.println("[INFO]", message) }
-        default { std.println("[DEBUG]", message) }
+        is LogLevel.ERROR { println("[ERROR]", message) }
+        is LogLevel.WARNING { println("[WARN]", message) }
+        is LogLevel.INFO { println("[INFO]", message) }
+        default { println("[DEBUG]", message) }
     }
 }
 
@@ -306,24 +270,23 @@ const Priority enum {
 }
 
 do main() {
-    temp p int = Priority.HIGH
-    temp value int = int(Priority.HIGH)
+    mut p = Priority.HIGH
+    mut value = int(Priority.HIGH)
 
-    std.println("Priority.HIGH =", value)  // 2
+    println("Priority.HIGH =", value)  // 2
 
     // Use in arithmetic
-    temp adjusted int = int(Priority.MEDIUM) + 5
-    std.println("Adjusted:", adjusted)  // 6
+    mut adjusted = int(Priority.MEDIUM) + 5
+    println("Adjusted:", adjusted)  // 6
 }
 ```
 
 ## Valid Enum Types
 
-Enum type attributes only accept primitive types:
+Enums support two underlying types:
 
-- `int` (default)
-- `float`
-- `string`
+- **int** (default) — auto-incrementing from 0, or explicit integer values
+- **string** — requires explicit string values for all members
 
 Arrays, structs, and other complex types cannot be used as enum types.
 
@@ -332,17 +295,11 @@ Arrays, structs, and other complex types cannot be used as enum types.
 | Attribute | Description | Example |
 |-----------|-------------|---------|
 | (none) | Integer enum, values 0, 1, 2... | `const Status enum { ... }` |
-| `#enum(int)` | Explicit integer enum | `#enum(int) const Status enum { ... }` |
-| `#enum(float)` | Float enum (requires explicit values) | `#enum(float) const Grade enum { A = 4.0 ... }` |
-| `#enum(string)` | String enum (requires explicit values) | `#enum(string) const Color enum { RED = "red" ... }` |
-| `#flags` | Bitwise flags with power-of-2 values | `#flags const Perms enum { READ, WRITE ... }` |
+| `#flags` | Bitwise flags with power-of-2 values | `#flags const Perms enum { READ ... }` |
 
 ## Example Program
 
 ```ez
-import @std
-
-#enum(string)
 const TaskStatus enum {
     TODO = "todo"
     IN_PROGRESS = "in-progress"
@@ -373,24 +330,24 @@ do priorityLabel(p int) -> string {
 }
 
 do main() {
-    temp tasks [Task] = {
+    mut tasks [Task] = {
         Task{title: "Fix login bug", status: TaskStatus.IN_PROGRESS, priority: Priority.URGENT},
         Task{title: "Update docs", status: TaskStatus.TODO, priority: Priority.LOW},
         Task{title: "Add tests", status: TaskStatus.REVIEW, priority: Priority.HIGH}
     }
 
-    std.println("Task Board:")
-    std.println("===========")
+    println("Task Board:")
+    println("===========")
 
     for_each task in tasks {
-        temp label string = priorityLabel(task.priority)
-        std.println("[${task.status}] ${task.title} (${label})")
+        mut label = priorityLabel(task.priority)
+        println("[${task.status}] ${task.title} (${label})")
     }
 }
 ```
 
 ## See Also
 - [Control Flow](/EZ-Language-Webapp/docs/language/control-flow) — `when/is` pattern matching with enums
-- [Attributes](/EZ-Language-Webapp/docs/language/attributes) — `#enum`, `#flags`, `#strict` attributes
+- [Attributes](/EZ-Language-Webapp/docs/language/attributes) — `#flags`, `#strict` attributes
 - [Types](/EZ-Language-Webapp/docs/language/types) — all available types
 - [Structs](/EZ-Language-Webapp/docs/language/structs) — another way to define custom types

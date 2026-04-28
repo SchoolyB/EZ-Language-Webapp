@@ -42,15 +42,15 @@ ez> 10 * 5
 
 ## Declaring Variables
 
-Use `temp` for variables:
+Use `mut` for variables:
 
 ```
-ez> temp x int = 10
-ez> temp y int = 20
+ez> mut x int = 10
+ez> mut y int = 20
 ez> x + y
 30
 
-ez> temp name string = "EZ"
+ez> mut name string = "EZ"
 ez> "Hello, ${name}!"
 Hello, EZ!
 ```
@@ -60,15 +60,15 @@ Hello, EZ!
 All standard types work in the REPL:
 
 ```
-ez> temp pi float = 3.14159
+ez> mut pi float = 3.14159
 ez> pi * 2.0
 6.28318
 
-ez> temp active bool = true
+ez> mut active bool = true
 ez> !active
 false
 
-ez> temp numbers [int] = {1, 2, 3, 4, 5}
+ez> mut numbers [int] = {1, 2, 3, 4, 5}
 ez> len(numbers)
 5
 ```
@@ -82,7 +82,7 @@ ez> do double(x int) -> int { return x * 2 }
 ez> double(21)
 42
 
-ez> do greet(name string) { std.println("Hello, ${name}!") }
+ez> do greet(name string) { println("Hello, ${name}!") }
 ez> greet("World")
 Hello, World!
 ```
@@ -138,8 +138,8 @@ Special commands (not EZ code):
 See all defined variables with the `:vars` command. Commands starting with `:` are special REPL commands (not EZ code):
 
 ```
-ez> temp x int = 10
-ez> temp name string = "test"
+ez> mut x int = 10
+ez> mut name string = "test"
 ez> :vars
 x: int = 10
 name: string = "test"
@@ -152,7 +152,7 @@ The REPL is great for quick experiments:
 ```
 ez> // Test array operations
 ez> import @arrays
-ez> temp nums [int] = {5, 2, 8, 1, 9}
+ez> mut nums [int] = {5, 2, 8, 1, 9}
 ez> arrays.sum(nums)
 25
 ez> arrays.max(nums)
@@ -162,7 +162,7 @@ ez> arrays.min(nums)
 
 ez> // Test string operations
 ez> import @strings
-ez> temp s string = "  hello world  "
+ez> mut s string = "  hello world  "
 ez> strings.trim(s)
 hello world
 ez> strings.split("a,b,c", ",")
@@ -175,11 +175,11 @@ Before putting code in a file, test it in the REPL:
 
 ```
 ez> // Test a calculation
-ez> temp price float = 19.99
-ez> temp quantity int = 3
-ez> temp tax float = 0.08
-ez> temp subtotal float = price * float(quantity)
-ez> temp total float = subtotal * (1.0 + tax)
+ez> mut price float = 19.99
+ez> mut quantity int = 3
+ez> mut tax float = 0.08
+ez> mut subtotal float = price * float(quantity)
+ez> mut total float = subtotal * (1.0 + tax)
 ez> total
 64.7676
 
@@ -229,8 +229,8 @@ The REPL features a full interactive line editor for comfortable editing.
 The REPL automatically saves your command history, allowing you to recall and re-execute previous commands:
 
 ```
-ez> temp x = 10
-ez> temp y = 20
+ez> mut x = 10
+ez> mut y = 20
 ez> println(x + y)
 30
 ez> [press up arrow to recall "println(x + y)"]
@@ -247,6 +247,6 @@ ez> [press up arrow to recall "println(x + y)"]
 
 ## Next Steps
 
-- [Variables](/EZ-Language-Webapp/docs/language/variables) — Learn about `temp` and `const`
+- [Variables](/EZ-Language-Webapp/docs/language/variables) — Learn about `mut` and `const`
 - [Functions](/EZ-Language-Webapp/docs/language/functions) — Create reusable code
 - [Types](/EZ-Language-Webapp/docs/language/types) — Understand the type system

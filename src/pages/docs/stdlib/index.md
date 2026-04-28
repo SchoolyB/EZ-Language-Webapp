@@ -23,7 +23,6 @@ The `@` symbol tells EZ "this is a built-in module" (as opposed to a file you cr
 Imports must go at the top of your file, before any other code:
 
 ```ez
-import @std
 import @math
 
 do main() {
@@ -31,32 +30,33 @@ do main() {
 }
 ```
 
+> **Note:** Common functions like `println`, `print`, `input`, `len`, `type_of`, and others are [builtins](/EZ-Language-Webapp/docs/stdlib/builtins) — always available without any import.
+
 ### Step 2: Use with the Module Prefix
 
 Once imported, use functions with the module name as a prefix:
 
 ```ez
 math.sqrt(16.0)      // 4.0
-std.println("Hi")    // prints "Hi"
+println("Hi")        // prints "Hi" — builtin, no import needed
 ```
 
-The `math.` and `std.` prefixes tell EZ which module each function, variable, or type comes from. This prevents confusion when two modules have functions with the same name.
+The `math.` prefix tells EZ which module the function comes from. This prevents confusion when two modules have functions with the same name.
 
 ## Import Options
 
 Import multiple modules on one line or separate lines:
 
 ```ez
-import @std, @math, @arrays
+import @math, @arrays
 ```
 
 ```ez
-import @std
 import @math
 import @arrays
 ```
 
-For beginners, stick with the basic `import @std` + `std.println()` style. The prefix makes it clear where each function comes from.
+For beginners, use the prefix style — it makes it clear where each function comes from.
 
 <details>
 <summary><strong>Click Here For Advanced Import Styles</strong></summary>
@@ -66,12 +66,12 @@ For beginners, stick with the basic `import @std` + `std.println()` style. The p
 Give a module a shorter name:
 
 ```ez
-import s@strings
-import m@math
+import s @strings
+import m @math
 
 do main() {
-    s.upper("hello")    // instead of strings.upper()
-    m.sqrt(16.0)        // instead of math.sqrt()
+    s.to_upper("hello")    // instead of strings.to_upper()
+    m.sqrt(16.0)           // instead of math.sqrt()
 }
 ```
 
@@ -80,58 +80,25 @@ do main() {
 The `using` keyword brings a module's contents into scope, so you can call functions without the prefix:
 
 ```ez
-import @std
+import @math
+using math
 
 do main() {
-    using std
-    println("No prefix needed!")
+    mut result = sqrt(pow(3.0, 2.0) + pow(4.0, 2.0))
+    println(result)  // 5.0
 }
 ```
 
-**Important:** `using` only applies to the scope where it's declared:
+### Import and Use (Combined)
+
+Combines import and using in one statement, making the module available without a prefix:
 
 ```ez
-import @std
+import and use @arrays
 
 do main() {
-    using std
-    println("Works here!")    // No prefix needed
-}
-
-do helper() {
-    std.println("Need prefix here")  // Different function, no 'using'
-}
-```
-
-To use without prefix in multiple functions, add `using` to each one, or use the file-level approach below.
-
-### Import & Use (File-Level Scope)
-
-Combines import and using in one line, making the module available **everywhere** in the file:
-
-```ez
-import & use @std
-
-do main() {
-    println("No prefix!")
-}
-
-do helper() {
-    println("Works here too!")  // No prefix needed anywhere
-}
-```
-
-You can also combine with aliasing:
-
-```ez
-import & use S@std
-
-do main() {
-    S.println("Short prefix everywhere!")
-}
-
-do helper() {
-    S.println("Same alias works here!")
+    mut nums [int] = {1, 2, 3}
+    append(nums, 4)  // No arrays. prefix needed
 }
 ```
 
@@ -139,28 +106,26 @@ do helper() {
 
 | Style | Syntax | Best For |
 |-------|--------|----------|
-| Basic | `import @std` | Most code — prefix makes origin clear |
-| Alias | `import m@math` | Long module names you use frequently |
-| Function-scoped using | `using std` inside function | One function that heavily uses a module |
-| File-scoped | `import & use @std` | Small scripts, less typing |
-| File-scoped + alias | `import & use S@std` | Short prefix everywhere |
+| Basic | `import @math` | Most code — prefix makes origin clear |
+| Alias | `import m @math` | Long module names you use frequently |
+| Using | `using math` | When you heavily use one module |
+| Combined | `import and use @arrays` | Less typing, small scripts |
 
 </details>
 
 
 ## Available Modules
 
-EZ includes nineteen built-in modules:
+EZ includes twenty-six built-in modules:
 
 | Module | What it's for |
 |--------|---------------|
-| [@std](/EZ-Language-Webapp/docs/stdlib/std) | Basic input/output — printing text, getting user input |
 | [@math](/EZ-Language-Webapp/docs/stdlib/math) | Math operations — square roots, powers, logarithms |
 | [@random](/EZ-Language-Webapp/docs/stdlib/random) | Random generation — numbers, choices, shuffling |
 | [@arrays](/EZ-Language-Webapp/docs/stdlib/arrays) | Working with lists — sorting, filtering, finding items |
 | [@strings](/EZ-Language-Webapp/docs/stdlib/strings) | Working with text — uppercase, splitting, trimming |
 | [@maps](/EZ-Language-Webapp/docs/stdlib/maps) | Key-value storage — like a dictionary or phonebook |
-| [@time](/EZ-Language-Webapp/docs/stdlib/time) | Dates and time — current time, formatting, delays |
+| [@time](/EZ-Language-Webapp/docs/stdlib/time) | Dates and time — current time, formatting, timing |
 | [@bytes](/EZ-Language-Webapp/docs/stdlib/bytes) | Binary data — encoding, decoding, byte manipulation |
 | [@io](/EZ-Language-Webapp/docs/stdlib/io) | File system — reading, writing, paths, directories |
 | [@os](/EZ-Language-Webapp/docs/stdlib/os) | Operating system — environment, platform detection, commands |
@@ -172,54 +137,57 @@ EZ includes nineteen built-in modules:
 | [@crypto](/EZ-Language-Webapp/docs/stdlib/crypto) | Cryptography — hashing (SHA-256, MD5) and secure random |
 | [@regex](/EZ-Language-Webapp/docs/stdlib/regex) | Regular expressions — matching, finding, replacing patterns |
 | [@csv](/EZ-Language-Webapp/docs/stdlib/csv) | CSV — parsing, generating, reading, and writing CSV data |
-| [@db](/EZ-Language-Webapp/docs/stdlib/db) | Database — simple key-value storage with .ezdb files |
+| [@sqlite](/EZ-Language-Webapp/docs/stdlib/sqlite) | Database — SQLite database access for persistent storage |
 | [@server](/EZ-Language-Webapp/docs/stdlib/server) | HTTP server — routing, response helpers, and serving |
+| [@fmt](/EZ-Language-Webapp/docs/stdlib/fmt) | Formatting — printf-style formatting, padding, number display |
+| [@net](/EZ-Language-Webapp/docs/stdlib/net) | Networking — TCP sockets and DNS resolution |
+| [@threads](/EZ-Language-Webapp/docs/stdlib/threads) | Threading — spawn and join threads |
+| [@sync](/EZ-Language-Webapp/docs/stdlib/sync) | Synchronization — mutexes for thread-safe access |
+| [@channels](/EZ-Language-Webapp/docs/stdlib/channels) | Channels — message passing between threads |
+| [@mem](/EZ-Language-Webapp/docs/stdlib/mem) | Memory — arena-based memory allocation |
+| [@atomic](/EZ-Language-Webapp/docs/stdlib/atomic) | Atomics — lock-free atomic operations and spinlocks |
 
 ## Quick Example
 
-Here's a small program that uses three different modules:
+Here's a small program that uses two different modules:
 
 ```ez
-import @std
 import @math
 import @strings
 
 do main() {
-    // @std for printing
-    std.println("Welcome!")
+    // Builtins — no import needed
+    println("Welcome!")
 
     // @math for calculations
-    temp radius float = 5.0
-    temp area float = math.PI * math.pow(radius, 2.0)
-    std.println("Circle area:", area)
+    mut radius = 5.0
+    mut area = math.PI * math.pow(radius, 2.0)
+    println("Circle area:", area)
 
     // @strings for text manipulation
-    temp name string = "  alice  "
-    temp clean string = strings.trim(name)
-    temp upper string = strings.upper(clean)
-    std.println("Hello,", upper)  // "ALICE"
+    mut name = strings.trim("  alice  ")
+    mut upper = strings.to_upper(name)
+    println("Hello,", upper)  // "ALICE"
 }
 ```
 
 ## Tips for Beginners
 
-**Start with @std** — You'll use `std.println()` in almost every program. It's how you see output from your code.
-
 **You don't need to memorize everything** — Bookmark this page. When you need to do something with arrays, check the @arrays page. Need to format a date? Check @time. The docs are here for reference.
 
-**Import only what you need** — If your program only prints text, you only need `import @std`. No need to import @math if you're not doing math.
+**Import only what you need** — If your program only prints text, you don't need any imports at all (`println` is a builtin). Only import modules when you need their specific functions.
 
 ## Next Steps
 
 Pick a module and explore what it can do:
 
-- [@std](/EZ-Language-Webapp/docs/stdlib/std) — Start here, it's the most common
+- [Builtins](/EZ-Language-Webapp/docs/stdlib/builtins) — Always available, no import needed
 - [@math](/EZ-Language-Webapp/docs/stdlib/math) — For calculations and logarithms
 - [@random](/EZ-Language-Webapp/docs/stdlib/random) — For random numbers and shuffling
 - [@arrays](/EZ-Language-Webapp/docs/stdlib/arrays) — For working with lists of things
 - [@strings](/EZ-Language-Webapp/docs/stdlib/strings) — For manipulating text
 - [@maps](/EZ-Language-Webapp/docs/stdlib/maps) — For key-value data
-- [@time](/EZ-Language-Webapp/docs/stdlib/time) — For dates, times, and delays
+- [@time](/EZ-Language-Webapp/docs/stdlib/time) — For dates, times, and timing
 - [@bytes](/EZ-Language-Webapp/docs/stdlib/bytes) — For binary data and encoding
 - [@io](/EZ-Language-Webapp/docs/stdlib/io) — For file and directory operations
 - [@os](/EZ-Language-Webapp/docs/stdlib/os) — For system info, environment, and commands
@@ -231,5 +199,12 @@ Pick a module and explore what it can do:
 - [@crypto](/EZ-Language-Webapp/docs/stdlib/crypto) — For cryptographic hashing and secure random
 - [@regex](/EZ-Language-Webapp/docs/stdlib/regex) — For regular expression operations
 - [@csv](/EZ-Language-Webapp/docs/stdlib/csv) — For CSV parsing and file operations
-- [@db](/EZ-Language-Webapp/docs/stdlib/db) — For simple key-value database storage
+- [@sqlite](/EZ-Language-Webapp/docs/stdlib/sqlite) — For SQLite database operations
 - [@server](/EZ-Language-Webapp/docs/stdlib/server) — For building HTTP servers with routing
+- [@fmt](/EZ-Language-Webapp/docs/stdlib/fmt) — For formatted output and string formatting
+- [@net](/EZ-Language-Webapp/docs/stdlib/net) — For TCP sockets and DNS
+- [@threads](/EZ-Language-Webapp/docs/stdlib/threads) — For thread lifecycle management
+- [@sync](/EZ-Language-Webapp/docs/stdlib/sync) — For mutexes and synchronization
+- [@channels](/EZ-Language-Webapp/docs/stdlib/channels) — For message passing between threads
+- [@mem](/EZ-Language-Webapp/docs/stdlib/mem) — For arena-based memory management
+- [@atomic](/EZ-Language-Webapp/docs/stdlib/atomic) — For lock-free atomic operations

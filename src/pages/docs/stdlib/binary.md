@@ -21,7 +21,7 @@ All functions return a tuple `(result, error)`:
 - On failure: `(nil, Error{message, code})`
 
 ```ez
-temp data, err = binary.encode_u32_to_little_endian(42)
+mut data, err = binary.encode_u32_to_little_endian(42)
 if err != nil {
     panic(err.message)
 }
@@ -42,7 +42,7 @@ Encodes a signed 8-bit integer to a single byte.
 import @binary
 
 do encode_signed_byte() {
-    temp data, err = binary.encode_i8(-128)
+    mut data, err = binary.encode_i8(-128)
     // data is a 1-byte array
 }
 ```
@@ -58,7 +58,7 @@ Decodes a single byte to a signed 8-bit integer.
 import @binary
 
 do decode_signed_byte() {
-    temp value, err = binary.decode_i8(data)
+    mut value, err = binary.decode_i8(data)
     // value is an i8
 }
 ```
@@ -74,7 +74,7 @@ Encodes an unsigned 8-bit integer to a single byte.
 import @binary
 
 do encode_unsigned_byte() {
-    temp data, err = binary.encode_u8(255)
+    mut data, err = binary.encode_u8(255)
     // data is a 1-byte array
 }
 ```
@@ -90,7 +90,7 @@ Decodes a single byte to an unsigned 8-bit integer.
 import @binary
 
 do decode_unsigned_byte() {
-    temp value, err = binary.decode_u8(data)
+    mut value, err = binary.decode_u8(data)
     // value is a u8
 }
 ```
@@ -110,7 +110,7 @@ Encodes a signed 16-bit integer to 2 bytes in little-endian order.
 import @binary
 
 do encode_i16_le() {
-    temp data, err = binary.encode_i16_to_little_endian(1000)
+    mut data, err = binary.encode_i16_to_little_endian(1000)
     // data is [0xE8, 0x03] (least significant byte first)
 }
 ```
@@ -149,7 +149,7 @@ Encodes a signed 16-bit integer to 2 bytes in big-endian order.
 import @binary
 
 do encode_i16_be() {
-    temp data, err = binary.encode_i16_to_big_endian(1000)
+    mut data, err = binary.encode_i16_to_big_endian(1000)
     // data is [0x03, 0xE8] (most significant byte first)
 }
 ```
@@ -204,7 +204,7 @@ Encodes an unsigned 32-bit integer to 4 bytes in little-endian order.
 import @binary
 
 do encode_u32_le() {
-    temp data, err = binary.encode_u32_to_little_endian(305419896)
+    mut data, err = binary.encode_u32_to_little_endian(305419896)
     // data is [0x78, 0x56, 0x34, 0x12]
 }
 ```
@@ -447,7 +447,7 @@ Encodes a 32-bit float to 4 bytes in little-endian order (IEEE 754).
 import @binary
 
 do encode_float32() {
-    temp data, err = binary.encode_f32_to_little_endian(3.14)
+    mut data, err = binary.encode_f32_to_little_endian(3.14)
     // data is 4 bytes representing the float
 }
 ```
@@ -508,11 +508,10 @@ Decodes 8 bytes in big-endian order to a 64-bit float.
 ## Example Program
 
 ```ez
-import @std
 import @binary
 
 do serialize_u64(v u64) -> [u8] {
-    temp data, err = binary.encode_u64_to_little_endian(v)
+    mut data, err = binary.encode_u64_to_little_endian(v)
     if err != nil {
         panic(err.message)
     }
@@ -520,7 +519,7 @@ do serialize_u64(v u64) -> [u8] {
 }
 
 do deserialize_u64(bytes [byte]) -> u64 {
-    temp value, err = binary.decode_u64_from_little_endian(bytes)
+    mut value, err = binary.decode_u64_from_little_endian(bytes)
     if err != nil {
         panic(err.message)
     }
@@ -529,17 +528,17 @@ do deserialize_u64(bytes [byte]) -> u64 {
 
 do main() {
     // Encode a u64 value
-    temp original u64 = 12345678901234
-    temp serialized = serialize_u64(original)
-    std.println("Serialized bytes:", serialized)
+    mut original u64 = 12345678901234
+    mut serialized = serialize_u64(original)
+    println("Serialized bytes:", serialized)
 
     // Decode it back
-    temp decoded = deserialize_u64(cast(serialized, [byte]))
-    std.println("Decoded value:", decoded)
+    mut decoded = deserialize_u64(cast(serialized, [byte]))
+    println("Decoded value:", decoded)
 
     // Verify round-trip
     if original == decoded {
-        std.println("Round-trip successful!")
+        println("Round-trip successful!")
     }
 }
 ```

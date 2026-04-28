@@ -16,15 +16,15 @@ EZ is designed to be straightforward. There are no hidden tricks or complex rule
 
 | Topic | What it covers |
 |-------|----------------|
-| [Keywords](/EZ-Language-Webapp/docs/language/keywords) | Reserved words in EZ — `temp`, `const`, `do`, `if`, etc. |
-| [Variables](/EZ-Language-Webapp/docs/language/variables) | Storing values with `temp` and `const` |
+| [Keywords](/EZ-Language-Webapp/docs/language/keywords) | Reserved words in EZ — `mut`, `const`, `do`, `if`, etc. |
+| [Variables](/EZ-Language-Webapp/docs/language/variables) | Storing values with `mut` and `const` |
 | [Functions](/EZ-Language-Webapp/docs/language/functions) | Creating reusable blocks of code with `do` |
 | [Control Flow](/EZ-Language-Webapp/docs/language/control-flow) | Making decisions with `if`/`otherwise` and loops |
 | [Types](/EZ-Language-Webapp/docs/language/types) | Data types — `int`, `float`, `string`, `bool`, arrays, maps |
 | [Structs](/EZ-Language-Webapp/docs/language/structs) | Grouping related data together |
 | [Enums](/EZ-Language-Webapp/docs/language/enums) | Defining a set of named values |
 | [Modules](/EZ-Language-Webapp/docs/language/modules) | Organizing code into separate files |
-| [Attributes](/EZ-Language-Webapp/docs/language/attributes) | Directives like `#doc`, `#enum`, `#flags`, `#strict`, `#suppress` |
+| [Attributes](/EZ-Language-Webapp/docs/language/attributes) | Directives like `#doc`, `#flags`, `#strict`, `#suppress` |
 
 ## Where to Start
 
@@ -37,8 +37,6 @@ EZ is designed to be straightforward. There are no hidden tricks or complex rule
 Here's a small program that shows several language features:
 
 ```ez
-import @std
-
 // A struct to hold data
 const Person struct {
     name string
@@ -48,15 +46,15 @@ const Person struct {
 // A function that uses control flow
 do greet(p Person) {
     if p.age < 18 {
-        std.println("Hey ${p.name}!")
+        println("Hey ${p.name}!")
     } otherwise {
-        std.println("Hello, ${p.name}.")
+        println("Hello, ${p.name}.")
     }
 }
 
 do main() {
     // Variables
-    temp people [Person] = {
+    mut people [Person] = {
         Person{name: "Alice", age: 25},
         Person{name: "Bob", age: 16}
     }
@@ -87,4 +85,4 @@ Pick a topic and dive in:
 - [Structs](/EZ-Language-Webapp/docs/language/structs) — Custom data structures
 - [Enums](/EZ-Language-Webapp/docs/language/enums) — Named value sets
 - [Modules](/EZ-Language-Webapp/docs/language/modules) — Organize larger projects
-- [Attributes](/EZ-Language-Webapp/docs/language/attributes) — Directives for enums, docs, and more
+- [Attributes](/EZ-Language-Webapp/docs/language/attributes) — Directives for docs, flags, and more

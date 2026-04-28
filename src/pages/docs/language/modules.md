@@ -8,14 +8,13 @@ description: 'Imports and the module system in EZ.'
 
 A module is a file or collection of code that you can import into your program. Modules help organize code into reusable pieces — instead of writing everything from scratch, you can import existing functionality.
 
-EZ's standard library modules are prefixed with `@` (like `@std`, `@math`, `@arrays`).
+EZ's standard library modules are prefixed with `@` (like `@math`, `@arrays`). Module identity is determined by the filesystem — a file's module name is its filename (minus `.ez`), and a directory's module name is its directory name.
 
 ## Importing Modules
 
 Use `import` to bring in a module:
 
 ```ez
-import @std
 import @math
 import @arrays
 ```
@@ -25,15 +24,15 @@ import @arrays
 Import multiple modules on a single line:
 
 ```ez
-import @std, @arrays, @math
+import @arrays, @math, @strings
 ```
 
 Or on separate lines:
 
 ```ez
-import @std
 import @arrays
 import @math
+import @strings
 ```
 
 ## Using Modules
@@ -41,76 +40,90 @@ import @math
 By default, you access module functions with the module name as a prefix:
 
 ```ez
-import @std
 import @math
 
 do main() {
-    std.println("Hello!")
-    temp result float = math.sqrt(16.0)
-    std.println(result)  // 4.0
+    mut result = math.sqrt(16.0)
+    println(result)  // 4.0
 }
 ```
 
 ## The using Keyword
 
-Use `using` to access module functions without a prefix:
+Use `using` to access module functions without a prefix. It can be placed at file scope or function scope:
+
+### File Scope
+
+All functions in the file can use unqualified access:
 
 ```ez
-import @std
+import @strings
+using strings
 
 do main() {
-    using std
+    println(to_upper("hello"))  // OK — strings is in file scope
+}
 
-    println("No prefix needed!")
-    print("This works too")
+do shout(s string) -> string {
+    return to_upper(s)          // OK — same file scope
 }
 ```
 
-You can use `using` inside any scope:
+### Function Scope
+
+Only that function can use unqualified access:
 
 ```ez
-import @std
-import @math
-
-do calculate() {
-    using math
-    // sqrt, pow, etc. available without prefix
-    temp result float = sqrt(pow(3.0, 2.0) + pow(4.0, 2.0))
-    std.println(result)  // 5.0
-}
+import @strings
 
 do main() {
-    using std
-    println("In main")
-    calculate()
+    using strings
+    println(to_upper("hello"))  // OK — strings is in scope here
 }
+
+do shout(s string) -> string {
+    return strings.to_upper(s)  // must qualify — using is not in scope here
+}
+```
+
+Multiple modules can be listed:
+
+```ez
+using arrays, strings
 ```
 
 ## Import and Use Combined
 
-Combine import and using in one statement:
+Combine import and using in one statement with `import and use`:
 
 ```ez
-import & use @std
+import and use @arrays
 
 do main() {
-    println("Direct access!")  // No std. prefix needed
+    mut nums [int] = {1, 2, 3}
+    append(nums, 4)  // No arrays. prefix needed
 }
+```
+
+Multiple modules:
+
+```ez
+import and use @arrays, @strings
 ```
 
 ## Module Aliasing
 
-Give a module a different name:
+Give a module a different name using space-separated syntax:
 
 ```ez
-import arr@arrays
-import m@math
+import arr @arrays
+import m @math
 
 do main() {
-    temp numbers [int] = {1, 2, 3}
+    mut numbers [int] = {1, 2, 3}
     arr.append(numbers, 4)
 
-    temp result float = m.sqrt(16.0)
+    mut result = m.sqrt(16.0)
 }
 ```
 
@@ -119,22 +132,22 @@ do main() {
 Combine regular imports and aliases:
 
 ```ez
-import @std, arr@arrays, m@math
+import @strings, arr @arrays, m @math
 
 do main() {
-    using std
-
-    temp nums [int] = {1, 2, 3}
+    mut nums [int] = {1, 2, 3}
     arr.append(nums, 4)
 
-    println("Sum:", arr.sum(nums))
+    println("Sum:", arr.get_sum(nums))
     println("Sqrt of 16:", m.sqrt(16.0))
 }
 ```
 
 ## Standard Library Modules
 
-EZ includes built-in modules prefixed with `@` (like `@std`, `@math`, `@arrays`). See the [Standard Library](/EZ-Language-Webapp/docs/stdlib) for a complete list of modules and their functions.
+EZ includes built-in modules prefixed with `@` (like `@math`, `@arrays`). See the [Standard Library](/EZ-Language-Webapp/docs/stdlib) for a complete list of modules and their functions.
+
+> **Note:** `println`, `print`, `eprintln`, `eprint`, `input`, `len`, `type_of`, `size_of`, and other [builtins](/EZ-Language-Webapp/docs/stdlib/builtins) are always available without any import.
 
 ## Project Structure
 
@@ -143,10 +156,8 @@ EZ includes built-in modules prefixed with `@` (like `@std`, `@math`, `@arrays`)
 For scripts and simple programs, one file is all you need:
 
 ```ez
-import @std
-
 do main() {
-    std.println("Hello!")
+    println("Hello!")
 }
 ```
 
@@ -154,7 +165,7 @@ Run with `ez myfile.ez`.
 
 ### Multiple Files
 
-Split larger projects into files. Files you want to import need a `module` declaration:
+Split larger projects into files. Module identity comes from the filename:
 
 ```
 my-project/
@@ -164,16 +175,13 @@ my-project/
 
 **utils.ez**
 ```ez
-module utils
-
 do greet(name string) {
-    std.println("Hello, ${name}!")
+    println("Hello, ${name}!")
 }
 ```
 
 **main.ez**
 ```ez
-import @std
 import "./utils"
 
 do main() {
@@ -182,67 +190,34 @@ do main() {
 ```
 
 Key points:
-- Add `module <name>` at the top of files you want to import
+- Module name is derived from the filename (no `module` declaration needed)
 - Import with `"./<filename>"` (no `.ez` extension)
+- A `.ez` extension imports a single file; no extension imports a directory
 - Access with the module prefix: `utils.greet()`
 
-### Multi-File Main Module
+### Directory Modules
 
-Your main module can span multiple files in the same directory. All files declare the same module name, and functions, types, and variables are shared across them automatically.
+A directory can act as a single module. All top-level `.ez` files inside it are merged into one namespace:
 
 ```
 my-project/
-├── main.ez       (module main — has main())
-├── commands.ez   (module main — command handlers)
+├── main.ez
+└── models/
+    ├── types.ez
+    └── functions.ez
 ```
 
 **main.ez**
 ```ez
-module main
-
-import @std
-using std
+import "./models"
 
 do main() {
-    temp args [string] = os.args()
-    if len(args) >= 3 {
-        handleGreet(args)  // defined in commands.ez
-    }
+    // All functions and types from models/ are available
+    mut task = models.create_task(1, "Test")
 }
 ```
 
-**commands.ez**
-```ez
-module main
-
-import @std
-using std
-
-do handleGreet(args [string]) {
-    println("Hello, " + args[3] + "!")
-}
-```
-
-Run with `ez main.ez` or `ez ./` — EZ automatically discovers sibling files with the same module declaration.
-
-### Nested Directories
-
-For larger projects, a directory can act as a single module when all files inside share the same `module` declaration. Import the directory path and all its files are available through one namespace.
-
-## Module Declaration
-
-The `module` keyword declares that a file belongs to a module:
-
-```ez
-module mymodule
-
-// Everything in this file is part of 'mymodule'
-```
-
-Rules:
-- Must be the first statement (after comments)
-- Only needed for files you want to import
-- Your main entry file (with `do main()`) typically doesn't need one
+Import the directory path and all its `.ez` files are available through one namespace. Subdirectories are separate modules.
 
 ## Importing User Modules
 
@@ -261,6 +236,22 @@ import "./lib/database"
 
 The path is relative to the current file. Don't include the `.ez` extension.
 
+## Collision Detection
+
+If two imports resolve to the same alias without explicit aliasing, it is an error. You must alias one to resolve the conflict:
+
+```ez
+// Error — both resolve to "utils"
+import "./utils"
+import "../shared/utils"
+
+// Fix: alias one of them
+import "./utils"
+import shared_utils "../shared/utils"
+```
+
+Importing a file that is already included via a parent directory import is also an error (double-import prevention).
+
 ## Module Scope
 
 Each module has its own namespace. Items must be accessed through the module name:
@@ -269,9 +260,8 @@ Each module has its own namespace. Items must be accessed through the module nam
 import "./models"
 
 do main() {
-    // Use the module prefix
-    temp task models.Task = models.create_task(1, "Test")
-    temp name string = models.get_name(task)
+    mut task = models.create_task(1, "Test")
+    mut name = models.get_name(task)
 }
 ```
 
@@ -279,16 +269,84 @@ Or use `using` to drop the prefix:
 
 ```ez
 import "./models"
+using models
 
 do main() {
-    using models
-
-    // No prefix needed
-    temp task Task = create_task(1, "Test")
+    mut task = create_task(1, "Test")
 }
 ```
 
+## C Interop
+
+EZ can import C headers and call C functions directly using the `c` prefix:
+
+```ez
+import c"stdio.h"           // system header → #include <stdio.h>
+import c"./mylib.h"         // local header  → #include "./mylib.h"
+```
+
+System headers (no `./` or `../` prefix) emit angle-bracket includes. Local headers emit quoted includes.
+
+### Calling C Functions
+
+All C functions are accessed via the `c.` prefix:
+
+```ez
+import c"stdio.h"
+
+do main() {
+    c.puts("hello from C")
+    c.printf("value: %d\n", 42)
+}
+```
+
+### Accessing C Constants and Macros
+
+```ez
+import c"stdio.h"
+
+do main() {
+    println(c.EOF)              // -1
+    println(c.EXIT_SUCCESS)     // 0
+}
+```
+
+### Type Mapping
+
+| EZ type | C type | Notes |
+|---|---|---|
+| `int` | `int64_t` | Use `i32` for C `int` |
+| `uint` | `uint64_t` | Use `u32` for C `unsigned int` |
+| `i8`, `i16`, `i32`, `i64` | `int8_t` ... `int64_t` | Exact match |
+| `u8`, `u16`, `u32`, `u64` | `uint8_t` ... `uint64_t` | Exact match |
+| `float` | `double` | Use `f32` for C `float` |
+| `bool` | `bool` | Exact match |
+| `byte` | `uint8_t` | Exact match |
+| `string` | `char*` | Auto-converted when passed to C |
+| `^T` | `T*` | Direct pointer mapping |
+
+EZ strings are automatically converted to `char*` when passed to C functions. To convert a C `char*` return value back to an EZ string, use the `c_string()` builtin:
+
+```ez
+import c"stdlib.h"
+
+do main() {
+    mut home string = c_string(c.getenv("HOME"))
+    println(home)
+}
+```
+
+### Restrictions
+
+These EZ types cannot be passed to C functions:
+
+- `i128`, `i256`, `u128`, `u256` — C has no 128/256-bit integer types
+- Arrays and maps — EZ-specific types with no C equivalent
+- EZ structs — pass individual fields instead
+
+The module name `c` is reserved for C interop. Files named `c.ez` must use an explicit alias.
+
 ## See Also
 - [Standard Library](/EZ-Language-Webapp/docs/stdlib/) — built-in modules reference
-- [Keywords](/EZ-Language-Webapp/docs/language/keywords) — `import`, `using`, `module` keywords
+- [Keywords](/EZ-Language-Webapp/docs/language/keywords) — `import`, `using` keywords
 - [Variables](/EZ-Language-Webapp/docs/language/variables) — variable scope and visibility

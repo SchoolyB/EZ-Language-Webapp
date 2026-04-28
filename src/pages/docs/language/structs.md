@@ -25,6 +25,8 @@ const Point struct {
 }
 ```
 
+> **Note:** Struct fields must be on separate lines. Inline declarations like `const Point struct { x int; y int }` are not allowed.
+
 ## Multi-Member Declarations
 
 Fields of the same type can be declared on a single line:
@@ -48,25 +50,28 @@ const Point3D struct {
 Create struct instances using literal syntax with named fields:
 
 ```ez
-temp person Person = Person{
+mut person = Person{
     name: "Alice",
     age: 30,
     email: "alice@example.com"
 }
 
 // Single line for simple structs
-temp point Point = Point{x: 10, y: 20}
+mut point = Point{x: 10, y: 20}
+
+// Zero-initialized
+mut origin = Point{}  // x=0, y=0
 ```
 
 ### Using new()
 
-Create a struct with default values using `new()`:
+Create a heap-allocated struct with `new()`. This returns a pointer (`^Type`):
 
 ```ez
-temp person Person = new(Person)
-person.name = "Bob"
-person.age = 25
-person.email = "bob@example.com"
+mut person = new(Person)  // Returns ^Person
+person^.name = "Bob"
+person^.age = 25
+person^.email = "bob@example.com"
 ```
 
 Default values:
@@ -80,13 +85,13 @@ Default values:
 Use dot notation to read and write fields:
 
 ```ez
-temp user User = User{name: "Alice", age: 30}
+mut user = User{name: "Alice", age: 30}
 
 // Reading fields
-std.println(user.name)   // "Alice"
-std.println(user.age)    // 30
+println(user.name)   // "Alice"
+println(user.age)    // 30
 
-// Writing fields (only for temp variables)
+// Writing fields (only for mut variables)
 user.age = 31
 user.email = "alice@newmail.com"
 ```
@@ -109,7 +114,7 @@ const Employee struct {
 }
 
 do main() {
-    temp emp Employee = Employee{
+    mut emp = Employee{
         name: "John Doe",
         id: 12345,
         address: Address{
@@ -120,9 +125,9 @@ do main() {
     }
 
     // Access nested fields
-    std.println(emp.name)              // "John Doe"
-    std.println(emp.address.city)      // "Austin"
-    std.println(emp.address.zipcode)   // 78701
+    println(emp.name)              // "John Doe"
+    println(emp.address.city)      // "Austin"
+    println(emp.address.zipcode)   // 78701
 
     // Modify nested fields
     emp.address.street = "456 Oak Ave"
@@ -139,7 +144,7 @@ const Task struct {
 }
 
 do main() {
-    temp tasks [Task] = {
+    mut tasks [Task] = {
         Task{title: "Write docs", done: false},
         Task{title: "Fix bugs", done: true},
         Task{title: "Add tests", done: false}
@@ -147,9 +152,9 @@ do main() {
 
     for_each task in tasks {
         if task.done {
-            std.println("[x]", task.title)
+            println("[x]", task.title)
         } otherwise {
-            std.println("[ ]", task.title)
+            println("[ ]", task.title)
         }
     }
 }
@@ -175,11 +180,11 @@ do scale(rect Rectangle, factor int) -> Rectangle {
 }
 
 do main() {
-    temp r Rectangle = Rectangle{width: 10, height: 5}
-    std.println("Area:", area(r))  // 50
+    mut r = Rectangle{width: 10, height: 5}
+    println("Area:", area(r))  // 50
 
-    temp scaled Rectangle = scale(r, 2)
-    std.println("Scaled:", scaled.width, "x", scaled.height)  // 20 x 10
+    mut scaled = scale(r, 2)
+    println("Scaled:", scaled.width, "x", scaled.height)  // 20 x 10
 }
 ```
 
@@ -202,15 +207,53 @@ do origin() -> Point {
 }
 
 do main() {
-    temp p1 Point = createPoint(10, 20)
-    temp p2 Point = origin()
+    mut p1 = createPoint(10, 20)
+    mut p2 = origin()
 
-    std.println("p1:", p1.x, p1.y)  // 10 20
-    std.println("p2:", p2.x, p2.y)  // 0 0
+    println("p1:", p1.x, p1.y)  // 10 20
+    println("p2:", p2.x, p2.y)  // 0 0
 }
 ```
 
-## Const vs Temp Structs
+## Struct-Namespaced Functions
+
+Functions can be declared inside struct blocks as namespaced free functions:
+
+```ez
+import @math
+
+const Point struct {
+    x int
+    y int
+
+    do create(x int, y int) -> Point {
+        return Point{x: x, y: y}
+    }
+
+    do distance(a Point, b Point) -> float {
+        return math.sqrt(math.pow(float(a.x - b.x), 2) + math.pow(float(a.y - b.y), 2))
+    }
+
+    private do validate(p Point) -> bool {
+        return p.x >= 0 && p.y >= 0
+    }
+}
+
+do main() {
+    // Called as Type.func()
+    mut p = Point.create(3, 4)
+    mut d = Point.distance(Point{x: 0, y: 0}, p)
+    println("Distance from origin:", d)  // 5.0
+}
+```
+
+Rules:
+- No implicit `self` or `this` — every parameter is explicit
+- `private` restricts access to other functions in the same struct
+- Called as `StructName.func_name(args...)`
+- Cross-module: `module.StructName.func_name(args...)`
+
+## Const vs Mut Structs
 
 The struct *type definition* is always `const`, but *instances* can be either:
 
@@ -221,96 +264,48 @@ const Config struct {
 }
 
 // Mutable instance - fields can be changed
-temp config Config = Config{debug: true, timeout: 30}
+mut config = Config{debug: true, timeout: 30}
 config.timeout = 60  // OK
 
 // Immutable instance - fields cannot be changed
-const defaults Config = Config{debug: false, timeout: 30}
+const defaults = Config{debug: false, timeout: 30}
 // defaults.timeout = 60  // Error! Cannot modify const
 ```
 
-> **Important:** When a struct instance is declared with `const`, all of its fields are protected from modification. This includes nested struct fields. Attempting to modify any field on a `const` struct will produce a checktime error.
+> **Important:** When a struct instance is declared with `const`, all of its fields are protected from modification. This includes nested struct fields.
 
-## Struct Field Tags for JSON
+## JSON Serialization with #json
 
-Struct fields can have tags that control how they are serialized to and deserialized from JSON. Tags use backtick syntax similar to Go.
-
-### Basic Syntax
+Use the `#json` attribute to enable JSON serialization and deserialization for a struct. This allows `json.parse()` to decode JSON strings into the struct type and `json.stringify()` to encode struct values as JSON.
 
 ```ez
+import @json
+
+#json
 const User struct {
-    name string `json:"name"`
-    email string `json:"email_address"`
-    age int `json:"age"`
+    name string
+    age int
+    active bool
+}
+
+do main() {
+    mut u User = json.parse("{\"name\": \"Alice\", \"age\": 25, \"active\": true}")
+    println(u.name)            // Alice
+    println(json.stringify(u)) // {"name":"Alice","age":25,"active":true}
 }
 ```
 
-When this struct is serialized to JSON, the field names in the output will use the tag values instead of the original field names.
+### Rules
 
-### Available Tag Options
+- Field names in the JSON must match the struct field names exactly
+- Without `#json`, the struct has no serialization machinery and `json.parse()` into it will fail
+- `#json` can only be applied to struct declarations
 
-| Tag | Description |
-|-----|-------------|
-| `json:"name"` | Use custom field name in JSON |
-| `json:"-"` | Exclude field from JSON entirely |
-| `json:"name,omitempty"` | Omit field if it has a zero value |
-| `json:"name,string"` | Encode numeric value as a string |
-
-### Examples
-
-#### Custom Field Names
-
-```ez
-const Person struct {
-    firstName string `json:"first_name"`
-    lastName string `json:"last_name"`
-}
-
-temp p Person = Person{firstName: "Alice", lastName: "Smith"}
-// JSON output: {"first_name": "Alice", "last_name": "Smith"}
-```
-
-#### Excluding Fields
-
-```ez
-const Config struct {
-    host string `json:"host"`
-    password string `json:"-"`  // Never included in JSON
-}
-
-temp c Config = Config{host: "localhost", password: "secret123"}
-// JSON output: {"host": "localhost"}
-```
-
-#### Omit Empty Values
-
-```ez
-const Item struct {
-    name string `json:"name"`
-    description string `json:"description,omitempty"`
-}
-
-temp item Item = Item{name: "Widget", description: ""}
-// JSON output: {"name": "Widget"}
-// (description omitted because it's empty)
-```
-
-#### Encoding Numbers as Strings
-
-```ez
-const Product struct {
-    id int `json:"id,string"`
-    price float `json:"price,string"`
-}
-
-temp p Product = Product{id: 12345, price: 29.99}
-// JSON output: {"id": "12345", "price": "29.99"}
-```
+See [Attributes](/EZ-Language-Webapp/docs/language/attributes#json) for more details.
 
 ## Example Program
 
 ```ez
-import @std
 import @arrays
 
 const Product struct {
@@ -329,7 +324,7 @@ do addToCart(&cart Cart, product Product) {
 }
 
 do calculateTotal(cart Cart) -> float {
-    temp total float = 0.0
+    mut total = 0.0
     for_each item in cart.items {
         total += item.price * float(item.quantity)
     }
@@ -337,7 +332,7 @@ do calculateTotal(cart Cart) -> float {
 }
 
 do main() {
-    temp cart Cart = Cart{
+    mut cart = Cart{
         items: {},
         discount: 0.1  // 10% discount
     }
@@ -345,18 +340,18 @@ do main() {
     arrays.append(cart.items, Product{name: "Book", price: 29.99, quantity: 2})
     arrays.append(cart.items, Product{name: "Pen", price: 4.99, quantity: 5})
 
-    std.println("Shopping Cart:")
+    println("Shopping Cart:")
     for_each item in cart.items {
-        std.println(" -", item.name, "x", item.quantity, "@ $${item.price}")
+        println(" -", item.name, "x", item.quantity, "@ $${item.price}")
     }
 
-    temp total float = calculateTotal(cart)
-    std.println("Total (with 10% discount): $${total}")
+    mut total = calculateTotal(cart)
+    println("Total (with 10% discount): $${total}")
 }
 ```
 
 ## See Also
 - [Types](/EZ-Language-Webapp/docs/language/types) — primitive and composite types
 - [Functions](/EZ-Language-Webapp/docs/language/functions) — structs as parameters and return values
-- [Variables](/EZ-Language-Webapp/docs/language/variables) — `temp` vs `const` for struct instances
+- [Variables](/EZ-Language-Webapp/docs/language/variables) — `mut` vs `const` for struct instances
 - [Enums](/EZ-Language-Webapp/docs/language/enums) — another way to define custom types

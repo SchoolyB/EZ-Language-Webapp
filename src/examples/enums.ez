@@ -5,9 +5,6 @@
  * Values are accessed with EnumName.VALUE syntax.
  */
 
-import @std
-using std
-
 // Simple enum
 const Color enum {
     RED
@@ -40,9 +37,9 @@ do main() {
 
     // Using enum values
     println("-- Using enums --")
-    temp myColor Color = Color.RED
-    temp today Day = Day.FRIDAY
-    temp taskStatus Status = Status.PENDING
+    mut myColor Color = Color.RED
+    mut today Day = Day.FRIDAY
+    mut taskStatus Status = Status.PENDING
 
     println("myColor = ${myColor}")
     println("today = ${today}")

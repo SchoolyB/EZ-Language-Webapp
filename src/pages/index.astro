@@ -18,7 +18,7 @@ const base = import.meta.env.BASE_URL;
 
   <main class="h-[calc(100dvh-4rem)] overflow-y-scroll md:snap-y md:snap-mandatory scroll-smooth">
     <!-- Hero Section -->
-    <section class="min-h-[calc(100dvh-4rem)] md:h-[calc(100dvh-4rem)] flex items-center justify-center py-12 sm:py-20 md:snap-start">
+    <section class="relative min-h-[calc(100dvh-4rem)] md:h-[calc(100dvh-4rem)] flex items-center justify-center py-12 sm:py-20 md:snap-start">
       <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
         <h1 class="text-5xl sm:text-6xl font-bold tracking-tight mb-4 text-black dark:text-white">
           EZ Programming Language
@@ -54,84 +54,46 @@ const base = import.meta.env.BASE_URL;
             <span id="version-text">Loading...</span>
           </a>
         </div>
+        <!-- Scroll indicator -->
+        <div class="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce hidden md:block">
+          <svg class="w-6 h-6 text-black dark:text-white opacity-50" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+          </svg>
+        </div>
       </div>
     </section>
 
-    <!-- What EZ Is / Is Not Section -->
+    <!-- Key Features Section -->
     <section class="min-h-[calc(100dvh-4rem)] md:h-[calc(100dvh-4rem)] flex items-center justify-center py-12 sm:py-20 md:snap-start">
       <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-        <!-- Toggle Labels -->
-        <div class="flex justify-center gap-12 mb-16">
-          <button
-            id="tab-is"
-            class="ez-tab text-3xl sm:text-4xl font-bold pb-3 border-b-4 border-black dark:border-white text-black dark:text-white transition-all"
-            data-tab="is"
-          >
-            What EZ is
-          </button>
-          <button
-            id="tab-is-not"
-            class="ez-tab text-3xl sm:text-4xl font-bold pb-3 border-b-4 border-transparent text-black dark:text-white opacity-40 hover:opacity-70 transition-all"
-            data-tab="is-not"
-          >
-            What EZ is not
-          </button>
-        </div>
+        <p class="text-center text-lg sm:text-xl mb-16 text-black dark:text-white opacity-80">
+          Statically typed. Compiles to native binaries. No runtime dependencies.
+        </p>
 
-        <!-- Content Container -->
-        <div class="relative overflow-hidden">
-          <div id="slider" class="flex transition-transform duration-300 ease-in-out">
-            <!-- What EZ Is Content -->
-            <div class="min-w-full px-4">
-              <ul class="space-y-8 max-w-3xl mx-auto text-xl sm:text-2xl leading-relaxed text-black dark:text-white">
-                <li>
-                  <span class="font-bold text-2xl sm:text-3xl">Simple, not shallow</span>
-                  <br class="sm:hidden" /><span class="opacity-80">&mdash; clean syntax that scales with your skill.</span>
-                </li>
-                <li>
-                  <span class="font-bold text-2xl sm:text-3xl">Explicit by design</span>
-                  <br class="sm:hidden" /><span class="opacity-80">&mdash; nothing happens behind your back. You control what the code does.</span>
-                </li>
-                <li>
-                  <span class="font-bold text-2xl sm:text-3xl">Catch mistakes before you run</span>
-                  <br class="sm:hidden" /><span class="opacity-80">&mdash; types are checked before execution, so errors don't surprise you later.</span>
-                </li>
-                <li>
-                  <span class="font-bold text-2xl sm:text-3xl">Procedural and functional</span>
-                  <br class="sm:hidden" /><span class="opacity-80">&mdash; simple data + functions. Composition over abstraction.</span>
-                </li>
-                <li>
-                  <span class="font-bold text-2xl sm:text-3xl">Error messages that teach</span>
-                  <br class="sm:hidden" /><span class="opacity-80">&mdash; clear, detailed formatting that tells you what happened, where, why, and how to fix it.</span>
-                </li>
-              </ul>
-            </div>
-
-            <!-- What EZ Is Not Content -->
-            <div class="min-w-full px-4">
-              <ul class="space-y-8 max-w-3xl mx-auto text-xl sm:text-2xl leading-relaxed text-black dark:text-white">
-                <li>
-                  <span class="font-bold text-2xl sm:text-3xl">A copycat</span>
-                  <br class="sm:hidden" /><span class="opacity-80">&mdash; not chasing trends, not competing with the big names.</span>
-                </li>
-                <li>
-                  <span class="font-bold text-2xl sm:text-3xl">Object-oriented</span>
-                  <br class="sm:hidden" /><span class="opacity-80">&mdash; no classes, no objects, no inheritance. Ever.</span>
-                </li>
-                <li>
-                  <span class="font-bold text-2xl sm:text-3xl">A toy</span>
-                  <br class="sm:hidden" /><span class="opacity-80">&mdash; simple doesn't mean limited. You can build real things with it.</span>
-                </li>
-                <li>
-                  <span class="font-bold text-2xl sm:text-3xl">Guessing what you meant</span>
-                  <br class="sm:hidden" /><span class="opacity-80">&mdash; it does what you write, not what it thinks you wanted.</span>
-                </li>
-                <li>
-                  <span class="font-bold text-2xl sm:text-3xl">Trying to be everything</span>
-                  <br class="sm:hidden" /><span class="opacity-80">&mdash; focused scope. Every feature earns its place.</span>
-                </li>
-              </ul>
-            </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-8 max-w-3xl mx-auto">
+          <div>
+            <h3 class="text-2xl sm:text-3xl font-bold mb-3 text-black dark:text-white">Simple</h3>
+            <p class="text-lg sm:text-xl leading-relaxed text-black dark:text-white opacity-80">
+              A minimal set of orthogonal features. No frameworks, no dependency trees, no boilerplate.
+            </p>
+          </div>
+          <div>
+            <h3 class="text-2xl sm:text-3xl font-bold mb-3 text-black dark:text-white">Clear</h3>
+            <p class="text-lg sm:text-xl leading-relaxed text-black dark:text-white opacity-80">
+              Explicit syntax that reads naturally. Error messages that teach instead of confuse.
+            </p>
+          </div>
+          <div>
+            <h3 class="text-2xl sm:text-3xl font-bold mb-3 text-black dark:text-white">Safe</h3>
+            <p class="text-lg sm:text-xl leading-relaxed text-black dark:text-white opacity-80">
+              Bounds-checked arrays, overflow-checked arithmetic, nil-checked pointers. Problems panic with clear messages instead of silently corrupting memory.
+            </p>
+          </div>
+          <div>
+            <h3 class="text-2xl sm:text-3xl font-bold mb-3 text-black dark:text-white">Automatic</h3>
+            <p class="text-lg sm:text-xl leading-relaxed text-black dark:text-white opacity-80">
+              Scope-based memory management. No garbage collector, no manual frees, no annotations.
+            </p>
           </div>
         </div>
       </div>
@@ -143,33 +105,6 @@ const base = import.meta.env.BASE_URL;
     </div>
 
     <script>
-      function initEzTabs() {
-        const tabIs = document.getElementById('tab-is');
-        const tabIsNot = document.getElementById('tab-is-not');
-        const slider = document.getElementById('slider');
-
-        if (!tabIs || !tabIsNot || !slider) return;
-
-        function setActiveTab(tab) {
-          if (tab === 'is') {
-            tabIs.classList.add('border-black', 'dark:border-white');
-            tabIs.classList.remove('border-transparent', 'opacity-40');
-            tabIsNot.classList.remove('border-black', 'dark:border-white');
-            tabIsNot.classList.add('border-transparent', 'opacity-40');
-            slider.style.transform = 'translateX(0)';
-          } else {
-            tabIsNot.classList.add('border-black', 'dark:border-white');
-            tabIsNot.classList.remove('border-transparent', 'opacity-40');
-            tabIs.classList.remove('border-black', 'dark:border-white');
-            tabIs.classList.add('border-transparent', 'opacity-40');
-            slider.style.transform = 'translateX(-100%)';
-          }
-        }
-
-        tabIs.addEventListener('click', () => setActiveTab('is'));
-        tabIsNot.addEventListener('click', () => setActiveTab('is-not'));
-      }
-
       function initVersionBadge() {
         const versionText = document.getElementById('version-text');
         if (!versionText) return;
@@ -221,11 +156,9 @@ const base = import.meta.env.BASE_URL;
         } catch {}
       }
 
-      initEzTabs();
       initVersionBadge();
       initDownloadCount();
       document.addEventListener('astro:after-swap', () => {
-        initEzTabs();
         initVersionBadge();
         initDownloadCount();
       });

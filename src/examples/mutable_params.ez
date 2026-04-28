@@ -5,9 +5,6 @@
  * Use & to allow a function to modify its parameter.
  */
 
-import @std
-using std
-
 const Person struct {
     name string
     age int
@@ -18,11 +15,11 @@ do main() {
     println("")
 
     // Create a person
-    temp alice Person = Person{name: "Alice", age: 30}
+    mut alice Person = Person{name: "Alice", age: 30}
     println("Initial: ${alice.name} is ${alice.age}")
 
     // Read-only: get_info just reads the data
-    temp info string = get_info(alice)
+    mut info string = get_info(alice)
     println("Info: ${info}")
 
     // Mutable: birthday modifies the person
@@ -36,7 +33,7 @@ do main() {
     // Arrays work the same way
     println("")
     println("-- Arrays --")
-    temp scores [int] = {85, 90, 78}
+    mut scores [int] = {85, 90, 78}
     println("Before: ${scores}")
 
     // Mutable: add_bonus modifies the array
@@ -44,7 +41,7 @@ do main() {
     println("After +5 bonus: ${scores}")
 
     // Read-only: calculate_average just reads
-    temp avg float = calculate_average(scores)
+    mut avg float = calculate_average(scores)
     println("Average: ${avg}")
 }
 
@@ -63,7 +60,7 @@ do birthday(&p Person) {
 
 // Read-only array parameter
 do calculate_average(nums [int]) -> float {
-    temp sum int = 0
+    mut sum int = 0
     for_each n in nums {
         sum = sum + n
     }

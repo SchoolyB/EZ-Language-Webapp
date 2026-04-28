@@ -17,21 +17,21 @@ import @math
 ## Constants
 
 ```ez
-import @std, @math
+import @math
 
 do show_constants() {
-    std.println(math.PI)       // 3.141592653589793
-    std.println(math.E)        // 2.718281828459045
-    std.println(math.PHI)      // 1.618033988749895
-    std.println(math.SQRT2)    // 1.4142135623730951
-    std.println(math.LN2)      // 0.6931471805599453
-    std.println(math.LN10)     // 2.302585092994046
-    std.println(math.TAU)      // 6.283185307179586
-    std.println(math.INF)      // +Inf
-    std.println(math.NEG_INF)  // -Inf
-    std.println(math.EPSILON)  // ~2.22e-16 (smallest difference from 1.0)
-    std.println(math.MAX_FLOAT)  // ~1.80e+308 (largest float)
-    std.println(math.MIN_FLOAT)  // ~5e-324 (smallest positive float)
+    println(math.PI)       // 3.141592653589793
+    println(math.E)        // 2.718281828459045
+    println(math.PHI)      // 1.618033988749895
+    println(math.SQRT2)    // 1.4142135623730951
+    println(math.LN2)      // 0.6931471805599453
+    println(math.LN10)     // 2.302585092994046
+    println(math.TAU)      // 6.283185307179586
+    println(math.INF)      // +Inf
+    println(math.NEG_INF)  // -Inf
+    println(math.EPSILON)  // ~2.22e-16 (smallest difference from 1.0)
+    println(math.MAX_FLOAT)  // ~1.80e+308 (largest float)
+    println(math.MIN_FLOAT)  // ~5e-324 (smallest positive float)
 }
 ```
 
@@ -43,12 +43,12 @@ do show_constants() {
 Returns the absolute value of a number.
 
 ```ez
-import @std, @math
+import @math
 
 do absolute_value() {
-    std.println(math.abs(-5))     // 5
-    std.println(math.abs(5))      // 5
-    std.println(math.abs(-3.14))  // 3.14
+    println(math.abs(-5))     // 5
+    println(math.abs(5))      // 5
+    println(math.abs(-3.14))  // 3.14
 }
 ```
 
@@ -62,13 +62,13 @@ do absolute_value() {
 Returns the minimum or maximum of two or more numbers.
 
 ```ez
-import @std, @math
+import @math
 
 do min_max_demo() {
-    std.println(math.min(3, 7))        // 3
-    std.println(math.max(3, 7))        // 7
-    std.println(math.min(1, 5, 3, 2))  // 1
-    std.println(math.max(1, 5, 3, 2))  // 5
+    println(math.min(3, 7))        // 3
+    println(math.max(3, 7))        // 7
+    println(math.min(1, 5, 3, 2))  // 1
+    println(math.max(1, 5, 3, 2))  // 5
 }
 ```
 
@@ -82,11 +82,11 @@ do min_max_demo() {
 Returns the average of one or more numbers.
 
 ```ez
-import @std, @math
+import @math
 
 do average_demo() {
-    std.println(math.avg(2, 4, 6))  // 4.0
-    std.println(math.avg(10, 20))   // 15.0
+    println(math.avg(2, 4, 6))  // 4.0
+    println(math.avg(10, 20))   // 15.0
 }
 ```
 
@@ -104,12 +104,12 @@ do average_demo() {
 Returns -1, 0, or 1 indicating the sign of a number.
 
 ```ez
-import @std, @math
+import @math
 
 do sign_demo() {
-    std.println(math.sign(-42))   // -1
-    std.println(math.sign(0))     // 0
-    std.println(math.sign(3.14))  // 1
+    println(math.sign(-42))   // -1
+    println(math.sign(0))     // 0
+    println(math.sign(3.14))  // 1
 }
 ```
 
@@ -125,12 +125,12 @@ do sign_demo() {
 Returns the negation of a number.
 
 ```ez
-import @std, @math
+import @math
 
 do neg_demo() {
-    std.println(math.neg(5))     // -5
-    std.println(math.neg(-3))    // 3
-    std.println(math.neg(0))     // 0
+    println(math.neg(5))     // -5
+    println(math.neg(-3))    // 3
+    println(math.neg(0))     // 0
 }
 ```
 
@@ -146,12 +146,12 @@ do neg_demo() {
 Constrains a value between a minimum and maximum.
 
 ```ez
-import @std, @math
+import @math
 
 do clamp_demo() {
-    std.println(math.clamp(15, 0, 10))   // 10
-    std.println(math.clamp(-5, 0, 10))   // 0
-    std.println(math.clamp(5, 0, 10))    // 5
+    println(math.clamp(15, 0, 10))   // 10
+    println(math.clamp(-5, 0, 10))   // 0
+    println(math.clamp(5, 0, 10))    // 5
 }
 ```
 
@@ -170,12 +170,12 @@ do clamp_demo() {
 Truncates a float to an integer (removes decimal part without rounding).
 
 ```ez
-import @std, @math
+import @math
 
 do trunc_demo() {
-    std.println(math.trunc(3.7))   // 3
-    std.println(math.trunc(-3.7))  // -3
-    std.println(math.trunc(5.0))   // 5
+    println(math.trunc(3.7))   // 3
+    println(math.trunc(-3.7))  // -3
+    println(math.trunc(5.0))   // 5
 }
 ```
 
@@ -191,13 +191,13 @@ do trunc_demo() {
 Rounding functions.
 
 ```ez
-import @std, @math
+import @math
 
 do rounding_demo() {
-    std.println(math.floor(3.7))  // 3
-    std.println(math.ceil(3.2))   // 4
-    std.println(math.round(3.5))  // 4
-    std.println(math.round(3.4))  // 3
+    println(math.floor(3.7))  // 3
+    println(math.ceil(3.2))   // 4
+    println(math.round(3.5))  // 4
+    println(math.round(3.4))  // 3
 }
 ```
 
@@ -213,12 +213,12 @@ do rounding_demo() {
 Returns base raised to the power of exponent.
 
 ```ez
-import @std, @math
+import @math
 
 do power_demo() {
-    std.println(math.pow(2, 8))    // 256
-    std.println(math.pow(10, 3))   // 1000
-    std.println(math.pow(2.5, 2))  // 6.25
+    println(math.pow(2, 8))    // 256
+    println(math.pow(10, 3))   // 1000
+    println(math.pow(2.5, 2))  // 6.25
 }
 ```
 
@@ -232,11 +232,11 @@ do power_demo() {
 Returns the square root of a number.
 
 ```ez
-import @std, @math
+import @math
 
 do square_root_demo() {
-    std.println(math.sqrt(16))  // 4.0
-    std.println(math.sqrt(2))   // 1.4142135623730951
+    println(math.sqrt(16))  // 4.0
+    println(math.sqrt(2))   // 1.4142135623730951
 }
 ```
 
@@ -254,12 +254,12 @@ do square_root_demo() {
 Returns the cube root of a number.
 
 ```ez
-import @std, @math
+import @math
 
 do cbrt_demo() {
-    std.println(math.cbrt(27))   // 3.0
-    std.println(math.cbrt(8))    // 2.0
-    std.println(math.cbrt(-8))   // -2.0
+    println(math.cbrt(27))   // 3.0
+    println(math.cbrt(8))    // 2.0
+    println(math.cbrt(-8))   // -2.0
 }
 ```
 
@@ -275,11 +275,11 @@ do cbrt_demo() {
 Returns the hypotenuse: sqrt(a² + b²).
 
 ```ez
-import @std, @math
+import @math
 
 do hypot_demo() {
-    std.println(math.hypot(3, 4))   // 5.0
-    std.println(math.hypot(5, 12))  // 13.0
+    println(math.hypot(3, 4))   // 5.0
+    println(math.hypot(5, 12))  // 13.0
 }
 ```
 
@@ -295,12 +295,12 @@ do hypot_demo() {
 Returns e raised to the power of n.
 
 ```ez
-import @std, @math
+import @math
 
 do exp_demo() {
-    std.println(math.exp(0))   // 1.0
-    std.println(math.exp(1))   // 2.718281828459045
-    std.println(math.exp(2))   // 7.38905609893065
+    println(math.exp(0))   // 1.0
+    println(math.exp(1))   // 2.718281828459045
+    println(math.exp(2))   // 7.38905609893065
 }
 ```
 
@@ -316,12 +316,12 @@ do exp_demo() {
 Returns 2 raised to the power of n.
 
 ```ez
-import @std, @math
+import @math
 
 do exp2_demo() {
-    std.println(math.exp2(0))   // 1.0
-    std.println(math.exp2(3))   // 8.0
-    std.println(math.exp2(10))  // 1024.0
+    println(math.exp2(0))   // 1.0
+    println(math.exp2(3))   // 8.0
+    println(math.exp2(10))  // 1024.0
 }
 ```
 
@@ -339,11 +339,11 @@ do exp2_demo() {
 Returns the natural logarithm (base e) of a number.
 
 ```ez
-import @std, @math
+import @math
 
 do natural_log_demo() {
-    std.println(math.log(math.E))  // 1.0
-    std.println(math.log(10))      // 2.302585...
+    println(math.log(math.E))  // 1.0
+    println(math.log(10))      // 2.302585...
 }
 ```
 
@@ -359,11 +359,11 @@ do natural_log_demo() {
 Returns the base-2 logarithm of a number.
 
 ```ez
-import @std, @math
+import @math
 
 do log2_demo() {
-    std.println(math.log2(8))   // 3.0
-    std.println(math.log2(16))  // 4.0
+    println(math.log2(8))   // 3.0
+    println(math.log2(16))  // 4.0
 }
 ```
 
@@ -379,11 +379,11 @@ do log2_demo() {
 Returns the base-10 logarithm of a number.
 
 ```ez
-import @std, @math
+import @math
 
 do log10_demo() {
-    std.println(math.log10(100))   // 2.0
-    std.println(math.log10(1000))  // 3.0
+    println(math.log10(100))   // 2.0
+    println(math.log10(1000))  // 3.0
 }
 ```
 
@@ -399,14 +399,14 @@ do log10_demo() {
 Returns the logarithm of a value with an arbitrary base.
 
 ```ez
-import @std, @math
+import @math
 
 do log_base_demo() {
-    std.println(math.log_base(8, 2))     // 3.0 (since 2^3 = 8)
-    std.println(math.log_base(1000, 10)) // 3.0 (since 10^3 = 1000)
-    std.println(math.log_base(27, 3))    // 3.0 (since 3^3 = 27)
-    std.println(math.log_base(1, 7))     // 0.0 (any log of 1 is 0)
-    std.println(math.log_base(5, 5))     // 1.0 (log_b(b) = 1)
+    println(math.log_base(8, 2))     // 3.0 (since 2^3 = 8)
+    println(math.log_base(1000, 10)) // 3.0 (since 10^3 = 1000)
+    println(math.log_base(27, 3))    // 3.0 (since 3^3 = 27)
+    println(math.log_base(1, 7))     // 0.0 (any log of 1 is 0)
+    println(math.log_base(5, 5))     // 1.0 (log_b(b) = 1)
 }
 ```
 
@@ -428,12 +428,12 @@ do log_base_demo() {
 Trigonometric functions (arguments in radians).
 
 ```ez
-import @std, @math
+import @math
 
 do trig_demo() {
-    std.println(math.sin(0))            // 0.0
-    std.println(math.cos(0))            // 1.0
-    std.println(math.sin(math.PI / 2))  // 1.0
+    println(math.sin(0))            // 0.0
+    println(math.cos(0))            // 1.0
+    println(math.sin(math.PI / 2))  // 1.0
 }
 ```
 
@@ -447,12 +447,12 @@ do trig_demo() {
 Inverse trigonometric functions (return radians).
 
 ```ez
-import @std, @math
+import @math
 
 do inverse_trig_demo() {
-    std.println(math.asin(1))  // 1.5707963... (PI/2)
-    std.println(math.acos(0))  // 1.5707963... (PI/2)
-    std.println(math.atan(1))  // 0.7853981... (PI/4)
+    println(math.asin(1))  // 1.5707963... (PI/2)
+    println(math.acos(0))  // 1.5707963... (PI/2)
+    println(math.atan(1))  // 0.7853981... (PI/4)
 }
 ```
 
@@ -470,12 +470,12 @@ do inverse_trig_demo() {
 Returns the angle in radians between the positive x-axis and the point (x, y).
 
 ```ez
-import @std, @math
+import @math
 
 do atan2_demo() {
-    std.println(math.atan2(1, 1))    // 0.7853981... (PI/4)
-    std.println(math.atan2(0, -1))   // 3.1415926... (PI)
-    std.println(math.atan2(-1, 0))   // -1.5707963... (-PI/2)
+    println(math.atan2(1, 1))    // 0.7853981... (PI/4)
+    println(math.atan2(0, -1))   // 3.1415926... (PI)
+    println(math.atan2(-1, 0))   // -1.5707963... (-PI/2)
 }
 ```
 
@@ -493,15 +493,15 @@ do atan2_demo() {
 Hyperbolic trigonometric functions.
 
 ```ez
-import @std, @math
+import @math
 
 do hyperbolic_trig_demo() {
-    std.println(math.sinh(0))   // 0.0
-    std.println(math.cosh(0))   // 1.0
-    std.println(math.tanh(0))   // 0.0
-    std.println(math.sinh(1))   // 1.1752011936438014
-    std.println(math.cosh(1))   // 1.5430806348152437
-    std.println(math.tanh(1))   // 0.7615941559557649
+    println(math.sinh(0))   // 0.0
+    println(math.cosh(0))   // 1.0
+    println(math.tanh(0))   // 0.0
+    println(math.sinh(1))   // 1.1752011936438014
+    println(math.cosh(1))   // 1.5430806348152437
+    println(math.tanh(1))   // 0.7615941559557649
 }
 ```
 
@@ -517,12 +517,12 @@ do hyperbolic_trig_demo() {
 Converts degrees to radians.
 
 ```ez
-import @std, @math
+import @math
 
 do deg_to_rad_demo() {
-    std.println(math.deg_to_rad(180))  // 3.141592653589793
-    std.println(math.deg_to_rad(90))   // 1.5707963267948966
-    std.println(math.deg_to_rad(45))   // 0.7853981633974483
+    println(math.deg_to_rad(180))  // 3.141592653589793
+    println(math.deg_to_rad(90))   // 1.5707963267948966
+    println(math.deg_to_rad(45))   // 0.7853981633974483
 }
 ```
 
@@ -538,12 +538,12 @@ do deg_to_rad_demo() {
 Converts radians to degrees.
 
 ```ez
-import @std, @math
+import @math
 
 do rad_to_deg_demo() {
-    std.println(math.rad_to_deg(math.PI))      // 180.0
-    std.println(math.rad_to_deg(math.PI / 2))  // 90.0
-    std.println(math.rad_to_deg(1))             // 57.29577951308232
+    println(math.rad_to_deg(math.PI))      // 180.0
+    println(math.rad_to_deg(math.PI / 2))  // 90.0
+    println(math.rad_to_deg(1))             // 57.29577951308232
 }
 ```
 
@@ -561,12 +561,12 @@ do rad_to_deg_demo() {
 Returns the factorial of a non-negative integer.
 
 ```ez
-import @std, @math
+import @math
 
 do factorial_demo() {
-    std.println(math.factorial(5))   // 120
-    std.println(math.factorial(0))   // 1
-    std.println(math.factorial(10))  // 3628800
+    println(math.factorial(5))   // 120
+    println(math.factorial(0))   // 1
+    println(math.factorial(10))  // 3628800
 }
 ```
 
@@ -584,12 +584,12 @@ do factorial_demo() {
 Returns the greatest common divisor.
 
 ```ez
-import @std, @math
+import @math
 
 do gcd_demo() {
-    std.println(math.gcd(12, 8))    // 4
-    std.println(math.gcd(100, 75))  // 25
-    std.println(math.gcd(7, 13))    // 1
+    println(math.gcd(12, 8))    // 4
+    println(math.gcd(100, 75))  // 25
+    println(math.gcd(7, 13))    // 1
 }
 ```
 
@@ -605,12 +605,12 @@ do gcd_demo() {
 Returns the least common multiple.
 
 ```ez
-import @std, @math
+import @math
 
 do lcm_demo() {
-    std.println(math.lcm(4, 6))    // 12
-    std.println(math.lcm(3, 7))    // 21
-    std.println(math.lcm(12, 18))  // 36
+    println(math.lcm(4, 6))    // 12
+    println(math.lcm(3, 7))    // 21
+    println(math.lcm(12, 18))  // 36
 }
 ```
 
@@ -626,13 +626,13 @@ do lcm_demo() {
 Checks if a number is prime.
 
 ```ez
-import @std, @math
+import @math
 
 do is_prime_demo() {
-    std.println(math.is_prime(7))   // true
-    std.println(math.is_prime(4))   // false
-    std.println(math.is_prime(13))  // true
-    std.println(math.is_prime(1))   // false
+    println(math.is_prime(7))   // true
+    println(math.is_prime(4))   // false
+    println(math.is_prime(13))  // true
+    println(math.is_prime(1))   // false
 }
 ```
 
@@ -648,12 +648,12 @@ do is_prime_demo() {
 Returns true if n is even.
 
 ```ez
-import @std, @math
+import @math
 
 do is_even_demo() {
-    std.println(math.is_even(4))   // true
-    std.println(math.is_even(7))   // false
-    std.println(math.is_even(0))   // true
+    println(math.is_even(4))   // true
+    println(math.is_even(7))   // false
+    println(math.is_even(0))   // true
 }
 ```
 
@@ -669,12 +669,12 @@ do is_even_demo() {
 Returns true if n is odd.
 
 ```ez
-import @std, @math
+import @math
 
 do is_odd_demo() {
-    std.println(math.is_odd(3))   // true
-    std.println(math.is_odd(8))   // false
-    std.println(math.is_odd(-1))  // true
+    println(math.is_odd(3))   // true
+    println(math.is_odd(8))   // false
+    println(math.is_odd(-1))  // true
 }
 ```
 
@@ -690,12 +690,12 @@ do is_odd_demo() {
 Returns the sum of all arguments.
 
 ```ez
-import @std, @math
+import @math
 
 do sum_demo() {
-    std.println(math.sum(1, 2, 3))        // 6
-    std.println(math.sum(10, 20, 30, 40))  // 100
-    std.println(math.sum(1.5, 2.5))        // 4.0
+    println(math.sum(1, 2, 3))        // 6
+    println(math.sum(10, 20, 30, 40))  // 100
+    println(math.sum(1.5, 2.5))        // 4.0
 }
 ```
 
@@ -711,13 +711,13 @@ do sum_demo() {
 Linear interpolation between a and b by factor t (0.0 to 1.0).
 
 ```ez
-import @std, @math
+import @math
 
 do lerp_demo() {
-    std.println(math.lerp(0, 10, 0.5))   // 5.0
-    std.println(math.lerp(0, 10, 0.0))   // 0.0
-    std.println(math.lerp(0, 10, 1.0))   // 10.0
-    std.println(math.lerp(0, 10, 0.25))  // 2.5
+    println(math.lerp(0, 10, 0.5))   // 5.0
+    println(math.lerp(0, 10, 0.0))   // 0.0
+    println(math.lerp(0, 10, 1.0))   // 10.0
+    println(math.lerp(0, 10, 0.25))  // 2.5
 }
 ```
 
@@ -736,12 +736,12 @@ do lerp_demo() {
 Maps a value from one range to another.
 
 ```ez
-import @std, @math
+import @math
 
 do map_range_demo() {
-    std.println(math.map_range(5, 0, 10, 0, 100))    // 50.0
-    std.println(math.map_range(0.5, 0, 1, 0, 255))   // 127.5
-    std.println(math.map_range(25, 0, 100, 0, 1))     // 0.25
+    println(math.map_range(5, 0, 10, 0, 100))    // 50.0
+    println(math.map_range(0.5, 0, 1, 0, 255))   // 127.5
+    println(math.map_range(25, 0, 100, 0, 1))     // 0.25
 }
 ```
 
@@ -762,12 +762,12 @@ do map_range_demo() {
 Returns the Euclidean distance between two 2D points.
 
 ```ez
-import @std, @math
+import @math
 
 do distance_demo() {
-    std.println(math.distance(0, 0, 3, 4))    // 5.0
-    std.println(math.distance(1, 1, 4, 5))    // 5.0
-    std.println(math.distance(0, 0, 0, 0))    // 0.0
+    println(math.distance(0, 0, 3, 4))    // 5.0
+    println(math.distance(1, 1, 4, 5))    // 5.0
+    println(math.distance(0, 0, 0, 0))    // 0.0
 }
 ```
 
@@ -785,11 +785,11 @@ do distance_demo() {
 Returns a random integer between min and max (inclusive).
 
 ```ez
-import @std, @math
+import @math
 
 do random_demo() {
-    std.println(math.random(1, 10))    // Random int between 1 and 10
-    std.println(math.random(0, 100))   // Random int between 0 and 100
+    println(math.random(1, 10))    // Random int between 1 and 10
+    println(math.random(0, 100))   // Random int between 0 and 100
 }
 ```
 
@@ -807,11 +807,11 @@ do random_demo() {
 Returns a random float between min and max.
 
 ```ez
-import @std, @math
+import @math
 
 do random_float_demo() {
-    std.println(math.random_float(0.0, 1.0))    // Random float between 0.0 and 1.0
-    std.println(math.random_float(-1.0, 1.0))   // Random float between -1.0 and 1.0
+    println(math.random_float(0.0, 1.0))    // Random float between 0.0 and 1.0
+    println(math.random_float(-1.0, 1.0))   // Random float between -1.0 and 1.0
 }
 ```
 
@@ -831,8 +831,8 @@ do random_float_demo() {
 Checks if a number is NaN (not a number).
 
 ```ez
-std.println(math.is_nan(0.0 / 0.0))  // true
-std.println(math.is_nan(42.0))       // false
+println(math.is_nan(0.0 / 0.0))  // true
+println(math.is_nan(42.0))       // false
 ```
 
 **Parameters:** `value` - A number.
@@ -847,8 +847,8 @@ std.println(math.is_nan(42.0))       // false
 Checks if a number is finite (not infinite and not NaN).
 
 ```ez
-std.println(math.is_finite(42.0))      // true
-std.println(math.is_finite(math.INF))  // false
+println(math.is_finite(42.0))      // true
+println(math.is_finite(math.INF))  // false
 ```
 
 **Parameters:** `value` - A number.
@@ -863,9 +863,9 @@ std.println(math.is_finite(math.INF))  // false
 Checks if a number is infinite.
 
 ```ez
-std.println(math.is_inf(math.INF))      // true
-std.println(math.is_inf(math.NEG_INF))  // true
-std.println(math.is_inf(42.0))          // false
+println(math.is_inf(math.INF))      // true
+println(math.is_inf(math.NEG_INF))  // true
+println(math.is_inf(42.0))          // false
 ```
 
 **Parameters:** `value` - A number.
@@ -877,26 +877,25 @@ std.println(math.is_inf(42.0))          // false
 ## Example Program
 
 ```ez
-import @std
 import @math
 
 do main() {
     // Calculate hypotenuse
-    temp a float = 3.0
-    temp b float = 4.0
-    temp c float = math.sqrt(math.pow(a, 2) + math.pow(b, 2))
-    std.println("Hypotenuse:", c)  // 5.0
+    mut a float = 3.0
+    mut b float = 4.0
+    mut c float = math.sqrt(math.pow(a, 2) + math.pow(b, 2))
+    println("Hypotenuse:", c)  // 5.0
 
     // Circle calculations
-    temp radius float = 5.0
-    temp area float = math.PI * math.pow(radius, 2)
-    temp circumference float = 2 * math.PI * radius
-    std.println("Area:", area)
-    std.println("Circumference:", circumference)
+    mut radius float = 5.0
+    mut area float = math.PI * math.pow(radius, 2)
+    mut circumference float = 2 * math.PI * radius
+    println("Area:", area)
+    println("Circumference:", circumference)
 
     // Trigonometry
-    temp angle float = math.PI / 4  // 45 degrees
-    std.println("sin(45°):", math.sin(angle))
-    std.println("cos(45°):", math.cos(angle))
+    mut angle float = math.PI / 4  // 45 degrees
+    println("sin(45°):", math.sin(angle))
+    println("cos(45°):", math.cos(angle))
 }
 ```

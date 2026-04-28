@@ -26,7 +26,7 @@ Creates a byte array from an array of integers (values must be 0-255).
 import @bytes
 
 do create_from_array() {
-    temp data [byte] = bytes.from_array({72, 101, 108, 108, 111})
+    mut data [byte] = bytes.from_array({72, 101, 108, 108, 111})
     // Creates bytes for "Hello"
 }
 ```
@@ -48,7 +48,7 @@ Converts a UTF-8 encoded string to a byte array.
 import @bytes
 
 do create_from_string() {
-    temp data [byte] = bytes.from_string("Hello")
+    mut data [byte] = bytes.from_string("Hello")
     // data contains {72, 101, 108, 108, 111}
 }
 ```
@@ -70,7 +70,7 @@ Decodes a hexadecimal string into bytes.
 import @bytes
 
 do decode_hex_string() {
-    temp data [byte], err Error = bytes.from_hex("48656c6c6f")
+    mut data [byte], err Error = bytes.from_hex("48656c6c6f")
     if err == nil {
         // data contains bytes for "Hello"
     }
@@ -94,7 +94,7 @@ Decodes a base64 encoded string into bytes.
 import @bytes
 
 do decode_base64_string() {
-    temp data, err = bytes.from_base64("SGVsbG8=")
+    mut data, err = bytes.from_base64("SGVsbG8=")
     if err == nil {
         // data contains bytes for "Hello"
     }
@@ -120,7 +120,7 @@ Converts a byte array to a UTF-8 string.
 import @bytes
 
 do convert_to_string() {
-    temp str string = bytes.to_string(bytes.from_array({72, 101, 108, 108, 111}))
+    mut str string = bytes.to_string(bytes.from_array({72, 101, 108, 108, 111}))
     // str is "Hello"
 }
 ```
@@ -142,7 +142,7 @@ Converts a byte array to an array of integers.
 import @bytes
 
 do convert_to_array() {
-    temp nums [int] = bytes.to_array(bytes.from_string("Hi"))
+    mut nums [int] = bytes.to_array(bytes.from_string("Hi"))
     // nums is [72, 105]
 }
 ```
@@ -164,7 +164,7 @@ Encodes bytes as a lowercase hexadecimal string.
 import @bytes
 
 do encode_as_hex() {
-    temp hex string = bytes.to_hex(bytes.from_string("Hello"))
+    mut hex string = bytes.to_hex(bytes.from_string("Hello"))
     // hex is "48656c6c6f"
 }
 ```
@@ -186,7 +186,7 @@ Encodes bytes as an uppercase hexadecimal string.
 import @bytes
 
 do encode_as_hex_upper() {
-    temp hex string = bytes.to_hex_upper(bytes.from_string("Hello"))
+    mut hex string = bytes.to_hex_upper(bytes.from_string("Hello"))
     // hex is "48656C6C6F"
 }
 ```
@@ -208,7 +208,7 @@ Encodes bytes as a base64 string.
 import @bytes
 
 do encode_as_base64() {
-    temp b64 string = bytes.to_base64(bytes.from_string("Hello"))
+    mut b64 string = bytes.to_base64(bytes.from_string("Hello"))
     // b64 is "SGVsbG8="
 }
 ```
@@ -232,9 +232,9 @@ Extracts a portion of bytes (end is exclusive, supports negative indices).
 import @bytes
 
 do slice_bytes() {
-    temp data [byte] = bytes.from_string("Hello World")
-    temp slice [byte] = bytes.slice(data, 0, 5)  // "Hello"
-    temp last [byte] = bytes.slice(data, -5, -1) // "Worl"
+    mut data [byte] = bytes.from_string("Hello World")
+    mut slice [byte] = bytes.slice(data, 0, 5)  // "Hello"
+    mut last [byte] = bytes.slice(data, -5, -1) // "Worl"
 }
 ```
 
@@ -258,9 +258,9 @@ Concatenates two byte arrays.
 import @bytes
 
 do concat_bytes() {
-    temp hello [byte] = bytes.from_string("Hello ")
-    temp world [byte] = bytes.from_string("World")
-    temp result [byte] = bytes.concat(hello, world)
+    mut hello [byte] = bytes.from_string("Hello ")
+    mut world [byte] = bytes.from_string("World")
+    mut result [byte] = bytes.concat(hello, world)
 }
 ```
 
@@ -283,9 +283,9 @@ Joins an array of byte arrays with a separator.
 import @bytes
 
 do join_byte_arrays() {
-    temp parts [[byte]] = {bytes.from_string("a"), bytes.from_string("b")}
-    temp sep [byte] = bytes.from_string(",")
-    temp result [byte] = bytes.join(parts, sep)  // "a,b"
+    mut parts [[byte]] = {bytes.from_string("a"), bytes.from_string("b")}
+    mut sep [byte] = bytes.from_string(",")
+    mut result [byte] = bytes.join(parts, sep)  // "a,b"
 }
 ```
 
@@ -308,8 +308,8 @@ Splits bytes by a separator.
 import @bytes
 
 do split_bytes() {
-    temp data [byte] = bytes.from_string("a,b,c")
-    temp parts [[byte]] = bytes.split(data, bytes.from_string(","))
+    mut data [byte] = bytes.from_string("a,b,c")
+    mut parts [[byte]] = bytes.split(data, bytes.from_string(","))
     // parts has 3 elements: "a", "b", "c"
 }
 ```
@@ -333,8 +333,8 @@ Checks if bytes contain a pattern.
 import @bytes
 
 do check_bytes_contains() {
-    temp data [byte] = bytes.from_string("Hello World")
-    temp found bool = bytes.contains(data, bytes.from_string("World"))  // true
+    mut data [byte] = bytes.from_string("Hello World")
+    mut found bool = bytes.contains(data, bytes.from_string("World"))  // true
 }
 ```
 
@@ -357,8 +357,8 @@ Finds the first index of a pattern, or -1 if not found.
 import @bytes
 
 do find_byte_index() {
-    temp data [byte] = bytes.from_string("Hello World")
-    temp idx int = bytes.index(data, bytes.from_string("o"))  // 4
+    mut data [byte] = bytes.from_string("Hello World")
+    mut idx int = bytes.index(data, bytes.from_string("o"))  // 4
 }
 ```
 
@@ -381,8 +381,8 @@ Finds the last index of a pattern, or -1 if not found.
 import @bytes
 
 do find_last_byte_index() {
-    temp data [byte] = bytes.from_string("Hello World")
-    temp idx int = bytes.last_index(data, bytes.from_string("o"))  // 7
+    mut data [byte] = bytes.from_string("Hello World")
+    mut idx int = bytes.last_index(data, bytes.from_string("o"))  // 7
 }
 ```
 
@@ -405,8 +405,8 @@ Counts non-overlapping occurrences of a pattern.
 import @bytes
 
 do count_byte_occurrences() {
-    temp data [byte] = bytes.from_string("ababa")
-    temp n int = bytes.count(data, bytes.from_string("a"))  // 3
+    mut data [byte] = bytes.from_string("ababa")
+    mut n int = bytes.count(data, bytes.from_string("a"))  // 3
 }
 ```
 
@@ -429,7 +429,7 @@ Lexicographically compares two byte sequences.
 import @bytes
 
 do compare_bytes() {
-    temp cmp int = bytes.compare(bytes.from_string("a"), bytes.from_string("b"))
+    mut cmp int = bytes.compare(bytes.from_string("a"), bytes.from_string("b"))
     // cmp is -1
 }
 ```
@@ -453,7 +453,7 @@ Checks if two byte sequences are equal.
 import @bytes
 
 do check_bytes_equal() {
-    temp eq bool = bytes.equals(bytes.from_string("hi"), bytes.from_string("hi"))
+    mut eq bool = bytes.equals(bytes.from_string("hi"), bytes.from_string("hi"))
     // eq is true
 }
 ```
@@ -479,7 +479,7 @@ Checks if bytes are empty (length 0).
 import @bytes
 
 do check_bytes_empty() {
-    temp empty bool = bytes.is_empty(bytes.from_string(""))  // true
+    mut empty bool = bytes.is_empty(bytes.from_string(""))  // true
 }
 ```
 
@@ -500,8 +500,8 @@ Checks if bytes start with a prefix.
 import @bytes
 
 do check_bytes_prefix() {
-    temp data [byte] = bytes.from_string("Hello World")
-    temp starts bool = bytes.starts_with(data, bytes.from_string("Hello"))  // true
+    mut data [byte] = bytes.from_string("Hello World")
+    mut starts bool = bytes.starts_with(data, bytes.from_string("Hello"))  // true
 }
 ```
 
@@ -524,8 +524,8 @@ Checks if bytes end with a suffix.
 import @bytes
 
 do check_bytes_suffix() {
-    temp data [byte] = bytes.from_string("Hello World")
-    temp ends bool = bytes.ends_with(data, bytes.from_string("World"))  // true
+    mut data [byte] = bytes.from_string("Hello World")
+    mut ends bool = bytes.ends_with(data, bytes.from_string("World"))  // true
 }
 ```
 
@@ -550,7 +550,7 @@ Returns a reversed copy of bytes.
 import @bytes
 
 do reverse_bytes() {
-    temp rev [byte] = bytes.reverse(bytes.from_string("Hello"))
+    mut rev [byte] = bytes.reverse(bytes.from_string("Hello"))
     // bytes.to_string(rev) is "olleH"
 }
 ```
@@ -572,7 +572,7 @@ Repeats bytes N times.
 import @bytes
 
 do repeat_bytes() {
-    temp rep [byte] = bytes.repeat(bytes.from_string("ab"), 3)
+    mut rep [byte] = bytes.repeat(bytes.from_string("ab"), 3)
     // bytes.to_string(rep) is "ababab"
 }
 ```
@@ -596,8 +596,8 @@ Replaces all occurrences of old with new.
 import @bytes
 
 do replace_bytes() {
-    temp data [byte] = bytes.from_string("hello hello")
-    temp result [byte] = bytes.replace(data, bytes.from_string("hello"), bytes.from_string("hi"))
+    mut data [byte] = bytes.from_string("hello hello")
+    mut result [byte] = bytes.replace(data, bytes.from_string("hello"), bytes.from_string("hi"))
     // "hi hi"
 }
 ```
@@ -622,8 +622,8 @@ Replaces first N occurrences of old with new.
 import @bytes
 
 do replace_bytes_n_times() {
-    temp data [byte] = bytes.from_string("a a a")
-    temp result [byte] = bytes.replace_n(data, bytes.from_string("a"), bytes.from_string("b"), 2)
+    mut data [byte] = bytes.from_string("a a a")
+    mut result [byte] = bytes.replace_n(data, bytes.from_string("a"), bytes.from_string("b"), 2)
     // "b b a"
 }
 ```
@@ -649,8 +649,8 @@ Removes leading and trailing bytes that appear in cutset.
 import @bytes
 
 do trim_bytes() {
-    temp data [byte] = bytes.from_string("  hello  ")
-    temp trimmed [byte] = bytes.trim(data, bytes.from_string(" "))
+    mut data [byte] = bytes.from_string("  hello  ")
+    mut trimmed [byte] = bytes.trim(data, bytes.from_string(" "))
 }
 ```
 
@@ -703,8 +703,8 @@ Pads bytes on the left to reach specified length.
 import @bytes
 
 do pad_bytes_left() {
-    temp data [byte] = bytes.from_string("hi")
-    temp padded [byte] = bytes.pad_left(data, 5, 32)  // 32 is space
+    mut data [byte] = bytes.from_string("hi")
+    mut padded [byte] = bytes.pad_left(data, 5, 32)  // 32 is space
     // "   hi"
 }
 ```
@@ -729,8 +729,8 @@ Pads bytes on the right to reach specified length.
 import @bytes
 
 do pad_bytes_right() {
-    temp data [byte] = bytes.from_string("hi")
-    temp padded [byte] = bytes.pad_right(data, 5, 32)
+    mut data [byte] = bytes.from_string("hi")
+    mut padded [byte] = bytes.pad_right(data, 5, 32)
     // "hi   "
 }
 ```
@@ -757,9 +757,9 @@ Bitwise AND of two byte sequences (must be same length).
 import @bytes
 
 do bitwise_and() {
-    temp a [byte] = bytes.from_array({0xFF, 0x0F})
-    temp b [byte] = bytes.from_array({0xF0, 0xFF})
-    temp result, err = bytes.and(a, b)
+    mut a [byte] = bytes.from_array({0xFF, 0x0F})
+    mut b [byte] = bytes.from_array({0xF0, 0xFF})
+    mut result, err = bytes.and(a, b)
     // result is [0xF0, 0x0F]
 }
 ```
@@ -783,9 +783,9 @@ Bitwise OR of two byte sequences (must be same length).
 import @bytes
 
 do bitwise_or() {
-    temp a [byte] = bytes.from_array({0xF0, 0x0F})
-    temp b [byte] = bytes.from_array({0x0F, 0xF0})
-    temp result, err = bytes.or(a, b)
+    mut a [byte] = bytes.from_array({0xF0, 0x0F})
+    mut b [byte] = bytes.from_array({0x0F, 0xF0})
+    mut result, err = bytes.or(a, b)
     // result is [0xFF, 0xFF]
 }
 ```
@@ -809,9 +809,9 @@ Bitwise XOR of two byte sequences (must be same length).
 import @bytes
 
 do bitwise_xor() {
-    temp a [byte] = bytes.from_array({0xFF, 0x00})
-    temp b [byte] = bytes.from_array({0xF0, 0xF0})
-    temp result, err = bytes.xor(a, b)
+    mut a [byte] = bytes.from_array({0xFF, 0x00})
+    mut b [byte] = bytes.from_array({0xF0, 0xF0})
+    mut result, err = bytes.xor(a, b)
     // result is [0x0F, 0xF0]
 }
 ```
@@ -835,8 +835,8 @@ Bitwise NOT (complement) of each byte.
 import @bytes
 
 do bitwise_not() {
-    temp data [byte] = bytes.from_array({0xFF, 0x00})
-    temp result [byte] = bytes.not(data)
+    mut data [byte] = bytes.from_array({0xFF, 0x00})
+    mut result [byte] = bytes.not(data)
     // result is [0x00, 0xFF]
 }
 ```
@@ -860,8 +860,8 @@ Returns a new byte array with all positions set to value.
 import @bytes
 
 do fill_bytes() {
-    temp data [byte] = bytes.from_string("Hello")
-    temp filled [byte] = bytes.fill(data, 0)
+    mut data [byte] = bytes.from_string("Hello")
+    mut filled [byte] = bytes.fill(data, 0)
     // All 5 bytes are now 0
 }
 ```
@@ -885,8 +885,8 @@ Creates a copy of bytes.
 import @bytes
 
 do copy_bytes() {
-    temp original [byte] = bytes.from_string("Hello")
-    temp copy [byte] = bytes.copy(original)
+    mut original [byte] = bytes.from_string("Hello")
+    mut copy [byte] = bytes.copy(original)
 }
 ```
 
@@ -907,8 +907,8 @@ Returns a new byte array with all bytes set to zero.
 import @bytes
 
 do zero_bytes() {
-    temp sensitive [byte] = bytes.from_string("password")
-    temp cleared [byte] = bytes.zero(sensitive)
+    mut sensitive [byte] = bytes.from_string("password")
+    mut cleared [byte] = bytes.zero(sensitive)
     // Use for securely clearing sensitive data
 }
 ```
@@ -924,28 +924,27 @@ do zero_bytes() {
 ## Example Program
 
 ```ez
-import @std
 import @bytes
 
 do main() {
     // Create bytes from string
-    temp data [byte] = bytes.from_string("Hello, World!")
+    mut data [byte] = bytes.from_string("Hello, World!")
 
     // Convert to hex
-    temp hex string = bytes.to_hex(data)
-    std.println("Hex:", hex)
+    mut hex string = bytes.to_hex(data)
+    println("Hex:", hex)
 
     // Convert to base64
-    temp b64 string = bytes.to_base64(data)
-    std.println("Base64:", b64)
+    mut b64 string = bytes.to_base64(data)
+    println("Base64:", b64)
 
     // Slice and manipulate
-    temp hello [byte] = bytes.slice(data, 0, 5)
-    std.println("First 5 bytes:", bytes.to_string(hello))
+    mut hello [byte] = bytes.slice(data, 0, 5)
+    println("First 5 bytes:", bytes.to_string(hello))
 
     // Check contents
     if bytes.contains(data, bytes.from_string("World")) {
-        std.println("Contains 'World'!")
+        println("Contains 'World'!")
     }
 }
 ```

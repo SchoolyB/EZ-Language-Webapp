@@ -19,24 +19,26 @@ EZ uses plain English keywords designed to be readable and beginner-friendly. If
 
 ## Variables & Constants
 
-### temp
+### mut
 
 Declares a mutable variable — a value that can change.
 
 ```ez
-temp count int = 0
+mut count = 0
 count = 10  // allowed
+
+mut name string = "Alice"  // explicit type annotation also works
 ```
 
-**Why "temp"?** It stands for "temporary." Use `temp` for values that will change during your program's execution, like counters, user input, or calculated results.
+**Why "mut"?** It stands for "mutable." Use `mut` for values that will change during your program's execution, like counters, user input, or calculated results.
 
 ### const
 
 Declares an immutable constant — a value that cannot change. Also used to define structs and enums.
 
 ```ez
-const PI float = 3.14159
-const MAX_SIZE int = 100
+const PI = 3.14159
+const MAX_SIZE = 100
 
 // Also used for type definitions
 const Person struct {
@@ -54,10 +56,8 @@ const Person struct {
 Declares a function.
 
 ```ez
-import @std
-
 do greet(name string) {
-    std.println("Hello, ${name}!")
+    println("Hello, ${name}!")
 }
 
 do add(a, b int) -> int {
@@ -92,7 +92,7 @@ Guarantees a function call runs when the current function exits, regardless of h
 import @io
 
 do process() {
-    temp file, _ = io.open("data.txt", "r")
+    mut file, _ = io.open("data.txt", "r")
     ensure io.close(file)  // always runs when process() exits
 
     // ... work with file ...
@@ -102,6 +102,24 @@ do process() {
 
 Multiple `ensure` statements run in reverse order (last registered runs first). See [Functions - ensure](/EZ-Language-Webapp/docs/language/functions) for details.
 
+### or_return
+
+Provides error propagation shorthand. When a call returns a non-nil error, `or_return` immediately returns from the enclosing function.
+
+```ez
+do load() -> (string, Error) {
+    // Bare or_return: propagates the error with zero values
+    mut content = read_file("data.txt") or_return
+    mut parsed = json.decode(content) or_return
+    return parsed, nil
+}
+
+// With custom fallback values:
+mut content = read_file("data.txt") or_return "", error("failed to load")
+```
+
+The enclosing function must have `Error` as its last return type. See [Functions - or_return](/EZ-Language-Webapp/docs/language/functions) for details.
+
 ## Control Flow
 
 ### if
@@ -109,10 +127,8 @@ Multiple `ensure` statements run in reverse order (last registered runs first). 
 Starts a conditional block. Executes code only if the condition is true.
 
 ```ez
-import @std
-
 if score >= 90 {
-    std.println("A grade!")
+    println("A grade!")
 }
 ```
 
@@ -121,14 +137,12 @@ if score >= 90 {
 Adds an alternative condition — like `else if` in other languages.
 
 ```ez
-import @std
-
 if score >= 90 {
-    std.println("A")
+    println("A")
 } or score >= 80 {
-    std.println("B")
+    println("B")
 } or score >= 70 {
-    std.println("C")
+    println("C")
 }
 ```
 
@@ -139,12 +153,10 @@ if score >= 90 {
 The fallback case — like `else` in other languages.
 
 ```ez
-import @std
-
 if score >= 60 {
-    std.println("Pass")
+    println("Pass")
 } otherwise {
-    std.println("Fail")
+    println("Fail")
 }
 ```
 
@@ -155,24 +167,26 @@ if score >= 60 {
 Numeric loop that iterates over a range.
 
 ```ez
-import @std
-
 for i in range(0, 5) {
-    std.println(i)  // 0, 1, 2, 3, 4
+    println(i)  // 0, 1, 2, 3, 4
 }
 ```
 
 ### for_each
 
-Iterates over each item in a collection.
+Iterates over each item in a collection (arrays, strings, or maps).
 
 ```ez
-import @std
-
-temp names [string] = {"Alice", "Bob", "Charlie"}
+mut names [string] = {"Alice", "Bob", "Charlie"}
 
 for_each name in names {
-    std.println("Hello, ${name}")
+    println("Hello, ${name}")
+}
+
+// With maps
+mut ages map[string:int] = {"Alice": 30, "Bob": 25}
+for_each k, v in ages {
+    println("${k}: ${v}")
 }
 ```
 
@@ -183,24 +197,33 @@ for_each name in names {
 Loops while a condition is true — like `while` in other languages.
 
 ```ez
-import @std
-
-temp count int = 0
+mut count = 0
 
 as_long_as count < 5 {
-    std.println(count)
+    println(count)
     count++
 }
 ```
 
 **Why "as_long_as"?** Reads naturally: "keep going *as long as* this is true."
 
+### while
+
+Alias for `as_long_as`. Both are valid:
+
+```ez
+mut total = 0
+while total < 100 {
+    total += 10
+}
+```
+
 ### loop
 
 Infinite loop that runs until you `break` out of it.
 
 ```ez
-temp attempts int = 0
+mut attempts = 0
 
 loop {
     attempts++
@@ -215,13 +238,11 @@ loop {
 Immediately exits the current loop.
 
 ```ez
-import @std
-
 for i in range(0, 100) {
     if i == 5 {
         break  // stop at 5
     }
-    std.println(i)
+    println(i)
 }
 ```
 
@@ -230,13 +251,11 @@ for i in range(0, 100) {
 Skips to the next iteration of the loop.
 
 ```ez
-import @std
-
 for i in range(0, 10) {
     if i % 2 == 0 {
         continue  // skip even numbers
     }
-    std.println(i)  // only odd numbers
+    println(i)  // only odd numbers
 }
 ```
 
@@ -245,39 +264,38 @@ for i in range(0, 10) {
 Used with `for` to iterate over a range, or to check if a value exists in a collection (arrays, ranges, or maps).
 
 ```ez
-import @std
-
 // In a for loop
 for i in range(0, 10) {
-    std.println(i)
+    println(i)
 }
 
 // Array membership
-temp nums [int] = {1, 2, 3}
+mut nums [int] = {1, 2, 3}
 if 2 in nums {
-    std.println("Found it!")
+    println("Found it!")
 }
 
 // Map key membership
-temp ages map[string:int] = {"Alice": 30}
+mut ages map[string:int] = {"Alice": 30}
 if "Alice" in ages {
-    std.println("Key exists!")
+    println("Key exists!")
 }
 ```
 
 ### not_in
 
-Checks if a value does **not** exist in a collection (arrays, ranges, or maps).
+Checks if a value does **not** exist in a collection (arrays, ranges, or maps). `!in` is a shorthand alias.
 
 ```ez
-temp nums [int] = {1, 2, 3}
+mut nums [int] = {1, 2, 3}
 if 5 not_in nums {
-    std.println("Not found")
+    println("Not found")
 }
 
-temp ages map[string:int] = {"Alice": 30}
-if "Bob" not_in ages {
-    std.println("Bob not in map")
+// !in is shorthand for not_in
+mut ages map[string:int] = {"Alice": 30}
+if "Bob" !in ages {
+    println("Bob not in map")
 }
 ```
 
@@ -286,15 +304,13 @@ if "Bob" not_in ages {
 Starts a pattern matching block — like `switch` in other languages.
 
 ```ez
-import @std
-
-temp day int = 3
+mut day = 3
 
 when day {
-    is 1 { std.println("Monday") }
-    is 2 { std.println("Tuesday") }
-    is 3 { std.println("Wednesday") }
-    default { std.println("Other day") }
+    is 1 { println("Monday") }
+    is 2 { println("Tuesday") }
+    is 3 { println("Wednesday") }
+    default { println("Other day") }
 }
 ```
 
@@ -335,18 +351,18 @@ Converts values between types. Works with single values and arrays.
 
 ```ez
 // Single value conversion
-temp x = cast(42, u8)        // int -> u8
-temp y = cast(3.14, int)     // float -> int
-temp z = cast(65, char)      // int -> char
+mut x = cast(42, u8)        // int -> u8
+mut y = cast(3.14, int)     // float -> int
+mut z = cast(65, char)      // int -> char
 
 // Array element-wise conversion
-temp bytes [byte] = {65, 66, 67}
-temp u8_arr = cast(bytes, [u8])  // [byte] -> [u8]
+mut bytes [byte] = {65, 66, 67}
+mut u8_arr = cast(bytes, [u8])  // [byte] -> [u8]
 ```
 
 **Why "cast"?** Explicitly converts (casts) a value from one type to another.
 
-**Note:** Although `cast()` uses function-like syntax, it is a language keyword, not a regular function. The second argument must be a valid EZ type, which the interpreter validates at check-time (before execution). This is why `cast()` is documented here rather than solely in built-in functions — though it also appears there for discoverability. See also: [cast() in Built-in Functions](/EZ-Language-Webapp/docs/stdlib/builtins#cast).
+**Note:** Although `cast()` uses function-like syntax, it is a language keyword, not a regular function. The second argument must be a valid EZ type, which the compiler validates at check-time (before execution). This is why `cast()` is documented here rather than solely in built-in functions — though it also appears there for discoverability. See also: [cast() in Built-in Functions](/EZ-Language-Webapp/docs/stdlib/builtins#cast).
 
 #### Supported Conversions
 
@@ -367,8 +383,8 @@ temp u8_arr = cast(bytes, [u8])  // [byte] -> [u8]
 For arrays, `cast()` applies the conversion to each element:
 
 ```ez
-temp nums [int] = {1, 2, 3}
-temp strs = cast(nums, [string])  // ["1", "2", "3"]
+mut nums [int] = {1, 2, 3}
+mut strs = cast(nums, [string])  // ["1", "2", "3"]
 ```
 
 #### Error Handling
@@ -377,7 +393,7 @@ Invalid conversions produce errors:
 
 ```ez
 // Range error with index info
-temp result = cast([-1, 2, 3], [u8])
+mut result = cast([-1, 2, 3], [u8])
 // Error: "cast failed at index 0: value -1 out of u8 range (0 to 255)"
 ```
 
@@ -388,17 +404,19 @@ temp result = cast([-1, 2, 3], [u8])
 | Keyword | Description |
 |---------|-------------|
 | `int` | Integer (whole number) |
+| `uint` | Unsigned (non-negative) integer |
 | `float` | Floating-point (decimal) number |
 | `string` | Text |
 | `char` | Single character |
 | `bool` | Boolean (`true` or `false`) |
+| `byte` | Unsigned 8-bit value (0-255) |
 
 ```ez
-temp age int = 25
-temp price float = 19.99
-temp name string = "Alice"
-temp letter char = 'A'
-temp active bool = true
+mut age = 25
+mut price = 19.99
+mut name = "Alice"
+mut letter = 'A'
+mut active = true
 ```
 
 ### Sized Integers
@@ -415,8 +433,8 @@ For when you need precise control over size:
 | `i256` | `u256` | 256 bits |
 
 ```ez
-temp byte u8 = 255
-temp big i64 = 9223372036854775807
+mut byte_val u8 = 255
+mut big i64 = 9223372036854775807
 ```
 
 ### struct
@@ -429,7 +447,7 @@ const Point struct {
     y int
 }
 
-temp p Point = Point{x: 10, y: 20}
+mut p = Point{x: 10, y: 20}
 ```
 
 ### enum
@@ -443,7 +461,7 @@ const Status enum {
     DONE
 }
 
-temp s int = Status.ACTIVE
+mut s = Status.ACTIVE
 ```
 
 ### map
@@ -451,7 +469,7 @@ temp s int = Status.ACTIVE
 Key-value collection type.
 
 ```ez
-temp ages map[string:int] = {
+mut ages map[string:int] = {
     "Alice": 30,
     "Bob": 25
 }
@@ -464,7 +482,6 @@ temp ages map[string:int] = {
 Brings a module into your file. Must be at the top.
 
 ```ez
-import @std
 import @math, @arrays
 import "./mymodule"
 ```
@@ -474,24 +491,52 @@ import "./mymodule"
 Makes module contents available without a prefix.
 
 ```ez
-import @std
+import @math
+using math
 
 do main() {
-    using std
-    println("No prefix!")  // instead of std.println()
+    mut result = sqrt(16.0)  // No math. prefix needed
 }
 ```
 
-### module
+### import and use
 
-Declares that a file belongs to a module (for files you want to import).
+Combines importing and using in one statement:
 
 ```ez
-module myutils
+import and use @arrays
 
-do helper() {
-    // ...
+do main() {
+    mut nums [int] = {1, 2, 3}
+    append(nums, 4)  // No arrays. prefix needed
 }
+```
+
+## Pointer Operations
+
+### new
+
+Allocates a zero-initialized struct on the heap. Returns a pointer (`^Type`).
+
+```ez
+const Person struct {
+    name string
+    age int
+}
+
+mut p = new(Person)  // Returns ^Person
+p^.name = "Alice"
+p^.age = 30
+```
+
+### addr
+
+Gets the memory address of a variable.
+
+```ez
+mut x = 42
+mut p = addr(x)  // ^int pointer
+println(p^)       // 42
 ```
 
 ## Visibility
@@ -503,25 +548,18 @@ By default, all user-declared functions, types, and variables are **public** —
 Makes a declaration private to its module. Private items cannot be accessed from outside the module.
 
 ```ez
-module mylib
-
 // Private variable — only accessible within this module
-private temp internal_count int = 0
+private const INTERNAL_LIMIT = 1000
 
 // Private function — only callable within this module
 private do helper() {
-    internal_count++
-}
-
-// Private type — only usable within this module
-private const InternalState struct {
-    value int
+    // ...
 }
 
 // Public function (default) — accessible from other modules
 do get_count() -> int {
     helper()  // can call private function internally
-    return internal_count
+    return 42
 }
 ```
 
@@ -538,8 +576,8 @@ Boolean true value.
 Boolean false value.
 
 ```ez
-temp isValid bool = true
-temp hasError bool = false
+mut isValid = true
+mut hasError = false
 ```
 
 ### nil
@@ -547,16 +585,16 @@ temp hasError bool = false
 Represents the absence of a value. Used primarily with `Error` types to indicate success or check for errors.
 
 ```ez
-import @std, @io
+import @io
 
 do main() {
-    temp content, err = io.read("data.txt")
+    mut content, err = io.read("data.txt")
     if err != nil {
-        std.println("Error:", err.message)
+        println("Error:", err.message)
         return
     }
     // err is nil, meaning no error occurred
-    std.println(content)
+    println(content)
 }
 ```
 
@@ -566,23 +604,27 @@ Functions that can fail return `nil` for the error on success, or an `Error` on 
 
 | EZ Keyword | Other Languages | Purpose |
 |------------|-----------------|---------|
-| `temp` | `let`, `var` | Mutable variable |
+| `mut` | `let`, `var` | Mutable variable |
 | `const` | `const`, `final` | Immutable value |
 | `do` | `function`, `func`, `fn`, `def` | Declare function |
 | `or` | `else if`, `elif` | Alternative condition |
 | `otherwise` | `else` | Fallback condition |
 | `for_each` | `for...of`, `for...in`, `foreach` | Iterate collection |
 | `as_long_as` | `while` | Conditional loop |
+| `while` | `while` | Conditional loop (alias) |
 | `loop` | `while(true)`, `loop` | Infinite loop |
 | `when` | `switch`, `match` | Pattern matching |
 | `is` | `case` | Pattern case |
 | `default` | `default`, `_` | Fallback case |
 | `cast` | type casts, `as` | Type conversion |
 | `ensure` | `defer` | Guaranteed cleanup on function exit |
+| `or_return` | `?` (Rust), `try` | Error propagation shorthand |
+| `new` | `new`, `malloc` | Heap-allocate struct (returns pointer) |
 | `nil` | `null`, `None`, `nil` | Absence of a value |
 | `private` | `private`, `internal` | Module-private declaration |
+| `!in` | `not in` | Shorthand for `not_in` |
 
-For attributes (`#doc`, `#enum`, `#flags`, `#strict`, `#suppress`), see [Attributes](/EZ-Language-Webapp/docs/language/attributes).
+For attributes (`#doc`, `#flags`, `#strict`, `#suppress`), see [Attributes](/EZ-Language-Webapp/docs/language/attributes).
 
 <script>
   function initKeywordFilter() {

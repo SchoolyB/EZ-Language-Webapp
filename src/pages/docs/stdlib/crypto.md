@@ -22,11 +22,11 @@ import @crypto
 Computes the SHA-256 hash of a string.
 
 ```ez
-import @std, @crypto
+import @crypto
 
 do main() {
-    temp hash string = crypto.sha256("Hello, World!")
-    std.println(hash)  // "dffd6021bb2bd5b0af676290809ec3a53191dd81c7f70a4b28688a362182986f"
+    mut hash string = crypto.sha256("Hello, World!")
+    println(hash)  // "dffd6021bb2bd5b0af676290809ec3a53191dd81c7f70a4b28688a362182986f"
 }
 ```
 
@@ -44,11 +44,11 @@ do main() {
 Computes the SHA-512 hash of a string.
 
 ```ez
-import @std, @crypto
+import @crypto
 
 do main() {
-    temp hash string = crypto.sha512("Hello, World!")
-    std.println(hash)  // 128-character hex string
+    mut hash string = crypto.sha512("Hello, World!")
+    println(hash)  // 128-character hex string
 }
 ```
 
@@ -68,11 +68,11 @@ Computes the MD5 hash of a string.
 > **Note:** MD5 is cryptographically broken and should not be used for security purposes. Use it only for checksums or legacy compatibility.
 
 ```ez
-import @std, @crypto
+import @crypto
 
 do main() {
-    temp hash string = crypto.md5("Hello, World!")
-    std.println(hash)  // "65a8e27d8879283831b664bd8b7f0ad4"
+    mut hash string = crypto.md5("Hello, World!")
+    println(hash)  // "65a8e27d8879283831b664bd8b7f0ad4"
 }
 ```
 
@@ -92,11 +92,11 @@ do main() {
 Generates cryptographically secure random bytes.
 
 ```ez
-import @std, @crypto
+import @crypto
 
 do main() {
-    temp bytes [byte] = crypto.random_bytes(16)
-    std.println(bytes)  // e.g., {142, 55, 201, 78, ...}
+    mut bytes [byte] = crypto.random_bytes(16)
+    println(bytes)  // e.g., {142, 55, 201, 78, ...}
 }
 ```
 
@@ -114,11 +114,11 @@ do main() {
 Generates a cryptographically secure random hex string.
 
 ```ez
-import @std, @crypto
+import @crypto
 
 do main() {
-    temp token string = crypto.random_hex(16)
-    std.println(token)  // e.g., "a3f2b8c9d4e5f6a7b8c9d0e1f2a3b4c5"
+    mut token string = crypto.random_hex(16)
+    println(token)  // e.g., "a3f2b8c9d4e5f6a7b8c9d0e1f2a3b4c5"
 }
 ```
 
@@ -133,36 +133,35 @@ do main() {
 ## Example Program
 
 ```ez
-import @std
 import @crypto
 
 do main() {
-    std.println("=== Crypto Demo ===")
+    println("=== Crypto Demo ===")
 
-    temp data string = "Hello, World!"
+    mut data string = "Hello, World!"
 
     // Hashing
-    std.println("\n-- Hashing --")
-    std.println("Data:", data)
-    std.println("MD5:   ", crypto.md5(data))
-    std.println("SHA256:", crypto.sha256(data))
-    std.println("SHA512:", crypto.sha512(data))
+    println("\n-- Hashing --")
+    println("Data:", data)
+    println("MD5:   ", crypto.md5(data))
+    println("SHA256:", crypto.sha256(data))
+    println("SHA512:", crypto.sha512(data))
 
     // Secure random
-    std.println("\n-- Secure Random --")
+    println("\n-- Secure Random --")
 
     // Generate random bytes
-    temp bytes [byte] = crypto.random_bytes(8)
-    std.println("Random bytes:", bytes)
+    mut bytes [byte] = crypto.random_bytes(8)
+    println("Random bytes:", bytes)
 
     // Generate random tokens
-    std.println("Random token (16 bytes):", crypto.random_hex(16))
-    std.println("Random token (32 bytes):", crypto.random_hex(32))
+    println("Random token (16 bytes):", crypto.random_hex(16))
+    println("Random token (32 bytes):", crypto.random_hex(32))
 
     // Practical example: generate a session token
-    std.println("\n-- Session Token --")
-    temp session_id string = crypto.random_hex(32)
-    std.println("Session ID:", session_id)
+    println("\n-- Session Token --")
+    mut session_id string = crypto.random_hex(32)
+    println("Session ID:", session_id)
 }
 ```
 

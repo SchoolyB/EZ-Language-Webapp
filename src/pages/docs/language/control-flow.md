@@ -8,10 +8,10 @@ description: 'Conditionals, loops, and flow control in EZ.'
 
 EZ provides clear, readable control flow constructs for conditionals and loops.
 The keywords are designed to be intuitive: `if`/`or`/`otherwise` for branching,
-`for`/`for_each` for iteration, and `as_long_as`/`loop` for conditional and infinite loops.
+`for`/`for_each` for iteration, and `as_long_as`/`while`/`loop` for conditional and infinite loops.
 
 > **Note:** Parentheses around conditions are optional in EZ.
-> `if x > 5 {}` and `if (x > 5) {}` are both valid. The same applies to `for` and `as_long_as`.
+> `if x > 5 {}` and `if (x > 5) {}` are both valid. The same applies to `for` and `as_long_as`/`while`.
 
 ## Conditionals
 
@@ -20,18 +20,16 @@ The keywords are designed to be intuitive: `if`/`or`/`otherwise` for branching,
 EZ uses `if`, `or` (instead of else if), and `otherwise` (instead of else) for conditional branching.
 
 ```ez
-import @std
-
-temp x int = 15
+mut x int = 15
 
 if x > 20 {
-    std.println("large")
+    println("large")
 } or x > 10 {
-    std.println("medium")
+    println("medium")
 } or x > 5 {
-    std.println("small")
+    println("small")
 } otherwise {
-    std.println("tiny")
+    println("tiny")
 }
 ```
 
@@ -40,12 +38,10 @@ if x > 20 {
 A simple condition without alternatives:
 
 ```ez
-import @std
-
-temp age int = 21
+mut age int = 21
 
 if age >= 18 {
-    std.println("You are an adult")
+    println("You are an adult")
 }
 ```
 
@@ -54,30 +50,28 @@ if age >= 18 {
 Combine conditions with `&&` (and), `||` (or), and `!` (not):
 
 ```ez
-import @std
-
-temp a int = 10
-temp b int = 20
-temp isValid bool = true
+mut a int = 10
+mut b int = 20
+mut isValid bool = true
 
 // AND operator
 if a < b && a > 0 {
-    std.println("a is positive and less than b")
+    println("a is positive and less than b")
 }
 
 // OR operator
 if a == 0 || b == 0 {
-    std.println("at least one is zero")
+    println("at least one is zero")
 }
 
 // NOT operator
 if !isValid {
-    std.println("not valid")
+    println("not valid")
 }
 
 // Complex conditions
 if (a > 5 && b > 15) || isValid {
-    std.println("condition met")
+    println("condition met")
 }
 ```
 
@@ -89,26 +83,19 @@ Use `for` with `range()` to iterate over a sequence of numbers.
 The end value is **exclusive** (like Python and Go).
 
 ```ez
-import @std
-
-// Single argument: range(end) - iterates 0 to end-1
-for i in range(5) {
-    std.print("${i} ")  // 0 1 2 3 4
-}
-
 // Two arguments: range(start, end) - iterates start to end-1
-for i in range(2, 7) {
-    std.print("${i} ")  // 2 3 4 5 6
+for i in range(0, 5) {
+    print("${i} ")  // 0 1 2 3 4
 }
 
 // Three arguments: range(start, end, step)
 for i in range(0, 10, 2) {
-    std.print("${i} ")  // 0 2 4 6 8
+    print("${i} ")  // 0 2 4 6 8
 }
 
 // Negative step for countdown
 for i in range(10, 0, -2) {
-    std.print("${i} ")  // 10 8 6 4 2
+    print("${i} ")  // 10 8 6 4 2
 }
 ```
 
@@ -121,17 +108,9 @@ for i in range(10, 0, -2) {
 Use `_` (blank identifier) when you don't need the loop variable:
 
 ```ez
-import @std
-
 // Execute something 5 times without using the index
-for _ in range(5) {
-    std.println("Hello!")
-}
-
-// Useful when you only care about the count, not the value
-temp count int = 0
-for _ in range(0, 100) {
-    count += do_something()
+for _ in range(0, 5) {
+    println("Hello!")
 }
 ```
 
@@ -139,32 +118,30 @@ for _ in range(0, 100) {
 
 ### for_each
 
-Use `for_each` to iterate over arrays and strings directly.
+Use `for_each` to iterate over arrays, strings, and maps directly.
 
 ```ez
-import @std
-
 // Iterate over an array
-temp numbers [int] = {1, 2, 3, 4, 5}
-temp sum int = 0
+mut numbers [int] = {1, 2, 3, 4, 5}
+mut sum int = 0
 for_each num in numbers {
     sum += num
 }
-std.println("Sum:", sum)  // 15
+println("Sum:", sum)  // 15
 
 // Iterate over a string (character by character)
-temp message string = "Hello"
+mut message string = "Hello"
 for_each ch in message {
-    std.println(ch)  // H, e, l, l, o
+    println(ch)  // H, e, l, l, o
 }
 
 // Iterate over array of structs
-temp people [Person] = {
+mut people [Person] = {
     Person{name: "Alice", age: 30},
     Person{name: "Bob", age: 25}
 }
 for_each person in people {
-    std.println(person.name)
+    println(person.name)
 }
 ```
 
@@ -176,12 +153,10 @@ for_each person in people {
 Add an index variable by using a comma-separated pair. The index starts at 0:
 
 ```ez
-import @std
-
 do main() {
-    temp fruits [string] = {"apple", "banana", "cherry"}
+    mut fruits [string] = {"apple", "banana", "cherry"}
     for_each i, fruit in fruits {
-        std.println("${i}: ${fruit}")
+        println("${i}: ${fruit}")
     }
     // Output:
     // 0: apple
@@ -193,11 +168,9 @@ do main() {
 Works with strings too — the index is the character position:
 
 ```ez
-import @std
-
 do main() {
     for_each i, ch in "hello" {
-        std.println("${i}: ${ch}")
+        println("${i}: ${ch}")
     }
     // Output: 0: h, 1: e, 2: l, 3: l, 4: o
 }
@@ -208,55 +181,54 @@ Use `_` in either position to discard:
 ```ez
 // Index only, discard value
 for_each i, _ in items {
-    std.println("index: ${i}")
+    println("index: ${i}")
 }
 
 // Same as basic for_each (discard index)
 for_each _, item in items {
-    std.println(item)
+    println(item)
 }
 ```
 
-### Ignoring Values in for_each
+### Map Iteration
 
-Use `_` when you only need to iterate but don't use the values:
+`for_each` works directly with maps. With two variables, the first is the key and the second is the value:
 
 ```ez
-import @std
-
-temp items [int] = {1, 2, 3, 4, 5}
-
-// Count items without using the values
-temp count int = 0
-for_each _ in items {
-    count++
+mut ages map[string:int] = {"alice": 30, "bob": 25}
+for_each k, v in ages {
+    println("${k}: ${v}")
 }
-std.println("Count:", count)  // 5
+
+// Single variable iterates keys only
+for_each key in ages {
+    println(key)
+}
 ```
+
+Map iteration order is undefined (maps are unordered).
 
 ## While Loops
 
-### as_long_as
+### as_long_as / while
 
-EZ uses `as_long_as` instead of `while` for condition-based loops.
+EZ uses `as_long_as` for condition-based loops. `while` is an alias — both are valid.
 The loop continues as long as the condition is true.
 
 ```ez
-import @std
-
-temp count int = 0
+mut count int = 0
 as_long_as count < 5 {
-    std.println(count)
+    println(count)
     count += 1
 }
 // Prints: 0, 1, 2, 3, 4
 
-// Reading until a condition
-temp total int = 0
-as_long_as total < 100 {
+// Equivalent using while:
+mut total int = 0
+while total < 100 {
     total += 10
 }
-std.println(total)  // 100
+println(total)  // 100
 ```
 
 ## Infinite Loops
@@ -266,12 +238,10 @@ std.println(total)  // 100
 Use `loop` for infinite loops. Always include a `break` condition to exit.
 
 ```ez
-import @std
-
-temp count int = 0
+mut count int = 0
 loop {
     count += 1
-    std.println(count)
+    println(count)
 
     if count == 5 {
         break
@@ -287,13 +257,11 @@ loop {
 Exit a loop early:
 
 ```ez
-import @std
-
 // Find first even number
-temp numbers [int] = {1, 3, 5, 4, 7, 9}
+mut numbers [int] = {1, 3, 5, 4, 7, 9}
 for_each num in numbers {
     if num % 2 == 0 {
-        std.println("Found even:", num)  // Found even: 4
+        println("Found even:", num)  // Found even: 4
         break
     }
 }
@@ -303,7 +271,7 @@ for i in range(0, 100) {
     if i == 10 {
         break
     }
-    std.println(i)  // 0 through 9
+    println(i)  // 0 through 9
 }
 ```
 
@@ -312,25 +280,23 @@ for i in range(0, 100) {
 Skip to the next iteration:
 
 ```ez
-import @std
-
 // Sum only even numbers
-temp sum int = 0
+mut sum int = 0
 for i in range(0, 10) {
     if i % 2 != 0 {
         continue  // skip odd numbers
     }
     sum += i
 }
-std.println(sum)  // 20 (0+2+4+6+8)
+println(sum)  // 20 (0+2+4+6+8)
 
 // Skip specific values
-temp names [string] = {"Alice", "Bob", "skip", "Charlie"}
+mut names [string] = {"Alice", "Bob", "skip", "Charlie"}
 for_each name in names {
     if name == "skip" {
         continue
     }
-    std.println(name)  // Alice, Bob, Charlie
+    println(name)  // Alice, Bob, Charlie
 }
 ```
 
@@ -339,14 +305,12 @@ for_each name in names {
 Loops can be nested for multi-dimensional iteration:
 
 ```ez
-import @std
-
 // Multiplication table
 for i in range(1, 4) {
     for j in range(1, 4) {
-        std.print("${i * j} ")
+        print("${i * j} ")
     }
-    std.println("")
+    println("")
 }
 // Output:
 // 1 2 3
@@ -359,9 +323,9 @@ for i in range(0, 3) {
         if j == 2 {
             break  // only breaks inner loop
         }
-        std.print("${i},${j} ")
+        print("${i},${j} ")
     }
-    std.println("")
+    println("")
 }
 ```
 
@@ -372,15 +336,13 @@ for i in range(0, 3) {
 The `when/is` statement provides pattern matching, similar to switch/case in other languages. It's cleaner than long `if/or/otherwise` chains when matching against specific values.
 
 ```ez
-import @std
-
-temp x int = 2
+mut x int = 2
 
 when x {
-    is 1 { std.println("one") }
-    is 2 { std.println("two") }
-    is 3 { std.println("three") }
-    default { std.println("other") }
+    is 1 { println("one") }
+    is 2 { println("two") }
+    is 3 { println("three") }
+    default { println("other") }
 }
 // Output: two
 ```
@@ -390,14 +352,12 @@ when x {
 Match against several values in a single case:
 
 ```ez
-import @std
-
-temp day int = 6
+mut day int = 6
 
 when day {
-    is 1, 2, 3, 4, 5 { std.println("weekday") }
-    is 6, 7 { std.println("weekend") }
-    default { std.println("invalid") }
+    is 1, 2, 3, 4, 5 { println("weekday") }
+    is 6, 7 { println("weekend") }
+    default { println("invalid") }
 }
 // Output: weekend
 ```
@@ -407,17 +367,15 @@ when day {
 Use `range()` to match value ranges:
 
 ```ez
-import @std
-
-temp score int = 85
+mut score int = 85
 
 when score {
-    is range(0, 60) { std.println("F") }
-    is range(60, 70) { std.println("D") }
-    is range(70, 80) { std.println("C") }
-    is range(80, 90) { std.println("B") }
-    is range(90, 101) { std.println("A") }
-    default { std.println("Invalid") }
+    is range(0, 60) { println("F") }
+    is range(60, 70) { println("D") }
+    is range(70, 80) { println("C") }
+    is range(80, 90) { println("B") }
+    is range(90, 101) { println("A") }
+    default { println("Invalid") }
 }
 // Output: B
 ```
@@ -425,15 +383,13 @@ when score {
 ### String Matching
 
 ```ez
-import @std
-
-temp color string = "green"
+mut color string = "green"
 
 when color {
-    is "red" { std.println("stop") }
-    is "yellow" { std.println("caution") }
-    is "green" { std.println("go") }
-    default { std.println("unknown") }
+    is "red" { println("stop") }
+    is "yellow" { println("caution") }
+    is "green" { println("go") }
+    default { println("unknown") }
 }
 // Output: go
 ```
@@ -441,21 +397,19 @@ when color {
 ### Enum Matching
 
 ```ez
-import @std
-
 const Status enum {
-    PENDING,
-    ACTIVE,
+    PENDING
+    ACTIVE
     DONE
 }
 
-temp status = Status.ACTIVE
+mut status = Status.ACTIVE
 
 when status {
-    is Status.PENDING { std.println("waiting") }
-    is Status.ACTIVE { std.println("working") }
-    is Status.DONE { std.println("finished") }
-    default { std.println("unknown") }
+    is Status.PENDING { println("waiting") }
+    is Status.ACTIVE { println("working") }
+    is Status.DONE { println("finished") }
+    default { println("unknown") }
 }
 // Output: working
 ```
@@ -465,49 +419,21 @@ when status {
 The `#strict` attribute enforces exhaustive case coverage for enums — all enum values must be handled, and no `default` case is allowed:
 
 ```ez
-import @std
-
 const Status enum {
-    PENDING,
-    ACTIVE,
+    PENDING
+    ACTIVE
     DONE
 }
 
-temp s = Status.DONE
+mut s = Status.DONE
 
 #strict
 when s {
-    is Status.PENDING { std.println("pending") }
-    is Status.ACTIVE { std.println("active") }
-    is Status.DONE { std.println("done") }
+    is Status.PENDING { println("pending") }
+    is Status.ACTIVE { println("active") }
+    is Status.DONE { println("done") }
 }
 // All enum values must be covered - no default allowed
-```
-
-### Nested When Statements
-
-```ez
-import @std
-
-temp category int = 1
-temp subcategory int = 2
-
-when category {
-    is 1 {
-        when subcategory {
-            is 1 { std.println("1-1") }
-            is 2 { std.println("1-2") }
-            default { std.println("1-other") }
-        }
-    }
-    is 2 {
-        std.println("category-2")
-    }
-    default {
-        std.println("other-category")
-    }
-}
-// Output: 1-2
 ```
 
 ### Valid When Conditions
@@ -517,66 +443,54 @@ when category {
 - Integer types: `int`, `i8`, `i16`, `i32`, `i64`, `i128`
 - Unsigned integers: `uint`, `u8`, `u16`, `u32`, `u64`, `u128`
 - Characters: `char`
+- Bytes: `byte`
 - Strings: `string`
+- Booleans: `bool`
+- Floats: `float` (warning about imprecision)
 - Enum values
-- Function calls returning allowed types
+- `nil`
 
 ### Invalid When Conditions
 
 These will cause checktime errors:
 
 - **Type names** — use a variable instead
-- **Boolean values or expressions** — use `if/otherwise`
-- **`nil` values** — use `if/otherwise` to check for nil
 - **Arrays or maps** — not supported as when conditions
-
-**Related Errors:**
-- [E2041](/EZ-Language-Webapp/errors/E2041): when statement requires a default case
-- [E2042](/EZ-Language-Webapp/errors/E2042): strict when statement cannot have a default case
-- [E2043](/EZ-Language-Webapp/errors/E2043): duplicate case value in when statement
-- [E2048](/EZ-Language-Webapp/errors/E2048): when condition cannot be a boolean
 
 ---
 
 ## Membership Operators
 
-### in / not_in
+### in / not_in / !in
 
-Check if a value exists in an array or if a key exists in a map:
+Check if a value exists in an array, map, or range:
 
 ```ez
-import @std
-
 // Array membership
-temp numbers [int] = {1, 2, 3, 4, 5}
+mut numbers [int] = {1, 2, 3, 4, 5}
 
 if 3 in numbers {
-    std.println("Found 3!")
+    println("Found 3!")
 }
 
 if 10 not_in numbers {
-    std.println("10 is not in the array")
+    println("10 is not in the array")
+}
+
+// !in is shorthand for not_in
+if 10 !in numbers {
+    println("10 is not in the array")
 }
 
 // Map key membership
-temp ages map[string:int] = {"Alice": 30, "Bob": 25}
+mut ages map[string:int] = {"Alice": 30, "Bob": 25}
 
 if "Alice" in ages {
-    std.println("Alice found!")
+    println("Alice found!")
 }
 
 if "Charlie" not_in ages {
-    std.println("Charlie not found")
-}
-```
-
-Works with any map key type:
-
-```ez
-temp codes map[int:string] = {200: "OK", 404: "Not Found"}
-
-if 200 in codes {
-    std.println("Status exists")
+    println("Charlie not found")
 }
 ```
 
@@ -585,27 +499,25 @@ if 200 in codes {
 You can also use `range()` with `in` to check if a value falls within a numeric range:
 
 ```ez
-import @std
-
-temp age int = 25
+mut age int = 25
 
 // Check if value is in range (end is exclusive)
 if age in range(18, 65) {
-    std.println("Working age")
+    println("Working age")
 }
 
 // Equivalent to: if age >= 18 && age < 65
 
-temp score int = 85
+mut score int = 85
 
 if score in range(90, 101) {
-    std.println("A grade")
+    println("A grade")
 } or score in range(80, 90) {
-    std.println("B grade")
+    println("B grade")
 } or score in range(70, 80) {
-    std.println("C grade")
+    println("C grade")
 } otherwise {
-    std.println("Below C")
+    println("Below C")
 }
 // Output: B grade
 ```
@@ -615,29 +527,28 @@ if score in range(90, 101) {
 ## Example Program
 
 ```ez
-import @std
 import @arrays
 
 do main() {
     // FizzBuzz using control flow
-    std.println("FizzBuzz 1-20:")
+    println("FizzBuzz 1-20:")
 
     for i in range(1, 21) {
         if i % 15 == 0 {
-            std.println("FizzBuzz")
+            println("FizzBuzz")
         } or i % 3 == 0 {
-            std.println("Fizz")
+            println("Fizz")
         } or i % 5 == 0 {
-            std.println("Buzz")
+            println("Buzz")
         } otherwise {
-            std.println(i)
+            println(i)
         }
     }
 
     // Find prime numbers
-    std.println("\nPrime numbers 2-30:")
+    println("\nPrime numbers 2-30:")
     for num in range(2, 31) {
-        temp isPrime bool = true
+        mut isPrime = true
 
         for divisor in range(2, num) {
             if num % divisor == 0 {
@@ -647,29 +558,30 @@ do main() {
         }
 
         if isPrime {
-            std.print("${num} ")
+            print("${num} ")
         }
     }
-    std.println("")
+    println("")
 
     // Process array with early exit
-    temp scores [int] = {85, 92, 78, 45, 88, 95}
-    temp passing [int] = {}
+    mut scores [int] = {85, 92, 78, 45, 88, 95}
+    mut passing [int] = {}
 
     for_each score in scores {
         if score < 50 {
-            std.println("Found failing score, stopping")
+            println("Found failing score, stopping")
             break
         }
         arrays.append(passing, score)
     }
 
-    std.println("Passing scores:", passing)
+    println("Passing scores:", passing)
 }
 ```
 
 ## See Also
 - [Arrays](/EZ-Language-Webapp/docs/language/arrays) — iterating arrays with `for_each` and `for`
+- [Maps](/EZ-Language-Webapp/docs/language/maps) — iterating maps with `for_each`
 - [Functions](/EZ-Language-Webapp/docs/language/functions) — function declarations and return values
 - [Keywords](/EZ-Language-Webapp/docs/language/keywords) — full keyword reference including control flow keywords
 - [Enums](/EZ-Language-Webapp/docs/language/enums) — enum types used with `when/is` and `#strict`
