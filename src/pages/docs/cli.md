@@ -17,11 +17,48 @@ ez ./src            # Run a directory (finds main() automatically)
 
 Running `ez` with no arguments (or `ez help`) displays usage information and a list of all available commands.
 
+### Global Flags
+
+These flags work with `ez <file>` and are inherited by most subcommands:
+
+| Flag | Short | Description |
+|------|-------|-------------|
+| `--quiet` | `-q` | Suppress warnings (`all` or comma-separated codes like `W1001,W1002`) |
+| `--no-color` | | Disable colored output |
+
+```bash
+ez main.ez -q all           # Suppress all warnings
+ez main.ez -q W1001,W1002   # Suppress specific warnings
+ez main.ez --no-color       # No ANSI colors
+```
+
+---
+
+## `ez build`
+
+Compiles an EZ source file to a native distributable binary.
+
+```bash
+ez build main.ez              # Build (output name matches source)
+ez build main.ez -o myapp     # Build with custom output name
+ez build main.ez --emit-c     # Emit generated C source only
+```
+
+### Flags
+
+| Flag | Short | Description |
+|------|-------|-------------|
+| `--output` | `-o` | Output binary name |
+| `--emit-c` | | Emit generated C source only (don't compile) |
+| `--time` | | Show compilation timing |
+| `--quiet` | `-q` | Suppress warnings (`all` or comma-separated codes) |
+| `--no-color` | | Disable colored output |
+
 ---
 
 ## `ez check`
 
-Checks syntax and types for a file or directory without running it.
+Type-checks a file or project without compiling or running it.
 
 ```bash
 ez check main.ez     # Check a single file
@@ -30,40 +67,31 @@ ez check ./src       # Check a directory
 
 Reports any lexer, parser, or typechecker errors without executing the program. Useful for catching issues before running.
 
----
+### Flags
 
-## `ez repl`
-
-Starts an interactive REPL (Read-Eval-Print Loop) for evaluating EZ expressions one at a time.
-
-```bash
-ez repl
-```
+| Flag | Short | Description |
+|------|-------|-------------|
+| `--quiet` | `-q` | Suppress warnings (`all` or comma-separated codes) |
 
 ---
 
-## `ez version`
+## `ez fmt`
 
-Displays the current EZ version.
-
-```bash
-ez version
-```
-
----
-
-## `ez update`
-
-Checks for updates and upgrades EZ to the latest version.
+Formats `.ez` source files in place. Normalizes indentation, trailing whitespace, end-of-file newlines, and blank-line runs.
 
 ```bash
-ez update              # Check and prompt to update
-ez update --confirm    # Update without confirmation prompt
+ez fmt .              # Format .ez files in current directory (no recursion)
+ez fmt ./...          # Format recursively from current directory
+ez fmt file.ez        # Format a single file
+ez fmt a.ez b.ez      # Format multiple files
+ez fmt --check ./...  # Check formatting without modifying (CI gate)
 ```
+
+### Flags
 
 | Flag | Description |
 |------|-------------|
-| `--confirm` | Skip the confirmation prompt |
+| `--check` | Exit non-zero if any file would change; don't modify files. Useful as a CI gate. |
 
 ---
 
@@ -92,6 +120,13 @@ Hello, EZ!
 ```
 
 Press `Ctrl+C` to stop watching.
+
+### Flags
+
+| Flag | Short | Description |
+|------|-------|-------------|
+| `--quiet` | `-q` | Suppress warnings (`all` or comma-separated codes) |
+| `--no-color` | | Disable colored output |
 
 ---
 
@@ -187,6 +222,12 @@ ez doc a.ez b.ez      # Multiple files
 
 Scans `.ez` files for `#doc` attributes on functions, structs, and enums, then generates a `DOCS.md` file.
 
+### Flags
+
+| Flag | Short | Description |
+|------|-------|-------------|
+| `--output` | `-o` | Path to write generated markdown (default: `DOCS.md`) |
+
 ### Adding Documentation
 
 Use the `#doc` attribute above declarations:
@@ -219,26 +260,65 @@ Running `ez doc ./...` on the above generates a `DOCS.md` with sections for Func
 
 ---
 
-## Diagnostic Tools
+## `ez man`
 
-These commands expose the internals of the EZ compiler pipeline. They're useful for debugging language behavior, understanding how your code is processed, or contributing to EZ itself.
-
-### `ez lex`
-
-Tokenizes a file and prints the raw token stream produced by the lexer.
+Shows documentation for a stdlib module, function, or struct type.
 
 ```bash
-ez lex main.ez
+ez man                # Show help for the man command
+ez man strings        # Info about the @strings module
+ez man to_upper       # Info about a stdlib function
+ez man HttpRequest    # Info about a stdlib struct type
 ```
 
-Shows each token with its type and literal value — useful for debugging how the lexer processes your source code.
+---
 
-### `ez parse`
+## `ez report`
 
-Parses a file and prints the abstract syntax tree (AST).
+Prints system information useful for bug reports.
 
 ```bash
-ez parse main.ez
+ez report
 ```
 
-Shows the tree structure that the parser builds from tokens — useful for understanding how expressions and statements are structured internally.
+---
+
+## `ez version`
+
+Displays the current EZ version.
+
+```bash
+ez version
+```
+
+---
+
+## `ez update`
+
+Checks for updates and upgrades EZ to the latest version.
+
+```bash
+ez update              # Latest stable release
+ez update --pre        # Latest pre-release (alpha/beta/rc)
+ez update --confirm    # Skip confirmation prompt
+```
+
+Without flags, installs the latest stable release and prints a note if a newer pre-release is available.
+
+### Flags
+
+| Flag | Description |
+|------|-------------|
+| `--confirm` | Skip the confirmation prompt |
+| `--pre` | Install the latest pre-release (alpha/beta/rc) instead of latest stable |
+
+---
+
+## `ez install`
+
+Installs a specific EZ version by exact semver, replacing the current install. Downgrades and pre-release versions are supported.
+
+```bash
+ez install 2.5.0            # Install exact version
+ez install 3.0.0-beta.2     # Install a pre-release
+```

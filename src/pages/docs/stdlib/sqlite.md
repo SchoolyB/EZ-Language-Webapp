@@ -109,29 +109,3 @@ do main() {
 **Returns:** `[map[string:string]]` - Array of row maps where keys are column names.
 
 ---
-
-## Example Program
-
-```ez
-import @sqlite
-
-do main() {
-    mut db = sqlite.open("tasks.db")
-    ensure sqlite.close(db)
-
-    // Create table
-    sqlite.exec(db, "CREATE TABLE IF NOT EXISTS tasks (id INTEGER PRIMARY KEY, title TEXT, done INTEGER)")
-
-    // Insert tasks
-    sqlite.exec(db, "INSERT INTO tasks (title, done) VALUES (?, ?)", "Write docs", "0")
-    sqlite.exec(db, "INSERT INTO tasks (title, done) VALUES (?, ?)", "Fix bugs", "1")
-    sqlite.exec(db, "INSERT INTO tasks (title, done) VALUES (?, ?)", "Add tests", "0")
-
-    // Query incomplete tasks
-    mut pending = sqlite.query(db, "SELECT * FROM tasks WHERE done = ?", "0")
-    println("Pending tasks:")
-    for_each task in pending {
-        println("  - ${task["title"]}")
-    }
-}
-```

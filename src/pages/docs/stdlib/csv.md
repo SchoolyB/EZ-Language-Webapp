@@ -30,7 +30,7 @@ mut data [[string]] = {
 
 ## String Operations
 
-### `decode()`
+### `parse()`
 `(text string) -> ([[string]], Error)`
 
 Parses a CSV string into a 2D array.
@@ -40,7 +40,7 @@ import @csv
 
 do main() {
     mut text string = "name,age\nAlice,30\nBob,25"
-    mut data, err = csv.decode(text)
+    mut data, err = csv.parse(text)
     if err != nil {
         println("Error:", err.message)
         return
@@ -206,7 +206,7 @@ mut ok, err = csv.write_file("output.tsv", data, {"delimiter": "\t"})
 All functions return error tuples:
 
 ```ez
-mut result, err = csv.decode(text)
+mut result, err = csv.parse(text)
 if err != nil {
     println("Error code:", err.code)
     println("Error message:", err.message)
@@ -224,51 +224,3 @@ if err != nil {
 | E14002 | CSV write failure |
 
 ---
-
-## Example Program
-
-```ez
-import @csv
-
-do main() {
-    // Create data
-    mut records [[string]] = {
-        {"name", "email", "role"},
-        {"Alice", "alice@example.com", "admin"},
-        {"Bob", "bob@example.com", "user"},
-        {"Charlie", "charlie@example.com", "user"}
-    }
-
-    // Write to file
-    mut ok, write_err = csv.write_file("users.csv", records)
-    if write_err != nil {
-        println("Write error:", write_err.message)
-        return
-    }
-    println("CSV written successfully")
-
-    // Read back headers
-    mut headers, h_err = csv.headers("users.csv")
-    if h_err == nil {
-        println("Columns:", headers)
-    }
-
-    // Read all data
-    mut data, read_err = csv.read_file("users.csv")
-    if read_err != nil {
-        println("Read error:", read_err.message)
-        return
-    }
-
-    println("Total rows:", len(data))
-    for_each row in data {
-        println(row)
-    }
-
-    // Round-trip: parse and stringify
-    mut csv_str string = "a,b\n1,2\n"
-    mut parsed, _ = csv.decode(csv_str)
-    mut back, _ = csv.encode(parsed)
-    println("Round-trip match:", back == csv_str)
-}
-```

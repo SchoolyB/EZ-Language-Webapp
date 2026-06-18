@@ -534,185 +534,56 @@ println(char_count(ascii)) // 5 (same for ASCII)
 
 ---
 
-### Sized Integer Conversions
+### Wide Integer Conversions
 
-These functions convert values to explicitly sized integer types with range validation. They accept int, float, string, byte, or char values. Out-of-range values produce error E3022.
-
-#### i8()
-
-`(value) -> i8`
-
-Converts to a signed 8-bit integer. Range: -128 to 127.
-
-```ez
-mut small = i8(42)       // 42
-mut neg = i8(-100)       // -100
-mut from_str = i8("50")  // 50
-// i8(200)  // Error E3022: value 200 out of i8 range (-128 to 127)
-```
-
-#### i16()
-
-`(value) -> i16`
-
-Converts to a signed 16-bit integer. Range: -32,768 to 32,767.
-
-```ez
-mut val = i16(1000)      // 1000
-mut neg = i16(-30000)    // -30000
-// i16(40000)  // Error E3022: out of i16 range
-```
-
-#### i32()
-
-`(value) -> i32`
-
-Converts to a signed 32-bit integer. Range: -2,147,483,648 to 2,147,483,647.
-
-```ez
-mut val = i32(100000)    // 100000
-mut neg = i32(-100000)   // -100000
-```
-
-#### i64()
-
-`(value) -> i64`
-
-Converts to a signed 64-bit integer. Range: -9.2 quintillion to 9.2 quintillion.
-
-```ez
-mut val = i64(1000000000)  // 1000000000
-```
+These functions construct wide integer types. They accept int, float, string, byte, or char values.
 
 #### i128()
 
 `(value) -> i128`
 
-Converts to a signed 128-bit integer. Range: -2^127 to 2^127-1.
+Converts to a signed 128-bit integer.
 
 ```ez
-mut val = i128(1000000000000)  // 1000000000000
+mut val = i128(1000000000000)
+println(type_of(val))  // "i128"
 ```
 
 #### i256()
 
 `(value) -> i256`
 
-Converts to a signed 256-bit integer. Range: -2^255 to 2^255-1.
+Converts to a signed 256-bit integer.
 
 ```ez
-mut val = i256(1000000000000)  // 1000000000000
-```
-
-#### u8()
-
-`(value) -> u8`
-
-Converts to an unsigned 8-bit integer. Range: 0 to 255.
-
-```ez
-mut val = u8(200)          // 200
-mut from_char = u8('A')   // 65
-// u8(-1)   // Error E3022: value -1 out of u8 range (0 to 255)
-// u8(256)  // Error E3022: value 256 out of u8 range (0 to 255)
-```
-
-#### u16()
-
-`(value) -> u16`
-
-Converts to an unsigned 16-bit integer. Range: 0 to 65,535.
-
-```ez
-mut val = u16(50000)  // 50000
-// u16(-1)  // Error E3022: out of u16 range
-```
-
-#### u32()
-
-`(value) -> u32`
-
-Converts to an unsigned 32-bit integer. Range: 0 to 4,294,967,295.
-
-```ez
-mut val = u32(3000000000)  // 3000000000
-```
-
-#### u64()
-
-`(value) -> u64`
-
-Converts to an unsigned 64-bit integer. Range: 0 to 18,446,744,073,709,551,615.
-
-```ez
-mut val = u64(10000000000)  // 10000000000
+mut val = i256(1000000000000)
 ```
 
 #### u128()
 
 `(value) -> u128`
 
-Converts to an unsigned 128-bit integer. Range: 0 to 2^128-1.
+Converts to an unsigned 128-bit integer.
 
 ```ez
-mut val = u128(1000000000000)  // 1000000000000
+mut val = u128(1000000000000)
 ```
 
 #### u256()
 
 `(value) -> u256`
 
-Converts to an unsigned 256-bit integer. Range: 0 to 2^256-1.
+Converts to an unsigned 256-bit integer.
 
 ```ez
-mut val = u256(1000000000000)  // 1000000000000
+mut val = u256(1000000000000)
 ```
 
-#### Accepted Source Types (all sized integers)
-
-| Source Type | Example |
-|-------------|---------|
-| `int` | `i8(42)` |
-| `float` | `u16(3.14)` → truncates to `3` |
-| `string` | `i32("100")` |
-| `byte` | `u8(byte(65))` |
-| `char` | `i16('A')` → `65` |
-
-### Sized Float Conversions
-
-#### f32()
-
-`(value) -> f32`
-
-Converts to a 32-bit floating-point number. Truncates precision to float32 range.
-
-```ez
-mut val = f32(3.14159265358979)  // 3.1415927 (reduced precision)
-mut from_int = f32(42)           // 42.0
-mut from_str = f32("2.5")       // 2.5
-```
-
-#### f64()
-
-`(value) -> f64`
-
-Converts to a 64-bit floating-point number. Full double-precision range.
-
-```ez
-mut val = f64(3.14159265358979)  // 3.14159265358979 (full precision)
-mut from_int = f64(42)           // 42.0
-mut from_str = f64("2.5")       // 2.5
-```
-
-#### Accepted Source Types (f32/f64)
-
-| Source Type | Example |
-|-------------|---------|
-| `float` | `f32(3.14)` |
-| `int` | `f64(42)` |
-| `string` | `f32("2.5")` |
-| `byte` | `f64(byte(65))` |
-| `char` | `f32('A')` → `65.0` |
+> **Note:** For other sized types (`i8`, `u8`, `i16`, `u16`, `i32`, `u32`, `i64`, `u64`, `f32`, `f64`), use `cast()`:
+> ```ez
+> mut small = cast(42, u8)
+> mut precise = cast(3.14, f32)
+> ```
 
 ## Error Handling
 
@@ -783,6 +654,39 @@ do main() {
 | E7001 | Wrong number of arguments |
 | E7003 | Argument is not a string |
 
+## Compile-time Functions
+
+### embed()
+
+`(path string) -> string`
+
+Reads a file from disk at **compile time** and bakes its entire contents into the binary as a string literal. The resulting value is available as a `string` at runtime with no file I/O overhead.
+
+```ez
+// Embed a file at file scope
+const LICENSE string = embed("../../LICENSE")
+const DEFAULT_CONFIG string = embed("config/defaults.json")
+
+do main() {
+    // Also valid inside a function
+    const shader string = embed("shaders/vertex.glsl")
+    println(LICENSE)
+}
+```
+
+**Parameters:** `path` - A string literal path to the file. Variables and expressions are rejected.
+
+**Returns:** The file contents as a `string`.
+
+**Rules:**
+- The path is resolved relative to the directory of the source file containing the `embed()` call
+- Absolute paths are also accepted
+- The argument must be a **string literal** — variables and expressions are not allowed
+- If the file does not exist or cannot be read at compile time, it is a compile-time error
+- Valid at file scope (as a `const` initializer) or inside a function body
+
+---
+
 ## Quick Reference
 
 ### Functions
@@ -816,18 +720,9 @@ do main() {
 | `string(x)` | Convert to string | `string(42)` → `"42"` |
 | `char(x)` | Convert int to character | `char(65)` → `'A'` |
 | `byte(x)` | Convert int to byte (0-255) | `byte(65)` → `65` |
-| `i8(x)` | Convert to signed 8-bit int | `i8(42)` → `42` as i8 |
-| `i16(x)` | Convert to signed 16-bit int | `i16(1000)` → `1000` as i16 |
-| `i32(x)` | Convert to signed 32-bit int | `i32(100000)` → `100000` as i32 |
-| `i64(x)` | Convert to signed 64-bit int | `i64(val)` → value as i64 |
 | `i128(x)` | Convert to signed 128-bit int | `i128(val)` → value as i128 |
 | `i256(x)` | Convert to signed 256-bit int | `i256(val)` → value as i256 |
-| `u8(x)` | Convert to unsigned 8-bit int | `u8(200)` → `200` as u8 |
-| `u16(x)` | Convert to unsigned 16-bit int | `u16(50000)` → `50000` as u16 |
-| `u32(x)` | Convert to unsigned 32-bit int | `u32(val)` → value as u32 |
-| `u64(x)` | Convert to unsigned 64-bit int | `u64(val)` → value as u64 |
 | `u128(x)` | Convert to unsigned 128-bit int | `u128(val)` → value as u128 |
 | `u256(x)` | Convert to unsigned 256-bit int | `u256(val)` → value as u256 |
-| `f32(x)` | Convert to 32-bit float | `f32(3.14)` → reduced precision |
-| `f64(x)` | Convert to 64-bit float | `f64(42)` → `42.0` as f64 |
+| `embed(path)` | Compile-time file embedding | `embed("data.json")` → file contents as string |
 | `error(msg)` | Create user-defined error | `error("invalid input")` → `Error` |

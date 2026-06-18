@@ -477,48 +477,6 @@ if err != nil {
 
 ---
 
-## Example Program
-
-```ez
-import @http
-import @json
-
-const User struct {
-    id int
-    name string
-    email string
-}
-
-do main() {
-    // Fetch users from API
-    mut resp, err = http.get("https://jsonplaceholder.typicode.com/users/1")
-    if err != nil {
-        println("Request failed: ${err.message}")
-        return
-    }
-
-    if resp.status != http.OK {
-        println("Unexpected status: ${resp.status}")
-        return
-    }
-
-    // Parse JSON response
-    mut user User, parse_err = json.decode(resp.body, User)
-    if parse_err != nil {
-        println("Parse failed: ${parse_err.message}")
-        return
-    }
-
-    println("User: ${user.name}")
-    println("Email: ${user.email}")
-
-    // Access response headers
-    if resp.headers["Content-Type"] != nil {
-        println("Content-Type: ${resp.headers["Content-Type"][0]}")
-    }
-}
-```
-
 ## Tips
 
 **Use `json_body()` for JSON APIs** - When posting JSON data, use `http.json_body()` to convert maps to JSON strings:
@@ -540,6 +498,6 @@ if resp.status == http.OK { ... }
 **Set custom headers for authenticated APIs** - Use `http.request()` when you need custom headers:
 
 ```ez
-mut headers = {"Authorization": "Bearer ${token}"}
+mut headers map[string:string] = {"Authorization": "Bearer ${token}"}
 mut resp, err = http.request("GET", url, "", headers, 30)
 ```

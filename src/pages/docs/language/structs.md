@@ -43,6 +43,36 @@ const Point3D struct {
 }
 ```
 
+## Default Field Values
+
+Struct fields may specify a default value using `= expr` after the type. When a struct is created with `new()` or a struct literal that omits a field, the default value is used instead of zero-initialization:
+
+```ez
+const Config struct {
+    host string = "localhost"
+    port int = 8080
+    verbose bool = false
+}
+
+do main() {
+    mut c = new(Config)          // c.host = "localhost", c.port = 8080, c.verbose = false
+    mut c2 = Config{port: 3000}  // c2.host = "localhost", c2.port = 3000, c2.verbose = false
+}
+```
+
+Grouped fields share the same default:
+
+```ez
+const Point struct {
+    x, y int = 0
+    z int = 1
+}
+```
+
+Fields without a default value remain zero-initialized when omitted.
+
+---
+
 ## Creating Instances
 
 ### Literal Initialization
@@ -134,6 +164,43 @@ do main() {
     emp.address.city = "Dallas"
 }
 ```
+
+## Recursive Structs
+
+A struct may reference itself through a **pointer field** (`^Type`). Value-type self-reference is rejected at compile time:
+
+```ez
+const Node struct {
+    val  int
+    next ^Node   // OK: pointer field
+}
+
+// Value-type self-reference is an error:
+const Bad struct {
+    val  int
+    next Bad     // error: struct 'Bad' cannot contain itself by value
+}
+```
+
+### Pointer Auto-Dereference
+
+Dot notation automatically dereferences pointer fields — no explicit `^` required:
+
+```ez
+mut a = new(Node)
+mut b = new(Node)
+a.val  = 1
+b.val  = 2
+a.next = b
+
+println(a.val)        // 1
+println(a.next.val)   // 2, implicit dereference
+println(a.next^.val)  // 2, explicit dereference (also valid)
+```
+
+Mutual recursion (two structs referencing each other) is not supported.
+
+---
 
 ## Structs in Arrays
 
@@ -253,6 +320,40 @@ Rules:
 - Called as `StructName.func_name(args...)`
 - Cross-module: `module.StructName.func_name(args...)`
 
+### Instance Dispatch
+
+When a struct function takes the struct (or a pointer/reference to it) as its first parameter, callers can use the instance form `instance.func(...)`. The compiler rewrites the call as `Type.func(instance, ...)`:
+
+```ez
+const Vec struct {
+    x int
+    y int
+
+    do len_sq(v Vec) -> int {
+        return v.x * v.x + v.y * v.y
+    }
+
+    do bump(&v Vec) {
+        v.x = v.x + 1
+        v.y = v.y + 1
+    }
+}
+
+mut a Vec = Vec{x: 3, y: 4}
+a.len_sq()         // sugar for Vec.len_sq(a)
+Vec.len_sq(a)      // still valid
+
+a.bump()           // sugar for Vec.bump(a); '&v' makes it a mutable alias
+```
+
+Both `do f(v Vec)` (value), `do f(&v Vec)` (mutable reference), and `do f(v ^Vec)` (pointer) participate in instance dispatch.
+
+Factory-style functions whose first parameter isn't the struct (e.g. `do make(x int) -> Vec`) require the type-namespaced form (`Vec.make(...)`).
+
+**Chained calls not supported:** `a.f().g()` is rejected. Assign each intermediate result to a variable.
+
+---
+
 ## Const vs Mut Structs
 
 The struct *type definition* is always `const`, but *instances* can be either:
@@ -300,55 +401,10 @@ do main() {
 - Field names in the JSON must match the struct field names exactly
 - Without `#json`, the struct has no serialization machinery and `json.parse()` into it will fail
 - `#json` can only be applied to struct declarations
+- `#json` structs **cannot** have default field values
+- Supported field types: `int`, `uint`, `float`, `string`, `bool`, nested `#json` structs, arrays of `#json` structs
 
 See [Attributes](/EZ-Language-Webapp/docs/language/attributes#json) for more details.
-
-## Example Program
-
-```ez
-import @arrays
-
-const Product struct {
-    name string
-    price float
-    quantity int
-}
-
-const Cart struct {
-    items [Product]
-    discount float
-}
-
-do addToCart(&cart Cart, product Product) {
-    arrays.append(cart.items, product)
-}
-
-do calculateTotal(cart Cart) -> float {
-    mut total = 0.0
-    for_each item in cart.items {
-        total += item.price * float(item.quantity)
-    }
-    return total * (1.0 - cart.discount)
-}
-
-do main() {
-    mut cart = Cart{
-        items: {},
-        discount: 0.1  // 10% discount
-    }
-
-    arrays.append(cart.items, Product{name: "Book", price: 29.99, quantity: 2})
-    arrays.append(cart.items, Product{name: "Pen", price: 4.99, quantity: 5})
-
-    println("Shopping Cart:")
-    for_each item in cart.items {
-        println(" -", item.name, "x", item.quantity, "@ $${item.price}")
-    }
-
-    mut total = calculateTotal(cart)
-    println("Total (with 10% discount): $${total}")
-}
-```
 
 ## See Also
 - [Types](/EZ-Language-Webapp/docs/language/types) — primitive and composite types

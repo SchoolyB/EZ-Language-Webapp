@@ -32,6 +32,39 @@ do main() {
 
 ---
 
+### `printfln()`
+`(format string, ...args T)`
+
+Prints a formatted string to stdout with a trailing newline.
+
+```ez
+fmt.printfln("Hello, %s!", "Alice")  // prints "Hello, Alice!\n"
+```
+
+---
+
+### `eprintf()`
+`(format string, ...args T)`
+
+Prints a formatted string to stderr (no trailing newline).
+
+```ez
+fmt.eprintf("Error: %s", "connection failed")
+```
+
+---
+
+### `eprintfln()`
+`(format string, ...args T)`
+
+Prints a formatted string to stderr with a trailing newline.
+
+```ez
+fmt.eprintfln("Error: %s (code %d)", "timeout", 408)
+```
+
+---
+
 ### `sprintf()`
 `(format string, ...args T) -> string`
 
@@ -44,6 +77,18 @@ do main() {
     mut msg = fmt.sprintf("Score: %d/%d", 85, 100)
     println(msg)  // "Score: 85/100"
 }
+```
+
+---
+
+### `sprintfln()`
+`(format string, ...args T) -> string`
+
+Returns a formatted string with a trailing newline (does not print).
+
+```ez
+mut line string = fmt.sprintfln("Score: %d/%d", 85, 100)
+// line is "Score: 85/100\n"
 ```
 
 ---
@@ -168,24 +213,3 @@ println(fmt.float_sci(0.00042))     // "4.200000e-04"
 ## Notes
 
 `printf`, `sprintf`, and `format` accept `string`, `int`, `float`, and `bool` arguments. Composite types (structs, arrays, maps) are not supported — use `println` for printing those.
-
-## Example Program
-
-```ez
-import @fmt
-
-do main() {
-    // Table formatting
-    println(fmt.pad_right("Name", 15, ' ') + fmt.pad_right("Score", 10, ' ') + "Grade")
-    println(fmt.pad_right("----", 15, '-') + fmt.pad_right("-----", 10, '-') + "-----")
-
-    mut name = "Alice"
-    mut score = 95.5
-    println(fmt.pad_right(name, 15, ' ') + fmt.pad_right(fmt.float_fixed(score, 1), 10, ' ') + "A")
-
-    // Number display
-    mut n = 42
-    fmt.printf("Decimal: %d, Hex: %s, Binary: %s, Octal: %s\n",
-        n, fmt.int_to_hex(n), fmt.int_to_binary(n), fmt.int_to_octal(n))
-}
-```

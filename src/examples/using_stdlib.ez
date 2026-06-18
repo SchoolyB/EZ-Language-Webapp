@@ -1,7 +1,7 @@
 /*
  * using_stdlib.ez - Using the Standard Library
  *
- * EZ comes with 26 built-in modules. Import them with @name.
+ * EZ ships with many built-in modules. Import them with @name.
  * No package manager needed — everything ships with the compiler.
  */
 
@@ -23,8 +23,8 @@ do main() {
     println("upper: '${strings.to_upper(text)}'")
     println("lower: '${strings.to_lower(text)}'")
 
-    mut csv string = "apple,banana,cherry"
-    mut parts [string] = strings.split(csv, ",")
+    mut fruits string = "apple,banana,cherry"
+    mut parts [string] = strings.split(fruits, ",")
     println("split: ${parts}")
     println("join: '${strings.join(parts, " | ")}'")
     println("")
@@ -32,10 +32,14 @@ do main() {
     // @arrays — array utilities
     println("-- @arrays --")
     mut nums [int] = {1, 2, 3, 4, 5}
-    println("first: ${arrays.first(nums)}")
-    println("last: ${arrays.last(nums)}")
-    println("reverse: ${arrays.reverse(nums)}")
-    println("slice(1,4): ${arrays.slice(nums, 1, 4)}")
+    println("first: ${arrays.get_first(nums)}")
+    println("last: ${arrays.get_last(nums)}")
+
+    mut reversed [int] = arrays.reverse(nums)
+    println("reverse: ${reversed}")
+
+    mut sliced [int] = arrays.slice(nums, 1, 4)
+    println("slice(1,4): ${sliced}")
     println("contains(3): ${arrays.contains(nums, 3)}")
 
     mut grow [int] = {10, 20}
@@ -46,12 +50,17 @@ do main() {
     // @maps — map utilities
     println("-- @maps --")
     mut scores map[string:int] = {"alice": 95, "bob": 87, "charlie": 92}
-    println("keys: ${maps.keys(scores)}")
-    println("values: ${maps.values(scores)}")
+
+    mut keys [string] = maps.get_keys(scores)
+    println("keys: ${keys}")
+
+    mut vals [int] = maps.get_values(scores)
+    println("values: ${vals}")
     println("")
 
     // @time — current time
     println("-- @time --")
-    println("now: ${time.now()}")
-    println("year: ${time.year()}")
+    mut now int = time.now()
+    println("now (unix): ${now}")
+    println("year: ${time.year(now)}")
 }

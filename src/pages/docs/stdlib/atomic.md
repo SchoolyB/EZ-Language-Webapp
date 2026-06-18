@@ -153,29 +153,3 @@ atomic.fence()
 ```
 
 ---
-
-## Example Program
-
-```ez
-import @atomic
-import @threads
-
-mut counter int = 0
-
-do worker() {
-    for i in range(0, 1000) {
-        atomic.add(addr(counter), 1)
-    }
-}
-
-do main() {
-    mut t1 = threads.spawn(()worker)
-    mut t2 = threads.spawn(()worker)
-
-    threads.join(t1)
-    threads.join(t2)
-
-    mut final = atomic.load(addr(counter))
-    println("Counter:", final)  // 2000
-}
-```

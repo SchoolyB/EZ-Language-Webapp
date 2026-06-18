@@ -18,11 +18,13 @@ mut names [string] = {"Alice", "Bob", "Charlie"}
 mut flags [bool] = {true, false, true}
 ```
 
-With type inference, the type can be omitted:
+Arrays always require an explicit type annotation — type inference does not work with array literals:
 
 ```ez
-mut numbers = {1, 2, 3, 4, 5}       // Inferred: [int]
-mut names = {"Alice", "Bob", "Charlie"}  // Inferred: [string]
+mut numbers [int] = {1, 2, 3, 4, 5}
+mut names [string] = {"Alice", "Bob", "Charlie"}
+
+// mut nums = {1, 2, 3}  // Error: array needs a type annotation
 ```
 
 ## Empty Arrays
@@ -274,50 +276,6 @@ Fixed-size arrays always require `const`:
 
 ```ez
 const DAYS [string, 7] = {"Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"}
-```
-
-## Example Program
-
-```ez
-import @arrays
-
-do main() {
-    println("=== Arrays in EZ ===")
-
-    // Declaring arrays
-    mut numbers [int] = {1, 2, 3, 4, 5}
-    mut names [string] = {"Alice", "Bob", "Charlie"}
-
-    println("numbers: ${numbers}")
-    println("names: ${names}")
-
-    // Accessing elements (0-indexed)
-    println("numbers[0] = ${numbers[0]}")
-    println("names[1] = ${names[1]}")
-
-    // Modifying elements
-    numbers[0] = 100
-    println("After numbers[0] = 100: ${numbers}")
-
-    // Array length
-    println("Length of numbers: ${len(numbers)}")
-    println("Length of names: ${len(names)}")
-
-    // Iterating with for_each
-    println("All names:")
-    for_each name in names {
-        println("  - ${name}")
-    }
-
-    // Iterating with index
-    for i in range(0, len(numbers)) {
-        println("  numbers[${i}] = ${numbers[i]}")
-    }
-
-    // Empty array
-    mut empty [int] = {}
-    println("Empty array length: ${len(empty)}")
-}
 ```
 
 ## See Also

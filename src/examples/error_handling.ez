@@ -4,7 +4,7 @@
  * EZ uses explicit error handling:
  *   - Functions return (T, Error) tuples
  *   - Check errors by comparing to nil
- *   - Use or_return for concise error propagation
+ *   - Use error() to create error values
  *
  * No exceptions. No try/catch. Errors are just values.
  */
@@ -28,20 +28,27 @@ do main() {
     }
     println("")
 
-    // or_return — propagate errors concisely
-    println("-- or_return --")
-    mut final, final_err = process(20, 4)
-    if final_err != nil {
-        println("process failed: ${final_err}")
+    // Another fallible function
+    println("-- Parsing with errors --")
+    mut n, parse_err = parse_number("42")
+    if parse_err != nil {
+        println("parse failed: ${parse_err}")
     } otherwise {
-        println("process(20, 4) = ${final}")
+        println("parse_number(\"42\") = ${n}")
     }
 
-    mut final2, final_err2 = process(20, 0)
-    if final_err2 != nil {
-        println("process(20, 0) failed: ${final_err2}")
+    mut bad, bad_err = parse_number("abc")
+    if bad_err != nil {
+        println("parse_number(\"abc\") failed: ${bad_err}")
     } otherwise {
-        println("process(20, 0) = ${final2}")
+        println("parsed: ${bad}")
+    }
+
+    mut neg, neg_err = parse_number("-5")
+    if neg_err != nil {
+        println("parse_number(\"-5\") failed: ${neg_err}")
+    } otherwise {
+        println("parsed: ${neg}")
     }
 }
 
@@ -53,10 +60,16 @@ do divide(a int, b int) -> (int, Error) {
     return a / b, nil
 }
 
-// or_return propagates the error automatically
-// If divide() returns a non-nil error, process() immediately
-// returns that error to its caller.
-do process(a int, b int) -> (int, Error) {
-    mut quotient = divide(a, b) or_return
-    return quotient * 2, nil
+// Another fallible function
+do parse_number(s string) -> (int, Error) {
+    for_each ch in s {
+        if ch < '0' {
+            return 0, error("invalid character: ${ch}")
+        }
+        if ch > '9' {
+            return 0, error("invalid character: ${ch}")
+        }
+    }
+
+    return int(s), nil
 }

@@ -6,7 +6,7 @@ description: 'UUID generation and validation utilities.'
 
 # @uuid
 
-The `@uuid` module provides functions for generating and validating UUIDs (Universally Unique Identifiers) following RFC 4122.
+The `@uuid` module provides functions for generating and validating UUIDs (Universally Unique Identifiers) following RFC 4122 and RFC 9562.
 
 ## Import
 
@@ -14,115 +14,113 @@ The `@uuid` module provides functions for generating and validating UUIDs (Unive
 import @uuid
 ```
 
+## UUID Type
+
+All generator and parse functions return a `UUID` struct type (not a plain string). Use `uuid.to_string()` to convert to a string when needed.
+
+---
+
 ## Functions
 
 ### `generate()`
-`() -> string`
+`() -> UUID`
 
-Generates a new random UUID v4 without hyphens.
+Generates a new random UUID v4, hyphenated.
 
 ```ez
 import @uuid
 
 do main() {
-    mut id string = uuid.generate()
-    println(id)  // e.g., "550e8400e29b41d4a716446655440000"
+    mut id UUID = uuid.generate()
+    println(uuid.to_string(id))  // e.g., "550e8400-e29b-41d4-a716-446655440000"
 }
 ```
-
-**Returns:** `string` - A UUID v4 as a 32-character hex string (no hyphens).
-
-**Errors:** [E7001](/EZ-Language-Webapp/errors/E7001) if called with arguments.
 
 ---
 
 ### `generate_hyphenated()`
-`() -> string`
+`() -> UUID`
 
-Generates a new random UUID v4 with hyphens.
+Alias for `generate()`. Generates a UUID v4 in standard hyphenated format.
+
+---
+
+### `generate_random()`
+`() -> UUID`
+
+Generates an RFC 4122 v4 (random) UUID, hyphenated, lowercase.
 
 ```ez
-import @uuid
-
-do main() {
-    mut id string = uuid.generate_hyphenated()
-    println(id)  // e.g., "550e8400-e29b-41d4-a716-446655440000"
-}
+mut id UUID = uuid.generate_random()
 ```
 
-**Returns:** `string` - A UUID v4 in standard format (8-4-4-4-12 hex digits with hyphens).
+---
 
-**Errors:** [E7001](/EZ-Language-Webapp/errors/E7001) if called with arguments.
+### `generate_time_ordered()`
+`() -> UUID`
+
+Generates an RFC 9562 v7 (time-ordered) UUID, hyphenated, lowercase. UUIDs generated with this function sort by creation time.
+
+```ez
+mut id UUID = uuid.generate_time_ordered()
+```
+
+---
+
+### `generate_compact()`
+`(id UUID) -> string`
+
+Strips hyphens from a UUID, returning a 32-character hex string.
+
+```ez
+mut id UUID = uuid.generate()
+mut compact string = uuid.generate_compact(id)
+println(compact)  // e.g., "550e8400e29b41d4a716446655440000"
+```
+
+---
+
+### `parse()`
+`(s string) -> UUID`
+
+Validates and normalizes a 36-character hyphenated UUID string to lowercase. Panics on invalid input — use `is_valid()` first for a non-panicking check.
+
+```ez
+mut id UUID = uuid.parse("550E8400-E29B-41D4-A716-446655440000")
+println(uuid.to_string(id))  // lowercase: "550e8400-e29b-41d4-a716-446655440000"
+```
+
+---
+
+### `to_string()`
+`(id UUID) -> string`
+
+Converts a UUID to its 36-character hyphenated string representation.
+
+```ez
+mut id UUID = uuid.generate()
+mut s string = uuid.to_string(id)
+println(s)
+```
 
 ---
 
 ### `is_valid()`
-`(str string) -> bool`
+`(s string) -> bool`
 
 Checks if a string is a valid UUID in standard format.
 
 ```ez
-import @uuid
-
-do main() {
-    mut valid bool = uuid.is_valid("550e8400-e29b-41d4-a716-446655440000")
-    println(valid)  // true
-
-    mut invalid bool = uuid.is_valid("not-a-uuid")
-    println(invalid)  // false
-}
+println(uuid.is_valid("550e8400-e29b-41d4-a716-446655440000"))  // true
+println(uuid.is_valid("not-a-uuid"))                             // false
 ```
-
-**Parameters:** `str` - The string to validate.
-
-**Returns:** `bool` - `true` if the string is a valid UUID, `false` otherwise.
-
-**Errors:** [E7001](/EZ-Language-Webapp/errors/E7001) for wrong argument count, [E7002](/EZ-Language-Webapp/errors/E7002) if argument is not a string.
 
 ---
 
-### `NIL()`
-`() -> string`
+## Constants
 
-Returns the nil UUID (all zeros).
-
-```ez
-import @uuid
-
-do main() {
-    mut nil_id string = uuid.NIL()
-    println(nil_id)  // "00000000-0000-0000-0000-000000000000"
-}
-```
-
-**Returns:** `string` - The nil UUID `"00000000-0000-0000-0000-000000000000"`.
-
-**Errors:** [E7001](/EZ-Language-Webapp/errors/E7001) if called with arguments.
+| Constant | Type | Value |
+|----------|------|-------|
+| `NIL_UUID` | `UUID` | All-zero UUID (`00000000-0000-0000-0000-000000000000`) |
 
 ---
-
-## Example Program
-
-```ez
-import @uuid
-
-do main() {
-    println("=== UUID Demo ===")
-
-    // Generate a UUID without hyphens
-    mut id string = uuid.generate()
-    println("Generated UUID:", id)
-
-    // Generate with hyphens
-    mut hyphenated string = uuid.generate_hyphenated()
-    println("Hyphenated UUID:", hyphenated)
-
-    // Validate UUIDs
-    println("\nValidation:")
-    println("Is '${id}' valid?", uuid.is_valid(id))
-    println("Is 'hello' valid?", uuid.is_valid("hello"))
-
-    // Nil UUID
-    println("\nNil UUID:", uuid.NIL())
-}
-```

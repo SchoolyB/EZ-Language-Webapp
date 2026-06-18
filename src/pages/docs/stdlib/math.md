@@ -873,29 +873,3 @@ println(math.is_inf(42.0))          // false
 **Returns:** `bool` - `true` if infinite.
 
 ---
-
-## Example Program
-
-```ez
-import @math
-
-do main() {
-    // Calculate hypotenuse
-    mut a float = 3.0
-    mut b float = 4.0
-    mut c float = math.sqrt(math.pow(a, 2) + math.pow(b, 2))
-    println("Hypotenuse:", c)  // 5.0
-
-    // Circle calculations
-    mut radius float = 5.0
-    mut area float = math.PI * math.pow(radius, 2)
-    mut circumference float = 2 * math.PI * radius
-    println("Area:", area)
-    println("Circumference:", circumference)
-
-    // Trigonometry
-    mut angle float = math.PI / 4  // 45 degrees
-    println("sin(45°):", math.sin(angle))
-    println("cos(45°):", math.cos(angle))
-}
-```

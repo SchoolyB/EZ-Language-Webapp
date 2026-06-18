@@ -116,7 +116,7 @@ do main() {
 
 ## Available Modules
 
-EZ includes twenty-six built-in modules:
+EZ includes the following built-in modules:
 
 | Module | What it's for |
 |--------|---------------|
@@ -146,6 +146,7 @@ EZ includes twenty-six built-in modules:
 | [@channels](/EZ-Language-Webapp/docs/stdlib/channels) | Channels — message passing between threads |
 | [@mem](/EZ-Language-Webapp/docs/stdlib/mem) | Memory — arena-based memory allocation |
 | [@atomic](/EZ-Language-Webapp/docs/stdlib/atomic) | Atomics — lock-free atomic operations and spinlocks |
+| [@strconv](/EZ-Language-Webapp/docs/stdlib/strconv) | String conversion — parsing and formatting numeric types |
 
 ## Quick Example
 
@@ -208,3 +209,4 @@ Pick a module and explore what it can do:
 - [@channels](/EZ-Language-Webapp/docs/stdlib/channels) — For message passing between threads
 - [@mem](/EZ-Language-Webapp/docs/stdlib/mem) — For arena-based memory management
 - [@atomic](/EZ-Language-Webapp/docs/stdlib/atomic) — For lock-free atomic operations
+- [@strconv](/EZ-Language-Webapp/docs/stdlib/strconv) — For string-to-number and number-to-string conversions
