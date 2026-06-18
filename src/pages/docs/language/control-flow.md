@@ -208,6 +208,13 @@ for_each key in ages {
 
 Map iteration order is undefined (maps are unordered).
 
+### Iteration Safety
+
+- **Map mutation during iteration** panics at runtime. Do not add, remove, or modify map entries while iterating over the map.
+- **Array append during iteration** is safe. New elements added during a `for_each` loop will not be visited by the current loop iteration.
+
+---
+
 ## While Loops
 
 ### as_long_as / while
@@ -436,6 +443,12 @@ when s {
 // All enum values must be covered - no default allowed
 ```
 
+### Exhaustiveness and Warnings
+
+When a `when` statement matches on enum values and has no `default` branch, the compiler warns if `#strict` is not present. Either add `#strict` to enforce exhaustive coverage or add a `default` branch.
+
+An empty `default {}` branch also emits a warning — unmatched values being silently ignored is almost never intentional.
+
 ### Valid When Conditions
 
 `when` works with:
@@ -523,61 +536,6 @@ if score in range(90, 101) {
 ```
 
 > **Note:** The range end is exclusive, just like in `for` loops. `range(0, 10)` includes 0-9.
-
-## Example Program
-
-```ez
-import @arrays
-
-do main() {
-    // FizzBuzz using control flow
-    println("FizzBuzz 1-20:")
-
-    for i in range(1, 21) {
-        if i % 15 == 0 {
-            println("FizzBuzz")
-        } or i % 3 == 0 {
-            println("Fizz")
-        } or i % 5 == 0 {
-            println("Buzz")
-        } otherwise {
-            println(i)
-        }
-    }
-
-    // Find prime numbers
-    println("\nPrime numbers 2-30:")
-    for num in range(2, 31) {
-        mut isPrime = true
-
-        for divisor in range(2, num) {
-            if num % divisor == 0 {
-                isPrime = false
-                break
-            }
-        }
-
-        if isPrime {
-            print("${num} ")
-        }
-    }
-    println("")
-
-    // Process array with early exit
-    mut scores [int] = {85, 92, 78, 45, 88, 95}
-    mut passing [int] = {}
-
-    for_each score in scores {
-        if score < 50 {
-            println("Found failing score, stopping")
-            break
-        }
-        arrays.append(passing, score)
-    }
-
-    println("Passing scores:", passing)
-}
-```
 
 ## See Also
 - [Arrays](/EZ-Language-Webapp/docs/language/arrays) — iterating arrays with `for_each` and `for`

@@ -42,6 +42,14 @@ mut temperature = -40.5
 mut percentage = 0.85
 ```
 
+**Implicit int-to-float promotion:** Integer values are automatically promoted to `float` when the target type is `float`, `f32`, or `f64`. This applies to variable declarations, assignments, function arguments, map literal values, and return statements:
+
+```ez
+mut x float = 5       // 5.0 — no cast needed
+mut y f64 = 1          // 1.0
+x = 42                 // 42.0
+```
+
 ### string
 
 Text values (UTF-8 encoded):
@@ -226,6 +234,48 @@ println(x)   // 100
 ```
 
 Dereferencing a `nil` pointer causes a runtime panic.
+
+### Pointer Auto-Dereference
+
+The dot operator (`.`) automatically dereferences pointers to structs. If `p` is a `^MyStruct`, writing `p.field` is equivalent to `p^.field`. This auto-dereference applies to field access and struct function calls but does **not** apply in other contexts (e.g., `println(p)` prints the address, `return p` returns the pointer).
+
+```ez
+mut p = new(Point)
+p.x = 10    // same as p^.x = 10
+p.y = 20
+println(p.x)  // 10
+```
+
+### Recursive Structs
+
+A struct may reference itself through a **pointer field**. Value-type self-reference is rejected at compile time:
+
+```ez
+const Node struct {
+    val  int
+    next ^Node   // OK: pointer field
+}
+
+// Value-type self-reference is an error:
+const Bad struct {
+    val  int
+    next Bad     // error: struct 'Bad' cannot contain itself by value
+}
+```
+
+Dot notation automatically dereferences pointer fields:
+
+```ez
+mut a = new(Node)
+mut b = new(Node)
+a.val  = 1
+b.val  = 2
+a.next = b
+
+println(a.next.val)   // 2, implicit dereference
+```
+
+Mutual recursion (two structs referencing each other) is not supported.
 
 ## Arrays
 
@@ -468,6 +518,13 @@ mut val = new(Person)         // ^Person (pointer)
 mut y int = 42
 ```
 
+> **Note:** Type inference does **not** work with array or map literals. You must always provide an explicit type annotation:
+> ```ez
+> mut arr [int] = {1, 2, 3}              // required
+> mut m map[string:int] = {"a": 1}       // required
+> // mut arr = {1, 2, 3}                 // Error!
+> ```
+
 ## Default Zero Values
 
 When structs are created with `new()` or `Point{}`, fields get zero values:
@@ -492,41 +549,6 @@ mut hex = 0xFF_FF
 mut octal = 0o777
 mut binary = 0b1111_0000
 mut pi = 3.141_592_653
-```
-
-## Example Program
-
-```ez
-do main() {
-    // Primitives
-    mut count = 0
-    mut price = 19.99
-    mut name = "Product"
-    mut inStock = true
-
-    // Sized integers
-    mut smallNum i8 = 127
-    mut largeNum u64 = 1_000_000_000_000
-
-    // Arrays
-    mut scores [int] = {85, 92, 78, 95}
-    const GRADES [string, 5] = {"A", "B", "C", "D", "F"}
-
-    // Type checking
-    println("count type:", type_of(count))   // int
-    println("price type:", type_of(price))   // float
-    println("scores type:", type_of(scores)) // [int]
-
-    // Type conversion
-    mut priceStr = string(price)
-    mut scoreSum = 0
-    for_each s in scores {
-        scoreSum += s
-    }
-    mut average = float(scoreSum) / float(len(scores))
-
-    println("Average score:", average)
-}
 ```
 
 ## See Also

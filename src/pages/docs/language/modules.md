@@ -219,6 +219,23 @@ do main() {
 
 Import the directory path and all its `.ez` files are available through one namespace. Subdirectories are separate modules.
 
+## Module Resolution
+
+When importing a local module, the compiler resolves paths in this order:
+
+1. If the path ends in `.ez`, import that file directly
+2. If the path has no extension, try appending `.ez`. If a file exists, import it
+3. If the path (without extension) is a directory, scan it for all `.ez` files and merge them into one module
+4. If none of the above match, the import is rejected as unresolvable
+
+```ez
+import "./helpers.ez"      // step 1: explicit file import
+import "./helpers"          // step 2: resolves to helpers.ez (file) or step 3: helpers/ (directory)
+import "./models"           // step 3: models/ directory, all .ez files merge
+```
+
+When both `helpers.ez` and a `helpers/` directory exist, the file takes priority.
+
 ## Importing User Modules
 
 Import local files and directories with relative paths:
@@ -250,7 +267,20 @@ import "./utils"
 import shared_utils "../shared/utils"
 ```
 
-Importing a file that is already included via a parent directory import is also an error (double-import prevention).
+## Directory Import Semantics
+
+When a directory is imported, all `.ez` files within it are merged into a single module namespace. The following rules apply:
+
+- **Sibling cross-references:** Files within the directory may import each other via relative paths. These are resolved internally and all symbols remain under the directory's namespace.
+- **Transitive imports:** Imports inside directory files resolve relative to the importing file's location, not the entry file.
+- **Self-referential rejection:** If a file inside a directory imports its own parent directory, it is rejected.
+- **Symbol collisions:** If two files in a directory declare the same symbol name, it is a collision error.
+
+## Import Deduplication
+
+If the same file is imported multiple times (e.g., directly by main and transitively through another import), it is only processed once. No error is emitted.
+
+---
 
 ## Module Scope
 
@@ -333,6 +363,19 @@ import c"stdlib.h"
 do main() {
     mut home string = c_string(c.getenv("HOME"))
     println(home)
+}
+```
+
+### C Function Return Types
+
+When EZ needs to know the return type of a C function, add a type annotation to the variable receiving the result:
+
+```ez
+import c"math.h"
+
+do main() {
+    mut x float = c.sqrt(2.0)   // type annotation tells EZ the return type
+    println(x)
 }
 ```
 

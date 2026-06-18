@@ -13,52 +13,43 @@ export async function getStaticPaths() {
 
   const lines = markdown.split('\n');
   const allErrors: any[] = [];
-  let currentCategory: any = null;
+  let currentSection = '';
   let inTable = false;
 
-  function getCategoryName(header: string): string {
-    const h = header.toLowerCase();
-    if (h.includes('lexer')) return 'Lexer Errors';
-    if (h.includes('parse')) return 'Parse Errors';
-    if (h.includes('type error')) return 'Type Errors';
-    if (h.includes('reference')) return 'Reference Errors';
-    if (h.includes('runtime')) return 'Runtime Errors';
-    if (h.includes('import')) return 'Import Errors';
-    if (h.includes('stdlib')) return 'Stdlib Errors';
-    if (h.includes('math')) return 'Math Errors';
-    if (h.includes('array')) return 'Array Errors';
-    if (h.includes('string error')) return 'String Errors';
-    if (h.includes('time')) return 'Time Errors';
-    if (h.includes('map')) return 'Map Errors';
-    if (h.includes('json')) return 'JSON Errors';
-    if (h.includes('csv')) return 'CSV Errors';
-    if (h.includes('regex')) return 'Regex Errors';
-    if (h.includes('code style')) return 'Code Style Warnings';
-    if (h.includes('potential bug')) return 'Potential Bug Warnings';
-    if (h.includes('code quality')) return 'Code Quality Warnings';
-    if (h.includes('module warning')) return 'Module Warnings';
-    return 'Unknown';
+  function formatCategoryName(cat: string, section: string): string {
+    const capitalized = cat.charAt(0).toUpperCase() + cat.slice(1);
+    if (section === 'panics') return `${capitalized} Panics`;
+    if (section === 'warnings') return `${capitalized} Warnings`;
+    return `${capitalized} Errors`;
   }
 
   for (let i = 0; i < lines.length; i++) {
     const line = lines[i].trim();
 
-    const headerMatch = line.match(/^## (.+?) \(([EW]\d+x+(?:-[EW]\d+x+)?)\)$/);
-    if (headerMatch) {
-      currentCategory = { name: getCategoryName(headerMatch[1]) };
-      inTable = false;
-      continue;
-    }
+    if (line === '## Errors') { currentSection = 'errors'; inTable = false; continue; }
+    if (line === '## Warnings') { currentSection = 'warnings'; inTable = false; continue; }
+    if (line === '## Panics') { currentSection = 'panics'; inTable = false; continue; }
+    if (line === '## Code Ranges') { currentSection = ''; inTable = false; continue; }
+
+    if (!currentSection) continue;
 
     if (line.startsWith('| Code |')) { inTable = true; continue; }
     if (line.startsWith('|---')) continue;
 
-    if (inTable && line.startsWith('|') && currentCategory) {
+    if (inTable && line.startsWith('|')) {
       const cells = line.split('|').map(c => c.trim()).filter(c => c);
       if (cells.length >= 3) {
-        const [code, slug, message] = cells;
-        if (code.match(/^[EW]\d+$/)) {
-          allErrors.push({ code, slug, message, categoryName: currentCategory.name });
+        const code = cells[0].replace(/`/g, '');
+        const category = cells[1];
+        const message = cells[2];
+
+        if (code.match(/^[EWP]\d+$/)) {
+          allErrors.push({
+            code,
+            slug: category,
+            message,
+            categoryName: formatCategoryName(category, currentSection),
+          });
         }
       }
     }

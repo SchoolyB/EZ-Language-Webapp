@@ -151,6 +151,130 @@ const ErrorCode enum {
 }
 ```
 
+## Implicit Enum Selector (`.VARIANT`)
+
+When the expected enum type is known from context, you can use the shorthand `.VARIANT` instead of the full `EnumName.VARIANT`. The compiler resolves the enum type automatically.
+
+```ez
+const Direction enum {
+    NORTH
+    EAST
+    SOUTH
+    WEST
+}
+
+// Variable declaration with type annotation
+mut dir Direction = .NORTH
+
+// Assignment
+dir = .SOUTH
+
+// Function arguments
+do move(d Direction) -> int { return 0 }
+move(.EAST)
+
+// When/is branches
+when dir {
+    is .NORTH { println("north") }
+    is .SOUTH { println("south") }
+    default { println("other") }
+}
+
+// Comparisons
+if dir == .WEST { println("west") }
+
+// Return statements
+do get_dir() -> Direction { return .NORTH }
+
+// Struct literal fields
+const Config struct { dir Direction }
+mut c = Config{ dir: .EAST }
+
+// Array literals
+mut dirs [Direction] = {.NORTH, .SOUTH}
+```
+
+The full `EnumName.VARIANT` form is always valid and is required when no type context is available.
+
+---
+
+## Tagged Enums (Variants with Data)
+
+Enum variants can carry associated data (payloads), making the enum a tagged union. A variant's payload is declared with positional types in parentheses:
+
+```ez
+const Shape enum {
+    Circle(float)
+    Rect(float, float)
+    Point
+}
+```
+
+An enum becomes a tagged union if ANY variant has a payload. Variants without payloads (like `Point` above) are plain tag-only variants.
+
+**Rules:**
+- Payloads and explicit values (`= 5`) are mutually exclusive per variant
+- String enums and `#flags` enums cannot have payloads
+
+### Construction
+
+Tagged enum values are constructed by calling the variant with arguments:
+
+```ez
+mut s Shape = Shape.Circle(3.14)
+mut r Shape = Shape.Rect(10.0, 20.0)
+mut p Shape = Shape.Point
+```
+
+The implicit selector syntax also works:
+
+```ez
+mut s Shape = .Circle(3.14)
+```
+
+### Destructuring with `when/is`
+
+Use pattern destructuring in `when/is` to extract payload values:
+
+```ez
+when shape {
+    is Circle(radius) {
+        println("Circle with radius ${radius}")
+    }
+    is Rect(w, h) {
+        println("Rectangle ${w} x ${h}")
+    }
+    is Point {
+        println("Just a point")
+    }
+}
+```
+
+Implicit selector patterns also work:
+
+```ez
+when shape {
+    is .Circle(r) { println("radius: ${r}") }
+    is .Rect(w, h) { println("${w}x${h}") }
+    is .Point { println("point") }
+}
+```
+
+The number of bindings in a pattern must match the variant's payload count. `#strict` exhaustiveness checking works with tagged enums.
+
+---
+
+## Enum Value Restrictions
+
+Enums are **not** integers. Even though integer enums are backed by numeric values, you cannot:
+- Compare an enum variable with an integer (`dir == 0`)
+- Assign an integer to an enum variable (`dir = 2`)
+- Perform arithmetic on enum values
+
+Enums can only be compared with values of the same enum type using `==` and `!=`.
+
+---
+
 ## Using Enums
 
 ### In Variables
@@ -164,6 +288,10 @@ const Status enum {
 
 mut currentStatus = Status.PENDING
 currentStatus = Status.ACTIVE
+
+// Or with implicit selector
+mut currentStatus Status = .PENDING
+currentStatus = .ACTIVE
 ```
 
 ### In Conditionals
@@ -193,7 +321,7 @@ when status {
 }
 ```
 
-Use `#strict` to ensure all enum cases are handled:
+Use `#strict` to ensure all enum cases are handled. The compiler warns if a `when` on enum values has no `default` and no `#strict`:
 
 ```ez
 #strict
@@ -202,34 +330,7 @@ when status {
     is Status.ACTIVE { println("In progress...") }
     is Status.DONE { println("Completed!") }
 }
-// No default needed - typechecker ensures all cases are covered
-```
-
-### In Arrays
-
-```ez
-const Day enum {
-    SUNDAY
-    MONDAY
-    TUESDAY
-    WEDNESDAY
-    THURSDAY
-    FRIDAY
-    SATURDAY
-}
-
-mut workdays [int] = {
-    Day.MONDAY,
-    Day.TUESDAY,
-    Day.WEDNESDAY,
-    Day.THURSDAY,
-    Day.FRIDAY
-}
-
-mut today = Day.WEDNESDAY
-if today in workdays {
-    println("It's a workday")
-}
+// No default needed - compiler ensures all cases are covered
 ```
 
 ### In Function Parameters
@@ -242,42 +343,18 @@ const LogLevel enum {
     ERROR
 }
 
-do log(level int, message string) {
+do log(level LogLevel, message string) {
     when level {
-        is LogLevel.ERROR { println("[ERROR]", message) }
-        is LogLevel.WARNING { println("[WARN]", message) }
-        is LogLevel.INFO { println("[INFO]", message) }
+        is .ERROR { println("[ERROR]", message) }
+        is .WARNING { println("[WARN]", message) }
+        is .INFO { println("[INFO]", message) }
         default { println("[DEBUG]", message) }
     }
 }
 
 do main() {
-    log(LogLevel.INFO, "Application started")
-    log(LogLevel.ERROR, "Something went wrong")
-}
-```
-
-## Converting Enums
-
-Use `int()` to explicitly convert enum values:
-
-```ez
-const Priority enum {
-    LOW
-    MEDIUM
-    HIGH
-    CRITICAL
-}
-
-do main() {
-    mut p = Priority.HIGH
-    mut value = int(Priority.HIGH)
-
-    println("Priority.HIGH =", value)  // 2
-
-    // Use in arithmetic
-    mut adjusted = int(Priority.MEDIUM) + 5
-    println("Adjusted:", adjusted)  // 6
+    log(.INFO, "Application started")
+    log(.ERROR, "Something went wrong")
 }
 ```
 
@@ -296,55 +373,6 @@ Arrays, structs, and other complex types cannot be used as enum types.
 |-----------|-------------|---------|
 | (none) | Integer enum, values 0, 1, 2... | `const Status enum { ... }` |
 | `#flags` | Bitwise flags with power-of-2 values | `#flags const Perms enum { READ ... }` |
-
-## Example Program
-
-```ez
-const TaskStatus enum {
-    TODO = "todo"
-    IN_PROGRESS = "in-progress"
-    REVIEW = "review"
-    DONE = "done"
-}
-
-const Priority enum {
-    LOW
-    MEDIUM
-    HIGH
-    URGENT
-}
-
-const Task struct {
-    title string
-    status string
-    priority int
-}
-
-do priorityLabel(p int) -> string {
-    when p {
-        is Priority.URGENT { return "URGENT" }
-        is Priority.HIGH { return "High" }
-        is Priority.MEDIUM { return "Medium" }
-        default { return "Low" }
-    }
-}
-
-do main() {
-    mut tasks [Task] = {
-        Task{title: "Fix login bug", status: TaskStatus.IN_PROGRESS, priority: Priority.URGENT},
-        Task{title: "Update docs", status: TaskStatus.TODO, priority: Priority.LOW},
-        Task{title: "Add tests", status: TaskStatus.REVIEW, priority: Priority.HIGH}
-    }
-
-    println("Task Board:")
-    println("===========")
-
-    for_each task in tasks {
-        mut label = priorityLabel(task.priority)
-        println("[${task.status}] ${task.title} (${label})")
-    }
-}
-```
 
 ## See Also
 - [Control Flow](/EZ-Language-Webapp/docs/language/control-flow) — `when/is` pattern matching with enums

@@ -6,8 +6,7 @@ description: 'File system operations including reading, writing, and path utilit
 
 # @io
 
-The `@io` module provides file system operations including reading, writing,
-directory management, path utilities, and low-level file handle operations.
+The `@io` module provides file system operations including reading, writing, directory management, and path utilities.
 
 ## Import
 
@@ -18,60 +17,64 @@ import @io
 ## File Reading
 
 ### `read_file()`
-`(path: string) -> (string, Error)`
+`(path string) -> string`
 
 Reads the entire contents of a file as a string.
 
 ```ez
 import @io
 
-do read_text_file() {
+do main() {
     mut content, err = io.read_file("config.txt")
     if err != nil {
-        println("Error: ", err.message)
+        println("Error: ${err.message}")
     }
+    println(content)
 }
 ```
 
 **Parameters:** `path` - Path to the file to read.
 
-**Returns:** Tuple of (file contents as string, error).
-
-**Errors:** [E7016](/EZ-Language-Webapp/errors/E7016), [E7017](/EZ-Language-Webapp/errors/E7017), [E7040](/EZ-Language-Webapp/errors/E7040), [E7041](/EZ-Language-Webapp/errors/E7041), [E7042](/EZ-Language-Webapp/errors/E7042)
+**Returns:** The file contents as a string. When used with destructuring, returns `(string, Error)`.
 
 ---
 
 ### `read_bytes()`
-`(path: string) -> ([byte], Error)`
+`(path string) -> [byte]`
 
 Reads the entire contents of a file as a byte array.
 
 ```ez
 import @io
 
-do read_binary_file() {
+do main() {
     mut data, err = io.read_bytes("image.png")
+    if err != nil {
+        println("Error: ${err.message}")
+    }
 }
 ```
 
 **Parameters:** `path` - Path to the file to read.
 
-**Returns:** Tuple of (byte array, error).
-
-**Errors:** [E7016](/EZ-Language-Webapp/errors/E7016), [E7017](/EZ-Language-Webapp/errors/E7017), [E7040](/EZ-Language-Webapp/errors/E7040), [E7041](/EZ-Language-Webapp/errors/E7041), [E7042](/EZ-Language-Webapp/errors/E7042)
+**Returns:** A byte array. When used with destructuring, returns `([byte], Error)`.
 
 ---
 
 ### `read_lines()`
-`(path: string) -> ([string], Error)`
+`(path string) -> [string]`
 
-Reads a file and returns its content as an array of lines.
+Reads a file and returns its content as an array of lines. Strips `\r\n` line endings.
 
 ```ez
 import @io
 
-do read_file_lines() {
+do main() {
     mut lines, err = io.read_lines("data.txt")
+    if err != nil {
+        println("Error: ${err.message}")
+        return
+    }
     for_each line in lines {
         println(line)
     }
@@ -80,73 +83,45 @@ do read_file_lines() {
 
 **Parameters:** `path` - Path to the file to read.
 
-**Returns:** Tuple of (array of strings, error).
-
-**Errors:** [E7016](/EZ-Language-Webapp/errors/E7016), [E7017](/EZ-Language-Webapp/errors/E7017), [E7040](/EZ-Language-Webapp/errors/E7040), [E7041](/EZ-Language-Webapp/errors/E7041), [E7042](/EZ-Language-Webapp/errors/E7042)
+**Returns:** An array of strings. When used with destructuring, returns `([string], Error)`.
 
 ---
 
 ## File Writing
 
 ### `write_file()`
-`(path: string, content: string, [perms: int]) -> (bool, Error)`
+`(path string, content string) -> bool`
 
-Writes content to a file atomically (creates or overwrites).
+Writes content to a file (creates or overwrites).
 
 ```ez
 import @io
 
-do write_text_file() {
+do main() {
     mut ok, err = io.write_file("output.txt", "Hello World")
-    mut ok2, err2 = io.write_file("script.sh", "#!/bin/bash", 0755)
+    if err != nil {
+        println("Write failed: ${err.message}")
+    }
 }
 ```
 
 **Parameters:**
 - `path` - Path to the file
 - `content` - String content to write
-- `perms` - Optional file permissions (default 0644)
 
-**Returns:** Tuple of (success, error).
-
-**Errors:** [E7017](/EZ-Language-Webapp/errors/E7017), [E7040](/EZ-Language-Webapp/errors/E7040), [E7041](/EZ-Language-Webapp/errors/E7041)
-
----
-
-### `write_bytes()`
-`(path: string, data: [byte], [perms: int]) -> (bool, Error)`
-
-Writes bytes to a file atomically (creates or overwrites).
-
-```ez
-import @io, @bytes
-
-do write_binary_file() {
-    mut data [byte] = bytes.from_string("binary content")
-    mut ok bool, err Error = io.write_bytes("data.bin", data)
-}
-```
-
-**Parameters:**
-- `path` - Path to the file
-- `data` - Byte array to write
-- `perms` - Optional file permissions (default 0644)
-
-**Returns:** Tuple of (success, error).
-
-**Errors:** [E7002](/EZ-Language-Webapp/errors/E7002), [E7017](/EZ-Language-Webapp/errors/E7017), [E7040](/EZ-Language-Webapp/errors/E7040), [E7041](/EZ-Language-Webapp/errors/E7041)
+**Returns:** `bool` success. When used with destructuring, returns `(bool, Error)`.
 
 ---
 
 ### `append_file()`
-`(path: string, content: string, [perms: int]) -> (bool, Error)`
+`(path string, content string) -> bool`
 
-Appends content to a file (creates if doesn't exist).
+Appends content to a file (creates if it doesn't exist).
 
 ```ez
 import @io
 
-do append_to_file() {
+do main() {
     mut ok, err = io.append_file("log.txt", "New log entry\n")
 }
 ```
@@ -154,50 +129,23 @@ do append_to_file() {
 **Parameters:**
 - `path` - Path to the file
 - `content` - String content to append
-- `perms` - Optional file permissions (default 0644)
 
-**Returns:** Tuple of (success, error).
-
-**Errors:** [E7017](/EZ-Language-Webapp/errors/E7017), [E7040](/EZ-Language-Webapp/errors/E7040), [E7041](/EZ-Language-Webapp/errors/E7041)
+**Returns:** `bool` success. When used with destructuring, returns `(bool, Error)`.
 
 ---
 
-### `append_line()`
-`(path: string, line: string, [perms: int]) -> (bool, Error)`
+## File Operations
 
-Appends a line to a file (automatically adds newline).
+### `file_exists()`
+`(path string) -> bool`
+
+Checks if a file exists.
 
 ```ez
 import @io
 
-do append_log_line() {
-    mut ok, err = io.append_line("log.txt", "Log entry")
-}
-```
-
-**Parameters:**
-- `path` - Path to the file
-- `line` - Line to append (newline added automatically)
-- `perms` - Optional file permissions (default 0644)
-
-**Returns:** Tuple of (success, error).
-
-**Errors:** [E7017](/EZ-Language-Webapp/errors/E7017), [E7040](/EZ-Language-Webapp/errors/E7040), [E7041](/EZ-Language-Webapp/errors/E7041)
-
----
-
-## Path Existence & Type Checks
-
-### `exists()`
-`(path: string) -> bool`
-
-Checks if a path exists (file or directory).
-
-```ez
-import @io
-
-do check_file_exists() {
-    if io.exists("config.txt") {
+do main() {
+    if io.file_exists("config.txt") {
         println("Config found")
     }
 }
@@ -205,224 +153,216 @@ do check_file_exists() {
 
 **Parameters:** `path` - Path to check.
 
-**Returns:** true if exists, false otherwise.
+**Returns:** `true` if the file exists, `false` otherwise.
 
 ---
 
 ### `is_file()`
-`(path: string) -> bool`
+`(path string) -> bool`
 
 Checks if a path is a regular file.
 
 ```ez
 import @io
 
-do check_is_file() {
+do main() {
     if io.is_file("data.txt") {
         mut content, _ = io.read_file("data.txt")
+        println(content)
     }
 }
 ```
 
 **Parameters:** `path` - Path to check.
 
-**Returns:** true if path is a regular file.
+**Returns:** `true` if the path is a regular file.
 
 ---
 
-### `is_dir()`
-`(path: string) -> bool`
+### `is_directory()`
+`(path string) -> bool`
 
 Checks if a path is a directory.
 
 ```ez
 import @io
 
-do check_is_directory() {
-    if io.is_dir("src") {
-        mut files, _ = io.read_dir("src")
+do main() {
+    if io.is_directory("src") {
+        mut files, _ = io.list_dir("src")
+        for_each f in files {
+            println(f)
+        }
     }
 }
 ```
 
 **Parameters:** `path` - Path to check.
 
-**Returns:** true if path is a directory.
+**Returns:** `true` if the path is a directory.
 
 ---
 
-## File Operations
+### `file_size()`
+`(path string) -> int`
 
-### `remove()`
-`(path: string) -> (bool, Error)`
-
-Removes a file (not directories).
+Returns the size of a file in bytes. Returns `-1` on error.
 
 ```ez
 import @io
 
-do remove_file() {
-    mut ok, err = io.remove("temp.txt")
+do main() {
+    mut size, err = io.file_size("data.bin")
+    if err != nil {
+        println("Error: ${err.message}")
+        return
+    }
+    println("File is ${size} bytes")
 }
 ```
 
-**Parameters:** `path` - Path to the file to remove.
+**Parameters:** `path` - Path to the file.
 
-**Returns:** Tuple of (success, error).
-
-**Errors:** [E7016](/EZ-Language-Webapp/errors/E7016), [E7017](/EZ-Language-Webapp/errors/E7017), [E7018](/EZ-Language-Webapp/errors/E7018), [E7040](/EZ-Language-Webapp/errors/E7040), [E7041](/EZ-Language-Webapp/errors/E7041)
+**Returns:** Size in bytes. When used with destructuring, returns `(int, Error)`.
 
 ---
 
-### `remove_dir()`
-`(path: string) -> (bool, Error)`
+### `delete_file()`
+`(path string) -> bool`
 
-Removes an empty directory.
+Deletes a file.
 
 ```ez
 import @io
 
-do remove_empty_dir() {
-    mut ok, err = io.remove_dir("empty_folder")
+do main() {
+    mut ok, err = io.delete_file("temp.txt")
 }
 ```
 
-**Parameters:** `path` - Path to the directory to remove.
+**Parameters:** `path` - Path to the file to delete.
 
-**Returns:** Tuple of (success, error).
-
-**Errors:** [E7016](/EZ-Language-Webapp/errors/E7016), [E7017](/EZ-Language-Webapp/errors/E7017), [E7019](/EZ-Language-Webapp/errors/E7019), [E7023](/EZ-Language-Webapp/errors/E7023), [E7040](/EZ-Language-Webapp/errors/E7040), [E7041](/EZ-Language-Webapp/errors/E7041)
+**Returns:** `bool` success. When used with destructuring, returns `(bool, Error)`.
 
 ---
 
-### `remove_all()`
-`(path: string) -> (bool, Error)`
+### `rename_file()`
+`(old_path string, new_path string) -> bool`
 
-Recursively removes a file or directory. **Use with caution!**
+Renames a file.
 
 ```ez
 import @io
 
-do remove_recursively() {
-    mut ok, err = io.remove_all("build_output")
-}
-```
-
-**Parameters:** `path` - Path to remove recursively.
-
-**Returns:** Tuple of (success, error).
-
-**Errors:** [E7017](/EZ-Language-Webapp/errors/E7017), [E7020](/EZ-Language-Webapp/errors/E7020), [E7040](/EZ-Language-Webapp/errors/E7040), [E7041](/EZ-Language-Webapp/errors/E7041)
-
----
-
-### `rename()`
-`(oldPath: string, newPath: string) -> (bool, Error)`
-
-Renames or moves a file or directory.
-
-```ez
-import @io
-
-do rename_file() {
-    mut ok, err = io.rename("old.txt", "new.txt")
-    mut ok2, err2 = io.rename("file.txt", "subdir/file.txt")
+do main() {
+    mut ok, err = io.rename_file("old.txt", "new.txt")
 }
 ```
 
 **Parameters:**
-- `oldPath` - Current path
-- `newPath` - New path
+- `old_path` - Current path
+- `new_path` - New path
 
-**Returns:** Tuple of (success, error).
-
-**Errors:** [E7016](/EZ-Language-Webapp/errors/E7016), [E7017](/EZ-Language-Webapp/errors/E7017), [E7040](/EZ-Language-Webapp/errors/E7040), [E7041](/EZ-Language-Webapp/errors/E7041)
+**Returns:** `bool` success. When used with destructuring, returns `(bool, Error)`.
 
 ---
 
-### `copy()`
-`(src: string, dst: string, [perms: int]) -> (bool, Error)`
+### `copy_file()`
+`(src string, dst string) -> bool`
 
-Copies a file (not directories).
+Copies a file.
 
 ```ez
 import @io
 
-do copy_file() {
-    mut ok, err = io.copy("original.txt", "backup.txt")
+do main() {
+    mut ok, err = io.copy_file("original.txt", "backup.txt")
 }
 ```
 
 **Parameters:**
 - `src` - Source file path
 - `dst` - Destination file path
-- `perms` - Optional permissions (default: preserve source permissions)
 
-**Returns:** Tuple of (success, error).
+**Returns:** `bool` success. When used with destructuring, returns `(bool, Error)`.
 
-**Errors:** [E7016](/EZ-Language-Webapp/errors/E7016), [E7017](/EZ-Language-Webapp/errors/E7017), [E7021](/EZ-Language-Webapp/errors/E7021), [E7040](/EZ-Language-Webapp/errors/E7040), [E7041](/EZ-Language-Webapp/errors/E7041)
+---
+
+### `move_file()`
+`(src string, dst string) -> bool`
+
+Moves a file.
+
+```ez
+import @io
+
+do main() {
+    mut ok, err = io.move_file("file.txt", "archive/file.txt")
+}
+```
+
+**Parameters:**
+- `src` - Source file path
+- `dst` - Destination file path
+
+**Returns:** `bool` success. When used with destructuring, returns `(bool, Error)`.
 
 ---
 
 ## Directory Operations
 
-### `mkdir()`
-`(path: string, [perms: int]) -> (bool, Error)`
+### `make_dir()`
+`(path string) -> bool`
 
 Creates a directory (parent must exist).
 
 ```ez
 import @io
 
-do make_directory() {
-    mut ok, err = io.mkdir("new_folder")
-    mut ok2, err2 = io.mkdir("private", 0700)
+do main() {
+    mut ok, err = io.make_dir("new_folder")
 }
 ```
 
-**Parameters:**
-- `path` - Path for new directory
-- `perms` - Optional permissions (default 0755)
+**Parameters:** `path` - Path for the new directory.
 
-**Returns:** Tuple of (success, error).
-
-**Errors:** [E7017](/EZ-Language-Webapp/errors/E7017), [E7022](/EZ-Language-Webapp/errors/E7022), [E7040](/EZ-Language-Webapp/errors/E7040), [E7041](/EZ-Language-Webapp/errors/E7041)
+**Returns:** `bool` success. When used with destructuring, returns `(bool, Error)`.
 
 ---
 
-### `mkdir_all()`
-`(path: string, [perms: int]) -> (bool, Error)`
+### `make_dir_all()`
+`(path string) -> bool`
 
 Creates a directory and all parent directories as needed.
 
 ```ez
 import @io
 
-do make_nested_dirs() {
-    mut ok, err = io.mkdir_all("path/to/nested/folder")
+do main() {
+    mut ok, err = io.make_dir_all("path/to/nested/folder")
 }
 ```
 
-**Parameters:**
-- `path` - Path for new directory (including parents)
-- `perms` - Optional permissions (default 0755)
+**Parameters:** `path` - Path for the new directory (including parents).
 
-**Returns:** Tuple of (success, error).
-
-**Errors:** [E7017](/EZ-Language-Webapp/errors/E7017), [E7040](/EZ-Language-Webapp/errors/E7040), [E7041](/EZ-Language-Webapp/errors/E7041)
+**Returns:** `bool` success. When used with destructuring, returns `(bool, Error)`.
 
 ---
 
-### `read_dir()`
-`(path: string) -> ([string], Error)`
+### `list_dir()`
+`(path string) -> [string]`
 
 Lists the contents of a directory.
 
 ```ez
 import @io
 
-do list_directory() {
-    mut entries, err = io.read_dir("src")
+do main() {
+    mut entries, err = io.list_dir("src")
+    if err != nil {
+        println("Error: ${err.message}")
+        return
+    }
     for_each entry in entries {
         println(entry)
     }
@@ -431,101 +371,86 @@ do list_directory() {
 
 **Parameters:** `path` - Path to the directory.
 
-**Returns:** Tuple of (array of filenames, error).
-
-**Errors:** [E7016](/EZ-Language-Webapp/errors/E7016), [E7017](/EZ-Language-Webapp/errors/E7017), [E7040](/EZ-Language-Webapp/errors/E7040), [E7041](/EZ-Language-Webapp/errors/E7041)
+**Returns:** An array of filenames. When used with destructuring, returns `([string], Error)`.
 
 ---
 
-## File Metadata
+### `remove_dir()`
+`(path string) -> bool`
 
-### `file_size()`
-`(path: string) -> (int, Error)`
-
-Returns the size of a file in bytes.
+Removes an empty directory.
 
 ```ez
 import @io
 
-do get_file_size() {
-    mut size, err = io.file_size("data.bin")
-    println("File is ", size, " bytes")
+do main() {
+    mut ok, err = io.remove_dir("empty_folder")
 }
 ```
 
-**Parameters:** `path` - Path to the file.
+**Parameters:** `path` - Path to the directory.
 
-**Returns:** Tuple of (size in bytes, error).
-
-**Errors:** [E7016](/EZ-Language-Webapp/errors/E7016), [E7040](/EZ-Language-Webapp/errors/E7040), [E7041](/EZ-Language-Webapp/errors/E7041)
+**Returns:** `bool` success. When used with destructuring, returns `(bool, Error)`.
 
 ---
 
-### `file_mod_time()`
-`(path: string) -> (int, Error)`
+### `remove_dir_all()`
+`(path string) -> bool`
 
-Returns the modification time as a Unix timestamp.
+Recursively removes a directory and all its contents. **Use with caution!**
 
 ```ez
 import @io
 
-do get_mod_time() {
-    mut mtime, err = io.file_mod_time("file.txt")
+do main() {
+    mut ok, err = io.remove_dir_all("build_output")
 }
 ```
 
-**Parameters:** `path` - Path to the file.
+**Parameters:** `path` - Path to remove recursively.
 
-**Returns:** Tuple of (Unix timestamp, error).
-
-**Errors:** [E7016](/EZ-Language-Webapp/errors/E7016), [E7040](/EZ-Language-Webapp/errors/E7040), [E7041](/EZ-Language-Webapp/errors/E7041)
+**Returns:** `bool` success. When used with destructuring, returns `(bool, Error)`.
 
 ---
 
 ## Directory Traversal
 
 ### `glob()`
-`(pattern: string) -> ([string], Error)`
+`(pattern string) -> [string]`
 
-Finds all files matching a glob pattern.
+Finds all files matching a glob pattern. Returns an empty array on no match.
 
 ```ez
 import @io
 
-do find_files() {
-    // Find all .ez files in src directory
+do main() {
     mut matches, err = io.glob("src/*.ez")
     if err == nil {
         for_each file in matches {
             println(file)
         }
     }
-
-    // Find all Go files in subdirectories
-    mut goFiles, _ = io.glob("pkg/**/*.go")
 }
 ```
 
 **Parameters:** `pattern` - A glob pattern (supports `*`, `?`, `**`, `[...]`).
 
-**Returns:** Tuple of (array of matching file paths, error).
-
-**Errors:** [E7043](/EZ-Language-Webapp/errors/E7043) if the pattern is invalid.
+**Returns:** An array of matching file paths. When used with destructuring, returns `([string], Error)`.
 
 ---
 
 ### `walk()`
-`(path: string) -> ([string], Error)`
+`(path string) -> [string]`
 
-Recursively walks a directory tree and returns all files (not directories).
+Recursively walks a directory tree and returns all files.
 
 ```ez
 import @io
 
-do list_all_files() {
+do main() {
     mut files, err = io.walk("src")
     if err == nil {
-        println("Found", len(files), "files")
+        println("Found ${len(files)} files")
         for_each file in files {
             println(file)
         }
@@ -535,90 +460,47 @@ do list_all_files() {
 
 **Parameters:** `path` - The root directory to walk.
 
-**Returns:** Tuple of (array of all file paths recursively, error).
-
-**Errors:** [E7016](/EZ-Language-Webapp/errors/E7016), [E7017](/EZ-Language-Webapp/errors/E7017), [E7040](/EZ-Language-Webapp/errors/E7040), [E7041](/EZ-Language-Webapp/errors/E7041)
-
----
-
-### `is_symlink()`
-`(path: string) -> bool`
-
-Checks if a path is a symbolic link.
-
-```ez
-import @io
-
-do check_symlink() {
-    if io.is_symlink("my_link") {
-        println("It's a symlink!")
-    } otherwise {
-        println("Regular file or directory")
-    }
-}
-```
-
-**Parameters:** `path` - Path to check.
-
-**Returns:** `bool` - true if path is a symbolic link, false otherwise (including if path doesn't exist).
+**Returns:** An array of all file paths recursively. When used with destructuring, returns `([string], Error)`.
 
 ---
 
 ## Path Utilities
 
 ### `path_join()`
-`(parts: ...string) -> string`
+`(parts [string]) -> string`
 
-Joins path components using the OS-specific separator.
+Joins path components. If any segment is an absolute path, it replaces the accumulated path up to that point.
 
 ```ez
 import @io
 
-do join_paths() {
-    mut path string = io.path_join("home", "user", "file.txt")
-    // "home/user/file.txt" on Unix
+do main() {
+    mut p = io.path_join({"home", "user", "docs"})
+    println(p)  // "home/user/docs"
+
+    // Absolute segment replaces accumulated path
+    mut q = io.path_join({"a/b", "/abs"})
+    println(q)  // "/abs"
 }
 ```
 
-**Parameters:** `parts` - One or more path components.
+**Parameters:** `parts` - An array of path components.
 
-**Returns:** Joined path string.
-
-**Errors:** [E7041](/EZ-Language-Webapp/errors/E7041)
+**Returns:** The joined path string.
 
 ---
 
-### `path_base()`
-`(path: string) -> string`
+### `dirname()`
+`(path string) -> string`
 
-Returns the last element of a path (filename or directory name).
+Returns the parent directory portion of a path.
 
 ```ez
 import @io
 
-do get_base_name() {
-    mut name string = io.path_base("/home/user/file.txt")  // "file.txt"
-}
-```
-
-**Parameters:** `path` - A file path.
-
-**Returns:** The base name.
-
-**Errors:** [E7041](/EZ-Language-Webapp/errors/E7041)
-
----
-
-### `path_dir()`
-`(path: string) -> string`
-
-Returns the directory portion of a path.
-
-```ez
-import @io
-
-do get_directory_path() {
-    mut dir string = io.path_dir("/home/user/file.txt")  // "/home/user"
+do main() {
+    mut dir = io.dirname("/home/user/file.txt")
+    println(dir)  // "/home/user"
 }
 ```
 
@@ -626,545 +508,137 @@ do get_directory_path() {
 
 **Returns:** The directory part.
 
-**Errors:** [E7041](/EZ-Language-Webapp/errors/E7041)
-
 ---
 
-### `path_ext()`
-`(path: string) -> string`
+### `basename()`
+`(path string) -> string`
 
-Returns the file extension (including the dot).
-
-```ez
-import @io
-
-do get_file_extension() {
-    mut ext string = io.path_ext("document.pdf")  // ".pdf"
-}
-```
-
-**Parameters:** `path` - A file path.
-
-**Returns:** The extension (e.g., ".txt").
-
-**Errors:** [E7041](/EZ-Language-Webapp/errors/E7041)
-
----
-
-### `path_abs()`
-`(path: string) -> (string, Error)`
-
-Returns the absolute path.
-
-```ez
-import @io
-
-do get_absolute_path() {
-    mut abs, err = io.path_abs("./file.txt")
-}
-```
-
-**Parameters:** `path` - A relative or absolute path.
-
-**Returns:** Tuple of (absolute path, error).
-
-**Errors:** [E7040](/EZ-Language-Webapp/errors/E7040), [E7041](/EZ-Language-Webapp/errors/E7041)
-
----
-
-### `path_clean()`
-`(path: string) -> string`
-
-Cleans a path (removes redundant separators, . and ..).
-
-```ez
-import @io
-
-do clean_path() {
-    mut clean string = io.path_clean("a/b/../c/./d")  // "a/c/d"
-}
-```
-
-**Parameters:** `path` - Path to clean.
-
-**Returns:** Cleaned path.
-
-**Errors:** [E7041](/EZ-Language-Webapp/errors/E7041)
-
----
-
-### `path_separator()`
-`() -> string`
-
-Returns the OS-specific path separator.
-
-```ez
-import @io
-
-do get_path_separator() {
-    mut sep string = io.path_separator()
-}
-```
-
-**Returns:** "/" on Unix, "\\" on Windows.
-
----
-
-### `expand_path()`
-`(path: string) -> string`
-
-Expands ~ to home directory and cleans the path.
-
-```ez
-import @io
-
-do expand_home_path() {
-    mut path string = io.expand_path("~/Documents")
-    // "/home/user/Documents" on Unix
-}
-```
-
-**Parameters:** `path` - Path possibly containing ~.
-
-**Returns:** Expanded and cleaned path.
-
-**Errors:** [E7029](/EZ-Language-Webapp/errors/E7029)
-
----
-
-## File Handle Constants
-
-### `READ_ONLY`
-`int`
-
-Open a file for reading only.
-
-```ez
-import @io
-
-do open_read_only() {
-    mut handle, err = io.open("file.txt", io.READ_ONLY)
-}
-```
-
----
-
-### `WRITE_ONLY`
-`int`
-
-Open a file for writing only.
-
-```ez
-import @io
-
-do open_write_only() {
-    mut handle, err = io.open("file.txt", io.WRITE_ONLY)
-}
-```
-
----
-
-### `READ_WRITE`
-`int`
-
-Open a file for reading and writing.
-
-```ez
-import @io
-
-do open_read_write() {
-    mut handle, err = io.open("file.txt", io.READ_WRITE)
-}
-```
-
----
-
-### `APPEND`
-`int`
-
-Open a file in append mode (writes go to end of file).
-
-```ez
-import @io
-
-do open_append_mode() {
-    mut handle, err = io.open("log.txt", io.WRITE_ONLY | io.APPEND)
-}
-```
-
----
-
-### `CREATE`
-`int`
-
-Create the file if it doesn't exist.
-
-```ez
-import @io
-
-do open_create_file() {
-    mut handle, err = io.open("new.txt", io.WRITE_ONLY | io.CREATE)
-}
-```
-
----
-
-### `TRUNCATE`
-`int`
-
-Truncate the file to zero length when opened.
-
-```ez
-import @io
-
-do open_truncate_file() {
-    mut handle, err = io.open("file.txt", io.WRITE_ONLY | io.TRUNCATE)
-}
-```
-
----
-
-### `EXCLUSIVE`
-`int`
-
-Used with CREATE; error if file already exists.
-
-```ez
-import @io
-
-do open_exclusive() {
-    mut handle, err = io.open("new.txt", io.WRITE_ONLY | io.CREATE | io.EXCLUSIVE)
-}
-```
-
----
-
-### `SEEK_START`
-`int`
-
-Seek relative to the start of the file.
-
-```ez
-import @io
-
-do seek_to_start() {
-    mut handle, _ = io.open("file.txt", io.READ_ONLY)
-    mut pos, err = io.seek(handle, 0, io.SEEK_START)  // Go to beginning
-}
-```
-
----
-
-### `SEEK_CURRENT`
-`int`
-
-Seek relative to the current position.
-
-```ez
-import @io
-
-do seek_forward() {
-    mut handle, _ = io.open("file.txt", io.READ_ONLY)
-    mut pos, err = io.seek(handle, 10, io.SEEK_CURRENT)  // Move 10 bytes forward
-}
-```
-
----
-
-### `SEEK_END`
-`int`
-
-Seek relative to the end of the file.
-
-```ez
-import @io
-
-do seek_from_end() {
-    mut handle, _ = io.open("file.txt", io.READ_ONLY)
-    mut pos, err = io.seek(handle, -10, io.SEEK_END)  // 10 bytes before end
-}
-```
-
----
-
-### Combining Flags
-
-File mode flags can be combined using the bitwise OR operator:
-
-```ez
-import @io
-
-do combine_file_flags() {
-    mut mode int = io.WRITE_ONLY | io.CREATE | io.TRUNCATE
-    mut handle, err = io.open("file.txt", mode)
-}
-```
-
----
-
-## File Handle Types
-
-### `FileHandle`
-
-A handle to an open file. Returned by `open()` and used with `read()`, `write()`, `seek()`, `tell()`, `flush()`, and `close()`.
-
-```ez
-import @io
-
-do use_file_handle() {
-    mut handle, err = io.open("data.txt")
-    if err == nil {
-        mut content, _ = io.read_all(handle)
-        io.close(handle)
-    }
-}
-```
-
----
-
-## File Handle Operations
-
-### `open()`
-`(path: string, [mode: int], [perms: int]) -> (FileHandle, Error)`
-
-Opens a file and returns a file handle.
-
-```ez
-import @io
-
-do open_file() {
-    mut handle, err = io.open("data.txt")
-    mut handle2, err2 = io.open("log.txt", io.WRITE_ONLY | io.CREATE | io.APPEND)
-}
-```
-
-**Parameters:**
-- `path` - Path to the file
-- `mode` - Open mode flags (default: io.READ_ONLY)
-- `perms` - Permissions for new files (default: 0644)
-
-**Returns:** Tuple of (file handle, error).
-
-**Errors:** [E7016](/EZ-Language-Webapp/errors/E7016), [E7017](/EZ-Language-Webapp/errors/E7017), [E7040](/EZ-Language-Webapp/errors/E7040), [E7041](/EZ-Language-Webapp/errors/E7041)
-
----
-
-### `read()`
-`(handle: FileHandle, n: int) -> ([byte], Error)`
-
-Reads up to n bytes from a file handle.
-
-```ez
-import @io
-
-do read_bytes_from_handle() {
-    mut handle, _ = io.open("data.txt", io.READ_ONLY)
-    mut data, err = io.read(handle, 1024)
-}
-```
-
-**Parameters:**
-- `handle` - An open file handle
-- `n` - Maximum bytes to read
-
-**Returns:** Tuple of (bytes read, error).
-
-**Errors:** [E7011](/EZ-Language-Webapp/errors/E7011), [E7050](/EZ-Language-Webapp/errors/E7050)
-
----
-
-### `read_all()`
-`(handle: FileHandle) -> ([byte], Error)`
-
-Reads all remaining bytes from a file handle.
-
-```ez
-import @io
-
-do read_entire_file() {
-    mut handle, _ = io.open("data.txt", io.READ_ONLY)
-    mut content, err = io.read_all(handle)
-}
-```
-
-**Parameters:** `handle` - An open file handle.
-
-**Returns:** Tuple of (all remaining bytes, error).
-
-**Errors:** [E7050](/EZ-Language-Webapp/errors/E7050)
-
----
-
-### `read_string()`
-`(handle: FileHandle, n: int) -> (string, Error)`
-
-Reads up to n bytes from a file handle as a string.
-
-```ez
-import @io
-
-do read_string_from_handle() {
-    mut handle, _ = io.open("data.txt", io.READ_ONLY)
-    mut text, err = io.read_string(handle, 100)
-}
-```
-
-**Parameters:**
-- `handle` - An open file handle
-- `n` - Maximum bytes to read
-
-**Returns:** Tuple of (string, error).
-
-**Errors:** [E7011](/EZ-Language-Webapp/errors/E7011), [E7050](/EZ-Language-Webapp/errors/E7050)
-
----
-
-### `write()`
-`(handle: FileHandle, data: string|[byte]) -> (int, Error)`
-
-Writes data to a file handle.
-
-```ez
-import @io, @bytes
-
-do write_to_handle() {
-    mut handle, _ = io.open("output.txt", io.WRITE_ONLY | io.CREATE)
-    mut n, err = io.write(handle, "Hello World")
-    mut n2, err2 = io.write(handle, bytes.from_string("binary"))
-}
-```
-
-**Parameters:**
-- `handle` - An open file handle
-- `data` - String or byte array to write
-
-**Returns:** Tuple of (bytes written, error).
-
-**Errors:** [E7050](/EZ-Language-Webapp/errors/E7050)
-
----
-
-### `seek()`
-`(handle: FileHandle, offset: int, whence: int) -> (int, Error)`
-
-Seeks to a position in the file.
-
-```ez
-import @io
-
-do seek_in_file() {
-    mut handle, _ = io.open("data.txt", io.READ_ONLY)
-    mut pos, err = io.seek(handle, 0, io.SEEK_START)   // Go to beginning
-    mut pos2, err2 = io.seek(handle, -10, io.SEEK_END) // 10 bytes before end
-}
-```
-
-**Parameters:**
-- `handle` - An open file handle
-- `offset` - Byte offset
-- `whence` - Reference point (io.SEEK_START, io.SEEK_CURRENT, io.SEEK_END)
-
-**Returns:** Tuple of (new position, error).
-
-**Errors:** [E7050](/EZ-Language-Webapp/errors/E7050)
-
----
-
-### `tell()`
-`(handle: FileHandle) -> (int, Error)`
-
-Returns the current position in the file.
-
-```ez
-import @io
-
-do get_file_position() {
-    mut handle, _ = io.open("data.txt", io.READ_ONLY)
-    mut pos, err = io.tell(handle)
-}
-```
-
-**Parameters:** `handle` - An open file handle.
-
-**Returns:** Tuple of (current position, error).
-
-**Errors:** [E7050](/EZ-Language-Webapp/errors/E7050)
-
----
-
-### `flush()`
-`(handle: FileHandle) -> (bool, Error)`
-
-Flushes any buffered data to the file.
-
-```ez
-import @io
-
-do flush_file_buffer() {
-    mut handle, _ = io.open("log.txt", io.WRITE_ONLY | io.CREATE)
-    io.write(handle, "Data")
-    mut ok, err = io.flush(handle)
-}
-```
-
-**Parameters:** `handle` - An open file handle.
-
-**Returns:** Tuple of (success, error).
-
-**Errors:** [E7050](/EZ-Language-Webapp/errors/E7050)
-
----
-
-### `close()`
-`(handle: FileHandle) -> (bool, Error)`
-
-Closes a file handle.
-
-```ez
-import @io
-
-do close_file_handle() {
-    mut handle, _ = io.open("data.txt", io.READ_ONLY)
-    // ... use the file ...
-    mut ok, err = io.close(handle)
-}
-```
-
-**Parameters:** `handle` - A file handle to close.
-
-**Returns:** Tuple of (success, error).
-
----
-
-## Example Program
+Returns the filename component of a path.
 
 ```ez
 import @io
 
 do main() {
-    // Write a file
-    mut ok, err = io.write_file("hello.txt", "Hello, World!")
-    if err != nil {
-        println("Write error:", err.message)
-        return
-    }
-
-    // Read it back
-    mut content, err = io.read_file("hello.txt")
-    if err == nil {
-        println("Content:", content)
-    }
-
-    // Check file info
-    mut size, _ = io.file_size("hello.txt")
-    println("Size:", size, "bytes")
-
-    // Work with paths
-    mut abs, _ = io.path_abs("hello.txt")
-    println("Absolute path:", abs)
-    println("Extension:", io.path_ext("hello.txt"))
-
-    // Clean up
-    io.remove("hello.txt")
+    mut name = io.basename("/home/user/file.txt")
+    println(name)  // "file.txt"
 }
 ```
+
+**Parameters:** `path` - A file path.
+
+**Returns:** The base name.
+
+---
+
+### `extension()`
+`(path string) -> string`
+
+Returns the file extension including the dot. Returns an empty string if there is no extension.
+
+```ez
+import @io
+
+do main() {
+    mut ext = io.extension("document.pdf")
+    println(ext)  // ".pdf"
+}
+```
+
+**Parameters:** `path` - A file path.
+
+**Returns:** The extension (e.g., `".txt"`) or `""` if none.
+
+---
+
+### `is_absolute()`
+`(path string) -> bool`
+
+Checks if a path is absolute.
+
+```ez
+import @io
+
+do main() {
+    println(io.is_absolute("/home/user"))  // true
+    println(io.is_absolute("./file.txt"))  // false
+}
+```
+
+**Parameters:** `path` - A path to check.
+
+**Returns:** `true` if the path is absolute.
+
+---
+
+### `normalize()`
+`(path string) -> string`
+
+Cleans and normalizes a path (removes redundant separators, `.` and `..`).
+
+```ez
+import @io
+
+do main() {
+    mut clean = io.normalize("a/b/../c/./d")
+    println(clean)  // "a/c/d"
+}
+```
+
+**Parameters:** `path` - Path to normalize.
+
+**Returns:** The normalized path.
+
+---
+
+## Constants
+
+| Constant | Value | Description |
+|----------|-------|-------------|
+| `O_RDONLY` | `0` | Open for reading only |
+| `O_WRONLY` | `1` | Open for writing only |
+| `O_RDWR` | `2` | Open for reading and writing |
+
+---
+
+## Error-Returning Variants
+
+Most functions that can fail have an error-returning variant usable via multi-variable destructuring. The plain form panics on hard errors; the error form returns `(T, Error)`.
+
+| Function | Error-returning variant |
+|----------|------------------------|
+| `read_file` | `(string, Error)` |
+| `read_bytes` | `([byte], Error)` |
+| `read_lines` | `([string], Error)` |
+| `file_size` | `(int, Error)` |
+| `write_file` | `(bool, Error)` |
+| `append_file` | `(bool, Error)` |
+| `delete_file` | `(bool, Error)` |
+| `rename_file` | `(bool, Error)` |
+| `copy_file` | `(bool, Error)` |
+| `move_file` | `(bool, Error)` |
+| `list_dir` | `([string], Error)` |
+| `make_dir` | `(bool, Error)` |
+| `make_dir_all` | `(bool, Error)` |
+| `remove_dir` | `(bool, Error)` |
+| `remove_dir_all` | `(bool, Error)` |
+| `walk` | `([string], Error)` |
+| `glob` | `([string], Error)` |
+
+```ez
+// Always use destructuring; single-variable assignment is a compile error
+mut content, err = io.read_file("data.txt")
+if err != nil {
+    println("read failed: ${err.message}")
+}
+
+// Discard the error with _
+mut content, _ = io.read_file("data.txt")
+```
+
+---
+
+## Path Resolution
+
+All relative paths passed to `@io` functions are resolved relative to the **current working directory** of the process (the directory from which the program was launched). They are **not** resolved relative to the source file that contains the call.
+
+---

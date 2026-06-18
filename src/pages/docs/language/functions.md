@@ -85,6 +85,14 @@ const config = Config{debug: true}
 
 > **Note:** The `&` mutable parameter syntax applies to user-defined functions only. Standard library functions that modify data (like `arrays.append()`) require the variable to be declared with `mut`, not `const`.
 
+### What Can Be Passed to Mutable Parameters
+
+Mutable parameters (`&p`) work with:
+- Primitive variables: `increment(x)`
+- Struct fields: `increment(point.x)`
+- Array elements: `increment(arr[0])`
+- Map values: `increment(map["key"])`
+
 ## Default Parameter Values
 
 Parameters can have default values, making them optional when calling the function:
@@ -121,6 +129,92 @@ do main() {
 - Required parameters must come before optional parameters
 - Mutable parameters (`&`) cannot have default values
 - Default values are evaluated at call time
+
+---
+
+## Named Arguments
+
+When calling a function, arguments can be passed by name using `name: value` syntax. This lets callers provide arguments in any order and skip over defaulted parameters to target specific ones:
+
+```ez
+do connect(host string, port int = 8080, verbose bool = false) {
+    if verbose {
+        println("Connecting to ${host}:${port}")
+    }
+}
+
+connect(host: "localhost", verbose: true)  // port uses default 8080
+connect(verbose: true, host: "localhost")  // same — order doesn't matter
+connect("localhost", verbose: true)        // positional + named mix
+```
+
+### Named Argument Rules
+
+- **Positional before named:** Once a named argument appears, all remaining arguments must also be named:
+  ```ez
+  add(1, b: 2)     // OK: positional first, then named
+  add(a: 1, 2)     // error: positional argument after named argument
+  ```
+
+- **Names must match parameters exactly.** Unknown names are rejected:
+  ```ez
+  do add(a int, b int) -> int { return a + b }
+  add(a: 1, c: 2)  // error: unknown parameter name 'c' in call to 'add'
+  ```
+
+- **No duplicate parameters.** A parameter cannot be provided both positionally and by name:
+  ```ez
+  add(1, a: 2)     // error: parameter 'a' is already provided positionally
+  ```
+
+- **Works with instance dispatch.** For instance dispatch calls, the self parameter is implicit — only name the non-self parameters:
+  ```ez
+  mut v = Vec{x: 2, y: 3}
+  mut scaled = v.scale(factor: 5)           // instance dispatch
+  mut also = Vec.scale(self: v, factor: 5)  // static dispatch
+  ```
+
+- **Not supported for builtins or stdlib:** Named arguments do not work with built-in functions (`println`, `len`, `cast`, etc.) or standard library functions (`strings.to_upper`, `math.sqrt`, etc.).
+
+---
+
+## Ensure Statement
+
+The `ensure` statement specifies a function to call when the enclosing function exits, whether it returns normally or via early return. This is useful for cleanup tasks like closing files or releasing resources.
+
+```ez
+do cleanup() {
+    println("cleaning up!")
+}
+
+do process(should_bail bool) {
+    ensure cleanup()
+    println("starting work...")
+    if should_bail {
+        return  // cleanup() still called
+    }
+    println("finished work!")
+    // cleanup() called here too
+}
+
+do main() {
+    process(false)
+    // Output:
+    //   starting work...
+    //   finished work!
+    //   cleaning up!
+
+    process(true)
+    // Output:
+    //   starting work...
+    //   cleaning up!
+}
+```
+
+**Rules:**
+- `ensure` takes a function call (not a function reference)
+- The ensured function runs on every exit path from the enclosing function
+- Multiple `ensure` statements are allowed; they run in reverse order (LIFO)
 
 ---
 
@@ -187,58 +281,41 @@ do divmod(dividend, divisor int) -> (int, int) {
 }
 ```
 
-### Named Return Variables
+### Named Return Values
 
-You can name your return variables. Named returns are automatically initialized to their zero values and are available as mutable local variables inside the function body.
-
-```ez
-do getUserName() -> (name string) {
-    name = "Alice"
-    return name
-}
-
-do getPersonInfo() -> (age int, name string) {
-    age = 25
-    name = "Bob"
-    return age, name
-}
-
-// Named returns can share types
-do getNames() -> (first, last string) {
-    first = "John"
-    last = "Doe"
-    return first, last
-}
-
-do main() {
-    println(getUserName())  // "Alice"
-
-    mut a, n = getPersonInfo()
-    println(a, n)  // 25 Bob
-
-    mut f, l = getNames()
-    println(f, l)  // John Doe
-}
-```
-
-Named returns support two implicit return patterns:
-
-1. **Bare `return`** — returns the named variables in declaration order
-2. **No `return` statement** — falling off the end of the function returns the named variables
-
-Explicit `return` with values also works. All three forms are equivalent:
+You can name your return values to document what each position in the return tuple represents. Named return values are **labels only** — they do **not** declare variables in the function body. You must explicitly declare any variables you use with `mut`:
 
 ```ez
 do divide(a, b int) -> (quotient int, remainder int) {
-    quotient = a / b
-    remainder = a % b
-    return  // bare return — implicitly returns quotient, remainder
+    mut quotient int = a / b
+    mut remainder int = a % b
+    return quotient, remainder
 }
 
-do divide2(a, b int) -> (quotient int, remainder int) {
-    quotient = a / b
-    remainder = a % b
-}  // implicit return — falls off end, returns quotient, remainder
+mut q, r = divide(17, 5)  // q=3, r=2
+```
+
+Named returns support grouped types (multiple names sharing one type):
+
+```ez
+do get_info() -> (name, city string, age int) {
+    mut name string = "Alice"
+    mut city string = "NYC"
+    mut age int = 30
+    return name, city, age
+}
+```
+
+The names serve as documentation for callers and tooling (e.g., `ez doc`) but have no effect on the function's scope or variable declarations.
+
+**Restriction:** Wildcard types (`?`) cannot be used in named return positions:
+
+```ez
+// Error: wildcard type '?' cannot be named
+do first(arr [?]) -> (result ?) { ... }
+
+// OK: unnamed wildcard return
+do first(arr [?]) -> ? { ... }
 ```
 
 ```ez
@@ -290,24 +367,6 @@ if err != nil {
     // Handle error
 }
 ```
-
-### or_return
-
-The `or_return` keyword provides error propagation shorthand. When a call returns a non-nil error, `or_return` immediately returns from the enclosing function:
-
-```ez
-do load() -> (string, Error) {
-    // Bare or_return: propagates the error with zero values
-    mut content = read_file("data.txt") or_return
-    mut parsed = json.decode(content) or_return
-    return parsed, nil
-}
-
-// With custom fallback values:
-mut content = read_file("data.txt") or_return "", error("failed to load")
-```
-
-The enclosing function must have `Error` as its last return type.
 
 ## Array Parameters
 
@@ -432,6 +491,39 @@ Rules:
 - `private` restricts access to other functions in the same struct
 - Called as `StructName.func_name(args...)`
 - Cross-module: `module.StructName.func_name(args...)`
+- Module-qualified types can be used in variable declarations, parameters, and return types: `mut p module.Point`
+
+### Instance Dispatch
+
+When a struct function takes the struct (or a pointer/reference to it) as its first parameter, callers can use the instance form `instance.func(...)` instead of writing the type name. The compiler rewrites the call as `Type.func(instance, ...)`:
+
+```ez
+const Vec struct {
+    x int
+    y int
+
+    do len_sq(v Vec) -> int {
+        return v.x * v.x + v.y * v.y
+    }
+
+    do bump(&v Vec) {
+        v.x = v.x + 1
+        v.y = v.y + 1
+    }
+}
+
+mut a Vec = Vec{x: 3, y: 4}
+a.len_sq()         // sugar for Vec.len_sq(a)
+Vec.len_sq(a)      // still valid
+
+a.bump()           // sugar for Vec.bump(a); '&v' makes it a mutable alias
+```
+
+Both `do f(v Vec)` (value), `do f(&v Vec)` (mutable reference), and `do f(v ^Vec)` (pointer) participate in instance dispatch.
+
+Factory-style functions whose first parameter isn't the struct (e.g. `do make(x int) -> Vec`) require the type-namespaced form (`Vec.make(...)`); there is no instance to bind.
+
+**Chained calls not supported:** `a.f().g()` is rejected. Assign each intermediate result to a variable.
 
 ## Wildcard Types (?)
 
@@ -605,66 +697,6 @@ do main() {
     println("Program started")
     // Your code here
     println("Program finished")
-}
-```
-
-## Example Program
-
-```ez
-import @math
-
-const Circle struct {
-    x float
-    y float
-    radius float
-}
-
-do createCircle(x, y, radius float) -> Circle {
-    return Circle{x: x, y: y, radius: radius}
-}
-
-do area(c Circle) -> float {
-    return math.PI * c.radius * c.radius
-}
-
-do circumference(c Circle) -> float {
-    return 2.0 * math.PI * c.radius
-}
-
-do scale(c Circle, factor float) -> Circle {
-    return Circle{
-        x: c.x,
-        y: c.y,
-        radius: c.radius * factor
-    }
-}
-
-do overlaps(c1, c2 Circle) -> bool {
-    mut dx = c2.x - c1.x
-    mut dy = c2.y - c1.y
-    mut distance = math.sqrt(dx * dx + dy * dy)
-    return distance < (c1.radius + c2.radius)
-}
-
-do main() {
-    mut circle1 = createCircle(0.0, 0.0, 5.0)
-    mut circle2 = createCircle(8.0, 0.0, 4.0)
-
-    println("Circle 1:")
-    println("  Area:", area(circle1))
-    println("  Circumference:", circumference(circle1))
-
-    println("Circle 2:")
-    println("  Area:", area(circle2))
-
-    if overlaps(circle1, circle2) {
-        println("Circles overlap!")
-    } otherwise {
-        println("Circles do not overlap")
-    }
-
-    mut bigger = scale(circle1, 2.0)
-    println("Scaled radius:", bigger.radius)  // 10.0
 }
 ```
 

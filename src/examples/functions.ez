@@ -3,7 +3,7 @@
  *
  * Functions in EZ use the 'do' keyword.
  * Return types are specified with '->'
- * Named return variables use '-> (name type)' syntax.
+ * Named returns use '-> (name type)' syntax (labels only).
  */
 
 
@@ -34,7 +34,7 @@ do main() {
     mut msg string = get_greeting("World")
     println(msg)
 
-    // Named return variables
+    // Named return values (labels for documentation)
     println("")
     println("--- Named Returns ---")
 
@@ -47,8 +47,8 @@ do main() {
     mut name string, age int, active bool = get_user()
     println("get_user() = ${name}, ${age}, ${active}")
 
-    mut min int, max int = min_max(7, 3, 9, 1, 5)
-    println("min_max(7,3,9,1,5) = min:${min}, max:${max}")
+    mut mn int, mx int = min_max(7, 3, 9, 1, 5)
+    println("min_max(7,3,9,1,5) = min:${mn}, max:${mx}")
 }
 
 // Simple function with no parameters or return
@@ -85,37 +85,38 @@ do get_greeting(name string) -> string {
 }
 
 // Named return: single value
+// Names are labels only — you must declare your own variables
 do rect_area(w int, h int) -> (area int) {
-    area = w * h
+    mut area int = w * h
     return area
 }
 
 // Named return: multiple values
 do swap(a int, b int) -> (x int, y int) {
-    x = b
-    y = a
+    mut x int = b
+    mut y int = a
     return x, y
 }
 
 // Named return: mixed types
 do get_user() -> (name string, age int, active bool) {
-    name = "Alice"
-    age = 30
-    active = true
+    mut name string = "Alice"
+    mut age int = 30
+    mut active bool = true
     return name, age, active
 }
 
 // Named return: shared type shorthand
-do min_max(a int, b int, c int, d int, e int) -> (min, max int) {
-    min = a
-    max = a
-    if b < min { min = b }
-    if c < min { min = c }
-    if d < min { min = d }
-    if e < min { min = e }
-    if b > max { max = b }
-    if c > max { max = c }
-    if d > max { max = d }
-    if e > max { max = e }
-    return min, max
+do min_max(a int, b int, c int, d int, e int) -> (lo, hi int) {
+    mut lo int = a
+    mut hi int = a
+    if b < lo { lo = b }
+    if c < lo { lo = c }
+    if d < lo { lo = d }
+    if e < lo { lo = e }
+    if b > hi { hi = b }
+    if c > hi { hi = c }
+    if d > hi { hi = d }
+    if e > hi { hi = e }
+    return lo, hi
 }

@@ -101,6 +101,31 @@ do main() {
 
 ---
 
+### `is_equal()`
+`(a [T], b [T]) -> bool`
+
+Structural equality comparison. Compares length first, then elements. `T` must be a primitive (`int`, `uint`, `float`, `bool`, `char`, `byte`, sized variants) or `string`.
+
+```ez
+import @arrays
+
+do main() {
+    mut a [int] = {1, 2, 3}
+    mut b [int] = {1, 2, 3}
+    mut c [int] = {1, 2, 4}
+    println(arrays.is_equal(a, b))  // true
+    println(arrays.is_equal(a, c))  // false
+}
+```
+
+**Parameters:** `a`, `b` - Two arrays to compare.
+
+**Returns:** `bool` - `true` if arrays have the same length and elements.
+
+> **Note:** The `==` and `!=` operators on arrays are **not allowed**. Use `arrays.is_equal(a, b)` for equality.
+
+---
+
 ## Access Functions
 
 ### `get_first()` / `get_last()`
@@ -205,6 +230,27 @@ do main() {
 ```
 
 **Parameters:** `arr`, `index`.
+
+**Returns:** Nothing (mutates array in place).
+
+---
+
+### `remove()`
+`(&arr [T], value T)`
+
+Removes the first occurrence of a value from an array.
+
+```ez
+import @arrays
+
+do main() {
+    mut arr [int] = {1, 2, 3, 2, 4}
+    arrays.remove(arr, 2)
+    println(arr)  // {1, 3, 2, 4}
+}
+```
+
+**Parameters:** `arr` - The array, `value` - The value to remove.
 
 **Returns:** Nothing (mutates array in place).
 
@@ -532,30 +578,73 @@ do main() {
 
 ---
 
-## Example Program
+## Higher-Order Functions
+
+### `map()`
+`(arr [T], ()transform) -> [T]`
+
+Returns a new array with `transform` applied to each element. The transform function must have signature `(T) -> T`.
 
 ```ez
 import @arrays
 
+do double(n int) -> int { return n * 2 }
+
 do main() {
-    // Build a list dynamically
-    mut scores [int] = {}
-    arrays.append(scores, 85)
-    arrays.append(scores, 92)
-    arrays.append(scores, 78)
-    arrays.append(scores, 95)
-    arrays.append(scores, 88)
-
-    println("Scores:", scores)
-    println("Count:", len(scores))
-    println("Sum:", arrays.get_sum(scores))
-    println("Highest:", arrays.get_max(scores))
-    println("Lowest:", arrays.get_min(scores))
-
-    // Remove lowest score
-    mut lowest_idx = arrays.index_of(scores, arrays.get_min(scores))
-    arrays.remove_at(scores, lowest_idx)
-
-    println("After dropping lowest:", scores)
+    mut nums [int] = {1, 2, 3, 4, 5}
+    mut doubled = arrays.map(nums, ()double)
+    println(doubled)  // {2, 4, 6, 8, 10}
 }
 ```
+
+**Parameters:** `arr` - The array, `transform` - A function reference `()func` of type `(T) -> T`.
+
+**Returns:** A new transformed array.
+
+---
+
+### `filter()`
+`(arr [T], ()predicate) -> [T]`
+
+Returns a new array containing only elements for which `predicate` returns true. The predicate function must have signature `(T) -> bool`.
+
+```ez
+import @arrays
+
+do is_even(n int) -> bool { return n % 2 == 0 }
+
+do main() {
+    mut nums [int] = {1, 2, 3, 4, 5, 6}
+    mut evens = arrays.filter(nums, ()is_even)
+    println(evens)  // {2, 4, 6}
+}
+```
+
+**Parameters:** `arr` - The array, `predicate` - A function reference `()func` of type `(T) -> bool`.
+
+**Returns:** A new filtered array.
+
+---
+
+### `reduce()`
+`(arr [T], initial T, ()accumulator) -> T`
+
+Reduces the array to a single value by applying `accumulator(acc, element)` for each element, starting with `initial`. The accumulator function must have signature `(T, T) -> T`.
+
+```ez
+import @arrays
+
+do add(a int, b int) -> int { return a + b }
+
+do main() {
+    mut nums [int] = {1, 2, 3, 4, 5}
+    mut total = arrays.reduce(nums, 0, ()add)
+    println(total)  // 15
+}
+```
+
+**Parameters:** `arr` - The array, `initial` - The starting accumulator value, `accumulator` - A function reference `()func` of type `(T, T) -> T`.
+
+**Returns:** The final accumulated value.
+
+---

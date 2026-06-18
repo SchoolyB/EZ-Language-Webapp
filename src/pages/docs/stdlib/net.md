@@ -118,23 +118,3 @@ do main() {
 ```
 
 ---
-
-## Example Program
-
-```ez
-import @net
-
-do main() {
-    // Simple TCP echo server
-    mut listener = net.listen(9000)
-    ensure net.close(listener)
-
-    println("Listening on port 9000...")
-    mut client = net.accept(listener)
-    ensure net.close(client)
-
-    mut data = net.receive(client, 1024)
-    println("Received:", data)
-    net.send(client, "Echo: " + data)
-}
-```

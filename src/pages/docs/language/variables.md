@@ -63,9 +63,6 @@ const p = Point{x: 1, y: 2}  // Inferred: Point
 mut val = new(Person)         // Inferred: ^Person (pointer)
 mut dup = copy(val)           // Inferred: Person
 
-// Inferred from array literal
-mut arr = {1, 2, 3}           // Inferred: [int]
-
 // Multiple return values
 do divide(a, b int) -> (int, int) {
     return a / b, a % b
@@ -74,6 +71,29 @@ mut quotient, remainder = divide(10, 3)  // Both inferred: int
 ```
 
 Explicit type annotations are never required but can be used for clarity or documentation.
+
+## Declaring Without a Value
+
+Variables can be declared without assigning a value, as long as a type annotation is provided. The variable is automatically zero-initialized:
+
+```ez
+mut x int       // 0
+mut y i8        // 0
+mut name string // ""
+mut flag bool   // false
+
+const Foo struct {
+    name string
+    age int
+    active bool
+}
+
+mut f Foo       // Foo{name: "", age: 0, active: false}
+```
+
+This works with any type that has a zero value (see [Default Zero Values](/EZ-Language-Webapp/docs/language/types#default-zero-values)).
+
+---
 
 ## Type Annotations
 
@@ -250,6 +270,30 @@ do main() {
 
 ---
 
+## Return Value Handling
+
+**All return values must be handled.** If a function returns a value, you must either assign it to a variable or explicitly discard it with `_`. Silently ignoring a return value is not permitted.
+
+### Fallible Functions
+
+Functions returning `(T, Error)` tuples are **fallible functions**. They require destructuring — single-variable assignment is a compile error:
+
+```ez
+// Correct: handle the error
+mut content, err = io.read_file("data.txt")
+if err != nil {
+    panic(err)
+}
+
+// Correct: explicitly discard the error
+mut content, _ = io.read_file("data.txt")
+
+// Wrong: single-var assignment from a fallible function
+mut content = io.read_file("data.txt")  // error: use destructuring for fallible functions
+```
+
+---
+
 ## Variable Scope
 
 Variables are scoped to their containing block:
@@ -340,6 +384,32 @@ do main() {
 }
 ```
 
+### ref() Mutability Rules
+
+| Reference Declaration | Source | Allowed? |
+|-----------------------|--------|----------|
+| `mut r = ref(x)` | `mut x` | Yes |
+| `const r = ref(x)` | `mut x` | Yes (read-only view) |
+| `const r = ref(x)` | `const x` | Yes |
+| `mut r = ref(x)` | `const x` | **No** — cannot get a mutable reference to a const source. Use `copy(x)` instead. |
+
+### addr() Constraints
+
+`addr()` requires a stable address: a variable, struct field, array index, or pointer dereference. Literals, call results, and arithmetic expressions are rejected:
+
+```ez
+mut x = 42
+mut p = addr(x)           // OK: variable
+mut p2 = addr(point.x)    // OK: struct field
+mut p3 = addr(arr[0])     // OK: array index
+
+// mut p4 = addr(42)       // Error: literal
+// mut p5 = addr(foo())    // Error: call result
+// mut p6 = addr(x + 1)   // Error: expression
+```
+
+---
+
 ### Explicit Copying with copy()
 
 Use `copy()` to create a deep copy of any value:
@@ -394,37 +464,6 @@ mut whole int = int(pi)  // 3
 // Int to float
 mut x int = 42
 mut y float = float(x)  // 42.0
-```
-
-## Example Program
-
-```ez
-do main() {
-    // Constants
-    const TAX_RATE float = 0.08
-    const STORE_NAME string = "EZ Mart"
-
-    // Variables
-    mut subtotal float = 0.0
-    mut itemCount int = 0
-
-    // Add items
-    mut prices [float] = {9.99, 24.99, 4.99, 14.99}
-
-    for_each price in prices {
-        subtotal += price
-        itemCount++
-    }
-
-    mut tax float = subtotal * TAX_RATE
-    mut total float = subtotal + tax
-
-    println("=== ${STORE_NAME} ===")
-    println("Items: ${itemCount}")
-    println("Subtotal: $${subtotal}")
-    println("Tax (${TAX_RATE * 100}%): $${tax}")
-    println("Total: $${total}")
-}
 ```
 
 ## See Also
