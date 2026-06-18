@@ -15,59 +15,53 @@ try {
   if (!response.ok) throw new Error(`Failed to fetch ERRORS.md: ${response.status}`);
   const markdown = await response.text();
 
-  // Parse ERRORS.md
+  // Parse ERRORS.md — format is flat tables under ## Errors, ## Warnings, ## Panics
+  // Each table row: | `CODE` | category | description |
   const lines = markdown.split('\n');
-  let currentCategory: any = null;
+  let currentSection = ''; // 'errors', 'warnings', 'panics'
   let inTable = false;
+  const categoryMap = new Map<string, any>(); // group by category column
 
-  function getCategoryId(header: string): string {
-    const h = header.toLowerCase();
-    if (h.includes('lexer')) return 'lexer';
-    if (h.includes('parse')) return 'parse';
-    if (h.includes('type error')) return 'type';
-    if (h.includes('reference')) return 'reference';
-    if (h.includes('runtime')) return 'runtime';
-    if (h.includes('import')) return 'import';
-    if (h.includes('stdlib')) return 'stdlib';
-    if (h.includes('math')) return 'math';
-    if (h.includes('array')) return 'array';
-    if (h.includes('string error')) return 'string';
-    if (h.includes('time')) return 'time';
-    if (h.includes('map')) return 'map';
-    if (h.includes('json')) return 'json';
-    if (h.includes('csv')) return 'csv';
-    if (h.includes('regex')) return 'regex';
-    if (h.includes('code style')) return 'warnings-style';
-    if (h.includes('potential bug')) return 'warnings-bugs';
-    if (h.includes('code quality')) return 'warnings-quality';
-    if (h.includes('module warning')) return 'warnings-module';
-    return 'unknown';
+  function formatCategoryName(cat: string, section: string): string {
+    const capitalized = cat.charAt(0).toUpperCase() + cat.slice(1);
+    if (section === 'panics') return `${capitalized} Panics`;
+    if (section === 'warnings') return `${capitalized} Warnings`;
+    return `${capitalized} Errors`;
   }
 
   for (let i = 0; i < lines.length; i++) {
     const line = lines[i].trim();
 
-    const headerMatch = line.match(/^## (.+?) \(([EW]\d+x+(?:-[EW]\d+x+)?)\)$/);
-    if (headerMatch) {
-      const name = headerMatch[1];
-      const range = headerMatch[2];
-      const description = lines[i + 1]?.trim() || '';
+    // Detect section headers: ## Errors, ## Warnings, ## Panics
+    if (line === '## Errors') { currentSection = 'errors'; inTable = false; continue; }
+    if (line === '## Warnings') { currentSection = 'warnings'; inTable = false; continue; }
+    if (line === '## Panics') { currentSection = 'panics'; inTable = false; continue; }
+    if (line === '## Code Ranges') { currentSection = ''; inTable = false; continue; }
 
-      currentCategory = { id: getCategoryId(name), name, range, description };
-      categories.push(currentCategory);
-      inTable = false;
-      continue;
-    }
+    if (!currentSection) continue;
 
     if (line.startsWith('| Code |')) { inTable = true; continue; }
     if (line.startsWith('|---')) continue;
 
-    if (inTable && line.startsWith('|') && currentCategory) {
+    if (inTable && line.startsWith('|')) {
       const cells = line.split('|').map(c => c.trim()).filter(c => c);
       if (cells.length >= 3) {
-        const [code, slug, message] = cells;
-        if (code.match(/^[EW]\d+$/)) {
-          errors.push({ code, slug, message, category: currentCategory.id });
+        // Strip backticks from code: `E1003` -> E1003
+        const code = cells[0].replace(/`/g, '');
+        const category = cells[1];
+        const message = cells[2];
+
+        if (code.match(/^[EWP]\d+$/)) {
+          const catKey = `${currentSection}-${category}`;
+          if (!categoryMap.has(catKey)) {
+            categoryMap.set(catKey, {
+              id: catKey,
+              name: formatCategoryName(category, currentSection),
+              range: '',
+              description: '',
+            });
+          }
+          errors.push({ code, slug: category, message, category: catKey });
         }
       }
     }
@@ -75,6 +69,18 @@ try {
     if (inTable && !line.startsWith('|') && line !== '') {
       inTable = false;
     }
+  }
+
+  // Build categories array and compute ranges
+  for (const [key, cat] of categoryMap) {
+    const catErrors = errors.filter(e => e.category === key);
+    if (catErrors.length > 0) {
+      const first = catErrors[0].code;
+      const last = catErrors[catErrors.length - 1].code;
+      cat.range = first === last ? first : `${first}–${last}`;
+      cat.description = `${catErrors.length} codes`;
+    }
+    categories.push(cat);
   }
 } catch (err) {
   console.error('Build-time fetch of ERRORS.md failed:', err);
