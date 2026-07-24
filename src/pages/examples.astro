@@ -1,0 +1,205 @@
+---
+import StarlightPage from '@astrojs/starlight/components/StarlightPage.astro';
+import ExampleCard from '../components/ExampleCard.astro';
+
+const examples = [
+  {
+    title: 'Hello World',
+    description: 'The simplest Grayscale program',
+    code: `do main() {
+    println("Hello, World!")
+}`,
+  },
+  {
+    title: 'Variables and Types',
+    description: 'Mutable and constant declarations',
+    code: `do main() {
+    mut count int = 0
+    const MAX int = 100
+    mut name string = "Grayscale"
+    mut pi float = 3.14159
+
+    count = count + 1
+    println("count = \${count}, MAX = \${MAX}")
+    println("\${name} uses pi = \${pi}")
+}`,
+  },
+  {
+    title: 'Functions and Multiple Returns',
+    description: 'Functions can return multiple values',
+    code: `do divide(a float, b float) -> (float, Error) {
+    if b == 0.0 {
+        return 0.0, error("division by zero")
+    }
+    return a / b, nil
+}
+
+do main() {
+    mut result, err = divide(10.0, 3.0)
+    if err != nil {
+        eprintln("Error: \${err}")
+        return
+    }
+    println("Result: \${result}")
+}`,
+  },
+  {
+    title: 'Structs',
+    description: 'Custom data types with functions',
+    code: `const Point struct {
+    x float
+    y float
+
+    do distance(self Point, other Point) -> float {
+        mut dx = self.x - other.x
+        mut dy = self.y - other.y
+        return math.sqrt(dx * dx + dy * dy)
+    }
+}
+
+do main() {
+    mut a = new Point { x: 0.0, y: 0.0 }
+    mut b = new Point { x: 3.0, y: 4.0 }
+    println("Distance: \${a.distance(b)}")
+}`,
+  },
+  {
+    title: 'Pattern Matching',
+    description: 'when/is expressions for control flow',
+    code: `const Shape enum {
+    CIRCLE,
+    SQUARE,
+    TRIANGLE
+}
+
+do describe(s Shape) -> string {
+    when s {
+        is Shape.CIRCLE { return "round" }
+        is Shape.SQUARE { return "four sides" }
+        is Shape.TRIANGLE { return "three sides" }
+    }
+}
+
+do main() {
+    mut s = Shape.CIRCLE
+    println("\${s}: \${describe(s)}")
+}`,
+  },
+  {
+    title: 'Arrays and Iteration',
+    description: 'Working with arrays and loops',
+    code: `import @arrays
+
+do main() {
+    mut numbers [int] = [3, 1, 4, 1, 5, 9, 2, 6]
+
+    arrays.sort(numbers)
+
+    for_each n in numbers {
+        println(n)
+    }
+
+    mut sum int = 0
+    for i in range(0, len(numbers)) {
+        sum += numbers[i]
+    }
+    println("Sum: \${sum}")
+}`,
+  },
+  {
+    title: 'Maps',
+    description: 'Key-value data structures',
+    code: `import @maps
+
+do main() {
+    mut scores map[string:int] = {
+        "alice": 95,
+        "bob": 87,
+        "charlie": 92
+    }
+
+    scores["diana"] = 98
+
+    for_each name, score in scores {
+        println("\${name}: \${score}")
+    }
+
+    println("Has alice? \${maps.contains(scores, "alice")}")
+}`,
+  },
+  {
+    title: 'String Interpolation',
+    description: 'Embed expressions in strings',
+    code: `do main() {
+    mut name string = "world"
+    mut x int = 42
+    mut items [string] = ["a", "b", "c"]
+
+    println("Hello, \${name}!")
+    println("The answer is \${x}")
+    println("2 + 2 = \${2 + 2}")
+    println("Items: \${items}")
+}`,
+  },
+  {
+    title: 'HTTP Server',
+    description: 'A simple HTTP server with routing',
+    code: `import @server
+
+do handle_hello(ctx server.Context) {
+    server.send_text(ctx, 200, "Hello from Grayscale!")
+}
+
+do handle_json(ctx server.Context) {
+    server.send_json(ctx, 200, "{\\"status\\": \\"ok\\"}")
+}
+
+do main() {
+    mut s = server.create(8080)
+    server.get(s, "/hello", ()handle_hello)
+    server.get(s, "/api/status", ()handle_json)
+    println("Listening on :8080")
+    server.listen(s)
+}`,
+  },
+  {
+    title: 'File I/O',
+    description: 'Reading and writing files',
+    code: `import @io
+
+do main() {
+    // Write a file
+    mut write_err = io.write_file("hello.txt", "Hello from Grayscale!")
+    if write_err != nil {
+        eprintln("Write error: \${write_err}")
+        return
+    }
+
+    // Read it back
+    mut content, read_err = io.read_file("hello.txt")
+    if read_err != nil {
+        eprintln("Read error: \${read_err}")
+        return
+    }
+
+    println(content)
+}`,
+  },
+];
+---
+
+<StarlightPage frontmatter={{ title: 'Examples' }} headings={[]}>
+  <p>Learn Grayscale by example. Click any card to expand the code.</p>
+
+  <div class="examples-list">
+    {examples.map((ex) => (
+      <ExampleCard title={ex.title} description={ex.description} code={ex.code} />
+    ))}
+  </div>
+</StarlightPage>
+
+<style>
+  .examples-list {
+    margin-top: 1.5rem;
+  }
+</style>
